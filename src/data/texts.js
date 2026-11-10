@@ -1,6 +1,9 @@
 /* 공통 문구 · 오류 단계 정의. 최종 문구는 여기서만 교체하면 된다. */
 (function () {
   const EF = (window.EF = window.EF || {});
+  // 화면 설정. showMemo=false 이면 메모(추리 수첩) 버튼·단축키·증거 알림이 화면에서 사라지고,
+  // 추리는 필요한 증거가 모이면 사이트가 안에서 자동으로 처리한다. true 로 바꾸면 수첩을 다시 쓸 수 있다.
+  EF.CONFIG = { showMemo: false };
   EF.TEXT = {
     title: 'EVERFREEZE',
     notYet: '지금은 평범해 보인다. 특별한 것은 눈에 띄지 않는다.',
@@ -10,7 +13,6 @@
     npcPlaceholder: '000과 대화',
     // 사이트 겉모습 문구. 오류 단계가 오를수록 문구가 조금씩 이상해진다(단계 숫자는 화면에 직접 노출하지 않음).
     site: {
-      nav: [['홈', 'WORLD_MAP'], ['로즈메리', 'MAP_ROSEMARY'], ['글렌위버', 'MAP_GLENWEAVER'], ['루미나리아', 'MAP_LUMINARIA']],
       tagline: {
         1: '세 마을 안내 사이트에 오신 것을 환영합니다!',
         2: '세 마을 안내 사이트에 오신 것을 환영합니다!',

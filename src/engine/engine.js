@@ -19,7 +19,7 @@
         case 'grant':
           if (!s.evidence[a.grant]) {
             s.evidence[a.grant] = ++s.order;
-            q.push({ t: 'toast', kind: 'gain', text: '📓 증거 등록 · ' + EF.EVIDENCE[a.grant].name });
+            if (EF.CONFIG.showMemo) q.push({ t: 'toast', kind: 'gain', text: '📓 증거 등록 · ' + EF.EVIDENCE[a.grant].name });
           }
           break;
         case 'puzzle': q.push({ t: 'puzzle', id: a.puzzle }); break;
@@ -28,13 +28,26 @@
           if (!s.deduced[a.deduce]) {
             s.deduced[a.deduce] = true;
             const d = EF.DEDUCTIONS.find(x => x.id === a.deduce);
-            q.push({ t: 'toast', kind: 'gain', text: '🧩 추리 기록 · ' + d.title });
+            if (EF.CONFIG.showMemo) q.push({ t: 'toast', kind: 'gain', text: '🧩 추리 기록 · ' + d.title });
           }
           break;
         default: console.warn('알 수 없는 액션', key);
       }
     }
     if (blocked) q.push({ t: 'toast', text: EF.TEXT.endedBlocked });
+    if (!EF.CONFIG.showMemo) EF.autoDeduce();
+  };
+
+  // 메모를 숨긴 모드: 필요한 증거가 모두 모이면 추리를 사이트가 조용히 완료한다.
+  // MAIN/선택 추리는 증거 조건, FINAL-01 은 MAIN 3개 + 4단계. 5단계(엔딩) 이후에는 새로 만들지 않는다.
+  EF.autoDeduce = function () {
+    if (EF.isEnded()) return;
+    const s = EF.state;
+    EF.DEDUCTIONS.forEach(d => {
+      if (d.kind === 'final' || s.deduced[d.id]) return;
+      if (d.requires.every(id => s.evidence[id])) s.deduced[d.id] = true;
+    });
+    if (!s.deduced['FINAL-01'] && EF.finalStatus().ready) s.deduced['FINAL-01'] = true;
   };
 
   // 단계가 올랐으면 알림(+엔딩)을 queue 끝에 붙인다

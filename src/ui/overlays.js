@@ -11,7 +11,7 @@
     const sc = scrim(), box = h('div', 'textbox');
     if (it.who) box.append(h('div', 'who', it.who));
     box.append(h('div', 'body', it.text));
-    if (it.note) box.append(h('div', 'note', '✔ ' + it.note));
+    if (it.note && EF.CONFIG.showMemo) box.append(h('div', 'note', '✔ ' + it.note));
     box.append(h('div', 'next', '▼ 클릭'));
     sc.append(box);
     const close = () => closeWith(sc, done);
