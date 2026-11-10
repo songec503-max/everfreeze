@@ -7,7 +7,23 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div id="app"><div id="stage"></div></div>
+<div id="site">
+  <header id="masthead">
+    <div class="logo">EVERFREEZE</div>
+    <div class="tagline" id="tagline"></div>
+  </header>
+  <nav id="nav"></nav>
+  <main id="page">
+    <div id="crumbs"></div>
+    <div id="stagewrap"><div id="stage"></div></div>
+    <section id="caption">
+      <h2 id="ptitle"></h2>
+      <p id="pintro"></p>
+      <p class="tip">그림 속에서 눌러 볼 수 있는 곳을 찾아 클릭해 보세요. <a href="#" id="hintLink">클릭할 수 있는 곳 표시하기</a></p>
+    </section>
+  </main>
+  <footer id="foot"><span id="counter"></span><span class="sep">|</span><span>Best viewed on PC · 1280px 이상 권장</span><span id="devSlot"></span></footer>
+</div>
 <!-- 데이터 -->
 <script src="src/data/texts.js"></script>
 <script src="src/data/npcs.js"></script>

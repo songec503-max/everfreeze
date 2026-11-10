@@ -5,9 +5,9 @@
   --font:'Pretendard','Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;
 }
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:#1d1c26;overflow:hidden;font-family:var(--font);color:var(--ink)}
-#app{position:fixed;inset:0}
-#stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center;overflow:hidden;background:#000;user-select:none}
+html,body{margin:0;min-height:100%;font-family:var(--font);color:var(--ink)}
+#stagewrap{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:6px;background:#000}
+#stage{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:top left;overflow:hidden;background:#000;user-select:none}
 button{font-family:inherit;cursor:pointer}
 
 /* 배경 */
@@ -42,30 +42,8 @@ button{font-family:inherit;cursor:pointer}
 #stage.hints .hs.temp{border-style:dashed}
 #stage.hints .hs.temp::after{content:'임시';position:absolute;top:4px;right:6px;font-size:11px;font-weight:700;color:#fff;background:rgba(0,0,0,.45);border-radius:6px;padding:1px 6px}
 
-/* HUD */
-.hud{position:absolute;left:0;right:0;top:0;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:linear-gradient(180deg,rgba(30,28,45,.72),rgba(30,28,45,0));color:#fff;pointer-events:none}
-.hud>*{pointer-events:auto}
-.crumb{font-size:17px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.5)}
-.hud-right{display:flex;align-items:center;gap:10px}
-.pips{display:flex;align-items:center;gap:5px;margin-right:6px}
-.pip-label{font-size:14px;font-weight:600;margin-right:6px;text-shadow:0 1px 3px rgba(0,0,0,.5)}
-.pip{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.6)}
-.pip.on{background:#ff8f7a;border-color:#ffd3c9}
-.btn{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:12px;padding:8px 14px;font-size:15px;font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.15)}
-.btn:hover{background:#fff}
-.btn.on{background:#e9e4ff;border-color:var(--accent)}
-.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-.btn.primary:disabled{opacity:.4;cursor:not-allowed}
-.btn.small{padding:5px 11px;font-size:14px}
-.btn.dev{opacity:.55;font-size:12px;padding:6px 8px}
-.btn.nb{position:relative}
-.badge{margin-left:7px;background:var(--accent);color:#fff;border-radius:10px;padding:1px 8px;font-size:13px}
-.back{position:absolute;left:18px;bottom:20px;z-index:5}
 
 /* 장소 소개말 / 토스트 / 배너 */
-.intro{position:absolute;left:50%;top:70px;transform:translateX(-50%);max-width:760px;background:rgba(35,32,52,.82);color:#fff;border-radius:14px;padding:10px 22px;font-size:17px;opacity:0;pointer-events:none}
-.intro.show{animation:introAnim 4.2s ease forwards}
-@keyframes introAnim{0%{opacity:0;transform:translate(-50%,-8px)}10%,80%{opacity:1;transform:translate(-50%,0)}100%{opacity:0}}
 .toasts{position:absolute;right:18px;top:70px;display:flex;flex-direction:column;gap:8px;align-items:flex-end;pointer-events:none;z-index:30}
 .toast{background:rgba(35,32,52,.92);color:#fff;padding:9px 16px;border-radius:12px;font-size:15px;animation:toastIn .25s ease}
 .toast.gain{background:#4a3fb5}
@@ -143,10 +121,42 @@ button{font-family:inherit;cursor:pointer}
 .row{display:flex;gap:8px}
 
 /* DEV */
-.devpanel{position:absolute;right:12px;top:60px;width:360px;max-height:600px;overflow:auto;z-index:40;background:rgba(20,18,30,.94);color:#fff;border-radius:12px;padding:12px;font-size:12px;display:flex;flex-direction:column;gap:8px}
+.devpanel{position:absolute;right:12px;top:12px;width:360px;max-height:600px;overflow:auto;z-index:40;background:rgba(20,18,30,.94);color:#fff;border-radius:12px;padding:12px;font-size:12px;display:flex;flex-direction:column;gap:8px}
 .devpanel select{width:100%;padding:4px}
 .devev{display:flex;flex-wrap:wrap;gap:4px}
 .devev button{background:#333;color:#ddd;border:1px solid #555;border-radius:6px;padding:2px 6px;font-size:11px}
 .devev button.on{background:#6b5bd6;color:#fff}
 .devpanel .row button{background:#444;color:#fff;border:0;border-radius:6px;padding:4px 10px}
 .devflags{color:#bbb;line-height:1.5;word-break:break-all}
+
+/* ===== 사이트 틀 (옛날 홈페이지 느낌) ===== */
+body{background:#efe9dc;background-image:radial-gradient(rgba(120,100,70,.10) 1px,transparent 1px);background-size:14px 14px}
+#site{max-width:1040px;margin:0 auto;padding:18px 16px 28px}
+#masthead{background:#fffdf8;border:3px double #8a7b62;border-radius:8px;padding:16px 22px;text-align:center;box-shadow:3px 3px 0 rgba(90,75,50,.25)}
+.logo{font-size:40px;font-weight:800;letter-spacing:.18em;color:#4b3f63}
+.tagline{margin-top:6px;font-size:15px;color:var(--ink2)}
+#nav{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;padding:8px 10px;background:#e4dcc9;border:2px solid #8a7b62;border-radius:8px}
+.navitem{padding:6px 14px;border:2px dotted #8a7b62;border-radius:8px;background:#fffdf8;color:var(--ink);text-decoration:none;font-weight:700;font-size:15px}
+.navitem:hover,.navitem.on{background:#e9e4ff;border-color:var(--accent);border-style:solid}
+.nav-memo{margin-left:auto}
+#page{background:#fffdf8;border:3px double #8a7b62;border-radius:8px;padding:14px 16px 18px;box-shadow:3px 3px 0 rgba(90,75,50,.25)}
+#crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 10px;font-size:14px;min-height:22px}
+#crumbs a{color:#3b5bb5}
+#crumbs .back{font-weight:700}
+#crumbs .sep{color:#aaa}
+#crumbs .crumb.now{font-weight:700}
+#caption{margin-top:14px;padding:6px 4px 0}
+#caption h2{margin:0 0 6px;font-size:24px;color:#4b3f63}
+#pintro{margin:0 0 8px;font-size:17px;line-height:1.6}
+.tip{margin:0;font-size:13px;color:var(--ink2)}
+.tip a{color:#3b5bb5}
+#foot{margin-top:14px;text-align:center;font-size:13px;color:var(--ink2)}
+#foot .sep{margin:0 10px;color:#bbb}
+.devlink{margin-left:12px;color:#aaa;font-size:11px}
+/* 단계가 오르면 사이트 틀도 조금씩 어긋난다 */
+body[data-stage="3"] #masthead .logo{letter-spacing:.14em}
+body[data-stage="4"] #masthead{border-style:dashed}
+body[data-stage="4"] .tagline{opacity:.75}
+body[data-stage="5"]{filter:grayscale(.55)}
+body[data-stage="5"] .tagline{letter-spacing:.3em}
+.banner{top:70px}
