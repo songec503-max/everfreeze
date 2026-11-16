@@ -24,6 +24,7 @@
     UI.toastEl = h('div', 'toasts');
     UI.bannerEl = h('div', 'banner');
     backEl = h('div', 'edge-back'); backEl.onclick = () => UI.goBack();
+    backEl.append(h('div', 'edge-arrow')); // 뒤로 갈 수 있다는 표시(항상 희미하게 보이고, 마우스를 대면 진해짐)
     stage.append(sceneEl, h('div', 'fx'), hsEl, backEl, UI.toastEl, UI.bannerEl);
     // 메모 버튼은 설정(showMemo)을 켰을 때만 만든다
     if (EF.CONFIG.showMemo) {
@@ -106,6 +107,12 @@
       b.onclick = () => { if (UI.busy) return; UI.run(EF.click(hp)); };
       hsEl.append(b);
     });
+  };
+
+  // 아직 상호작용할 수 없는 것을 눌렀을 때: 글 없이 그림만 살짝 흔들린다
+  UI.shake = function () {
+    stage.classList.remove('nudge'); void stage.offsetWidth; stage.classList.add('nudge');
+    clearTimeout(UI._nudgeT); UI._nudgeT = setTimeout(() => stage.classList.remove('nudge'), 450);
   };
 
   UI.toast = function (text, kind) {

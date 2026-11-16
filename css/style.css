@@ -243,3 +243,88 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 .gname{font-size:18px;font-weight:800;background:rgba(255,255,255,.7);border-radius:8px;padding:1px 8px}
 .grot{position:absolute;right:6px;bottom:6px;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:18px;z-index:1}
 .pz-signal .seq{flex-wrap:nowrap}.pz-signal .slot{min-width:0}
+
+/* ===== 크롭 창 (src/ui/closeup.js) — 옛날 사이트의 작은 팝업 창 ===== */
+.cscrim{background:rgba(20,18,30,.35);align-items:center;padding:0}
+.cwin{width:700px;background:#efe9dc;border:2px solid #4b3f63;border-radius:6px;box-shadow:6px 6px 0 rgba(40,30,60,.35);animation:cpop .16s ease-out}
+@keyframes cpop{from{opacity:0;transform:scale(.94)}}
+.cbar{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,#6b5d8c,#4b3f63);color:#fff;padding:5px 6px 5px 12px;font-size:15px;font-weight:700;letter-spacing:.04em}
+.cx{width:26px;height:24px;border:1px solid #2b2240;background:#efe9dc;color:#2b2240;border-radius:3px;font-size:18px;line-height:18px;padding:0}
+.cx:hover{background:#fff}
+.cpane{margin:10px;height:400px;border:2px inset #cfc6b4;background:#222;overflow:hidden;position:relative;display:flex}
+.cpane>*{flex:1}
+.ccap{padding:2px 16px 14px;font-size:18px;line-height:1.55;font-style:italic;color:#3d3650;text-align:center;font-family:'Nanum Myeongjo','Noto Serif KR',serif}
+.cwin.quiet .cpane{filter:grayscale(1) brightness(.8)}
+
+/* 그림(임시: 아이콘) */
+.cv-pic{display:flex;align-items:center;justify-content:center;position:relative;background-size:cover;background-position:center}
+.cv-icon{font-size:170px;filter:drop-shadow(0 10px 18px rgba(0,0,0,.35))}
+.cv-tag{position:absolute;left:10px;bottom:8px;font-size:12px;color:rgba(255,255,255,.75);background:rgba(0,0,0,.28);padding:2px 8px;border-radius:4px}
+
+/* 종이·표지판·장부·책 */
+.cv-doc{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:26px 40px;color:#2f2a24;font-family:'Nanum Myeongjo','Noto Serif KR',serif}
+.paper-note{background:repeating-linear-gradient(180deg,#fbf6ea 0 33px,#d9e2ef 33px 34px);}
+.paper-note .d-line{align-self:stretch;margin:0;height:34px;line-height:34px;font-size:20px;font-family:'Nanum Pen Script','Gaegu',cursive,serif}
+.paper-book{background:linear-gradient(90deg,#efe3c8,#f8f0dc 12%,#f8f0dc 88%,#e8dbbd)}
+.paper-book .d-line{margin:6px 0;font-size:20px}
+.paper-sign{background:repeating-linear-gradient(90deg,#8a6a45 0 3px,#957350 3px 9px);}
+.paper-sign .d-head,.paper-sign .d-line,.paper-sign .d-foot{background:#f3ead6;padding:4px 20px}
+.paper-sign .d-head{font-size:24px;font-weight:800;border-radius:4px 4px 0 0}
+.paper-sign .d-line{margin:0;font-size:26px;font-weight:700}
+.paper-sign .d-line:first-of-type{font-size:40px}
+.paper-ledger{background:#f4ecd8;justify-content:flex-start;padding-top:22px}
+.d-head{font-size:22px;font-weight:800;margin-bottom:10px}
+.d-table{border-collapse:collapse;font-size:17px;width:100%}
+.d-table th{border-bottom:2px solid #6b5a48;padding:5px 8px;text-align:left;color:#5a4a38}
+.d-table td{border-bottom:1px solid #d8cbb0;padding:5px 8px;font-variant-numeric:tabular-nums}
+.d-foot{margin-top:12px;font-size:18px;align-self:flex-end;font-style:italic}
+
+/* 시계 */
+.cv-clock{display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,#d8e2ec,#8a98a8)}
+.cv-clock svg{width:340px;height:340px}
+.ck-rim{fill:#f6f1e4;stroke:#3a3346;stroke-width:6}
+.ck-tick{stroke:#3a3346;stroke-width:1.5}.ck-tick.big{stroke-width:4}
+.ck-num{font-size:20px;font-weight:700;text-anchor:middle;fill:#3a3346;font-family:serif}
+.ck-h{stroke:#3a3346;stroke-width:8;stroke-linecap:round}
+.ck-m{stroke:#3a3346;stroke-width:4;stroke-linecap:round}
+.ck-pin{fill:#3a3346}
+
+/* 해파리 조명 */
+.cv-lights{display:flex;align-items:center;justify-content:center;gap:46px;background:radial-gradient(ellipse,#1f3a4a,#0c1820)}
+.bulb{width:84px;height:84px;border-radius:50% 50% 44% 44%;background:var(--c);opacity:.12;animation-name:bulbOn;animation-iteration-count:infinite;animation-timing-function:steps(1,end)}
+@keyframes bulbOn{0%{opacity:.12;box-shadow:none}1%,22%{opacity:1;box-shadow:0 0 40px 10px var(--c)}23%,100%{opacity:.12;box-shadow:none}}
+
+/* 망토 도안 */
+.cv-pattern{display:flex;flex-direction:column;justify-content:center;gap:12px;align-items:center;background:#7a3b3b;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 6px,transparent 6px 12px)}
+.p-row{display:flex;gap:22px;font-size:66px;padding:4px 24px;border-top:2px dashed rgba(255,230,200,.5);border-bottom:2px dashed rgba(255,230,200,.5)}
+
+/* 바느질 단계 */
+.cv-steps{display:flex;align-items:center;justify-content:center;background:#f2d9d3;background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.03) 0 2px,transparent 2px 6px)}
+.s-row{display:flex;gap:12px}
+.s-dot{position:relative;width:46px;height:46px;border-radius:50%;border:2px dashed #b88f7a;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff}
+.s-dot.done{background:#a2584a;border:2px solid #7a3b3b}
+.s-dot.stop{background:#a2584a;border:3px solid #3a1f1f;box-shadow:0 0 0 5px rgba(162,88,74,.25)}
+.s-needle{position:absolute;top:-46px;font-size:40px}
+
+/* 게시판 · 메모 */
+.cv-pins{display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:16px;padding:20px}
+.paper-cork{background:#b98a5a;background-image:radial-gradient(rgba(0,0,0,.12) 1px,transparent 1.5px);background-size:7px 7px}
+.paper-drawer{background:#6f5a48}
+.pin-note{width:250px;padding:22px 16px;background:#fbf6e2;font-size:18px;font-family:'Nanum Pen Script','Gaegu',cursive,serif;box-shadow:2px 3px 6px rgba(0,0,0,.3);text-align:center}
+.paper-cork .pin-note{width:270px;padding:40px 18px}
+.paper-drawer .pin-note{width:190px;padding:16px 12px;font-size:16px}
+
+/* 겹친 편지 */
+.cv-stack{display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,#e3d7bd,#9f9078)}
+.st-item{position:absolute;font-size:150px;filter:drop-shadow(0 6px 8px rgba(0,0,0,.3))}
+
+/* 상호작용 불가: 그림만 살짝 흔들림 */
+#stage.nudge .scene,#stage.nudge .hotspots{animation:nudge .4s ease}
+@keyframes nudge{20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(2px)}}
+
+/* 뒤로 가기 화살표: 그림 하단 가운데에 항상 희미하게, 마우스를 대면 진하게 */
+.edge-arrow{position:absolute;left:50%;bottom:10px;width:46px;height:30px;margin-left:-23px;pointer-events:none;opacity:.5;transition:opacity .15s;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 30'><path d='M4 5 L23 25 L42 5' fill='none' stroke='white' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/><path d='M4 5 L23 25 L42 5' fill='none' stroke='%232b2a35' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat;
+  animation:arrowBob 1.8s ease-in-out infinite}
+.edge-back:hover .edge-arrow{opacity:1}
+@keyframes arrowBob{50%{transform:translateY(5px)}}

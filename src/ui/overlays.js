@@ -109,6 +109,8 @@
       switch (it.t) {
         case 'toast': UI.toast(it.text, it.kind); UI.render(); next(); break;
         case 'text': UI.showText(it, next); break;
+        case 'view': UI.showView(it, next); break;
+        case 'shake': UI.shake(); next(); break;
         case 'say': UI.showSay(it, next); break;
         case 'puzzle': UI.showPuzzle(it.id, q => { queue.unshift(...q); next(); }); break;
         case 'stage': UI.render(); UI.banner(it.stage); next(); break;
