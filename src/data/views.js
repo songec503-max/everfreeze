@@ -27,13 +27,13 @@
     'v-mirror': { kind: 'pic', icon: '🪞', tone: ['#f4e4d4', '#b9a38c'] },
 
     // ===== 로즈메리 · 광장 =====
-    'v-clock':  { kind: 'clock', h: 11, m: 59 },                                                   // 11:59 · 시계 방향
+    'v-clock':  { overlay: true, bare: true, kind: 'clock', h: 11, m: 59 },                                                   // 11:59 · 시계 방향
     'v-board':  { kind: 'pins', paper: 'cork', items: rep({ icon: '🧹', mark: '▲' }, 2) },          // ▲ = 2
 
     // ===== 로즈메리 · 도서관 =====
     'v-libnotice': { overlay: true, kind: 'doc', paper: 'sign', rows: ['📚 🚫', '🔑 👤'] },
     'v-book':      { kind: 'ringguide' },                                                          // 바깥 링부터 · 분(긴 바늘) 먼저
-    'v-ledger':    { kind: 'doc', paper: 'ledger', cols: ['📅', '👤', '📕'], rows: rep(['봄 3일', '하나', '첫 번째 하루'], 5) },
+    'v-ledger':    { overlay: true, bare: true, kind: 'doc', paper: 'ledger', cols: ['📅', '👤', '📕'], rows: rep(['봄 3일', '하나', '첫 번째 하루'], 5) },
     'v-record':    { kind: 'strip', items: ['🌅', '☀️', '🌇', '🌙', '🌙'] },                       // 하루의 순서 + 다시 밤
     'v-archivebox': { kind: 'pic', icon: '🗃️', tone: ['#b9ad99', '#6f5a48'] },
     'v-journal':   { overlay: true, kind: 'doc', paper: 'book', head: '📅 +1', rows: ['🧑 🕰️', '🧑 📖', '🧑 📓 👁️'] },  // 내일의 클로버
@@ -46,13 +46,13 @@
 
     // ===== 글렌위버 =====
     'v-birdhouse': { kind: 'pic', icon: '🐦', tone: ['#cfd9ee', '#8c8f7a'] },
-    'v-shiftlog':  { kind: 'doc', paper: 'ledger', cols: ['📅', '🌅', '☀️', '🌇', '🌙', '✓'],
+    'v-shiftlog':  { overlay: true, bare: true, kind: 'doc', paper: 'ledger', cols: ['📅', '🌅', '☀️', '🌇', '🌙', '✓'],
       rows: rep(['봄 3일', '05:12:00', '11:59:00', '17:44:00', '23:59:00', '✓'], 7) },             // 7일 내내 같은 날, 같은 초
     'v-shelf':     { kind: 'pic', icon: '🌀', tone: ['#e8d8b4', '#9b7b52'] },
     'v-oldthing':  { kind: 'pic', icon: '🪵', tone: ['#5a4630', '#2e2418'] },                       // 그림만
     'v-cloak':     { kind: 'pattern', rows: ['☀️', '🕰️', '🌊'] },                                   // 위 해 · 가운데 시계탑 · 아래 물결
     'v-workbench': { kind: 'steps', total: 10, done: 7, mark: '★' },                                // ★ = 7
-    'v-registry':  { kind: 'doc', paper: 'ledger', cols: ['🌿', '🍂', '🐚'],
+    'v-registry':  { overlay: true, bare: true, kind: 'doc', paper: 'ledger', cols: ['🌿', '🍂', '🐚'],
       rows: [['클로버', '오크스', '노아'], ['벨라', '시에나', '루루'], ['아리아', '마렌', '로완'], ['토비', '페넬', '']] }, // '하나' 없음
 
     // ===== 루미나리아 =====
