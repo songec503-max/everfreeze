@@ -167,3 +167,78 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 .edge-back:hover{background:linear-gradient(0deg,rgba(20,18,30,.30),rgba(20,18,30,0))}
 /* 설정 showMemo 를 켰을 때만 생기는 메모 버튼 */
 .memo-btn{position:absolute;right:14px;top:14px;z-index:7;border:1px solid var(--line);background:rgba(255,253,248,.94);border-radius:12px;padding:7px 12px;font-size:15px;font-weight:700}
+
+/* ===== 퍼즐 유형별 화면 (src/ui/pz.js) ===== */
+.textbox .body{white-space:pre-line}
+.puzzle{max-height:680px;overflow:auto}
+.phead{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.phead h3{margin:0}
+.plevel{font-size:12px;font-weight:700;background:#f1eaff;color:var(--puzzle);border-radius:8px;padding:2px 8px}
+.phint{display:none;margin:4px 0 10px;padding:10px 14px;border-radius:12px;background:#fff6dc;border:1px dashed #d9b24a;font-size:15px;line-height:1.5}
+.phint.on{display:block}
+.pz-list{display:flex;flex-direction:column;gap:8px}
+.row.center{justify-content:center;align-items:center;gap:14px;margin-top:10px}
+
+/* 다이얼 · 회전 링 */
+.wheels{display:flex;justify-content:center;gap:18px;padding:6px 0}
+.wheel{display:flex;flex-direction:column;align-items:center;gap:6px}
+.wbtn{border:1px solid var(--line);background:#fff;border-radius:10px;width:64px;height:34px;font-size:16px}
+.wbtn:hover{border-color:var(--puzzle)}
+.wnum{width:64px;height:76px;display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:800;border:2px solid var(--ink);border-radius:12px;background:linear-gradient(180deg,#eee 0%,#fff 30%,#fff 70%,#eee 100%)}
+.wlabel{font-size:13px;color:var(--ink2);font-weight:700;min-height:18px}
+.wheels.rings .wnum{width:96px;height:96px;border-radius:50%;border:0;color:#4a3420;
+  background:repeating-radial-gradient(circle,#d9b98a 0 5px,#c49a64 5px 8px);box-shadow:inset 0 0 0 3px #7a5a34;position:relative}
+.wheels.rings .wnum::after{content:'';position:absolute;inset:6px;border-radius:50%;border-top:4px solid rgba(80,50,20,.6);transform:rotate(var(--rot,0deg));transition:transform .2s}
+
+/* 시계 맞추기 */
+.clockbox{display:flex;align-items:center;justify-content:center;gap:28px}
+.clockface{width:210px;height:210px}
+.cf-rim{fill:#fffdf8;stroke:var(--ink);stroke-width:4}
+.cf-num{font-size:17px;font-weight:700;text-anchor:middle;fill:var(--ink)}
+.cf-h{stroke:var(--ink);stroke-width:7;stroke-linecap:round;transition:transform .2s}
+.cf-m{stroke:var(--puzzle);stroke-width:4;stroke-linecap:round;transition:transform .2s}
+.cf-pin{fill:var(--ink)}
+.clock-side{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.clock-label{font-size:28px;font-weight:800}
+.clock-ctl{display:grid;grid-template-columns:auto auto auto;gap:6px 8px;align-items:center}
+.cl-t{font-weight:700;color:var(--ink2)}
+
+/* 레버 */
+.levers{display:flex;justify-content:center;gap:26px;padding:6px 0}
+.lever{position:relative;width:76px;height:150px;border:2px solid var(--line);border-radius:14px;background:#f6f3ec}
+.lever .stick{position:absolute;left:34px;top:30px;width:8px;height:60px;background:#777;border-radius:4px;transform-origin:50% 100%;transition:transform .2s}
+.lever .knob{position:absolute;left:22px;top:12px;width:32px;height:32px;border-radius:50%;background:var(--c);border:2px solid var(--ink);z-index:1;transition:top .2s}
+.lever .lname{position:absolute;left:0;right:0;bottom:8px;font-weight:700;font-size:15px}
+.lever.down .knob{top:70px}.lever.down .stick{transform:scaleY(-.2)}
+.lever:disabled{cursor:default;opacity:.85}
+.lever-trail{display:flex;gap:6px}
+.dot{min-width:46px;padding:4px 8px;border:2px dashed var(--line);border-radius:10px;font-size:13px;text-align:center;color:var(--ink2)}
+.dot.on{border-style:solid;border-color:var(--ink);color:#fff;font-weight:700}
+
+/* 슬라이드 3×3 */
+.slidegrid{display:grid;grid-template-columns:repeat(3,96px);grid-template-rows:repeat(3,96px);gap:6px;justify-content:center;padding:6px;background:#6f5a48;border-radius:14px;width:max-content;margin:0 auto}
+.stile{border:0;border-radius:10px;background:#f4e8d0;font-size:46px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.15);cursor:default}
+.stile.movable{cursor:pointer;outline:3px solid rgba(138,99,201,.55)}
+.stile.movable:hover{background:#fff}
+.stile.empty{background:transparent;box-shadow:none}
+
+/* 암호 */
+.cipher-syms{display:flex;justify-content:center;gap:16px;font-size:44px;padding:4px 0}
+.csym{width:70px;height:70px;display:flex;align-items:center;justify-content:center;border:2px solid var(--ink);border-radius:12px;background:#f4f1ea}
+.cipher-legend{display:flex;justify-content:center;gap:22px;color:var(--ink2);font-size:16px;margin:4px 0 6px}
+
+/* 등대 신호 */
+.sigpad{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:10px;align-items:center}
+.sig{display:flex;flex-direction:column;align-items:center;gap:2px;width:90px;padding:8px;border:2px solid var(--line);background:#fff;border-radius:14px;font-weight:700}
+.sig .ico{font-size:32px}
+.sig:hover:not(:disabled){border-color:var(--puzzle)}
+.sig:disabled{opacity:.4;cursor:default}
+
+/* 유리 조각 2×2 */
+.glassgrid{display:grid;grid-template-columns:repeat(2,150px);gap:10px;justify-content:center;padding:10px;background:#3b3446;border-radius:16px;width:max-content;margin:0 auto}
+.gcell{position:relative;width:150px;height:150px;border-radius:12px}
+.gcell.sel{outline:4px solid #f3dc8a}
+.gpiece{width:100%;height:100%;border:2px solid rgba(255,255,255,.7);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#1f1c2b;transition:transform .2s;opacity:.92}
+.gtri{font-size:30px;line-height:1}
+.gname{font-size:18px;font-weight:800;background:rgba(255,255,255,.7);border-radius:8px;padding:1px 8px}
+.grot{position:absolute;right:6px;bottom:6px;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:18px;z-index:1}

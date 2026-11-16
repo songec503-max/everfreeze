@@ -39,7 +39,7 @@
     const sc = scrim(); sc.classList.add('dim');
     const card = h('div', 'ending');
     card.append(h('h2', '', EF.TEXT.ending.title));
-    EF.TEXT.ending.body.split('\n').forEach(l => card.append(h('p', '', l || ' ')));
+    EF.TEXT.ending.body.split('\n').forEach(l => card.append(h('p', '', l || ' ')));
     const b = h('button', 'btn primary', EF.TEXT.ending.btn);
     card.append(b); sc.append(card);
     const close = () => closeWith(sc, done);
@@ -47,64 +47,56 @@
   };
 
   // ---------- 퍼즐 ----------
+  // 유형별 화면은 pz.js(EF.PZ). 건너뛰기 없음 · 닫아도 미해결 유지 · 오답 EF.HINT_AFTER(3)회부터 힌트.
+  // 퍼즐 창은 Esc(또는 닫기 버튼)로만 닫힌다. Enter/Space 로는 닫히지 않는다.
   UI.showPuzzle = function (pid, done) {
     const p = EF.PUZZLES[pid], sc = scrim(); sc.classList.add('dim');
-    const card = h('div', 'puzzle');
-    card.append(h('h3', '', p.title), h('p', 'prompt', p.prompt));
-    const msg = h('div', 'pmsg', '');
+    const card = h('div', 'puzzle pz-' + p.type);
+    const head = h('div', 'phead');
+    head.append(h('h3', '', p.title));
+    if (p.level) head.append(h('span', 'plevel', p.level));
+    card.append(head, h('p', 'prompt', p.prompt));
     const area = h('div', 'parea');
+    const msg = h('div', 'pmsg', '');
+    const hint = h('div', 'phint');
     const actions = h('div', 'pactions');
+    const cancel = h('button', 'btn', '닫기 (Esc)');
     const okBtn = h('button', 'btn primary', '확인'); okBtn.disabled = true;
-    const cancel = h('button', 'btn', '닫기');
     actions.append(cancel, okBtn);
-    card.append(area, msg, actions); sc.append(card);
+    card.append(area, msg, hint, actions); sc.append(card);
 
-    let getAnswerOk = () => false;
+    const fails = () => EF.state.fails[pid] || 0;
+    const showHint = () => {
+      if (fails() >= EF.HINT_AFTER && p.hint) { hint.textContent = '힌트 · ' + p.hint; hint.classList.add('on'); }
+    };
+    const close = solved => {
+      sc.remove(); UI.dismiss = null; UI.dismissEscOnly = false;
+      done(solved ? EF.solvePuzzle(pid) : []);
+    };
+    let isOk = () => false;
+    const submit = () => {
+      if (okBtn.disabled) return;
+      if (isOk()) { close(true); return; }
+      EF.state.fails[pid] = fails() + 1;
+      msg.textContent = p.fail;
+      card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
+      showHint();
+    };
+    const api = {
+      ready: on => { okBtn.disabled = !on; },
+      clear: () => { msg.textContent = ''; },
+      submit,
+      close: () => close(false)
+    };
+    const make = EF.PZ[p.type];
+    if (make) isOk = make(p, area, api);
+    else console.warn('알 수 없는 퍼즐 유형', p.type);
+    showHint(); // 이미 3번 틀린 퍼즐은 다시 열어도 힌트가 보인다
 
-    function fail() {
-      msg.textContent = p.fail; card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
-    }
-    if (p.type === 'pick') {
-      let sel = -1;
-      p.options.forEach((o, i) => {
-        const b = h('button', 'opt', o);
-        b.onclick = () => { sel = i; [...area.children].forEach((c, j) => c.classList.toggle('on', j === i)); okBtn.disabled = false; msg.textContent = ''; };
-        area.append(b);
-      });
-      getAnswerOk = () => sel === p.answer;
-    } else if (p.type === 'order') {
-      let seq = [];
-      const seqEl = h('div', 'seq'), pool = h('div', 'pool');
-      const draw = () => {
-        seqEl.innerHTML = ''; pool.innerHTML = '';
-        p.items.forEach((_, i) => { // slots
-          const slot = h('div', 'slot', seq[i] !== undefined ? p.items[seq[i]] : String(i + 1));
-          if (seq[i] !== undefined) slot.classList.add('filled');
-          seqEl.append(slot);
-        });
-        p.shuffle.forEach(idx => {
-          const b = h('button', 'opt', p.items[idx]); b.disabled = seq.includes(idx);
-          b.onclick = () => { seq.push(idx); msg.textContent = ''; draw(); };
-          pool.append(b);
-        });
-        const reset = h('button', 'btn small', '처음부터'); reset.onclick = () => { seq = []; msg.textContent = ''; draw(); };
-        pool.append(reset);
-        okBtn.disabled = seq.length !== p.items.length;
-      };
-      area.append(seqEl, pool); draw();
-      getAnswerOk = () => seq.every((v, i) => v === i);
-    } else if (p.type === 'code') {
-      const inp = h('input', 'code'); inp.maxLength = p.digits || 4; inp.inputMode = 'numeric'; inp.placeholder = '숫자 입력';
-      inp.oninput = () => { inp.value = inp.value.replace(/\D/g, ''); okBtn.disabled = !inp.value; msg.textContent = ''; };
-      inp.onkeydown = e => { e.stopPropagation(); if (e.key === 'Enter' && !okBtn.disabled) okBtn.click(); };
-      area.append(inp); setTimeout(() => inp.focus(), 30);
-      getAnswerOk = () => inp.value === p.answer;
-    }
-
-    const close = (solved) => { sc.remove(); UI.dismiss = null; done(solved ? EF.solvePuzzle(pid) : []); };
-    okBtn.onclick = () => { if (getAnswerOk()) close(true); else fail(); };
+    okBtn.onclick = submit;
     cancel.onclick = () => close(false);
     UI.dismiss = () => close(false);
+    UI.dismissEscOnly = true;
   };
 
   // ---------- 큐 처리 ----------

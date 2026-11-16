@@ -46,7 +46,8 @@
     addEventListener('keydown', e => {
       if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'd') { EF.Debug.toggle(); return; }
       if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
-        if (UI.dismiss) { e.preventDefault(); UI.dismiss(); }
+        // 퍼즐 창(dismissEscOnly)은 Esc 로만 닫힌다
+        if (UI.dismiss && (e.key === 'Escape' || !UI.dismissEscOnly)) { e.preventDefault(); UI.dismiss(); }
       } else if (EF.CONFIG.showMemo && (e.key === 'n' || e.key === 'N') && !UI.busy) UI.openNotebook();
     });
     // 브라우저 뒤로/앞으로: 이미 방문한 페이지로만 이동 허용(주소창으로 잠긴 곳 우회 방지)
