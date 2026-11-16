@@ -1,0 +1,177 @@
+/* 클로즈업 장면. 조사 요소를 누르면 그림 창 전체가 그 물건을 가까이 본 장면으로 바뀐다.
+   글로 설명하지 않는다(제목·설명 문장 없음). 힌트는 그림 속 사물로만 보인다.
+   돌아가기: 장면과 똑같이 그림 하단(▼ 띠)을 클릭. 키보드는 Esc.
+   그림 데이터는 src/data/views.js. */
+(function () {
+  const EF = window.EF, UI = EF.UI, h = EF.h;
+  const NS = 'http://www.w3.org/2000/svg';
+  const svgEl = (svg, tag, at, text) => {
+    const e = document.createElementNS(NS, tag);
+    for (const k in at) e.setAttribute(k, at[k]);
+    if (text !== undefined) e.textContent = text;
+    svg.append(e); return e;
+  };
+  const newSvg = (w, hh) => { const s = document.createElementNS(NS, 'svg'); s.setAttribute('viewBox', `0 0 ${w} ${hh}`); return s; };
+  const R = {}; // kind 별 그리기
+
+  R.pic = (v, id) => {
+    const box = h('div', 'cv-pic');
+    if (id && EF.VIEW_IMAGES.includes(id)) {
+      box.style.backgroundImage = `url(assets/view/${id}.png)`;
+      box.classList.add('has-img');
+    } else {
+      const [a, b] = v.tone || ['#e9e4dc', '#9c9284'];
+      box.style.background = `radial-gradient(ellipse at 50% 45%, ${a} 0%, ${b} 100%)`;
+      box.append(h('div', 'cv-icon', v.icon || '?'));
+      if (id) box.append(h('div', 'cv-tag', `임시 그림 · assets/view/${id}.png`));
+    }
+    return box;
+  };
+
+  R.doc = v => {
+    const box = h('div', 'cv-doc paper-' + (v.paper || 'note') + (v.blur ? ' blur' : ''));
+    const sheet = h('div', 'd-sheet');
+    if (v.head) sheet.append(h('div', 'd-head', v.head));
+    if (v.cols || v.rows.some(Array.isArray)) {
+      const t = h('table', 'd-table');
+      if (v.cols) { const tr = h('tr'); v.cols.forEach(c => tr.append(h('th', '', c))); t.append(tr); }
+      v.rows.forEach(r => { const tr = h('tr'); [].concat(r).forEach(c => tr.append(h('td', '', c))); t.append(tr); });
+      sheet.append(t);
+    } else v.rows.forEach(r => sheet.append(h('p', 'd-line', r || ' ')));
+    if (v.foot) sheet.append(h('div', 'd-foot', v.foot));
+    box.append(sheet);
+    return box;
+  };
+
+  R.strip = v => {
+    const box = h('div', 'cv-strip');
+    const sheet = h('div', 'st-sheet');
+    v.items.forEach((icon, i) => { if (i) sheet.append(h('span', 'st-arrow', '→')); sheet.append(h('span', 'st-icon', icon)); });
+    box.append(sheet);
+    return box;
+  };
+
+  R.clock = v => {
+    const box = h('div', 'cv-clock');
+    const svg = newSvg(200, 200);
+    svgEl(svg, 'circle', { cx: 100, cy: 100, r: 94, class: 'ck-rim' });
+    for (let i = 0; i < 60; i++) {
+      const a = i * Math.PI / 30, r1 = i % 5 ? 86 : 80;
+      svgEl(svg, 'line', { x1: 100 + r1 * Math.sin(a), y1: 100 - r1 * Math.cos(a), x2: 100 + 90 * Math.sin(a), y2: 100 - 90 * Math.cos(a), class: i % 5 ? 'ck-tick' : 'ck-tick big' });
+    }
+    ['XII', 'III', 'VI', 'IX'].forEach((n, i) => {
+      const a = i * Math.PI / 2;
+      svgEl(svg, 'text', { x: 100 + 66 * Math.sin(a), y: 100 - 66 * Math.cos(a) + 7, class: 'ck-num' }, n);
+    });
+    // 시계 방향 표시(바늘은 늘 이 방향으로만 돈다)
+    svgEl(svg, 'path', { d: 'M 128 30 A 76 76 0 0 1 170 72', class: 'ck-dir' });
+    svgEl(svg, 'path', { d: 'M 170 72 l -9 -2 m 9 2 l 1 -9', class: 'ck-dir' });
+    svgEl(svg, 'line', { x1: 100, y1: 100, x2: 100, y2: 50, class: 'ck-h', transform: `rotate(${(v.h % 12) * 30 + v.m / 2} 100 100)` });
+    svgEl(svg, 'line', { x1: 100, y1: 108, x2: 100, y2: 22, class: 'ck-m', transform: `rotate(${v.m * 6} 100 100)` });
+    svgEl(svg, 'circle', { cx: 100, cy: 100, r: 5, class: 'ck-pin' });
+    box.append(svg);
+    return box;
+  };
+
+  R.lights = v => {
+    const box = h('div', 'cv-lights');
+    const n = v.colors.length;
+    v.colors.forEach((c, i) => {
+      const b = h('div', 'bulb'); b.style.setProperty('--c', c);
+      b.style.animationDelay = (i * 0.7) + 's'; b.style.animationDuration = (n * 0.7 + 1.2) + 's';
+      box.append(b);
+    });
+    return box;
+  };
+
+  R.pattern = v => {
+    const box = h('div', 'cv-pattern');
+    v.rows.forEach(icon => { const r = h('div', 'p-row'); for (let i = 0; i < 3; i++) r.append(h('span', '', icon)); box.append(r); });
+    return box;
+  };
+
+  R.steps = v => {
+    const box = h('div', 'cv-steps');
+    const row = h('div', 's-row');
+    if (v.mark) row.append(h('div', 's-tag', v.mark));
+    for (let i = 1; i <= v.total; i++) {
+      const d = h('div', 's-dot' + (i < v.done ? ' done' : i === v.done ? ' stop' : ''), i <= v.done ? String(i) : '');
+      if (i === v.done) d.append(h('span', 's-needle', '🪡'));
+      row.append(d);
+    }
+    box.append(row);
+    return box;
+  };
+
+  R.pins = v => {
+    const box = h('div', 'cv-pins paper-' + (v.paper || 'cork'));
+    v.items.forEach((it, i) => {
+      const n = h('div', 'pin-note');
+      if (it.icon) n.append(h('div', 'pn-icon', it.icon));
+      if (it.text) n.append(h('div', 'pn-text', it.text));
+      if (it.mark) n.append(h('div', 'pn-mark', it.mark));
+      n.style.transform = `rotate(${[-3, 2, -1, 3, -2, 1, -4, 2, 0, -2][i % 10]}deg)`;
+      box.append(n);
+    });
+    return box;
+  };
+
+  R.stack = v => {
+    const box = h('div', 'cv-stack');
+    for (let i = 0; i < v.count; i++) {
+      const s = h('div', 'st-item');
+      s.append(h('span', 'si-icon', v.icon));
+      if (v.mark) s.append(h('span', 'si-mark', v.mark));
+      s.style.transform = `translate(${(i - (v.count - 1) / 2) * 230}px, ${Math.abs(i - (v.count - 1) / 2) * 18}px) rotate(${(i - 1) * 5}deg)`;
+      box.append(s);
+    }
+    return box;
+  };
+
+  // 「나이테 읽는 법」: 바깥 링부터 ①②③④, 시계는 긴 바늘(분) ① → 짧은 바늘(시) ②
+  R.ringguide = () => {
+    const box = h('div', 'cv-doc paper-book');
+    const svg = newSvg(900, 420); svg.setAttribute('class', 'rg-svg');
+    const rings = [175, 130, 85, 40];
+    rings.forEach(r => svgEl(svg, 'circle', { cx: 230, cy: 210, r, class: 'rg-ring' }));
+    // 번호는 오른쪽 아래 대각선 위에 바깥부터 1 2 3 4
+    rings.forEach((r, i) => {
+      const x = 230 + r * 0.707, y = 210 + r * 0.707;
+      svgEl(svg, 'circle', { cx: x, cy: y, r: 17, class: 'rg-badge' });
+      svgEl(svg, 'text', { x, y: y + 7, class: 'rg-num' }, String(i + 1));
+    });
+    // 바깥에서 안쪽으로 들어가는 화살표(왼쪽 위 대각선)
+    svgEl(svg, 'path', { d: 'M 60 40 L 190 170', class: 'rg-arrow' });
+    svgEl(svg, 'path', { d: 'M 172 170 L 192 172 L 190 152', class: 'rg-arrow' });
+    // 시계: 긴 바늘 ① 먼저, 짧은 바늘 ② 나중
+    svgEl(svg, 'circle', { cx: 660, cy: 210, r: 150, class: 'rg-clock' });
+    svgEl(svg, 'line', { x1: 660, y1: 210, x2: 790, y2: 150, class: 'rg-long' });
+    svgEl(svg, 'line', { x1: 660, y1: 210, x2: 600, y2: 290, class: 'rg-short' });
+    svgEl(svg, 'circle', { cx: 660, cy: 210, r: 7, class: 'rg-pin' });
+    svgEl(svg, 'circle', { cx: 800, cy: 122, r: 20, class: 'rg-badge' });
+    svgEl(svg, 'text', { x: 800, y: 129, class: 'rg-num' }, '1');
+    svgEl(svg, 'circle', { cx: 580, cy: 318, r: 20, class: 'rg-badge' });
+    svgEl(svg, 'text', { x: 580, y: 325, class: 'rg-num' }, '2');
+    box.append(svg);
+    return box;
+  };
+
+  // it: { view: 'v-…' | {kind…} }
+  UI.showView = function (it, done) {
+    const id = typeof it.view === 'string' ? it.view : null;
+    const v = id ? EF.VIEWS[id] : (it.view || { kind: 'pic' });
+    if (!v) { console.warn('알 수 없는 클로즈업', it.view); done(); return; }
+
+    const cu = h('div', 'closeup' + (EF.isEnded() ? ' quiet' : ''));
+    cu.dataset.view = id || '';
+    cu.append((R[v.kind] || R.pic)(v, id));
+    // 돌아가기: 장면과 같은 하단 띠 + ▼
+    const back = h('div', 'edge-back'); back.append(h('div', 'edge-arrow'));
+    cu.append(back);
+    UI.stage.append(cu);
+
+    const close = () => { cu.remove(); UI.dismiss = null; UI.dismissEscOnly = false; done(); };
+    back.onclick = e => { e.stopPropagation(); close(); };
+    UI.dismiss = close; UI.dismissEscOnly = true; // 키보드는 Esc 만(Enter/Space 로는 안 닫힘)
+  };
+})();
