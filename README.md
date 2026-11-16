@@ -4,16 +4,18 @@
 `python3 build_single.py` 를 실행하면 모든 파일을 합친 `everfreeze_single.html` 하나가 만들어집니다 (공유·미리보기용).
 
 ## 구조 (3층)
-- `src/data/`  내용: scenes(장소·핫스팟·규칙) / views(크롭 창) / evidence / deductions / puzzles / npcs / texts
+- `src/data/`  내용: scenes(장소·핫스팟·규칙) / views(클로즈업) / evidence / deductions / puzzles / npcs / texts
 - `src/engine/` 규칙: state(상태·오류 단계 계산·오답 수) / conditions / engine(액션 실행·자동 추리·엔딩 차단)
-- `src/ui/`    화면: view(그림 창·뒤로 가기 띠·흔들림) / pz(퍼즐 유형별 화면) / overlays(대화·퍼즐 창·엔딩) / closeup(크롭 창) / notebook / debug
+- `src/ui/`    화면: view(그림 창·뒤로 가기 띠·흔들림) / pz(퍼즐 유형별 화면) / overlays(대화·퍼즐 창·엔딩) / closeup(클로즈업) / notebook / debug
 
-## 조사 = 크롭 창
-- 조사 요소를 누르면 하단 글상자 대신, 그 요소를 가까이 본 **크롭 창**(옛 사이트의 작은 팝업 창)이 열린다. 설명하지 않고, 보이는 것과 짧은 은유 한 줄(caption)로만 전한다.
-- 내용은 `src/data/views.js`. 종류: pic(그림) doc(종이·표지판·장부·표) clock lights pattern steps pins stack
-- 그림을 넣으려면 `assets/view/<뷰ID>.png` 를 넣고 `EF.VIEW_IMAGES` 에 ID 를 추가 (예: 오래된 물건 = `v-oldthing`)
+## 조사 = 클로즈업 장면
+- 조사 요소를 누르면 그림 창 전체가 그 물건을 가까이 본 **클로즈업 장면**으로 바뀐다. 제목·설명 문장은 없다.
+- 힌트는 그림 속 사물로만 보인다 (예: 게시판 공지 2장에 ▲, 편지 3통에 ●, 작업대 7번째 땀에서 멈춘 바늘 옆 ★, 하루 순서 그림 띠).
+- 돌아가기: 장면과 똑같이 그림 하단 ▼ 띠를 클릭 (키보드는 Esc).
+- 내용은 `src/data/views.js`. 종류: pic doc strip clock lights pattern steps pins stack ringguide
+- 진짜 그림을 넣으려면 `assets/view/<뷰ID>.png` (1280×720) 를 넣고 `EF.VIEW_IMAGES` 에 ID 추가 (예: 오래된 물건 = `v-oldthing`)
 - 아직 상호작용할 수 없는 것(단계 미달·잠긴 문·대면 전 작업대)은 글 없이 그림이 살짝 흔들린다.
-- 그림 하단 가운데의 ▼ 화살표 = 뒤로 가기 (하단 띠에 마우스를 대면 진해짐)
+- 퍼즐을 풀면 풀린 모습의 클로즈업이 열린다 (`puzzles.js` 의 `view`). `success` 문장은 화면에 나오지 않는 기획 메모.
 
 ## 자주 하는 수정
 - 대사 교체: `npcs.js` 의 `lines: [{if:[조건], text:'…'}]` (없으면 "000과 대화")

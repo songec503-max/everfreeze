@@ -1,6 +1,6 @@
 /* 규칙 엔진. 화면과 무관하게 state 를 바꾸고, 보여줄 것은 queue 로 돌려준다.
    action: go view shake text say toast grant puzzle flag deduce
-   view: 크롭 창 열기(views.js 의 ID 또는 즉석 객체, caption 덮어쓰기 가능) / shake: 상호작용 불가 → 화면만 흔들림
+   view: 클로즈업 열기(views.js 의 ID 또는 즉석 객체) / shake: 상호작용 불가 → 화면만 흔들림
    5단계(엔딩) 이후에는 grant puzzle flag deduce 가 차단된다. */
 (function () {
   const EF = window.EF;
@@ -14,7 +14,7 @@
       if (EF.isEnded() && BLOCKED.includes(key)) { blocked = true; continue; }
       switch (key) {
         case 'go': s.scene = a.go; break;
-        case 'view': q.push({ t: 'view', view: a.view, caption: a.caption }); break;
+        case 'view': q.push({ t: 'view', view: a.view }); break;
         case 'shake': q.push({ t: 'shake' }); break;
         case 'text': q.push({ t: 'text', text: a.text, note: a.note, who: a.who }); break;
         case 'say': q.push({ t: 'say', npc: a.say, ctx: a.ctx }); break;
@@ -74,7 +74,7 @@
   EF.solvePuzzle = function (pid) {
     const q = [], before = EF.getStage(), p = EF.PUZZLES[pid];
     EF.state.solved[pid] = true;
-    if (p.success) q.push(p.view ? { t: 'view', view: p.view, caption: p.success } : { t: 'text', text: p.success });
+    if (p.success) q.push(p.view ? { t: 'view', view: p.view } : { t: 'text', text: p.success });
     EF.exec(p.onSolve || [], q);
     EF.afterStage(before, q);
     return q;

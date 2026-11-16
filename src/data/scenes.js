@@ -1,7 +1,7 @@
 /* 장면 + 핫스팟 + 규칙.
    - 좌표는 1280x720 기준 px. (x,y,w,h)
    - 핫스팟 rules 는 위에서부터 검사해 "처음 통과한 규칙"의 do 를 실행한다.
-   - 조사(inspect)를 누르면 크롭 창(views.js 의 view)이 열린다. 직접 설명하는 글상자는 쓰지 않는다.
+   - 조사(inspect)를 누르면 그 물건의 클로즈업 장면(views.js 의 view)이 열린다. 글로 설명하지 않는다.
    - 아직 상호작용할 수 없는 것(단계 미달·잠김)은 글 없이 화면이 살짝 흔들린다(shake).
    - temp:true 는 임시 요소(힌트 표시를 켜면 점선으로 보임).
    - 배경 이미지는 assets/bg/<장면ID>.png 를 넣고 EF.BG_IMAGES 에 ID 를 적으면 적용된다. */
@@ -26,10 +26,10 @@
     if (o.lock) return { if: [{ not: o.lock }], do: SHAKE };
     return null;
   };
-  // 엔딩 이후: 같은 크롭 창이 열리지만 문장은 '고요'
-  const quiet = (view, icon) => [{ view: view || { kind: 'pic', icon }, caption: TX.endedInspect }];
+  // 엔딩 이후: 같은 클로즈업이 열리지만 색이 빠져 있다(모든 것이 멈춘 듯 고요)
+  const quiet = (view, icon) => [{ view: view || { kind: 'pic', icon } }];
 
-  // 조사: 크롭 창을 연다. grant 가 있으면 첫 클릭에 증거를 조용히 등록한다.
+  // 조사: 클로즈업을 연다. grant 가 있으면 첫 클릭에 증거를 조용히 등록한다.
   function inspect(id, label, icon, box, o) {
     const r = [], lk = lockRule(o), v = [{ view: o.view }];
     if (lk) r.push(lk);
@@ -41,7 +41,7 @@
     return hs('inspect', id, label, icon, box, r, { temp: o.temp !== false, showIf: o.showIf });
   }
 
-  // 퍼즐: 풀고 나면 view(풀린 모습)를 크롭 창으로 다시 볼 수 있다.
+  // 퍼즐: 풀고 나면 view(풀린 모습)를 클로즈업으로 다시 볼 수 있다.
   function puzzle(id, label, icon, box, pid, o = {}) {
     const r = [], lk = lockRule(o);
     if (lk) r.push(lk);

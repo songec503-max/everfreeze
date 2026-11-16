@@ -2,7 +2,7 @@
    type 별 화면은 src/ui/pz.js 에 있다.
      pick(하나 고르기) order(순서대로 누르기) code(숫자 입력) dial(다이얼) clock(시계 맞추기)
      lever(레버 순서) rings(회전 링) slide(슬라이드 3×3) cipher(암호 해독) signal(등대 신호) glass(유리 조각 2×2)
-   공통: view(풀린 모습 크롭 창) title level prompt hint(오답 3회부터 보임) success fail onSolve clueAt(단서 위치 메모)
+   공통: view(풀린 모습 클로즈업) title level prompt hint(오답 3회부터 보임) success fail onSolve clueAt(단서 위치 메모)
    - 건너뛰기 없음. 닫아도 미해결로 남는다. 오답 수는 EF.state.fails[퍼즐ID].
    - 단서는 항상 "다른 마을"에 둔다. 정답을 바꾸면 해당 단서 문장(scenes.js)도 같이 바꿀 것. */
 (function () {
@@ -12,7 +12,7 @@
   EF.PUZZLES = {
     // ===== 로즈메리 =====
     'P-DRAWER': {
-      view: 'v-drawer', // 풀린 뒤 크롭 창(views.js). 풀었을 때는 success 문장이 이 창의 설명으로 붙는다
+      view: 'v-drawer', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '서랍 자물쇠', type: 'dial', digits: 3, answer: '417', level: '쉬움',
       prompt: '서랍에 세 자리 숫자 다이얼 자물쇠가 걸려 있다.',
       hint: '배가 정시에 들어온다고 했다. 항구에서 그 시각을 본 적이 있다.',
@@ -22,7 +22,7 @@
       clueAt: '루미나리아 · 항구 · 표지판 (입항 시각 4시 17분)'
     },
     'P-LEDGER': {
-      view: 'v-ledger', // 풀린 뒤 크롭 창(views.js). 풀었을 때는 success 문장이 이 창의 설명으로 붙는다
+      view: 'v-ledger', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '대출 장부 대조', type: 'pick', answer: 3, level: '쉬움',
       prompt: '대출 장부에 같은 책을 빌려 간 사람들의 이름이 적혀 있다. 이상한 이름은 누구일까?',
       options: ['토비', '마렌', '페넬', '하나', '로완'],
@@ -33,7 +33,7 @@
       clueAt: '글렌위버 · 마을 주택 · 주민 명부 (명부에 없는 이름 = 하나)'
     },
     'P-ARCHIVE': {
-      view: 'v-record', // 풀린 뒤 크롭 창(views.js). 풀었을 때는 success 문장이 이 창의 설명으로 붙는다
+      view: 'v-record', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '기록 조각 복원', type: 'slide', level: '어려움',
       prompt: '찢어진 기록 조각이 틀 안에 뒤섞여 있다. 빈칸 옆의 조각을 눌러 밀어서 그림을 완성하자.',
       // 위에서부터 줄마다 올 그림. 빈칸은 맨 아래 오른쪽.
@@ -46,7 +46,7 @@
       clueAt: '글렌위버 · 시에나의 계절 망토 공방 · 망토 (완성 도안)'
     },
     'P-OLDREC': {
-      view: 'v-oldrec', // 풀린 뒤 크롭 창(views.js). 풀었을 때는 success 문장이 이 창의 설명으로 붙는다
+      view: 'v-oldrec', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '지워진 쪽수 해독', type: 'cipher', digits: 4, answer: '2737', level: '매우 어려움',
       prompt: '기록의 쪽수가 지워지고 기호만 남아 있다. 기호마다 숫자 하나를 뜻하는 것 같다.',
       symbols: ['▲', '★', '●', '★'],
@@ -60,7 +60,7 @@
 
     // ===== 글렌위버 =====
     'P-BIRDHOUSE': {
-      view: 'v-birdhouse', // 풀린 뒤 크롭 창(views.js). 풀었을 때는 success 문장이 이 창의 설명으로 붙는다
+      view: 'v-birdhouse', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '새집 교대 장치', type: 'lever', level: '쉬움',
       prompt: '새집 장치에 색이 다른 레버 네 개가 있다. 올바른 순서로 당겨야 장치가 움직인다.',
       levers: [{ key: 'blue', name: '파랑', color: '#5b8fd9' }, { key: 'pink', name: '분홍', color: '#e59ac0' },
@@ -74,7 +74,7 @@
       clueAt: '루미나리아 · 루루의 카페 · 해파리 조명 (파랑 분홍 노랑 초록)'
     },
     'P-SHELF': {
-      view: 'v-shelf', // 풀린 뒤 크롭 창(views.js). 풀었을 때는 success 문장이 이 창의 설명으로 붙는다
+      view: 'v-shelf', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '나이테 회전 선반', type: 'rings', digits: 4, answer: '5911', level: '어려움',
       prompt: '나이테 모양의 링 네 개를 돌려 숫자를 맞추면 선반이 열린다고 한다.',
       labels: ['바깥', '', '', '안쪽'],
@@ -87,7 +87,7 @@
 
     // ===== 루미나리아 =====
     'P-MAILBOX': {
-      view: 'v-mailbox', // 풀린 뒤 크롭 창(views.js). 풀었을 때는 success 문장이 이 창의 설명으로 붙는다
+      view: 'v-mailbox', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '우편함 시계', type: 'clock', answer: { h: 6, m: 20 }, level: '쉬움',
       prompt: '우편함 위에 작은 시계가 달려 있다. 우편이 도착하는 시각에 맞추면 우편함이 열린다.',
       hint: '로즈메리 잡화점 장부의 마지막 줄에 우편 마차가 도착하는 시각이 적혀 있었다.',
@@ -97,7 +97,7 @@
       clueAt: '로즈메리 · 벨라의 잡화점 · 장부 (우편 마차 6시 20분)'
     },
     'P-LETTER': {
-      view: 'v-letter', // 풀린 뒤 크롭 창(views.js). 풀었을 때는 success 문장이 이 창의 설명으로 붙는다
+      view: 'v-letter', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '등대 신호 편지', type: 'signal', level: '쉬움',
       prompt: '봉인된 편지에 "하루의 순서대로 신호를 보내라"고 적혀 있다. 등대 불빛을 다섯 번 비춰 보자.',
       signals: [{ key: 'morning', name: '아침', icon: '🌅' }, { key: 'noon', name: '낮', icon: '☀️' },
@@ -110,7 +110,7 @@
       clueAt: '로즈메리 · 자료 보관실 · 기록 조각 (하루의 순서: 아침 낮 저녁 밤)'
     },
     'P-ATELIER': {
-      view: 'v-atelier', // 풀린 뒤 크롭 창(views.js). 풀었을 때는 success 문장이 이 창의 설명으로 붙는다
+      view: 'v-atelier', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '유리 조각 맞추기', type: 'glass', level: '어려움',
       prompt: '네 개의 유리 조각을 틀에 맞추자. 조각을 눌러 고른 뒤 다른 칸을 누르면 자리가 바뀌고, ⟳ 로 돌릴 수 있다.',
       // 칸 순서: 0 왼쪽 위 → 1 오른쪽 위 → 2 오른쪽 아래 → 3 왼쪽 아래 (시계 방향)

@@ -251,79 +251,101 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 .grot{position:absolute;right:6px;bottom:6px;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:18px;z-index:1}
 .pz-signal .seq{flex-wrap:nowrap}.pz-signal .slot{min-width:0}
 
-/* ===== 크롭 창 (src/ui/closeup.js) — 옛날 사이트의 작은 팝업 창 ===== */
-.cscrim{background:rgba(20,18,30,.35);align-items:center;padding:0}
-.cwin{width:700px;background:#efe9dc;border:2px solid #4b3f63;border-radius:6px;box-shadow:6px 6px 0 rgba(40,30,60,.35);animation:cpop .16s ease-out}
-@keyframes cpop{from{opacity:0;transform:scale(.94)}}
-.cbar{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,#6b5d8c,#4b3f63);color:#fff;padding:5px 6px 5px 12px;font-size:15px;font-weight:700;letter-spacing:.04em}
-.cx{width:26px;height:24px;border:1px solid #2b2240;background:#efe9dc;color:#2b2240;border-radius:3px;font-size:18px;line-height:18px;padding:0}
-.cx:hover{background:#fff}
-.cpane{margin:10px;height:400px;border:2px inset #cfc6b4;background:#222;overflow:hidden;position:relative;display:flex}
-.cpane>*{flex:1}
-.ccap{padding:2px 16px 14px;font-size:18px;line-height:1.55;font-style:italic;color:#3d3650;text-align:center;font-family:'Nanum Myeongjo','Noto Serif KR',serif}
-.cwin.quiet .cpane{filter:grayscale(1) brightness(.8)}
+/* ===== 클로즈업 장면 (src/ui/closeup.js) — 그림 창 전체가 물건 가까이로. 글 없음 ===== */
+.closeup{position:absolute;inset:0;z-index:18;display:flex;background:#1b1824;animation:cuIn .22s ease-out}
+.closeup>*:first-child{flex:1}
+@keyframes cuIn{from{opacity:0;transform:scale(1.04)}}
+.closeup.quiet>*:first-child{filter:grayscale(1) brightness(.8)}
 
-/* 그림(임시: 아이콘) */
+/* 그림(임시: 큰 아이콘) */
 .cv-pic{display:flex;align-items:center;justify-content:center;position:relative;background-size:cover;background-position:center}
-.cv-icon{font-size:170px;filter:drop-shadow(0 10px 18px rgba(0,0,0,.35))}
-.cv-tag{position:absolute;left:10px;bottom:8px;font-size:12px;color:rgba(255,255,255,.75);background:rgba(0,0,0,.28);padding:2px 8px;border-radius:4px}
+.cv-icon{font-size:300px;filter:drop-shadow(0 16px 28px rgba(0,0,0,.4))}
+.cv-tag{position:absolute;left:14px;top:12px;font-size:13px;color:rgba(255,255,255,.7);background:rgba(0,0,0,.25);padding:2px 8px;border-radius:4px}
 
-/* 종이·표지판·장부·책 */
-.cv-doc{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:26px 40px;color:#2f2a24;font-family:'Nanum Myeongjo','Noto Serif KR',serif}
-.paper-note{background:repeating-linear-gradient(180deg,#fbf6ea 0 33px,#d9e2ef 33px 34px);}
-.paper-note .d-line{align-self:stretch;margin:0;height:34px;line-height:34px;font-size:20px;font-family:'Nanum Pen Script','Gaegu',cursive,serif}
-.paper-book{background:linear-gradient(90deg,#efe3c8,#f8f0dc 12%,#f8f0dc 88%,#e8dbbd)}
-.paper-book .d-line{margin:6px 0;font-size:20px}
-.paper-sign{background:repeating-linear-gradient(90deg,#8a6a45 0 3px,#957350 3px 9px);}
-.paper-sign .d-head,.paper-sign .d-line,.paper-sign .d-foot{background:#f3ead6;padding:4px 20px}
-.paper-sign .d-head{font-size:24px;font-weight:800;border-radius:4px 4px 0 0}
-.paper-sign .d-line{margin:0;font-size:26px;font-weight:700}
-.paper-sign .d-line:first-of-type{font-size:40px}
-.paper-ledger{background:#f4ecd8;justify-content:flex-start;padding-top:22px}
-.d-head{font-size:22px;font-weight:800;margin-bottom:10px}
-.d-table{border-collapse:collapse;font-size:17px;width:100%}
-.d-table th{border-bottom:2px solid #6b5a48;padding:5px 8px;text-align:left;color:#5a4a38}
-.d-table td{border-bottom:1px solid #d8cbb0;padding:5px 8px;font-variant-numeric:tabular-nums}
-.d-foot{margin-top:12px;font-size:18px;align-self:flex-end;font-style:italic}
+/* 종이·표지판·장부·책: 가운데 한 장 */
+.cv-doc{display:flex;align-items:center;justify-content:center;padding:40px;color:#2f2a24;font-family:'Nanum Myeongjo','Noto Serif KR',serif;background:#3b3026;background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.03) 0 4px,transparent 4px 18px)}
+.d-sheet{min-width:560px;max-width:1080px;padding:34px 48px;box-shadow:0 18px 40px rgba(0,0,0,.5);display:flex;flex-direction:column;align-items:center}
+.paper-note .d-sheet{width:640px;background:repeating-linear-gradient(180deg,#fbf6ea 0 55px,#d9e2ef 55px 57px);transform:rotate(-1.5deg)}
+.paper-note .d-line{align-self:stretch;margin:0;height:57px;line-height:57px;font-size:38px}
+.paper-note.blur .d-line{background:linear-gradient(90deg,rgba(60,70,110,.5),rgba(60,70,110,.15) 70%,transparent);background-size:100% 10px;background-repeat:no-repeat;background-position:0 60%;filter:blur(3px)}
+.paper-book .d-sheet,.cv-doc.paper-book{background-color:#3b3026}
+.paper-book .d-sheet{width:760px;background:linear-gradient(90deg,#efe3c8,#f8f0dc 10%,#f8f0dc 90%,#e8dbbd)}
+.paper-book .d-line{margin:10px 0;font-size:48px;letter-spacing:.1em}
+.paper-sign .d-sheet{background:#f3ead6;border:14px solid #7a5a38;border-radius:10px}
+.paper-sign .d-line{margin:6px 0;font-size:64px;font-weight:800}
+.paper-ledger .d-sheet{background:#f4ecd8;width:1000px}
+.d-head{font-size:40px;font-weight:800;margin-bottom:14px}
+.d-table{border-collapse:collapse;font-size:30px;width:100%}
+.d-table th{border-bottom:3px solid #6b5a48;padding:6px 12px;text-align:center;font-size:34px}
+.d-table td{border-bottom:1px solid #d8cbb0;padding:6px 12px;text-align:center;font-variant-numeric:tabular-nums}
+.paper-sign .d-table{font-size:64px}.paper-sign .d-table th{font-size:30px}
+.d-foot{margin-top:16px;font-size:40px;align-self:flex-end}
+.paper-note .d-foot{font-size:30px;color:#777}
+
+/* 하루 순서 띠 */
+.cv-strip{display:flex;align-items:center;justify-content:center;background:#3b3026}
+.st-sheet{display:flex;align-items:center;gap:18px;padding:40px 50px;background:#e9dcc0;box-shadow:0 18px 40px rgba(0,0,0,.5);
+  clip-path:polygon(0 4%,8% 0,20% 5%,34% 1%,50% 4%,66% 0,82% 5%,100% 2%,98% 50%,100% 97%,84% 100%,66% 95%,50% 100%,34% 96%,18% 100%,0 96%,2% 50%)}
+.st-icon{font-size:110px}.st-arrow{font-size:56px;color:#6b5a48}
 
 /* 시계 */
-.cv-clock{display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,#d8e2ec,#8a98a8)}
-.cv-clock svg{width:340px;height:340px}
+.cv-clock{display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,#d8e2ec,#6f7d8e)}
+.cv-clock svg{width:600px;height:600px}
 .ck-rim{fill:#f6f1e4;stroke:#3a3346;stroke-width:6}
 .ck-tick{stroke:#3a3346;stroke-width:1.5}.ck-tick.big{stroke-width:4}
 .ck-num{font-size:20px;font-weight:700;text-anchor:middle;fill:#3a3346;font-family:serif}
 .ck-h{stroke:#3a3346;stroke-width:8;stroke-linecap:round}
 .ck-m{stroke:#3a3346;stroke-width:4;stroke-linecap:round}
 .ck-pin{fill:#3a3346}
+.cv-clock .ck-h{stroke-width:11}.cv-clock .ck-m{stroke:#9a2f2f;stroke-width:2.5}
+.ck-dir{fill:none;stroke:rgba(58,51,70,.35);stroke-width:3;stroke-linecap:round}
 
 /* 해파리 조명 */
-.cv-lights{display:flex;align-items:center;justify-content:center;gap:46px;background:radial-gradient(ellipse,#1f3a4a,#0c1820)}
-.bulb{width:84px;height:84px;border-radius:50% 50% 44% 44%;background:var(--c);opacity:.12;animation-name:bulbOn;animation-iteration-count:infinite;animation-timing-function:steps(1,end)}
-@keyframes bulbOn{0%{opacity:.12;box-shadow:none}1%,22%{opacity:1;box-shadow:0 0 40px 10px var(--c)}23%,100%{opacity:.12;box-shadow:none}}
+.cv-lights{display:flex;align-items:center;justify-content:center;gap:90px;background:radial-gradient(ellipse,#1f3a4a,#0c1820)}
+.bulb{width:150px;height:150px;border-radius:50% 50% 44% 44%;background:var(--c);opacity:.12;animation-name:bulbOn;animation-iteration-count:infinite;animation-timing-function:steps(1,end)}
+@keyframes bulbOn{0%{opacity:.12;box-shadow:none}1%,22%{opacity:1;box-shadow:0 0 70px 20px var(--c)}23%,100%{opacity:.12;box-shadow:none}}
 
 /* 망토 도안 */
-.cv-pattern{display:flex;flex-direction:column;justify-content:center;gap:12px;align-items:center;background:#7a3b3b;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 6px,transparent 6px 12px)}
-.p-row{display:flex;gap:22px;font-size:66px;padding:4px 24px;border-top:2px dashed rgba(255,230,200,.5);border-bottom:2px dashed rgba(255,230,200,.5)}
+.cv-pattern{display:flex;flex-direction:column;justify-content:center;gap:20px;align-items:center;background:#7a3b3b;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 8px,transparent 8px 16px)}
+.p-row{display:flex;gap:50px;font-size:120px;padding:6px 40px;border-top:3px dashed rgba(255,230,200,.5);border-bottom:3px dashed rgba(255,230,200,.5)}
 
 /* 바느질 단계 */
 .cv-steps{display:flex;align-items:center;justify-content:center;background:#f2d9d3;background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.03) 0 2px,transparent 2px 6px)}
-.s-row{display:flex;gap:12px}
-.s-dot{position:relative;width:46px;height:46px;border-radius:50%;border:2px dashed #b88f7a;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff}
-.s-dot.done{background:#a2584a;border:2px solid #7a3b3b}
-.s-dot.stop{background:#a2584a;border:3px solid #3a1f1f;box-shadow:0 0 0 5px rgba(162,88,74,.25)}
-.s-needle{position:absolute;top:-46px;font-size:40px}
+.s-row{display:flex;gap:18px;align-items:center}
+.s-tag{font-size:70px;color:#7a3b3b;margin-right:24px;background:#fff6dc;border:3px solid #7a3b3b;border-radius:10px;padding:0 16px}
+.s-dot{position:relative;width:80px;height:80px;border-radius:50%;border:3px dashed #b88f7a;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800;color:#fff}
+.s-dot.done{background:#a2584a;border:3px solid #7a3b3b}
+.s-dot.stop{background:#a2584a;border:4px solid #3a1f1f;box-shadow:0 0 0 8px rgba(162,88,74,.25)}
+.s-needle{position:absolute;top:-82px;font-size:70px}
 
-/* 게시판 · 메모 */
-.cv-pins{display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:16px;padding:20px}
-.paper-cork{background:#b98a5a;background-image:radial-gradient(rgba(0,0,0,.12) 1px,transparent 1.5px);background-size:7px 7px}
-.paper-drawer{background:#6f5a48}
-.pin-note{width:250px;padding:22px 16px;background:#fbf6e2;font-size:18px;font-family:'Nanum Pen Script','Gaegu',cursive,serif;box-shadow:2px 3px 6px rgba(0,0,0,.3);text-align:center}
-.paper-cork .pin-note{width:270px;padding:40px 18px}
-.paper-drawer .pin-note{width:190px;padding:16px 12px;font-size:16px}
+/* 붙은 종이들 */
+.cv-pins{display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:26px;padding:40px}
+.paper-cork{background:#b98a5a;background-image:radial-gradient(rgba(0,0,0,.12) 1px,transparent 1.5px);background-size:8px 8px}
+.paper-drawer{background:#4e3e30}
+.pin-note{position:relative;width:340px;padding:40px 20px;background:#fbf6e2;box-shadow:3px 5px 10px rgba(0,0,0,.35);text-align:center}
+.pn-icon{font-size:130px}
+.pn-text{font-size:30px}
+.pn-mark{position:absolute;right:16px;bottom:10px;font-size:44px;color:#9a2f2f}
+.paper-drawer .pin-note{width:230px;padding:22px 12px}
+.paper-drawer .pn-icon{font-size:56px}.paper-drawer .pn-text{font-size:26px}
 
 /* 겹친 편지 */
 .cv-stack{display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,#e3d7bd,#9f9078)}
-.st-item{position:absolute;font-size:150px;filter:drop-shadow(0 6px 8px rgba(0,0,0,.3))}
+.st-item{position:absolute}
+.si-icon{font-size:250px;filter:drop-shadow(0 8px 10px rgba(0,0,0,.3))}
+.si-mark{position:absolute;left:50%;top:50%;transform:translate(-50%,-35%);font-size:64px;color:#9a2f2f}
+
+/* 나이테 읽는 법 */
+.rg-svg{width:1000px;height:470px;background:#f8f0dc;box-shadow:0 18px 40px rgba(0,0,0,.5)}
+.rg-ring{fill:none;stroke:#9b7b52;stroke-width:14;opacity:.75}
+.rg-badge{fill:#7a3b3b}
+.rg-num{fill:#fff;font-size:20px;font-weight:800;text-anchor:middle}
+.rg-arrow{fill:none;stroke:#7a3b3b;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.rg-clock{fill:#fffdf6;stroke:#3a3346;stroke-width:6}
+.rg-long{stroke:#3a3346;stroke-width:6;stroke-linecap:round}
+.rg-short{stroke:#3a3346;stroke-width:12;stroke-linecap:round}
+.rg-pin{fill:#3a3346}
+.rg-svg .rg-badge+.rg-num{font-size:24px}
 
 /* 상호작용 불가: 그림만 살짝 흔들림 */
 #stage.nudge .scene,#stage.nudge .hotspots{animation:nudge .4s ease}
@@ -482,7 +504,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
    type 별 화면은 src/ui/pz.js 에 있다.
      pick(하나 고르기) order(순서대로 누르기) code(숫자 입력) dial(다이얼) clock(시계 맞추기)
      lever(레버 순서) rings(회전 링) slide(슬라이드 3×3) cipher(암호 해독) signal(등대 신호) glass(유리 조각 2×2)
-   공통: view(풀린 모습 크롭 창) title level prompt hint(오답 3회부터 보임) success fail onSolve clueAt(단서 위치 메모)
+   공통: view(풀린 모습 클로즈업) title level prompt hint(오답 3회부터 보임) success fail onSolve clueAt(단서 위치 메모)
    - 건너뛰기 없음. 닫아도 미해결로 남는다. 오답 수는 EF.state.fails[퍼즐ID].
    - 단서는 항상 "다른 마을"에 둔다. 정답을 바꾸면 해당 단서 문장(scenes.js)도 같이 바꿀 것. */
 (function () {
@@ -492,7 +514,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   EF.PUZZLES = {
     // ===== 로즈메리 =====
     'P-DRAWER': {
-      view: 'v-drawer', // 풀린 뒤 크롭 창(views.js). 풀었을 때는 success 문장이 이 창의 설명으로 붙는다
+      view: 'v-drawer', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '서랍 자물쇠', type: 'dial', digits: 3, answer: '417', level: '쉬움',
       prompt: '서랍에 세 자리 숫자 다이얼 자물쇠가 걸려 있다.',
       hint: '배가 정시에 들어온다고 했다. 항구에서 그 시각을 본 적이 있다.',
@@ -502,7 +524,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
       clueAt: '루미나리아 · 항구 · 표지판 (입항 시각 4시 17분)'
     },
     'P-LEDGER': {
-      view: 'v-ledger', // 풀린 뒤 크롭 창(views.js). 풀었을 때는 success 문장이 이 창의 설명으로 붙는다
+      view: 'v-ledger', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '대출 장부 대조', type: 'pick', answer: 3, level: '쉬움',
       prompt: '대출 장부에 같은 책을 빌려 간 사람들의 이름이 적혀 있다. 이상한 이름은 누구일까?',
       options: ['토비', '마렌', '페넬', '하나', '로완'],
@@ -513,7 +535,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
       clueAt: '글렌위버 · 마을 주택 · 주민 명부 (명부에 없는 이름 = 하나)'
     },
     'P-ARCHIVE': {
-      view: 'v-record', // 풀린 뒤 크롭 창(views.js). 풀었을 때는 success 문장이 이 창의 설명으로 붙는다
+      view: 'v-record', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '기록 조각 복원', type: 'slide', level: '어려움',
       prompt: '찢어진 기록 조각이 틀 안에 뒤섞여 있다. 빈칸 옆의 조각을 눌러 밀어서 그림을 완성하자.',
       // 위에서부터 줄마다 올 그림. 빈칸은 맨 아래 오른쪽.
@@ -526,7 +548,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
       clueAt: '글렌위버 · 시에나의 계절 망토 공방 · 망토 (완성 도안)'
     },
     'P-OLDREC': {
-      view: 'v-oldrec', // 풀린 뒤 크롭 창(views.js). 풀었을 때는 success 문장이 이 창의 설명으로 붙는다
+      view: 'v-oldrec', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '지워진 쪽수 해독', type: 'cipher', digits: 4, answer: '2737', level: '매우 어려움',
       prompt: '기록의 쪽수가 지워지고 기호만 남아 있다. 기호마다 숫자 하나를 뜻하는 것 같다.',
       symbols: ['▲', '★', '●', '★'],
@@ -540,7 +562,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
     // ===== 글렌위버 =====
     'P-BIRDHOUSE': {
-      view: 'v-birdhouse', // 풀린 뒤 크롭 창(views.js). 풀었을 때는 success 문장이 이 창의 설명으로 붙는다
+      view: 'v-birdhouse', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '새집 교대 장치', type: 'lever', level: '쉬움',
       prompt: '새집 장치에 색이 다른 레버 네 개가 있다. 올바른 순서로 당겨야 장치가 움직인다.',
       levers: [{ key: 'blue', name: '파랑', color: '#5b8fd9' }, { key: 'pink', name: '분홍', color: '#e59ac0' },
@@ -554,7 +576,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
       clueAt: '루미나리아 · 루루의 카페 · 해파리 조명 (파랑 분홍 노랑 초록)'
     },
     'P-SHELF': {
-      view: 'v-shelf', // 풀린 뒤 크롭 창(views.js). 풀었을 때는 success 문장이 이 창의 설명으로 붙는다
+      view: 'v-shelf', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '나이테 회전 선반', type: 'rings', digits: 4, answer: '5911', level: '어려움',
       prompt: '나이테 모양의 링 네 개를 돌려 숫자를 맞추면 선반이 열린다고 한다.',
       labels: ['바깥', '', '', '안쪽'],
@@ -567,7 +589,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
     // ===== 루미나리아 =====
     'P-MAILBOX': {
-      view: 'v-mailbox', // 풀린 뒤 크롭 창(views.js). 풀었을 때는 success 문장이 이 창의 설명으로 붙는다
+      view: 'v-mailbox', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '우편함 시계', type: 'clock', answer: { h: 6, m: 20 }, level: '쉬움',
       prompt: '우편함 위에 작은 시계가 달려 있다. 우편이 도착하는 시각에 맞추면 우편함이 열린다.',
       hint: '로즈메리 잡화점 장부의 마지막 줄에 우편 마차가 도착하는 시각이 적혀 있었다.',
@@ -577,7 +599,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
       clueAt: '로즈메리 · 벨라의 잡화점 · 장부 (우편 마차 6시 20분)'
     },
     'P-LETTER': {
-      view: 'v-letter', // 풀린 뒤 크롭 창(views.js). 풀었을 때는 success 문장이 이 창의 설명으로 붙는다
+      view: 'v-letter', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '등대 신호 편지', type: 'signal', level: '쉬움',
       prompt: '봉인된 편지에 "하루의 순서대로 신호를 보내라"고 적혀 있다. 등대 불빛을 다섯 번 비춰 보자.',
       signals: [{ key: 'morning', name: '아침', icon: '🌅' }, { key: 'noon', name: '낮', icon: '☀️' },
@@ -590,7 +612,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
       clueAt: '로즈메리 · 자료 보관실 · 기록 조각 (하루의 순서: 아침 낮 저녁 밤)'
     },
     'P-ATELIER': {
-      view: 'v-atelier', // 풀린 뒤 크롭 창(views.js). 풀었을 때는 success 문장이 이 창의 설명으로 붙는다
+      view: 'v-atelier', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '유리 조각 맞추기', type: 'glass', level: '어려움',
       prompt: '네 개의 유리 조각을 틀에 맞추자. 조각을 눌러 고른 뒤 다른 칸을 누르면 자리가 바뀌고, ⟳ 로 돌릴 수 있다.',
       // 칸 순서: 0 왼쪽 위 → 1 오른쪽 위 → 2 오른쪽 아래 → 3 왼쪽 아래 (시계 방향)
@@ -608,104 +630,69 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
 </script>
 <script>
-/* 크롭 창(클로즈업). 조사 요소를 누르면 하단 글상자 대신 이 창이 열린다.
-   직접 설명하지 않고, 보이는 것(그림·종이·표)과 짧은 은유 한 줄(caption)로만 전한다. 전부 임시.
+/* 클로즈업 장면. 조사 요소를 누르면 그림 창 전체가 그 물건을 가까이 본 장면으로 바뀐다.
+   설명 글은 쓰지 않는다. 힌트는 그림 속 사물(표시·숫자·순서·기호)로만 보여 준다. 전부 임시.
+   돌아가기: 장면과 똑같이 그림 하단(▼)을 클릭.
    kind:
-     pic      그림 한 장. assets/view/<ID>.png 를 넣고 EF.VIEW_IMAGES 에 ID 를 적으면 그 그림이 나온다(없으면 임시 아이콘).
-     doc      종이·표지판·장부. head(제목) rows(줄: 문자열 또는 [칸,칸…]) cols(표 머리) foot(맨 아래) paper(note|sign|ledger|book)
-     clock    시계(h, m)
-     lights   차례로 켜지는 불빛(colors)
-     pattern  줄마다 같은 문양(rows: 아이콘 3개)
-     steps    바느질 단계(total 중 done 에서 멈춤)
-     pins     게시판 종이(items)
-     stack    겹친 물건(icon, count)
-   caption 이 없으면 그림만 보인다. */
+     pic        그림 한 장. assets/view/<ID>.png 를 넣고 EF.VIEW_IMAGES 에 ID 를 적으면 그 그림이 나온다(없으면 임시 아이콘).
+     doc        종이·표지판·장부. head rows(줄: 문자열 또는 [칸,칸…]) cols(표 머리) foot paper(note|sign|ledger|book) blur
+     strip      아이콘이 화살표로 이어진 띠(items)
+     clock      시계(h, m)
+     lights     차례로 켜지는 불빛(colors)
+     pattern    줄마다 같은 문양(rows)
+     steps      바느질 단계(total 중 done 에서 멈춤, mark = 붙은 표시)
+     pins       붙은 종이들(items: {icon, text, mark})
+     stack      겹친 물건(icon, count, mark)
+     ringguide  「나이테 읽는 법」 그림(바깥 링부터, 긴 바늘 먼저) */
 (function () {
   const EF = window.EF;
   EF.VIEW_IMAGES = []; // 예: ['v-oldthing'] → assets/view/v-oldthing.png
-  const same = (row, n) => Array.from({ length: n }, () => row.slice());
+  const rep = (x, n) => Array.from({ length: n }, () => (Array.isArray(x) ? x.slice() : Object.assign({}, x)));
 
   EF.VIEWS = {
     // ===== 로즈메리 · 클로버의 집 =====
-    'v-desk': { title: '책상 위 노트', kind: 'doc', paper: 'note',
-      rows: ['오늘도 광장의 시계를 올려다보았다.', '벨라의 가게에 들렀다.', '도서관은 닫혀 있었다.', '……', ''],
-      caption: '쓴 기억이 없는 글씨가, 내 손 모양을 하고 있다.' },
-    'v-drawer': { title: '서랍 속 메모', kind: 'pins', paper: 'drawer',
-      items: same(['오늘: 광장 → 잡화점 → 집'], 6).map(x => x[0]),
-      caption: '같은 하루가 여러 번 접혀 있다.' },
-    'v-mirror': { title: '거울', kind: 'pic', icon: '🪞', tone: ['#f4e4d4', '#b9a38c'],
-      caption: '거울 속의 나는 반 박자 늦게 웃는다.' },
+    'v-desk':   { kind: 'doc', paper: 'note', rows: ['🕰️ ✔', '🛒 ✔', '📚 ✖', '', ''] },             // 내 손글씨 같은데 쓴 기억이 없는 하루
+    'v-drawer': { kind: 'pins', paper: 'drawer', items: rep({ text: '🕰️ → 🛒 → 🏠' }, 8) },        // 같은 하루가 여러 장
+    'v-mirror': { kind: 'pic', icon: '🪞', tone: ['#f4e4d4', '#b9a38c'] },
 
     // ===== 로즈메리 · 광장 =====
-    'v-clock': { title: '시계탑', kind: 'clock', h: 11, m: 59,
-      caption: '바늘은 한 방향으로만 걷는다. 그런데 어디에도 닿지 않는다.' },
-    'v-board': { title: '게시판', kind: 'pins', paper: 'cork',
-      items: ['공지 — 내일 광장 청소가 있습니다.', '공지 — 내일 광장 청소가 있습니다.'],
-      caption: '떼어 낸 자리에, 같은 종이가 다시 자란다.' },
+    'v-clock':  { kind: 'clock', h: 11, m: 59 },                                                   // 11:59 · 시계 방향
+    'v-board':  { kind: 'pins', paper: 'cork', items: rep({ icon: '🧹', mark: '▲' }, 2) },          // ▲ = 2
 
     // ===== 로즈메리 · 도서관 =====
-    'v-libnotice': { title: '출입 제한 안내문', kind: 'doc', paper: 'sign',
-      rows: ['도서관 출입은', '사서가 허락한 사람에 한함'],
-      caption: '문은 열려 있는데, 들어갈 수 없다.' },
-    'v-book': { title: '「나이테 읽는 법」', kind: 'doc', paper: 'book', head: '나이테 읽는 법',
-      rows: ['나이테 선반은 바깥 링부터 읽는다.', '시계의 숫자는 분이 먼저, 시가 나중이다.'],
-      caption: '같은 제목의 책들이 서로를 베껴 쓰고 있다.' },
-    'v-ledger': { title: '대출 장부', kind: 'doc', paper: 'ledger', cols: ['날짜', '이름', '책', '비고'],
-      rows: same(['봄 3일', '하나', '「첫 번째 하루」', '처음 대출'], 4),
-      caption: '없는 사람의 손이, 같은 책을 계속 처음 빌려 간다.' },
-    'v-record': { title: '복원된 기록', kind: 'doc', paper: 'note', head: '하루의 순서',
-      rows: ['아침 → 낮 → 저녁 → 밤,', '그리고 다시 밤.'],
-      caption: '조각난 하루가 다시 붙었다.' },
-    'v-archivebox': { title: '보관함', kind: 'pic', icon: '🗃️', tone: ['#b9ad99', '#6f5a48'],
-      caption: '비어 있는 칸들이 무언가의 모양을 기억하고 있다.' },
-    'v-journal': { title: '관찰일지', kind: 'doc', paper: 'book', head: '관찰일지 — 내일',
-      rows: ['클로버, 광장에서 시계를 올려다봄.', '클로버, 잡화점 장부를 넘겨 봄.', '클로버, 이 일지를 펼침.'],
-      caption: '아직 오지 않은 하루가 이미 적혀 있다.' },
-    'v-oldrec': { title: '오래된 기록', kind: 'doc', paper: 'book', head: 'p. 2737',
-      rows: ['같은 날.', '같은 날.', '같은 날.', '같은 날.', '같은 날.'],
-      caption: '가장 오래된 장에도, 오늘이 적혀 있다.' },
+    'v-libnotice': { kind: 'doc', paper: 'sign', rows: ['📚 🚫', '🔑 👤'] },
+    'v-book':      { kind: 'ringguide' },                                                          // 바깥 링부터 · 분(긴 바늘) 먼저
+    'v-ledger':    { kind: 'doc', paper: 'ledger', cols: ['📅', '👤', '📕'], rows: rep(['봄 3일', '하나', '첫 번째 하루'], 5) },
+    'v-record':    { kind: 'strip', items: ['🌅', '☀️', '🌇', '🌙', '🌙'] },                       // 하루의 순서 + 다시 밤
+    'v-archivebox': { kind: 'pic', icon: '🗃️', tone: ['#b9ad99', '#6f5a48'] },
+    'v-journal':   { kind: 'doc', paper: 'book', head: '📅 +1', rows: ['🧑 🕰️', '🧑 📖', '🧑 📓 👁️'] },  // 내일의 클로버
+    'v-oldrec':    { kind: 'pins', paper: 'drawer', items: rep({ icon: '📅', text: '봄 3일' }, 10) },
 
     // ===== 로즈메리 · 벨라의 잡화점 =====
-    'v-display': { title: '진열대', kind: 'pic', icon: '🧺', tone: ['#f1ddc0', '#b98f6a'],
-      caption: '먼지가 내려앉지 못하는 자리가 있다.' },
-    'v-shopledger': { title: '잡화점 장부', kind: 'doc', paper: 'ledger', cols: ['날짜', '품목', '수량'],
-      rows: [['봄 3일', '밀가루', '2봉'], ['봄 3일', '등잔 기름', '1병'], ['봄 3일', '실 한 타래', '1'], ['봄 3일', '밀가루', '2봉']],
-      foot: '우편 마차 도착 6:20' },
+    'v-display':    { kind: 'pic', icon: '🧺', tone: ['#f1ddc0', '#b98f6a'] },
+    'v-shopledger': { kind: 'doc', paper: 'ledger', cols: ['📅', '📦', '#'],
+      rows: [['봄 3일', '🌾', '2'], ['봄 3일', '🪔', '1'], ['봄 3일', '🧶', '1'], ['봄 3일', '🌾', '2']], foot: '🐴 ✉️  6:20' },
 
     // ===== 글렌위버 =====
-    'v-birdhouse': { title: '새집 장치', kind: 'pic', icon: '🐦', tone: ['#cfd9ee', '#8c8f7a'],
-      caption: '톱니는 앞으로 가는 척, 같은 자리로 돌아온다.' },
-    'v-shiftlog': { title: '주야 교대 기록', kind: 'doc', paper: 'ledger', head: '주야 교대 기록',
-      cols: ['날짜', '새벽', '한낮', '노을', '밤', '확인'],
-      rows: same(['봄 3일', '05:12:00', '11:59:00', '17:44:00', '23:59:00', '✓'], 7) },
-    'v-shelf': { title: '회전 선반', kind: 'pic', icon: '🌀', tone: ['#e8d8b4', '#9b7b52'],
-      caption: '나이테는 더 늘어나지 않는다.' },
-    'v-oldthing': { title: '오래된 물건', kind: 'pic', icon: '🪵', tone: ['#5a4630', '#2e2418'] },
-    'v-cloak': { title: '망토 완성 도안', kind: 'pattern', rows: ['☀️', '🕰️', '🌊'],
-      caption: '계절은 바뀌는데, 수놓인 하늘은 그대로다.' },
-    'v-workbench': { title: '작업대', kind: 'steps', total: 10, done: 7,
-      caption: '바늘은 같은 땀에서 언제나 멈춘다.' },
-    'v-registry': { title: '세 마을 주민 명부', kind: 'doc', paper: 'ledger', cols: ['로즈메리', '글렌위버', '루미나리아'],
-      rows: [['클로버', '오크스', '노아'], ['벨라', '시에나', '루루'], ['아리아', '마렌', '로완'], ['토비', '페넬', '']] },
+    'v-birdhouse': { kind: 'pic', icon: '🐦', tone: ['#cfd9ee', '#8c8f7a'] },
+    'v-shiftlog':  { kind: 'doc', paper: 'ledger', cols: ['📅', '🌅', '☀️', '🌇', '🌙', '✓'],
+      rows: rep(['봄 3일', '05:12:00', '11:59:00', '17:44:00', '23:59:00', '✓'], 7) },             // 7일 내내 같은 날, 같은 초
+    'v-shelf':     { kind: 'pic', icon: '🌀', tone: ['#e8d8b4', '#9b7b52'] },
+    'v-oldthing':  { kind: 'pic', icon: '🪵', tone: ['#5a4630', '#2e2418'] },                       // 그림만
+    'v-cloak':     { kind: 'pattern', rows: ['☀️', '🕰️', '🌊'] },                                   // 위 해 · 가운데 시계탑 · 아래 물결
+    'v-workbench': { kind: 'steps', total: 10, done: 7, mark: '★' },                                // ★ = 7
+    'v-registry':  { kind: 'doc', paper: 'ledger', cols: ['🌿', '🍂', '🐚'],
+      rows: [['클로버', '오크스', '노아'], ['벨라', '시에나', '루루'], ['아리아', '마렌', '로완'], ['토비', '페넬', '']] }, // '하나' 없음
 
     // ===== 루미나리아 =====
-    'v-mailbox': { title: '우편함', kind: 'stack', icon: '✉️', count: 3,
-      caption: '보낸 사람 없는 편지가, 매일 같은 무게로 돌아온다.' },
-    'v-letter': { title: '편지', kind: 'doc', paper: 'note', head: '클로버에게,',
-      rows: ['……', '(나머지는 번져서 읽을 수 없다)'], foot: '소인 ▒▒▒▒' },
-    'v-glassart': { title: '유리 작품', kind: 'pic', icon: '🔮', tone: ['#e9e4f4', '#9f93bd'],
-      caption: '유리 속 마을은 이쪽보다 조금 늦게 움직인다.' },
-    'v-atelier': { title: '이어 붙인 유리', kind: 'pic', icon: '🪟', tone: ['#c8b8e8', '#5a6a9a'],
-      caption: '아무도 보지 않는 장면.' },
-    'v-menu': { title: '메뉴판', kind: 'doc', paper: 'sign', head: '오늘의 메뉴',
-      rows: ['해파리 젤리 소다', '진주 크림 파이'], foot: '(어제의 메뉴)',
-      caption: '고르기도 전에, 이미 골라져 있다.' },
-    'v-jelly': { title: '해파리 조명', kind: 'lights', colors: ['#5b8fd9', '#e59ac0', '#e8c547', '#5fb37a'],
-      caption: '빛이 손님보다 한 걸음 먼저 도착한다.' },
-    'v-pier': { title: '선착장', kind: 'pic', icon: '👣', tone: ['#cfe6f2', '#9ec6dc'],
-      caption: '발자국은 늘 같은 깊이로 패여 있다.' },
-    'v-sign': { title: '항구 표지판', kind: 'doc', paper: 'sign', head: '루미나리아 항구',
-      rows: ['입항 4:17', '오늘도 정시에 들어옵니다.'] }
+    'v-mailbox':  { kind: 'stack', icon: '✉️', count: 3, mark: '●' },                               // ● = 3
+    'v-letter':   { kind: 'doc', paper: 'note', head: '클로버에게,', rows: ['', '', '', ''], blur: true, foot: '▒▒▒▒' },
+    'v-glassart': { kind: 'pic', icon: '🔮', tone: ['#e9e4f4', '#9f93bd'] },
+    'v-atelier':  { kind: 'pic', icon: '🪟', tone: ['#c8b8e8', '#5a6a9a'] },
+    'v-menu':     { kind: 'doc', paper: 'sign', cols: ['📅 −1', '📅'], rows: [['🍹', '🍹'], ['🥧', '🥧']] }, // 어제 = 오늘
+    'v-jelly':    { kind: 'lights', colors: ['#5b8fd9', '#e59ac0', '#e8c547', '#5fb37a'] },          // 파랑 → 분홍 → 노랑 → 초록
+    'v-pier':     { kind: 'pic', icon: '👣', tone: ['#cfe6f2', '#9ec6dc'] },
+    'v-sign':     { kind: 'doc', paper: 'sign', rows: ['⚓ 루미나리아', '⛴️ 4:17'] }                   // 입항 4:17
   };
 })();
 
@@ -714,7 +701,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 /* 장면 + 핫스팟 + 규칙.
    - 좌표는 1280x720 기준 px. (x,y,w,h)
    - 핫스팟 rules 는 위에서부터 검사해 "처음 통과한 규칙"의 do 를 실행한다.
-   - 조사(inspect)를 누르면 크롭 창(views.js 의 view)이 열린다. 직접 설명하는 글상자는 쓰지 않는다.
+   - 조사(inspect)를 누르면 그 물건의 클로즈업 장면(views.js 의 view)이 열린다. 글로 설명하지 않는다.
    - 아직 상호작용할 수 없는 것(단계 미달·잠김)은 글 없이 화면이 살짝 흔들린다(shake).
    - temp:true 는 임시 요소(힌트 표시를 켜면 점선으로 보임).
    - 배경 이미지는 assets/bg/<장면ID>.png 를 넣고 EF.BG_IMAGES 에 ID 를 적으면 적용된다. */
@@ -739,10 +726,10 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
     if (o.lock) return { if: [{ not: o.lock }], do: SHAKE };
     return null;
   };
-  // 엔딩 이후: 같은 크롭 창이 열리지만 문장은 '고요'
-  const quiet = (view, icon) => [{ view: view || { kind: 'pic', icon }, caption: TX.endedInspect }];
+  // 엔딩 이후: 같은 클로즈업이 열리지만 색이 빠져 있다(모든 것이 멈춘 듯 고요)
+  const quiet = (view, icon) => [{ view: view || { kind: 'pic', icon } }];
 
-  // 조사: 크롭 창을 연다. grant 가 있으면 첫 클릭에 증거를 조용히 등록한다.
+  // 조사: 클로즈업을 연다. grant 가 있으면 첫 클릭에 증거를 조용히 등록한다.
   function inspect(id, label, icon, box, o) {
     const r = [], lk = lockRule(o), v = [{ view: o.view }];
     if (lk) r.push(lk);
@@ -754,7 +741,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
     return hs('inspect', id, label, icon, box, r, { temp: o.temp !== false, showIf: o.showIf });
   }
 
-  // 퍼즐: 풀고 나면 view(풀린 모습)를 크롭 창으로 다시 볼 수 있다.
+  // 퍼즐: 풀고 나면 view(풀린 모습)를 클로즈업으로 다시 볼 수 있다.
   function puzzle(id, label, icon, box, pid, o = {}) {
     const r = [], lk = lockRule(o);
     if (lk) r.push(lk);
@@ -1040,7 +1027,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 <script>
 /* 규칙 엔진. 화면과 무관하게 state 를 바꾸고, 보여줄 것은 queue 로 돌려준다.
    action: go view shake text say toast grant puzzle flag deduce
-   view: 크롭 창 열기(views.js 의 ID 또는 즉석 객체, caption 덮어쓰기 가능) / shake: 상호작용 불가 → 화면만 흔들림
+   view: 클로즈업 열기(views.js 의 ID 또는 즉석 객체) / shake: 상호작용 불가 → 화면만 흔들림
    5단계(엔딩) 이후에는 grant puzzle flag deduce 가 차단된다. */
 (function () {
   const EF = window.EF;
@@ -1054,7 +1041,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
       if (EF.isEnded() && BLOCKED.includes(key)) { blocked = true; continue; }
       switch (key) {
         case 'go': s.scene = a.go; break;
-        case 'view': q.push({ t: 'view', view: a.view, caption: a.caption }); break;
+        case 'view': q.push({ t: 'view', view: a.view }); break;
         case 'shake': q.push({ t: 'shake' }); break;
         case 'text': q.push({ t: 'text', text: a.text, note: a.note, who: a.who }); break;
         case 'say': q.push({ t: 'say', npc: a.say, ctx: a.ctx }); break;
@@ -1114,7 +1101,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   EF.solvePuzzle = function (pid) {
     const q = [], before = EF.getStage(), p = EF.PUZZLES[pid];
     EF.state.solved[pid] = true;
-    if (p.success) q.push(p.view ? { t: 'view', view: p.view, caption: p.success } : { t: 'text', text: p.success });
+    if (p.success) q.push(p.view ? { t: 'view', view: p.view } : { t: 'text', text: p.success });
     EF.exec(p.onSolve || [], q);
     EF.afterStage(before, q);
     return q;
@@ -1654,12 +1641,20 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
 </script>
 <script>
-/* 크롭 창(클로즈업). 조사 요소를 누르면 옛날 사이트의 작은 팝업 창처럼 열려,
-   그 요소를 가까이 본 그림(또는 종이·표)과 짧은 은유 한 줄을 보여 준다.
-   닫기: × / 창 바깥 클릭 / Esc·Enter·Space. 그림 데이터는 src/data/views.js. */
+/* 클로즈업 장면. 조사 요소를 누르면 그림 창 전체가 그 물건을 가까이 본 장면으로 바뀐다.
+   글로 설명하지 않는다(제목·설명 문장 없음). 힌트는 그림 속 사물로만 보인다.
+   돌아가기: 장면과 똑같이 그림 하단(▼ 띠)을 클릭. 키보드는 Esc.
+   그림 데이터는 src/data/views.js. */
 (function () {
   const EF = window.EF, UI = EF.UI, h = EF.h;
   const NS = 'http://www.w3.org/2000/svg';
+  const svgEl = (svg, tag, at, text) => {
+    const e = document.createElementNS(NS, tag);
+    for (const k in at) e.setAttribute(k, at[k]);
+    if (text !== undefined) e.textContent = text;
+    svg.append(e); return e;
+  };
+  const newSvg = (w, hh) => { const s = document.createElementNS(NS, 'svg'); s.setAttribute('viewBox', `0 0 ${w} ${hh}`); return s; };
   const R = {}; // kind 별 그리기
 
   R.pic = (v, id) => {
@@ -1671,39 +1666,52 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
       const [a, b] = v.tone || ['#e9e4dc', '#9c9284'];
       box.style.background = `radial-gradient(ellipse at 50% 45%, ${a} 0%, ${b} 100%)`;
       box.append(h('div', 'cv-icon', v.icon || '?'));
-      if (id) box.append(h('div', 'cv-tag', `크롭 이미지 자리 · assets/view/${id}.png`));
+      if (id) box.append(h('div', 'cv-tag', `임시 그림 · assets/view/${id}.png`));
     }
     return box;
   };
 
   R.doc = v => {
-    const box = h('div', 'cv-doc paper-' + (v.paper || 'note'));
-    if (v.head) box.append(h('div', 'd-head', v.head));
+    const box = h('div', 'cv-doc paper-' + (v.paper || 'note') + (v.blur ? ' blur' : ''));
+    const sheet = h('div', 'd-sheet');
+    if (v.head) sheet.append(h('div', 'd-head', v.head));
     if (v.cols || v.rows.some(Array.isArray)) {
       const t = h('table', 'd-table');
       if (v.cols) { const tr = h('tr'); v.cols.forEach(c => tr.append(h('th', '', c))); t.append(tr); }
       v.rows.forEach(r => { const tr = h('tr'); [].concat(r).forEach(c => tr.append(h('td', '', c))); t.append(tr); });
-      box.append(t);
-    } else v.rows.forEach(r => box.append(h('p', 'd-line', r || ' ')));
-    if (v.foot) box.append(h('div', 'd-foot', v.foot));
+      sheet.append(t);
+    } else v.rows.forEach(r => sheet.append(h('p', 'd-line', r || ' ')));
+    if (v.foot) sheet.append(h('div', 'd-foot', v.foot));
+    box.append(sheet);
+    return box;
+  };
+
+  R.strip = v => {
+    const box = h('div', 'cv-strip');
+    const sheet = h('div', 'st-sheet');
+    v.items.forEach((icon, i) => { if (i) sheet.append(h('span', 'st-arrow', '→')); sheet.append(h('span', 'st-icon', icon)); });
+    box.append(sheet);
     return box;
   };
 
   R.clock = v => {
     const box = h('div', 'cv-clock');
-    const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', '0 0 200 200');
-    const el = (tag, at) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); svg.append(e); return e; };
-    el('circle', { cx: 100, cy: 100, r: 94, class: 'ck-rim' });
+    const svg = newSvg(200, 200);
+    svgEl(svg, 'circle', { cx: 100, cy: 100, r: 94, class: 'ck-rim' });
     for (let i = 0; i < 60; i++) {
       const a = i * Math.PI / 30, r1 = i % 5 ? 86 : 80;
-      el('line', { x1: 100 + r1 * Math.sin(a), y1: 100 - r1 * Math.cos(a), x2: 100 + 90 * Math.sin(a), y2: 100 - 90 * Math.cos(a), class: i % 5 ? 'ck-tick' : 'ck-tick big' });
+      svgEl(svg, 'line', { x1: 100 + r1 * Math.sin(a), y1: 100 - r1 * Math.cos(a), x2: 100 + 90 * Math.sin(a), y2: 100 - 90 * Math.cos(a), class: i % 5 ? 'ck-tick' : 'ck-tick big' });
     }
     ['XII', 'III', 'VI', 'IX'].forEach((n, i) => {
-      const a = i * Math.PI / 2, t = el('text', { x: 100 + 66 * Math.sin(a), y: 100 - 66 * Math.cos(a) + 7, class: 'ck-num' }); t.textContent = n;
+      const a = i * Math.PI / 2;
+      svgEl(svg, 'text', { x: 100 + 66 * Math.sin(a), y: 100 - 66 * Math.cos(a) + 7, class: 'ck-num' }, n);
     });
-    el('line', { x1: 100, y1: 100, x2: 100, y2: 50, class: 'ck-h', transform: `rotate(${(v.h % 12) * 30 + v.m / 2} 100 100)` });
-    el('line', { x1: 100, y1: 108, x2: 100, y2: 22, class: 'ck-m', transform: `rotate(${v.m * 6} 100 100)` });
-    el('circle', { cx: 100, cy: 100, r: 5, class: 'ck-pin' });
+    // 시계 방향 표시(바늘은 늘 이 방향으로만 돈다)
+    svgEl(svg, 'path', { d: 'M 128 30 A 76 76 0 0 1 170 72', class: 'ck-dir' });
+    svgEl(svg, 'path', { d: 'M 170 72 l -9 -2 m 9 2 l 1 -9', class: 'ck-dir' });
+    svgEl(svg, 'line', { x1: 100, y1: 100, x2: 100, y2: 50, class: 'ck-h', transform: `rotate(${(v.h % 12) * 30 + v.m / 2} 100 100)` });
+    svgEl(svg, 'line', { x1: 100, y1: 108, x2: 100, y2: 22, class: 'ck-m', transform: `rotate(${v.m * 6} 100 100)` });
+    svgEl(svg, 'circle', { cx: 100, cy: 100, r: 5, class: 'ck-pin' });
     box.append(svg);
     return box;
   };
@@ -1728,6 +1736,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   R.steps = v => {
     const box = h('div', 'cv-steps');
     const row = h('div', 's-row');
+    if (v.mark) row.append(h('div', 's-tag', v.mark));
     for (let i = 1; i <= v.total; i++) {
       const d = h('div', 's-dot' + (i < v.done ? ' done' : i === v.done ? ' stop' : ''), i <= v.done ? String(i) : '');
       if (i === v.done) d.append(h('span', 's-needle', '🪡'));
@@ -1739,9 +1748,12 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   R.pins = v => {
     const box = h('div', 'cv-pins paper-' + (v.paper || 'cork'));
-    v.items.forEach((t, i) => {
-      const n = h('div', 'pin-note', t);
-      n.style.transform = `rotate(${[-3, 2, -1, 3, -2, 1][i % 6]}deg)`;
+    v.items.forEach((it, i) => {
+      const n = h('div', 'pin-note');
+      if (it.icon) n.append(h('div', 'pn-icon', it.icon));
+      if (it.text) n.append(h('div', 'pn-text', it.text));
+      if (it.mark) n.append(h('div', 'pn-mark', it.mark));
+      n.style.transform = `rotate(${[-3, 2, -1, 3, -2, 1, -4, 2, 0, -2][i % 10]}deg)`;
       box.append(n);
     });
     return box;
@@ -1750,35 +1762,60 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   R.stack = v => {
     const box = h('div', 'cv-stack');
     for (let i = 0; i < v.count; i++) {
-      const s = h('div', 'st-item', v.icon);
-      s.style.transform = `translate(${i * 26 - (v.count - 1) * 13}px, ${i * -10}px) rotate(${(i - 1) * 6}deg)`;
+      const s = h('div', 'st-item');
+      s.append(h('span', 'si-icon', v.icon));
+      if (v.mark) s.append(h('span', 'si-mark', v.mark));
+      s.style.transform = `translate(${(i - (v.count - 1) / 2) * 230}px, ${Math.abs(i - (v.count - 1) / 2) * 18}px) rotate(${(i - 1) * 5}deg)`;
       box.append(s);
     }
     return box;
   };
 
-  // it: { view: 'v-…' | {kind…}, caption? }
+  // 「나이테 읽는 법」: 바깥 링부터 ①②③④, 시계는 긴 바늘(분) ① → 짧은 바늘(시) ②
+  R.ringguide = () => {
+    const box = h('div', 'cv-doc paper-book');
+    const svg = newSvg(900, 420); svg.setAttribute('class', 'rg-svg');
+    const rings = [175, 130, 85, 40];
+    rings.forEach(r => svgEl(svg, 'circle', { cx: 230, cy: 210, r, class: 'rg-ring' }));
+    // 번호는 오른쪽 아래 대각선 위에 바깥부터 1 2 3 4
+    rings.forEach((r, i) => {
+      const x = 230 + r * 0.707, y = 210 + r * 0.707;
+      svgEl(svg, 'circle', { cx: x, cy: y, r: 17, class: 'rg-badge' });
+      svgEl(svg, 'text', { x, y: y + 7, class: 'rg-num' }, String(i + 1));
+    });
+    // 바깥에서 안쪽으로 들어가는 화살표(왼쪽 위 대각선)
+    svgEl(svg, 'path', { d: 'M 60 40 L 190 170', class: 'rg-arrow' });
+    svgEl(svg, 'path', { d: 'M 172 170 L 192 172 L 190 152', class: 'rg-arrow' });
+    // 시계: 긴 바늘 ① 먼저, 짧은 바늘 ② 나중
+    svgEl(svg, 'circle', { cx: 660, cy: 210, r: 150, class: 'rg-clock' });
+    svgEl(svg, 'line', { x1: 660, y1: 210, x2: 790, y2: 150, class: 'rg-long' });
+    svgEl(svg, 'line', { x1: 660, y1: 210, x2: 600, y2: 290, class: 'rg-short' });
+    svgEl(svg, 'circle', { cx: 660, cy: 210, r: 7, class: 'rg-pin' });
+    svgEl(svg, 'circle', { cx: 800, cy: 122, r: 20, class: 'rg-badge' });
+    svgEl(svg, 'text', { x: 800, y: 129, class: 'rg-num' }, '1');
+    svgEl(svg, 'circle', { cx: 580, cy: 318, r: 20, class: 'rg-badge' });
+    svgEl(svg, 'text', { x: 580, y: 325, class: 'rg-num' }, '2');
+    box.append(svg);
+    return box;
+  };
+
+  // it: { view: 'v-…' | {kind…} }
   UI.showView = function (it, done) {
     const id = typeof it.view === 'string' ? it.view : null;
     const v = id ? EF.VIEWS[id] : (it.view || { kind: 'pic' });
-    if (!v) { console.warn('알 수 없는 크롭 창', it.view); done(); return; }
-    const caption = it.caption !== undefined ? it.caption : v.caption;
+    if (!v) { console.warn('알 수 없는 클로즈업', it.view); done(); return; }
 
-    const sc = h('div', 'scrim cscrim');
-    const win = h('div', 'cwin' + (EF.isEnded() ? ' quiet' : ''));
-    const bar = h('div', 'cbar');
-    const x = h('button', 'cx', '×'); x.title = '닫기';
-    bar.append(h('span', 'ctitle', v.title || ''), x);
-    const pane = h('div', 'cpane');
-    pane.append((R[v.kind] || R.pic)(v, id));
-    win.append(bar, pane);
-    if (caption) win.append(h('div', 'ccap', caption));
-    sc.append(win); UI.stage.append(sc);
+    const cu = h('div', 'closeup' + (EF.isEnded() ? ' quiet' : ''));
+    cu.dataset.view = id || '';
+    cu.append((R[v.kind] || R.pic)(v, id));
+    // 돌아가기: 장면과 같은 하단 띠 + ▼
+    const back = h('div', 'edge-back'); back.append(h('div', 'edge-arrow'));
+    cu.append(back);
+    UI.stage.append(cu);
 
-    const close = () => { sc.remove(); UI.dismiss = null; done(); };
-    x.onclick = e => { e.stopPropagation(); close(); };
-    sc.onclick = e => { if (e.target === sc) close(); };
-    UI.dismiss = close;
+    const close = () => { cu.remove(); UI.dismiss = null; UI.dismissEscOnly = false; done(); };
+    back.onclick = e => { e.stopPropagation(); close(); };
+    UI.dismiss = close; UI.dismissEscOnly = true; // 키보드는 Esc 만(Enter/Space 로는 안 닫힘)
   };
 })();
 
