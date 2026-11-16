@@ -350,3 +350,15 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   animation:arrowBob 1.8s ease-in-out infinite}
 .edge-back:hover .edge-arrow{opacity:1}
 @keyframes arrowBob{50%{transform:translateY(5px)}}
+
+/* 그림 위에 얹는 힌트(클로즈업 그림이 있을 때) */
+.closeup .on-img{background:transparent!important;flex:none}
+.closeup .on-img.bare .d-sheet,.closeup .on-img.bare .st-sheet{background:transparent!important;box-shadow:none;border:0;transform:none}
+.closeup .on-img .ck-rim,.closeup .on-img .ck-tick,.closeup .on-img .ck-num,.closeup .on-img .ck-dir{display:none}
+.closeup .on-img.cv-clock svg{width:100%;height:100%}
+.scene.err-img{filter:none!important}
+.scene.has-img .wm{display:none}
+/* 인물 크롭(임시) */
+.npc-cu{z-index:18;align-items:center;justify-content:center}
+.npc-ph{font-size:160px;font-weight:800;color:rgba(255,255,255,.55);margin-top:-160px;letter-spacing:.06em}
+.npc-cu .cv-tag{position:absolute;left:14px;top:12px;font-size:13px;color:rgba(255,255,255,.7);background:rgba(0,0,0,.25);padding:2px 8px;border-radius:4px}

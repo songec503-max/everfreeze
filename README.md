@@ -17,6 +17,12 @@
 - 아직 상호작용할 수 없는 것(단계 미달·잠긴 문·대면 전 작업대)은 글 없이 그림이 살짝 흔들린다.
 - 퍼즐을 풀면 풀린 모습의 클로즈업이 열린다 (`puzzles.js` 의 `view`). `success` 문장은 화면에 나오지 않는 기획 메모.
 
+## 그림 넣기
+- 프롬프트와 전체 목록: `docs/IMAGE_PROMPTS.md`
+- 배경 `assets/bg/<장면ID>.png` → `EF.BG_IMAGES` (scenes.js) · 오작동판 `<장면ID>_err.png` → `EF.BG_ERR_IMAGES` (4단계부터)
+- 클로즈업 `assets/view/<뷰ID>.png` → `EF.VIEW_IMAGES` (views.js). 퍼즐 단서 그림은 숫자·글·기호까지 그림에 그려 그대로 보여 주고, `overlay:true` 인 것(퍼즐과 무관)만 사이트가 그림 위에 글을 얹는다(`box`, `bare`)
+- 인물 크롭 `assets/npc/<인물ID>.png` → `EF.NPC_IMAGES` (npcs.js). 배경 속 인물을 누르면 이 그림이 뜨고 대화창이 위에 얹힌다
+
 ## 자주 하는 수정
 - 대사 교체: `npcs.js` 의 `lines: [{if:[조건], text:'…'}]` (없으면 "000과 대화")
 - 장소 소개말: `scenes.js` 각 장면의 `intro`

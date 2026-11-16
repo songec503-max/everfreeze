@@ -19,7 +19,16 @@
   };
 
   UI.showSay = function (it, done) {
-    const n = EF.NPCS[it.npc], sc = scrim(), box = h('div', 'textbox dialogue');
+    const n = EF.NPCS[it.npc];
+    // 인물 크롭: 배경 속 인물을 누르면 따로 그린 인물 그림이 그림 창 전체에 뜨고, 대화창이 그 위에 얹힌다
+    const cu = h('div', 'closeup npc-cu');
+    if (EF.NPC_IMAGES.includes(it.npc)) cu.style.background = `url(assets/npc/${it.npc}.png) center/cover no-repeat`;
+    else {
+      cu.style.background = `radial-gradient(ellipse at 50% 38%, ${n.color} 0%, #2b2638 85%)`;
+      cu.append(h('div', 'npc-ph', n.name), h('div', 'cv-tag', `임시 그림 · assets/npc/${it.npc}.png`));
+    }
+    UI.stage.append(cu);
+    const sc = scrim(), box = h('div', 'textbox dialogue');
     const por = h('div', 'portrait', n.name[0]); por.style.background = n.color;
     const head = h('div', 'dhead');
     head.append(h('b', '', n.name), h('span', 'role', n.role));
@@ -29,7 +38,7 @@
     const col = h('div', 'dcol'); col.append(head, body);
     box.append(por, col, btn);
     sc.append(box);
-    const close = () => closeWith(sc, done);
+    const close = () => { cu.remove(); closeWith(sc, done); };
     btn.onclick = e => { e.stopPropagation(); close(); };
     sc.onclick = e => { if (e.target === sc) close(); };
     UI.dismiss = close;

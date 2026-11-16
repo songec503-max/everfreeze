@@ -60,6 +60,8 @@
   // ---------- 장면 ----------
   // 배경 이미지를 넣은 장면 ID 를 여기에 적으면 assets/bg/<ID>.png 가 사용된다. 예: ['RM_HOME']
   EF.BG_IMAGES = [];
+  // 오작동 배경(선택): 4단계부터 assets/bg/<ID>_err.png 를 쓴다. 넣은 장면 ID 를 적는다. 없으면 CSS 색 효과만.
+  EF.BG_ERR_IMAGES = [];
 
   const S = (EF.SCENES = {});
   const add = s => (S[s.id] = s);
@@ -166,6 +168,8 @@
 
   add({
     id: 'RM_LIBRARY_ARCHIVE', name: '자료 보관실', kind: 'location', parent: 'RM_LIBRARY_READING', village: '로즈메리',
+    // 기록 조각 퍼즐을 풀면 비밀 통로가 열린 그림(assets/bg/RM_LIBRARY_ARCHIVE_open.png)으로 바뀐다
+    bgAlt: { if: [{ solved: 'P-ARCHIVE' }], id: 'RM_LIBRARY_ARCHIVE_open' },
     bg: room('#b9ad99', '#6f5a48'), intro: '오래된 자료가 잠든 곳. 공기가 차갑다.',
     hotspots: [
       puzzle('fragments', '기록 조각', '🧩', [150, 320, 240, 150], 'P-ARCHIVE'),

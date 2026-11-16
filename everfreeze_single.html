@@ -358,6 +358,18 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 .edge-back:hover .edge-arrow{opacity:1}
 @keyframes arrowBob{50%{transform:translateY(5px)}}
 
+/* 그림 위에 얹는 힌트(클로즈업 그림이 있을 때) */
+.closeup .on-img{background:transparent!important;flex:none}
+.closeup .on-img.bare .d-sheet,.closeup .on-img.bare .st-sheet{background:transparent!important;box-shadow:none;border:0;transform:none}
+.closeup .on-img .ck-rim,.closeup .on-img .ck-tick,.closeup .on-img .ck-num,.closeup .on-img .ck-dir{display:none}
+.closeup .on-img.cv-clock svg{width:100%;height:100%}
+.scene.err-img{filter:none!important}
+.scene.has-img .wm{display:none}
+/* 인물 크롭(임시) */
+.npc-cu{z-index:18;align-items:center;justify-content:center}
+.npc-ph{font-size:160px;font-weight:800;color:rgba(255,255,255,.55);margin-top:-160px;letter-spacing:.06em}
+.npc-cu .cv-tag{position:absolute;left:14px;top:12px;font-size:13px;color:rgba(255,255,255,.7);background:rgba(0,0,0,.25);padding:2px 8px;border-radius:4px}
+
 </style>
 </head>
 <body>
@@ -432,6 +444,8 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
    실제 대사가 정해지면 lines 에 추가만 하면 된다. */
 (function () {
   const EF = window.EF;
+  // 인물 크롭 그림: assets/npc/<인물ID>.png (1280×720). 넣은 인물 ID 를 여기에 적는다. 예: ['bella', 'noa']
+  EF.NPC_IMAGES = [];
   EF.NPCS = {
     resident: { name: '주민', role: '마을 주민', color: '#9aa7b8', lines: [] },
     // 벨라 = 예전 이름 "베라"(같은 인물). 올바른 이름은 벨라.
@@ -643,7 +657,10 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
      steps      바느질 단계(total 중 done 에서 멈춤, mark = 붙은 표시)
      pins       붙은 종이들(items: {icon, text, mark})
      stack      겹친 물건(icon, count, mark)
-     ringguide  「나이테 읽는 법」 그림(바깥 링부터, 긴 바늘 먼저) */
+     ringguide  「나이테 읽는 법」 그림(바깥 링부터, 긴 바늘 먼저)
+   그림 파일이 있으면(EF.VIEW_IMAGES):
+     - 퍼즐 단서 그림(기본): 숫자·글·기호까지 그림에 직접 그려져 있으므로 그림만 보여 준다.
+     - overlay:true (퍼즐과 무관한 그림): 글 없는 바탕 그림 위에 아래 내용을 얹는다(box, bare 로 위치 조정). */
 (function () {
   const EF = window.EF;
   EF.VIEW_IMAGES = []; // 예: ['v-oldthing'] → assets/view/v-oldthing.png
@@ -651,8 +668,8 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   EF.VIEWS = {
     // ===== 로즈메리 · 클로버의 집 =====
-    'v-desk':   { kind: 'doc', paper: 'note', rows: ['🕰️ ✔', '🛒 ✔', '📚 ✖', '', ''] },             // 내 손글씨 같은데 쓴 기억이 없는 하루
-    'v-drawer': { kind: 'pins', paper: 'drawer', items: rep({ text: '🕰️ → 🛒 → 🏠' }, 8) },        // 같은 하루가 여러 장
+    'v-desk':   { overlay: true, kind: 'doc', paper: 'note', rows: ['🕰️ ✔', '🛒 ✔', '📚 ✖', '', ''] },             // 내 손글씨 같은데 쓴 기억이 없는 하루
+    'v-drawer': { overlay: true, kind: 'pins', paper: 'drawer', items: rep({ text: '🕰️ → 🛒 → 🏠' }, 8) },        // 같은 하루가 여러 장
     'v-mirror': { kind: 'pic', icon: '🪞', tone: ['#f4e4d4', '#b9a38c'] },
 
     // ===== 로즈메리 · 광장 =====
@@ -660,13 +677,13 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
     'v-board':  { kind: 'pins', paper: 'cork', items: rep({ icon: '🧹', mark: '▲' }, 2) },          // ▲ = 2
 
     // ===== 로즈메리 · 도서관 =====
-    'v-libnotice': { kind: 'doc', paper: 'sign', rows: ['📚 🚫', '🔑 👤'] },
+    'v-libnotice': { overlay: true, kind: 'doc', paper: 'sign', rows: ['📚 🚫', '🔑 👤'] },
     'v-book':      { kind: 'ringguide' },                                                          // 바깥 링부터 · 분(긴 바늘) 먼저
     'v-ledger':    { kind: 'doc', paper: 'ledger', cols: ['📅', '👤', '📕'], rows: rep(['봄 3일', '하나', '첫 번째 하루'], 5) },
     'v-record':    { kind: 'strip', items: ['🌅', '☀️', '🌇', '🌙', '🌙'] },                       // 하루의 순서 + 다시 밤
     'v-archivebox': { kind: 'pic', icon: '🗃️', tone: ['#b9ad99', '#6f5a48'] },
-    'v-journal':   { kind: 'doc', paper: 'book', head: '📅 +1', rows: ['🧑 🕰️', '🧑 📖', '🧑 📓 👁️'] },  // 내일의 클로버
-    'v-oldrec':    { kind: 'pins', paper: 'drawer', items: rep({ icon: '📅', text: '봄 3일' }, 10) },
+    'v-journal':   { overlay: true, kind: 'doc', paper: 'book', head: '📅 +1', rows: ['🧑 🕰️', '🧑 📖', '🧑 📓 👁️'] },  // 내일의 클로버
+    'v-oldrec':    { overlay: true, kind: 'pins', paper: 'drawer', items: rep({ icon: '📅', text: '봄 3일' }, 10) },
 
     // ===== 로즈메리 · 벨라의 잡화점 =====
     'v-display':    { kind: 'pic', icon: '🧺', tone: ['#f1ddc0', '#b98f6a'] },
@@ -686,10 +703,10 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
     // ===== 루미나리아 =====
     'v-mailbox':  { kind: 'stack', icon: '✉️', count: 3, mark: '●' },                               // ● = 3
-    'v-letter':   { kind: 'doc', paper: 'note', head: '클로버에게,', rows: ['', '', '', ''], blur: true, foot: '▒▒▒▒' },
+    'v-letter':   { overlay: true, kind: 'doc', paper: 'note', head: '클로버에게,', rows: ['', '', '', ''], blur: true, foot: '▒▒▒▒' },
     'v-glassart': { kind: 'pic', icon: '🔮', tone: ['#e9e4f4', '#9f93bd'] },
     'v-atelier':  { kind: 'pic', icon: '🪟', tone: ['#c8b8e8', '#5a6a9a'] },
-    'v-menu':     { kind: 'doc', paper: 'sign', cols: ['📅 −1', '📅'], rows: [['🍹', '🍹'], ['🥧', '🥧']] }, // 어제 = 오늘
+    'v-menu':     { overlay: true, kind: 'doc', paper: 'sign', cols: ['📅 −1', '📅'], rows: [['🍹', '🍹'], ['🥧', '🥧']] }, // 어제 = 오늘
     'v-jelly':    { kind: 'lights', colors: ['#5b8fd9', '#e59ac0', '#e8c547', '#5fb37a'] },          // 파랑 → 분홍 → 노랑 → 초록
     'v-pier':     { kind: 'pic', icon: '👣', tone: ['#cfe6f2', '#9ec6dc'] },
     'v-sign':     { kind: 'doc', paper: 'sign', rows: ['⚓ 루미나리아', '⛴️ 4:17'] }                   // 입항 4:17
@@ -760,6 +777,8 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   // ---------- 장면 ----------
   // 배경 이미지를 넣은 장면 ID 를 여기에 적으면 assets/bg/<ID>.png 가 사용된다. 예: ['RM_HOME']
   EF.BG_IMAGES = [];
+  // 오작동 배경(선택): 4단계부터 assets/bg/<ID>_err.png 를 쓴다. 넣은 장면 ID 를 적는다. 없으면 CSS 색 효과만.
+  EF.BG_ERR_IMAGES = [];
 
   const S = (EF.SCENES = {});
   const add = s => (S[s.id] = s);
@@ -866,6 +885,8 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'RM_LIBRARY_ARCHIVE', name: '자료 보관실', kind: 'location', parent: 'RM_LIBRARY_READING', village: '로즈메리',
+    // 기록 조각 퍼즐을 풀면 비밀 통로가 열린 그림(assets/bg/RM_LIBRARY_ARCHIVE_open.png)으로 바뀐다
+    bgAlt: { if: [{ solved: 'P-ARCHIVE' }], id: 'RM_LIBRARY_ARCHIVE_open' },
     bg: room('#b9ad99', '#6f5a48'), intro: '오래된 자료가 잠든 곳. 공기가 차갑다.',
     hotspots: [
       puzzle('fragments', '기록 조각', '🧩', [150, 320, 240, 150], 'P-ARCHIVE'),
@@ -1224,8 +1245,13 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
     firstRender = false;
     document.title = `${sc.name} · EVERFREEZE`;
     stage.dataset.stage = stg; document.body.dataset.stage = stg;
-    const img = EF.BG_IMAGES.includes(sc.id) ? `url(assets/bg/${sc.id}.png) center/cover no-repeat, ` : '';
+    const bgId = sc.bgAlt && EF.check(sc.bgAlt.if) ? sc.bgAlt.id : sc.id; // 상태에 따라 바뀌는 그림(예: 비밀 통로 열림)
+    const err = stg >= 4 && EF.BG_ERR_IMAGES.includes(bgId);
+    const img = err ? `url(assets/bg/${bgId}_err.png) center/cover no-repeat, `
+      : EF.BG_IMAGES.includes(bgId) ? `url(assets/bg/${bgId}.png) center/cover no-repeat, ` : '';
     sceneEl.style.background = img + sc.bg;
+    sceneEl.classList.toggle('err-img', err); // 오작동 그림이 있으면 CSS 색 효과는 끈다
+    sceneEl.classList.toggle('has-img', !!img); // 그림이 있으면 '배경 이미지 자리' 글씨를 숨긴다
     wm.textContent = sc.name;
 
     // 사이트 틀: 문구(단계에 따라 변화) · 페이지 설명
@@ -1536,7 +1562,16 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   };
 
   UI.showSay = function (it, done) {
-    const n = EF.NPCS[it.npc], sc = scrim(), box = h('div', 'textbox dialogue');
+    const n = EF.NPCS[it.npc];
+    // 인물 크롭: 배경 속 인물을 누르면 따로 그린 인물 그림이 그림 창 전체에 뜨고, 대화창이 그 위에 얹힌다
+    const cu = h('div', 'closeup npc-cu');
+    if (EF.NPC_IMAGES.includes(it.npc)) cu.style.background = `url(assets/npc/${it.npc}.png) center/cover no-repeat`;
+    else {
+      cu.style.background = `radial-gradient(ellipse at 50% 38%, ${n.color} 0%, #2b2638 85%)`;
+      cu.append(h('div', 'npc-ph', n.name), h('div', 'cv-tag', `임시 그림 · assets/npc/${it.npc}.png`));
+    }
+    UI.stage.append(cu);
+    const sc = scrim(), box = h('div', 'textbox dialogue');
     const por = h('div', 'portrait', n.name[0]); por.style.background = n.color;
     const head = h('div', 'dhead');
     head.append(h('b', '', n.name), h('span', 'role', n.role));
@@ -1546,7 +1581,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
     const col = h('div', 'dcol'); col.append(head, body);
     box.append(por, col, btn);
     sc.append(box);
-    const close = () => closeWith(sc, done);
+    const close = () => { cu.remove(); closeWith(sc, done); };
     btn.onclick = e => { e.stopPropagation(); close(); };
     sc.onclick = e => { if (e.target === sc) close(); };
     UI.dismiss = close;
@@ -1800,6 +1835,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   };
 
   // it: { view: 'v-…' | {kind…} }
+  //   그림 파일: assets/view/<ID>.png (EF.VIEW_IMAGES 에 등록). 기본은 그림 그대로, overlay:true 인 것만 그림 위에 글을 얹는다.
   UI.showView = function (it, done) {
     const id = typeof it.view === 'string' ? it.view : null;
     const v = id ? EF.VIEWS[id] : (it.view || { kind: 'pic' });
@@ -1807,7 +1843,19 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
     const cu = h('div', 'closeup' + (EF.isEnded() ? ' quiet' : ''));
     cu.dataset.view = id || '';
-    cu.append((R[v.kind] || R.pic)(v, id));
+    const hasImg = id && EF.VIEW_IMAGES.includes(id);
+    // 그림이 있을 때:
+    //  - 기본(퍼즐 단서 그림): 글자·숫자·기호까지 그림에 그려져 있으므로 그림만 보여 준다.
+    //  - overlay:true(퍼즐과 무관한 그림): 글 없는 바탕 그림 위 box 영역에 글을 얹는다. bare:true 면 종이 바탕도 뺀다.
+    const content = hasImg && !v.overlay ? R.pic({}, id) : (R[v.kind] || R.pic)(v, id);
+    if (hasImg && v.overlay && v.kind !== 'pic') {
+      cu.style.background = `url(assets/view/${id}.png) center/cover no-repeat`;
+      content.classList.add('on-img');
+      if (v.bare) content.classList.add('bare');
+      const b = v.box || [240, 110, 800, 500];
+      Object.assign(content.style, { position: 'absolute', left: b[0] + 'px', top: b[1] + 'px', width: b[2] + 'px', height: b[3] + 'px' });
+    }
+    cu.append(content);
     // 돌아가기: 장면과 같은 하단 띠 + ▼
     const back = h('div', 'edge-back'); back.append(h('div', 'edge-arrow'));
     cu.append(back);

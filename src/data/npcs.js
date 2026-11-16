@@ -2,6 +2,8 @@
    실제 대사가 정해지면 lines 에 추가만 하면 된다. */
 (function () {
   const EF = window.EF;
+  // 인물 크롭 그림: assets/npc/<인물ID>.png (1280×720). 넣은 인물 ID 를 여기에 적는다. 예: ['bella', 'noa']
+  EF.NPC_IMAGES = [];
   EF.NPCS = {
     resident: { name: '주민', role: '마을 주민', color: '#9aa7b8', lines: [] },
     // 벨라 = 예전 이름 "베라"(같은 인물). 올바른 이름은 벨라.

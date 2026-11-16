@@ -84,8 +84,13 @@
     firstRender = false;
     document.title = `${sc.name} · EVERFREEZE`;
     stage.dataset.stage = stg; document.body.dataset.stage = stg;
-    const img = EF.BG_IMAGES.includes(sc.id) ? `url(assets/bg/${sc.id}.png) center/cover no-repeat, ` : '';
+    const bgId = sc.bgAlt && EF.check(sc.bgAlt.if) ? sc.bgAlt.id : sc.id; // 상태에 따라 바뀌는 그림(예: 비밀 통로 열림)
+    const err = stg >= 4 && EF.BG_ERR_IMAGES.includes(bgId);
+    const img = err ? `url(assets/bg/${bgId}_err.png) center/cover no-repeat, `
+      : EF.BG_IMAGES.includes(bgId) ? `url(assets/bg/${bgId}.png) center/cover no-repeat, ` : '';
     sceneEl.style.background = img + sc.bg;
+    sceneEl.classList.toggle('err-img', err); // 오작동 그림이 있으면 CSS 색 효과는 끈다
+    sceneEl.classList.toggle('has-img', !!img); // 그림이 있으면 '배경 이미지 자리' 글씨를 숨긴다
     wm.textContent = sc.name;
 
     // 사이트 틀: 문구(단계에 따라 변화) · 페이지 설명
