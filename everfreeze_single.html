@@ -787,9 +787,10 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   add({
     id: 'WORLD_MAP', name: '월드맵', kind: 'world', bg: sky('#cfe3f5', '#eaf0e6', '#d8e6c8', 55),
     hotspots: [
-      move('go-rm', '로즈메리', '🌿', [130, 250, 270, 210], 'MAP_ROSEMARY'),
-      move('go-gw', '글렌위버', '🍂', [505, 200, 270, 210], 'MAP_GLENWEAVER'),
-      move('go-lm', '루미나리아', '🐚', [880, 280, 270, 210], 'MAP_LUMINARIA')
+      // 배치: 섬 지도 기준 — 글렌위버 북서쪽 숲, 루미나리아 북동쪽 해안(항구), 로즈메리 남쪽 가운데
+      move('go-gw', '글렌위버', '🍂', [400, 105, 225, 175], 'MAP_GLENWEAVER'),
+      move('go-lm', '루미나리아', '🐚', [745, 140, 240, 180], 'MAP_LUMINARIA'),
+      move('go-rm', '로즈메리', '🌿', [610, 410, 230, 180], 'MAP_ROSEMARY')
     ]
   });
 
