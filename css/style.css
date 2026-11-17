@@ -536,13 +536,13 @@ body[data-village="gw"]{--tape:126,156,100} body[data-village="lm"]{--tape:106,1
 @keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-4%,3%)}50%{transform:translate(3%,-5%)}75%{transform:translate(-2%,-2%)}100%{transform:translate(4%,2%)}}
 .fx::before{ /* 가로로 지나가는 잡음 줄 */
   inset:0;background:linear-gradient(transparent 0 46%,rgba(255,255,255,.35) 47%,rgba(200,40,60,.35) 48%,transparent 49.5%) 0 0/100% 100% no-repeat;
-  animation:glitchBar 5.5s linear infinite}
+  animation:none}
 @keyframes glitchBar{0%,62%{transform:translateY(-60%);opacity:0}63%{opacity:1}72%{transform:translateY(60%);opacity:1}73%,100%{opacity:0;transform:translateY(60%)}}
-#stage[data-stage="2"] .fx::after{opacity:.35}
-#stage[data-stage="3"] .fx::after{opacity:.6}
-#stage[data-stage="3"] .fx::before{opacity:.5}
-#stage[data-stage="4"] .fx::after{opacity:.9}
-#stage[data-stage="4"] .fx::before{opacity:1;animation-duration:2.8s;
+#stage[data-stage="2"] .fx::after{opacity:.14}   /* 2단계: 미세하게 */
+#stage[data-stage="3"] .fx::after{opacity:.75}   /* 3단계부터: 확실히 보이게 */
+#stage[data-stage="3"] .fx::before{animation:glitchBar 4.5s linear infinite}
+#stage[data-stage="4"] .fx::after{opacity:1}
+#stage[data-stage="4"] .fx::before{animation:glitchBar 2.8s linear infinite;
   background:linear-gradient(transparent 0 30%,rgba(200,40,60,.4) 31%,transparent 32.5%,transparent 52%,rgba(255,255,255,.45) 53%,rgba(90,40,160,.35) 54.5%,transparent 56%) 0 0/100% 100% no-repeat}
 #stage[data-stage="4"] .scene{animation:jitter 5s steps(1) infinite,tear 3.3s steps(1) infinite}
 @keyframes tear{0%,88%,100%{clip-path:none}89%{clip-path:polygon(0 0,100% 0,100% 41%,96% 41%,96% 46%,100% 46%,100% 100%,0 100%)}91%{clip-path:polygon(0 0,100% 0,100% 63%,0 63%,0 66%,100% 66%,100% 100%,0 100%)}}
