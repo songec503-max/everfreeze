@@ -526,3 +526,25 @@ body[data-village="gw"]{--tape:126,156,100} body[data-village="lm"]{--tape:106,1
 .ph-frame.tall{height:100%}
 .ph-frame.wide{aspect-ratio:16/9;max-height:100%;margin:0 auto;height:100%}
 .ph-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;height:100%}
+
+/* ===== 오류 노이즈 (임시 연출): 단계가 오를수록 점점 강해진다 =====
+   1단계 없음 → 2단계 옅은 알갱이 → 3단계 알갱이 + 가끔 가로 줄 → 4단계 진한 알갱이 + 붉은 잡음 줄 + 화면 찢김 → 5단계 멈춘 잡음 */
+.fx::after,.fx::before{content:'';position:absolute;inset:-20%;pointer-events:none;opacity:0;transition:opacity 1.2s}
+.fx::after{ /* 지지직 알갱이: 어두운 점 + 밝은 점 */
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='1' seed='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .12  0 0 0 0 .08  0 0 0 0 .16  0 0 0 -3 1.55'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='1.3' numOctaves='1' seed='9' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 .97  0 0 0 0 .95  0 0 0 3.2 -2.1'/></filter><rect width='100%' height='100%' filter='url(%23m)'/></svg>");
+  background-size:200px 200px,200px 200px;animation:grain .4s steps(4) infinite}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-4%,3%)}50%{transform:translate(3%,-5%)}75%{transform:translate(-2%,-2%)}100%{transform:translate(4%,2%)}}
+.fx::before{ /* 가로로 지나가는 잡음 줄 */
+  inset:0;background:linear-gradient(transparent 0 46%,rgba(255,255,255,.35) 47%,rgba(200,40,60,.35) 48%,transparent 49.5%) 0 0/100% 100% no-repeat;
+  animation:glitchBar 5.5s linear infinite}
+@keyframes glitchBar{0%,62%{transform:translateY(-60%);opacity:0}63%{opacity:1}72%{transform:translateY(60%);opacity:1}73%,100%{opacity:0;transform:translateY(60%)}}
+#stage[data-stage="2"] .fx::after{opacity:.35}
+#stage[data-stage="3"] .fx::after{opacity:.6}
+#stage[data-stage="3"] .fx::before{opacity:.5}
+#stage[data-stage="4"] .fx::after{opacity:.9}
+#stage[data-stage="4"] .fx::before{opacity:1;animation-duration:2.8s;
+  background:linear-gradient(transparent 0 30%,rgba(200,40,60,.4) 31%,transparent 32.5%,transparent 52%,rgba(255,255,255,.45) 53%,rgba(90,40,160,.35) 54.5%,transparent 56%) 0 0/100% 100% no-repeat}
+#stage[data-stage="4"] .scene{animation:jitter 5s steps(1) infinite,tear 3.3s steps(1) infinite}
+@keyframes tear{0%,88%,100%{clip-path:none}89%{clip-path:polygon(0 0,100% 0,100% 41%,96% 41%,96% 46%,100% 46%,100% 100%,0 100%)}91%{clip-path:polygon(0 0,100% 0,100% 63%,0 63%,0 66%,100% 66%,100% 100%,0 100%)}}
+#stage[data-stage="5"] .fx::after{opacity:.55}   /* 5단계: 움직임이 멈추므로 잡음도 멈춘 채 남는다 */
+@media (prefers-reduced-motion: reduce){.fx::after,.fx::before{animation:none}}
