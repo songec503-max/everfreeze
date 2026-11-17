@@ -131,7 +131,7 @@
     hotspots: [
       inspect('clock', '시계', '🕰️', [150, 120, 230, 300], { view: 'v-clock', grant: 'R-01' }),
       inspect('board', '게시판', '📌', [520, 260, 230, 180], { min: 2, view: 'v-board', grant: 'R-04' }),
-      npc('plaza-npc', '주민', '🧑', [860, 280, 150, 200], 'resident', { temp: true })
+      npc('plaza-npc', '주민1', '🧑', [860, 280, 150, 200], 'resident1', { temp: true })
     ]
   });
 
@@ -238,7 +238,7 @@
     id: 'GW_HOUSE', name: '마을 주택', kind: 'location', parent: 'MAP_GLENWEAVER', village: '글렌위버',
     bg: room('#efe5cf', '#c3a77f'), intro: { 1: '숲속 마을의 평범한 집. 찻물 끓는 소리가 난다.', 3: '숲속 마을의 평범한 집. 찻물 끓는 소리가 난다. 아까부터 계속.', 5: '숲속 마을의 평범한 집. 찻물 끓는 소리마저 멈췄다.' },
     hotspots: [
-      npc('gw-resident', '주민', '🧑', [520, 260, 150, 220], 'resident', { temp: true }),
+      npc('gw-resident', '주민2', '🧑', [520, 260, 150, 220], 'resident2', { temp: true }),
       inspect('registry', '주민 명부', '📜', [860, 230, 220, 230], { view: 'v-registry' })
     ]
   });

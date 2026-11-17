@@ -141,7 +141,8 @@ malfunction state: same composition and buildings, dark blue-violet and indigo p
 | `sienna.png` | F-GW | 시에나 묘사 + `inside the cloak workshop` |
 | `noa.png` | F-LM | 노아 묘사 + `inside the lighthouse post office` |
 | `lulu.png` | F-LM | 루루 묘사 + `inside the jellyfish café` |
-| `resident.png` | F-RM | 주민(로즈메리) 묘사 + `on the town square` (글렌위버 주민도 지금은 이 그림을 같이 씀) |
+| `resident1.png` | F-RM | 주민(로즈메리) 묘사 + `on the town square` (화면 이름: 주민1) |
+| `resident2.png` | F-GW | 주민(글렌위버) 묘사 + `inside a forest cottage` (화면 이름: 주민2) |
 
 ---
 

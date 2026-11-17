@@ -42,7 +42,7 @@
       por.textContent = who.name[0]; por.style.background = who.color;
       box.classList.toggle('is-clover', pg.who === 'clover');
       head.innerHTML = '';
-      head.append(h('b', '', who.name), h('span', 'role', who.role));
+      head.append(h('b', '', who.name)); // 이름만 보인다 (역할·설정 문구는 화면에 쓰지 않음)
       if (it.ctx && pg.who === it.npc) head.append(h('span', 'ctx', it.ctx));
       body.textContent = pg.text;
       const last = i === pages.length - 1;
