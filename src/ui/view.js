@@ -96,6 +96,7 @@
     firstRender = false;
     document.title = `${sc.name} · EVERFREEZE`;
     stage.dataset.stage = stg; document.body.dataset.stage = stg;
+    if (EF.Glitch) EF.Glitch.set(stg); // 사이트 전체 오류 연출 (glitch.js)
     const bgId = sc.bgAlt && EF.check(sc.bgAlt.if) ? sc.bgAlt.id : sc.id; // 상태에 따라 바뀌는 그림(예: 비밀 통로 열림)
     const err = stg >= 4 && EF.BG_ERR_IMAGES.includes(bgId);
     const img = err ? `url(assets/bg/${bgId}_err.png) center/cover no-repeat, `
