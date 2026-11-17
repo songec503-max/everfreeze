@@ -49,6 +49,8 @@
       if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
         // 퍼즐 창(dismissEscOnly)은 Esc 로만 닫힌다
         if (UI.dismiss && (e.key === 'Escape' || !UI.dismissEscOnly)) { e.preventDefault(); UI.dismiss(); }
+        // 창(퍼즐 등)이 열려 있을 때 Space 가 페이지를 내려 막이 내려가지 않게 한다 (입력 칸은 제외)
+        else if (UI.dismiss && e.key === ' ' && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) e.preventDefault();
       } else if (EF.CONFIG.showMemo && (e.key === 'n' || e.key === 'N') && !UI.busy) UI.openNotebook();
     });
     // 브라우저 뒤로/앞으로: 이미 방문한 페이지로만 이동 허용(주소창으로 잠긴 곳 우회 방지)
@@ -94,6 +96,7 @@
     firstRender = false;
     document.title = `${sc.name} · EVERFREEZE`;
     stage.dataset.stage = stg; document.body.dataset.stage = stg;
+    if (EF.Glitch) EF.Glitch.set(stg); // 사이트 전체 오류 연출 (glitch.js)
     const bgId = sc.bgAlt && EF.check(sc.bgAlt.if) ? sc.bgAlt.id : sc.id; // 상태에 따라 바뀌는 그림(예: 비밀 통로 열림)
     const err = stg >= 4 && EF.BG_ERR_IMAGES.includes(bgId);
     const img = err ? `url(assets/bg/${bgId}_err.png) center/cover no-repeat, `
