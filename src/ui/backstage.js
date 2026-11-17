@@ -42,7 +42,7 @@
     const closeDrapes = async () => { op.classList.remove('open'); op.classList.add('closed'); await wait(T.close); };
 
     // 시작: 로고가 줄에 끌려 올라가고 → 커튼이 걷힌다
-    const start = () => { if (C.state === 'title' && !C.busy) run(async () => { hang.classList.add('up'); await wait(T.rise); await openDrapes(); }, 'play'); };
+    const start = () => { if (C.state === 'title' && !C.busy) run(async () => { hang.classList.add('up'); await wait(T.rise); await openDrapes(); }, 'play').then(() => UI.onCurtainOpen && UI.onCurtainOpen()); }; // 처음 막이 열리면 안내 쪽지
     sign.onclick = e => { e.stopPropagation(); start(); };
     op.onclick = start;
     addEventListener('keydown', e => { if (C.state === 'title' && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); start(); } });

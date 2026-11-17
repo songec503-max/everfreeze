@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" data-cur="1">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -140,6 +140,8 @@ button{font-family:inherit;cursor:pointer}
 
 /* ===== 사이트 틀 (옛날 홈페이지 느낌) ===== */
 body{background:#efe9dc;background-image:radial-gradient(rgba(120,100,70,.10) 1px,transparent 1px);background-size:14px 14px}
+/* 단계별 배경 그림 (EF.PAGE_BG_IMAGES 에 등록된 단계만) */
+body.page-bg{background-size:cover;background-position:center;background-attachment:fixed;background-repeat:no-repeat}
 #site{max-width:1240px;margin:0 auto;padding:18px 16px 28px}
 #masthead{background:#fffdf8;border:3px double #8a7b62;border-radius:8px;padding:16px 22px;text-align:center;box-shadow:3px 3px 0 rgba(90,75,50,.25)}
 .logo{font-size:40px;font-weight:800;letter-spacing:.18em;color:#4b3f63}
@@ -312,13 +314,23 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 .p-row{display:flex;gap:50px;font-size:120px;padding:6px 40px;border-top:3px dashed rgba(255,230,200,.5);border-bottom:3px dashed rgba(255,230,200,.5)}
 
 /* 바느질 단계 */
-.cv-steps{display:flex;align-items:center;justify-content:center;background:#f2d9d3;background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.03) 0 2px,transparent 2px 6px)}
-.s-row{display:flex;gap:18px;align-items:center}
-.s-tag{font-size:70px;color:#7a3b3b;margin-right:24px;background:#fff6dc;border:3px solid #7a3b3b;border-radius:10px;padding:0 16px}
-.s-dot{position:relative;width:80px;height:80px;border-radius:50%;border:3px dashed #b88f7a;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800;color:#fff}
-.s-dot.done{background:#a2584a;border:3px solid #7a3b3b}
-.s-dot.stop{background:#a2584a;border:4px solid #3a1f1f;box-shadow:0 0 0 8px rgba(162,88,74,.25)}
-.s-needle{position:absolute;top:-82px;font-size:70px}
+.cv-steps{display:flex;align-items:center;justify-content:center;background:#e9d2c6}
+.s-cloth{position:relative;display:flex;align-items:center;gap:40px;padding:70px 70px 70px 50px;background:#f4e3d6;transform:rotate(-1.5deg);
+  background-image:repeating-linear-gradient(0deg,rgba(120,70,50,.06) 0 1px,transparent 1px 5px),repeating-linear-gradient(90deg,rgba(120,70,50,.05) 0 1px,transparent 1px 5px);
+  box-shadow:3px 6px 0 rgba(90,50,40,.18);clip-path:polygon(0 3%,4% 0,30% 2%,62% 0,100% 2%,99% 40%,100% 97%,70% 100%,35% 98%,2% 100%,0 60%)}
+.s-tag{font-size:54px;color:#7a3b3b;background:#fff6dc;border:2px dashed #7a3b3b;border-radius:6px;padding:0 14px;transform:rotate(3deg)}
+.s-row{display:flex;gap:16px;align-items:center}
+.s-st{position:relative;width:50px;height:8px}
+.s-st::before,.s-st::after{content:"";position:absolute;top:2px;width:4px;height:4px;border-radius:50%;background:rgba(90,50,40,.35)} /* 바늘구멍 */
+.s-st::before{left:-2px}.s-st::after{right:-2px}
+.s-st.sewn{background:#a2584a;border-radius:4px;box-shadow:0 2px 0 #6d3329;transform:rotate(-4deg)}
+.s-st.sewn:nth-child(even){transform:rotate(3deg)}
+.s-st.sewn::before,.s-st.sewn::after{display:none}
+.s-st.last{background:linear-gradient(90deg,#a2584a 55%,transparent 55%);box-shadow:none}
+.s-needle{position:absolute;left:24px;top:-74px;width:6px;height:96px;border-radius:3px 3px 50% 50%/3px 3px 100% 100%;transform:rotate(28deg);transform-origin:bottom;
+  background:linear-gradient(90deg,#9aa3ab,#e9eef2 45%,#8c949b)}
+.s-needle::before{content:"";position:absolute;left:1.5px;top:8px;width:3px;height:12px;border-radius:2px;background:#f4e3d6} /* 바늘귀 */
+.s-needle::after{content:"";position:absolute;left:-30px;top:6px;width:38px;height:70px;border:3px solid #a2584a;border-color:#a2584a transparent transparent #a2584a;border-radius:50%;transform:rotate(-20deg)} /* 늘어진 실 */
 
 /* 붙은 종이들 */
 .cv-pins{display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:26px;padding:40px}
@@ -621,9 +633,61 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
 /* 덧붙인 오류 연출 */
 .gwhisper{color:#8a1e2e!important;letter-spacing:.08em;text-shadow:2px 0 rgba(255,0,70,.35),-2px 0 rgba(0,200,255,.35)}
 .gecho{text-shadow:0 14px 0 rgba(58,47,40,.22),0 -9px 0 rgba(138,61,72,.18)!important}
-.gghost{position:fixed;left:0;top:0;width:22px;height:30px;opacity:.45;pointer-events:none;
-  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='22' height='30' viewBox='0 0 22 30'><path d='M2 2 L2 24 L8 18 L12 28 L16 26 L12 16 L20 16 Z' fill='white' stroke='black' stroke-width='1.6' stroke-linejoin='round'/></svg>") no-repeat;
-  filter:drop-shadow(3px 0 0 rgba(255,0,70,.55)) drop-shadow(-3px 0 0 rgba(0,210,255,.55))}
+
+/* ===== 친절한 안내 (src/ui/guide.js) ===== */
+/* 그림 창 왼쪽 위 종이 꼬리표 버튼: 월드맵 · 도움말 */
+.stage-tags{position:absolute;left:200px;top:84px;z-index:16;display:flex;gap:10px} /* 열린 커튼 자락 오른쪽 */
+.stag{font-family:var(--serif);font-size:22px;padding:8px 20px 8px 18px;cursor:pointer;color:var(--ink);
+  background-color:var(--paper);background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
+  border:0;border-radius:2px 14px 14px 2px;box-shadow:0 1px 0 var(--paper-edge),3px 4px 0 rgba(60,40,20,.28);transform:rotate(-1.5deg);transition:transform .15s}
+.stag::before{content:'';display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--frame-dk);margin-right:9px;vertical-align:middle;box-shadow:inset 0 1px 1px rgba(0,0,0,.3)}
+.stag:hover{transform:rotate(0) translateY(-2px)}
+.stag.help::before{background:#b8924d}
+/* 처음 한 번만 뜨는 짧은 도움말 */
+.gtip{position:absolute;left:50%;bottom:96px;z-index:30;pointer-events:none;max-width:860px;padding:14px 26px;font-family:var(--serif);font-size:22px;color:var(--ink);
+  background:#fffaf0;box-shadow:0 1px 0 var(--paper-edge),3px 4px 0 #ece0c8,0 12px 26px rgba(30,20,10,.35);border-left:6px solid var(--frame);
+  opacity:0;transform:translate(-50%,12px) rotate(-.6deg);transition:opacity .4s,transform .4s}
+.gtip.on{opacity:1;transform:translate(-50%,0) rotate(-.6deg)}
+/* 안내 쪽지 */
+.guide{position:relative;width:820px;padding:34px 44px 26px;color:var(--ink);
+  background-color:var(--paper);background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
+  box-shadow:0 1px 0 var(--paper-edge),3px 4px 0 #ece0c8,6px 8px 0 #dfd1b4,0 16px 34px rgba(30,20,10,.38)}
+.guide::before{content:'';position:absolute;top:-12px;left:50%;width:120px;height:24px;margin-left:-60px;background:rgba(var(--tape,201,112,122),.55);transform:rotate(-2deg)}
+.guide h3{margin:0 0 14px;font-family:var(--serif);font-size:32px;color:var(--frame-dk)}
+.g-body{font-family:var(--serif);font-size:23px;line-height:1.75;white-space:pre-line;min-height:170px}
+.g-nav{display:flex;align-items:center;justify-content:space-between;margin-top:18px}
+.g-nav .btn{font-size:20px;padding:8px 22px}
+.g-dots{display:flex;gap:8px}
+.g-dots span{width:10px;height:10px;border-radius:50%;background:#e2d3b6}
+.g-dots span.on{background:var(--frame-dk)}
+.stag.reset::before{background:#5f7a8a}
+.guide.confirm{width:680px}
+.guide.confirm .g-body{min-height:0}
+/* 화면 전체 산발적인 글리치 */
+.gnoise{position:fixed;opacity:.75;mix-blend-mode:multiply;animation:grain .12s steps(3) infinite;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.3' numOctaves='1' seed='11' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .08  0 0 0 0 .05  0 0 0 0 .12  0 0 0 -2.6 1.5'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size:120px 120px;box-shadow:3px 0 0 rgba(255,0,70,.25),-3px 0 0 rgba(0,210,255,.25)}
+.gline{position:fixed;height:2px;background:linear-gradient(90deg,transparent,rgba(11,10,15,.85) 10%,rgba(255,40,90,.7) 50%,rgba(40,220,255,.7) 60%,transparent);box-shadow:0 3px 0 rgba(11,10,15,.35)}
+/* 배경 종이 찢김: 뒤의 검은 바탕이 보인다 */
+body{position:relative}
+#site{z-index:1}
+body[data-glitch="2"] .glitch-layer::before{opacity:.09}
+body[data-glitch="3"] .glitch-layer::before{opacity:.22}
+body[data-glitch="4"] .glitch-layer::before{opacity:.34}
+/* 임시 그림일 때 인물: 색 동그라미 + 이름 첫 글자 */
+.hs .npc-ico{display:flex;align-items:center;justify-content:center;width:84px;height:84px;border-radius:50%;font-family:var(--serif);font-size:44px;font-weight:700;color:#fff;
+  border:4px solid var(--paper);box-shadow:0 0 0 2px rgba(58,47,40,.5),2px 4px 0 rgba(0,0,0,.18)}
+
+/* ===== 사이트 자체 마우스 포인터 (윈도우 기본 포인터는 숨김) =====
+   그림: assets/cursor/stage<N>.png (32×32 권장, 끝점은 왼쪽 위 1,1). 오류 단계가 오를수록 노이즈가 심한 그림으로 바뀐다. */
+html[data-cur="1"],html[data-cur="1"] *{cursor:url(assets/cursor/stage1.png) 1 1,auto!important}
+html[data-cur="2"],html[data-cur="2"] *{cursor:url(assets/cursor/stage2.png) 1 1,auto!important}
+html[data-cur="3"],html[data-cur="3"] *{cursor:url(assets/cursor/stage3.png) 1 1,auto!important}
+html[data-cur="4"],html[data-cur="4"] *{cursor:url(assets/cursor/stage4.png) 1 1,auto!important}
+html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1,auto!important}
+
+/* ===== 4단계부터: 커튼·그림 창 외의 요소들이 제자리에서 살짝씩 어긋나 있다 (glitch.js drift) ===== */
+.gdrift{translate:var(--dx,0) var(--dy,0);rotate:var(--dr,0deg)}
 
 </style>
 </head>
@@ -638,7 +702,7 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
     <section id="caption">
       <h2 id="ptitle"></h2>
       <p id="pintro"></p>
-      <p class="tip">그림 속에서 눌러 볼 수 있는 곳을 찾아 클릭해 보세요. 그림 아래쪽 ▼ 를 누르면 뒤로 갑니다. 페이지를 아래로 내리면 막이 내리고, 무대 뒤로 갈 수 있습니다. <a href="#" id="hintLink">클릭할 수 있는 곳 표시하기</a></p>
+      <p class="tip">그림 속에서 마우스를 올렸을 때 테두리가 생기는 곳을 눌러 보세요. 그림 아래쪽 ▼ 는 한 단계 뒤로, 왼쪽 위 [월드맵]은 처음 지도로 돌아갑니다. 막히면 [도움말]을 눌러 보세요. 페이지를 아래로 내리면 막이 내리고 무대 뒤로 갈 수 있습니다. <a href="#" id="hintLink">클릭할 수 있는 곳 표시하기</a></p>
     </section>
   </main>
   <footer id="foot"><span id="counter"></span><span class="sep">|</span><span>Best viewed on PC · 1280px 이상 권장</span><span id="devSlot"></span></footer>
@@ -1182,7 +1246,7 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
   }
 
   const npc = (id, label, icon, box, npcId, o = {}) =>
-    hs('npc', id, label, icon, box, o.rules || [{ do: [{ say: npcId }] }], { temp: !!o.temp });
+    hs('npc', id, label, icon, box, o.rules || [{ do: [{ say: npcId }] }], { temp: !!o.temp, npc: npcId });
 
   const move = (id, label, icon, box, to, o = {}) =>
     hs('move', id, label, icon, box, o.rules || [{ do: [{ go: to }] }], { temp: !!o.temp, showIf: o.showIf });
@@ -1192,6 +1256,9 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
   EF.BG_IMAGES = [];
   // 오작동 배경(선택): 4단계부터 assets/bg/<ID>_err.png 를 쓴다. 넣은 장면 ID 를 적는다. 없으면 CSS 색 효과만.
   EF.BG_ERR_IMAGES = [];
+  // 사이트 바깥 배경(좌우 여백 포함) · 오류 단계별 그림: assets/page/stage<N>.png
+  // 그림을 넣은 단계 숫자를 적는다. 예: [1, 2, 3, 4, 5]. 없는 단계는 바로 아래 단계 그림을 쓰고, 하나도 없으면 기본 종이 배경.
+  EF.PAGE_BG_IMAGES = [];
 
   const S = (EF.SCENES = {});
   const add = s => (S[s.id] = s);
@@ -1280,6 +1347,8 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
           { if: [{ flag: 'ariaConfronted' }], do: [{ say: 'aria', ctx: '대화' }] },
           { if: [{ deduced: 'FINAL-01' }, { stageMin: 4 }, { notEnded: true }],
             do: [{ say: 'aria', ctx: '대면' }, { flag: 'ariaConfronted' }] },
+          // 4단계인데 통합 추리(FINAL-01)가 아직이면: 평소 대사 + "놓친 단서가 있다"는 도움말
+          { if: [{ stageMin: 4 }, { notEnded: true }, { not: { deduced: 'FINAL-01' } }], do: [{ say: 'aria', ctx: '대화' }, { hint: '아리아가 무언가 숨기고 있는 것 같지만, 아직 물어볼 단서가 부족해요. 놓친 곳이 있는지 둘러보세요.' }] },
           { if: [{ stageMin: 2 }], do: [{ say: 'aria', ctx: '대화' }] },
           { do: [{ say: 'aria', ctx: '출입 차단' }] }
         ]
@@ -1491,6 +1560,7 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
           s.talks[a.say] = (s.talks[a.say] || 0) + 1;
           break;
         case 'toast': q.push({ t: 'toast', text: a.toast }); break;
+        case 'hint': q.push({ t: 'hint', text: a.hint }); break; // 친절한 도움말 꼬리표
         case 'grant':
           if (!s.evidence[a.grant]) {
             s.evidence[a.grant] = ++s.order;
@@ -1651,7 +1721,8 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
     });
     UI.render();
     UI.fit();
-    UI.initStageCurtain(); // 오페라 커튼: 시작 화면 · 휠로 막 내리기 · 무대 뒤 (backstage.js)
+    UI.initStageCurtain(); // 오페라 커튼: 시작 화면 · 스크롤로 막 내리기 · 무대 뒤 (backstage.js)
+    if (UI.initGuide) UI.initGuide(); // 월드맵 · 도움말 버튼과 안내 쪽지 (guide.js)
   };
 
   UI.fit = function () {
@@ -1685,7 +1756,10 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
     }
     firstRender = false;
     document.title = `${sc.name} · EVERFREEZE`;
-    stage.dataset.stage = stg; document.body.dataset.stage = stg;
+    stage.dataset.stage = stg; document.body.dataset.stage = stg; document.documentElement.dataset.cur = Math.min(5, stg); // 단계별 마우스 포인터
+    { const pb = EF.PAGE_BG_IMAGES.filter(n => n <= stg).sort((a, b) => b - a)[0]; // 단계별 사이트 배경 그림
+      document.body.classList.toggle('page-bg', !!pb);
+      document.body.style.backgroundImage = pb ? `url(assets/page/stage${pb}.png)` : ''; }
     if (EF.Glitch) EF.Glitch.set(stg); // 사이트 전체 오류 연출 (glitch.js)
     const bgId = sc.bgAlt && EF.check(sc.bgAlt.if) ? sc.bgAlt.id : sc.id; // 상태에 따라 바뀌는 그림(예: 비밀 통로 열림)
     const err = stg >= 4 && EF.BG_ERR_IMAGES.includes(bgId);
@@ -1716,7 +1790,9 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
       const b = h('button', `hs hs-${hp.kind}` + (hp.temp ? ' temp' : ''));
       b.style.cssText = `left:${hp.x}px;top:${hp.y}px;width:${hp.w}px;height:${hp.h}px`;
       b.dataset.id = hp.id;
-      b.append(h('span', 'ico', hp.icon), h('span', 'lbl', hp.label));
+      if (hp.npc && EF.NPCS[hp.npc]) { // 임시 그림일 때 인물은 색 동그라미 + 이름 첫 글자 (그림이 들어오면 숨겨진다)
+        const n = EF.NPCS[hp.npc], ic = h('span', 'ico npc-ico', n.name[0]); ic.style.background = n.color; b.append(ic, h('span', 'lbl', hp.label));
+      } else b.append(h('span', 'ico', hp.icon), h('span', 'lbl', hp.label));
       b.onclick = () => { if (UI.busy) return; UI.run(EF.click(hp)); };
       hsEl.append(b);
     });
@@ -2120,6 +2196,7 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
       if (!it) { UI.busy = false; UI.render(); return; }
       switch (it.t) {
         case 'toast': UI.toast(it.text, it.kind); UI.render(); next(); break;
+        case 'hint': if (EF.Guide) EF.Guide.note(it.text); next(); break;
         case 'text': UI.showText(it, next); break;
         case 'view': UI.showView(it, next); break;
         case 'shake': UI.shake(); next(); break;
@@ -2228,16 +2305,19 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
     return box;
   };
 
+  // 천 위의 바느질 줄: 앞쪽 땀은 실로 꿰매져 있고, 바늘이 마지막 땀에 꽂힌 채 멈춰 있다. 남은 자리는 바늘구멍만.
+  // (누르는 버튼이 아니라 보기만 하는 단서 · 번호 없이 땀 수를 세게 한다)
   R.steps = v => {
     const box = h('div', 'cv-steps');
+    const cloth = h('div', 's-cloth');
+    if (v.mark) cloth.append(h('div', 's-tag', v.mark));
     const row = h('div', 's-row');
-    if (v.mark) row.append(h('div', 's-tag', v.mark));
     for (let i = 1; i <= v.total; i++) {
-      const d = h('div', 's-dot' + (i < v.done ? ' done' : i === v.done ? ' stop' : ''), i <= v.done ? String(i) : '');
-      if (i === v.done) d.append(h('span', 's-needle', '🪡'));
-      row.append(d);
+      const st = h('div', 's-st' + (i <= v.done ? ' sewn' : ''));
+      if (i === v.done) { st.classList.add('last'); st.append(h('span', 's-needle')); }
+      row.append(st);
     }
-    box.append(row);
+    cloth.append(row); box.append(cloth);
     return box;
   };
 
@@ -2522,7 +2602,7 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
     const closeDrapes = async () => { op.classList.remove('open'); op.classList.add('closed'); await wait(T.close); };
 
     // 시작: 로고가 줄에 끌려 올라가고 → 커튼이 걷힌다
-    const start = () => { if (C.state === 'title' && !C.busy) run(async () => { hang.classList.add('up'); await wait(T.rise); await openDrapes(); }, 'play'); };
+    const start = () => { if (C.state === 'title' && !C.busy) run(async () => { hang.classList.add('up'); await wait(T.rise); await openDrapes(); }, 'play').then(() => UI.onCurtainOpen && UI.onCurtainOpen()); }; // 처음 막이 열리면 안내 쪽지
     sign.onclick = e => { e.stopPropagation(); start(); };
     op.onclick = start;
     addEventListener('keydown', e => { if (C.state === 'title' && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); start(); } });
@@ -2643,9 +2723,31 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
       blip('gpx ' + pick(['k', 'm', 'c', 'h', 'h', 'i']), { left: x + 'px', top: y + 'px', width: s * rnd(1, 3) + 'px', height: s + 'px' }, rnd(90, 260));
     }
   }
+  // 화면 아무 곳(좌우 배경 포함)에 산발적으로: 노이즈 덩어리 · 픽셀 블록 · 색 반전 조각 · 어긋난 가로 선
+  function scatter(n, big) {
+    for (let i = 0; i < n; i++) {
+      const x = rnd(-20, innerWidth), y = rnd(-20, innerHeight), kind = pick(['noise', 'noise', 'px', 'px', 'inv', 'hue', 'line']);
+      if (kind === 'noise') { const w = rnd(40, big ? 260 : 140), hh = rnd(20, big ? 160 : 90); blip('gnoise', { left: x + 'px', top: y + 'px', width: w + 'px', height: hh + 'px' }, rnd(120, 420)); }
+      else if (kind === 'line') blip('gline', { left: x + 'px', top: y + 'px', width: rnd(80, big ? 520 : 260) + 'px' }, rnd(80, 200));
+      else if (kind === 'px') { const sz = rnd(5, big ? 46 : 26); blip('gpx ' + pick(['k', 'k', 'm', 'c']), { left: x + 'px', top: y + 'px', width: sz * rnd(1, 4) + 'px', height: sz + 'px' }, rnd(90, 260)); }
+      else blip('gpx ' + (kind === 'inv' ? 'i' : 'h'), { left: x + 'px', top: y + 'px', width: rnd(30, big ? 220 : 110) + 'px', height: rnd(10, big ? 90 : 50) + 'px' }, rnd(100, 300));
+    }
+  }
+
   function band(kind) { // 가로 띠: 색 반전 / 색 뒤틀림 / 검은 틈
     const hgt = kind === 'gap' ? rnd(2, 7) : rnd(8, 40);
     blip('gband ' + kind, { top: rnd(0, innerHeight) + 'px', height: hgt + 'px' }, kind === 'gap' ? rnd(60, 140) : rnd(80, 200));
+  }
+  // 4단계부터: 커튼과 그림 창을 뺀 나머지(머리글·로고·설명 칸·무대 뒤·바닥글)가 제자리에서 조금씩 어긋나 멈춰 있다. 5단계는 더 크게.
+  const DRIFT_SEL = ['#masthead .logo', '#tagline', '#caption', '#ptitle', '#pintro', '#caption .tip', '.bs-head', '.bs-gate', '.program', '#foot'];
+  function drift(stage) {
+    const k = stage >= 5 ? 1.8 : stage >= 4 ? 1 : 0;
+    let seed = 11; const r = () => (seed = (seed * 9301 + 49297) % 233280) / 233280 - .5; // 매번 같은 어긋남
+    DRIFT_SEL.forEach(sel => document.querySelectorAll(sel).forEach(el => {
+      const dx = r() * 18 * k, dy = r() * 8 * k, dr = r() * 1.6 * k;
+      el.classList.toggle('gdrift', k > 0);
+      el.style.setProperty('--dx', dx.toFixed(1) + 'px'); el.style.setProperty('--dy', dy.toFixed(1) + 'px'); el.style.setProperty('--dr', dr.toFixed(2) + 'deg');
+    }));
   }
   function shove() { // 칸이 순간적으로 옆으로 밀림
     const el = pick(['#masthead', '#stagewrap', '#caption', '.backstage', '#foot'].map(s => document.querySelector(s)).filter(Boolean));
@@ -2686,14 +2788,14 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
     if (stage === G.stage && G.ready) {
       // 같은 단계: 5단계면 새로 바뀐 설명 글도 멈춘 채 조금 깨뜨린다(이미 깨진 글은 그대로)
       if (stage >= 5) textNodes().forEach(n => { if (frozen.get(n) !== n.nodeValue && Math.random() < .5) corrupt(n, .06, 0); });
-      if (site && Math.abs(site.scrollHeight - (+cracks.getAttribute('height') || 0)) > 40) drawCracks(stage); // 무대 뒤가 펼쳐지는 등 높이가 바뀌면 균열을 다시 그린다
+      if (site && Math.abs(site.scrollHeight - (+cracks.getAttribute('height') || 0)) > 40) { drawCracks(stage); } // 무대 뒤가 펼쳐지는 등 높이가 바뀌면 다시 그린다
       return;
     }
     G.stage = stage; G.ready = true;
     timers.forEach(clearInterval); timers = [];
     document.body.dataset.glitch = stage;
-    drawCracks(stage);
-    if (stage >= 5) { ghost(false); textNodes().forEach(n => Math.random() < .5 && corrupt(n, .06, 0)); return; } // 멈춘 채 깨진 글자가 남는다
+    drawCracks(stage); drift(reduced ? 0 : stage);
+    if (stage >= 5) { textNodes().forEach(n => Math.random() < .5 && corrupt(n, .06, 0)); return; } // 멈춘 채 깨진 글자가 남는다
     if (reduced || stage < 2) return;
     const every = (ms, fn) => timers.push(setInterval(fn, ms));
     const L = { 2: { text: [6000, .03], px: 0 }, 3: { text: [1600, .06], px: [900, 3], shove: 4200 }, 4: { text: [520, .1], px: [300, 6], shove: 1300, band: 700, gap: 2100 } }[stage];
@@ -2702,6 +2804,8 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
     if (L.shove) every(L.shove, () => Math.random() < .8 && shove());
     if (L.band) every(L.band, () => band(pick(['inv', 'hue', 'hue'])));
     if (L.gap) every(L.gap, () => band('gap'));
+    // 화면 전체 산발적인 글리치 (좌우 배경 포함)
+    every({ 2: 2600, 3: 650, 4: 230 }[stage], () => scatter(Math.ceil(rnd(...{ 2: [1, 2], 3: [1, 4], 4: [2, 7] }[stage])), stage >= 4));
     // ---- 덧붙인 연출 ----
     if (stage >= 3) {
       every(stage >= 4 ? 2600 : 5200, tabTitle);                 // 브라우저 탭 제목이 깨짐
@@ -2709,7 +2813,6 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
       every(stage >= 4 ? 3700 : 8200, () => Math.random() < .75 && whisper()); // 숨은 문장이 번쩍임
       every(stage >= 4 ? 2900 : 6500, echo);                     // 설명 글이 겹쳐 보임
     }
-    ghost(stage >= 4);                                           // 마우스 잔상 (반 박자 늦게 따라온다)
   };
 
   // 브라우저 탭 제목: 잠깐 깨졌다가 돌아온다
@@ -2743,22 +2846,118 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
     const el = document.getElementById('pintro'); if (!el) return;
     el.classList.add('gecho'); setTimeout(() => el.classList.remove('gecho'), rnd(160, 340));
   }
-  // 마우스 잔상: 4단계에서만. 실제 커서보다 반 박자 늦게 따라온다
-  let ghostEl, ghostOn = false, trail = [], mx = -100, my = -100;
-  addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
-  function ghost(on) {
-    if (reduced) on = false;
-    if (on === ghostOn) return; ghostOn = on;
-    if (!ghostEl) { ghostEl = document.createElement('div'); ghostEl.className = 'gghost'; layer.append(ghostEl); }
-    ghostEl.style.display = on ? '' : 'none';
-    if (on) (function tick() {
-      if (!ghostOn) return;
-      trail.push([mx, my]); if (trail.length > 14) trail.shift();
-      const [x, y] = trail[0]; ghostEl.style.transform = `translate(${x}px, ${y}px)`;
-      requestAnimationFrame(tick);
-    })();
+  addEventListener('resize', () => { if (G.ready) { drawCracks(G.stage); } });
+})();
+
+</script>
+<script>
+/* 친절한 안내
+   1) 처음 막이 열리면 안내 쪽지 4장 (누를 곳 · 이동 · 단서와 힌트 · 세계의 어긋남과 무대 뒤)
+   2) 그림 창 왼쪽 위: [월드맵] 버튼(마을 지도·세부 장소에서) · [도움말] 버튼(언제든 안내 쪽지 다시 보기) · [처음부터] 버튼(사이트 초기화)
+   3) 처음 한 번만 뜨는 짧은 도움말: 처음 흔들림 · 처음 클로즈업 · 처음 퍼즐 · 처음 단계가 오를 때
+   문장은 아래 PAGES · TIPS 에서 고친다. */
+(function () {
+  const EF = window.EF, UI = EF.UI, h = EF.h;
+
+  const PAGES = [
+    { title: 'EVERFREEZE에 오신 것을 환영해요',
+      body: '세 마을을 돌아다니며 그림 속 물건과 사람을 눌러 살펴보세요.\n마우스를 올렸을 때 테두리가 생기는 곳이 누를 수 있는 곳이에요.\n사람을 누르면 이야기를 나눌 수 있어요.' },
+    { title: '돌아다니는 방법',
+      body: '마을과 장소를 눌러 안으로 들어가요.\n그림 아래쪽 ▼ 를 누르면 한 단계 뒤로 돌아가요.\n왼쪽 위 [월드맵] 버튼을 누르면 언제든 처음 지도로 돌아가요.' },
+    { title: '단서와 퍼즐',
+      body: '물건을 누르면 가까이 들여다볼 수 있어요. 그 안에 숫자나 기호가 숨어 있기도 해요.\n한 마을의 퍼즐 단서는 다른 마을에 있어요. 여러 마을을 오가며 기억해 두세요.\n퍼즐을 3번 틀리면 힌트가 나와요. 그림이 흔들리는 곳은 아직 열리지 않은 곳이에요.' },
+    { title: '무언가 이상하다면',
+      body: '단서를 모을수록 세계가 조금씩 어긋나고, 그때마다 새로운 곳이 열려요.\n막힐 때는 아직 가 보지 않은 장소나 다시 말을 걸어 보지 않은 사람을 찾아보세요.\n페이지를 아래로 내리면 \'무대 뒤\' 이야기도 볼 수 있어요.' }
+  ];
+  const TIPS = {
+    shake:  '아직은 열 수 없어요. 다른 곳을 먼저 둘러보세요.',
+    view:   '아래쪽 ▼ 를 누르면 원래 장면으로 돌아가요.',
+    puzzle: '3번 틀리면 힌트가 나와요. 닫아도 괜찮아요. (Esc)',
+    stage:  '세계가 어긋나기 시작했어요. 새로운 곳이 열렸을지도 몰라요.'
+  };
+
+  const seen = {}; // 이번 방문에서 이미 보여 준 도움말
+
+  // ---- 처음 한 번만 뜨는 짧은 도움말 (누르기를 막지 않는다) ----
+  function tip(key) {
+    if (seen[key]) return; seen[key] = true;
+    const t = h('div', 'gtip', TIPS[key]);
+    UI.stage.append(t);
+    requestAnimationFrame(() => t.classList.add('on'));
+    setTimeout(() => { t.classList.remove('on'); setTimeout(() => t.remove(), 500); }, 4200);
   }
-  addEventListener('resize', () => G.ready && drawCracks(G.stage));
+  function note(text) { // 상황에 따른 도움말 (매번)
+    UI.stage.querySelectorAll('.gtip').forEach(t => t.remove());
+    const t = h('div', 'gtip', text); UI.stage.append(t);
+    requestAnimationFrame(() => t.classList.add('on'));
+    setTimeout(() => { t.classList.remove('on'); setTimeout(() => t.remove(), 500); }, 5200);
+  }
+  EF.Guide = { tip, note };
+  const wrap = (name, key) => { const f = UI[name]; UI[name] = function () { tip(key); return f.apply(this, arguments); }; };
+  wrap('shake', 'shake'); wrap('showView', 'view'); wrap('showPuzzle', 'puzzle');
+  const banner = UI.banner; UI.banner = function () { banner.apply(this, arguments); setTimeout(() => tip('stage'), 1200); };
+
+  // ---- 안내 쪽지 ----
+  function openGuide() {
+    if (UI.busy || UI.dismiss) return;
+    UI.busy = true;
+    const sc = h('div', 'scrim dim guide-scrim'), card = h('div', 'guide');
+    const title = h('h3'), body = h('div', 'g-body'), dots = h('div', 'g-dots');
+    const prev = h('button', 'btn', '이전'), next = h('button', 'btn primary');
+    const nav = h('div', 'g-nav'); nav.append(prev, dots, next);
+    card.append(title, body, nav); sc.append(card); UI.stage.append(sc);
+    let i = 0;
+    const draw = () => {
+      title.textContent = PAGES[i].title; body.textContent = PAGES[i].body;
+      dots.innerHTML = PAGES.map((_, j) => `<span class="${j === i ? 'on' : ''}"></span>`).join('');
+      prev.style.visibility = i ? 'visible' : 'hidden';
+      next.textContent = i === PAGES.length - 1 ? '시작하기' : '다음';
+    };
+    const close = () => { sc.remove(); UI.dismiss = null; UI.busy = false; UI.render(); };
+    const go = d => { i += d; if (i >= PAGES.length) close(); else { i = Math.max(0, i); draw(); } };
+    next.onclick = () => go(1); prev.onclick = () => go(-1);
+    UI.dismiss = () => go(1); // Enter/Space: 다음 장, 마지막 장에서 닫힘. Esc 도 다음/닫기
+    draw();
+  }
+  EF.Guide.open = openGuide;
+
+  // ---- 사이트 초기화: 확인한 뒤 처음 상태(닫힌 막 · 1단계)로 다시 연다 ----
+  function askReset() {
+    if (UI.busy || UI.dismiss) return;
+    UI.busy = true;
+    const sc = h('div', 'scrim dim guide-scrim'), card = h('div', 'guide confirm');
+    const yes = h('button', 'btn primary', '예, 처음부터'), no = h('button', 'btn', '아니요');
+    const nav = h('div', 'g-nav'); nav.append(no, yes);
+    card.append(h('h3', '', '처음부터 다시 할까요?'), h('div', 'g-body', '모은 단서와 풀어 둔 퍼즐, 세계의 어긋남이 모두 사라지고\n막이 닫힌 첫 화면으로 돌아가요.'), nav);
+    sc.append(card); UI.stage.append(sc);
+    const close = () => { sc.remove(); UI.dismiss = null; UI.busy = false; };
+    no.onclick = close; UI.dismiss = close; // Esc/Enter: 취소 (실수로 지우지 않게)
+    yes.onclick = () => { location.href = location.pathname + location.search; }; // 주소의 #장면 을 지우고 새로 연다
+  }
+  EF.Guide.reset = askReset;
+
+  // ---- 그림 창 왼쪽 위 버튼 ----
+  UI.initGuide = function () {
+    const bar = h('div', 'stage-tags');
+    const map = h('button', 'stag map', '월드맵'), help = h('button', 'stag help', '도움말'), reset = h('button', 'stag reset', '처음부터');
+    reset.title = '사이트 초기화';
+    reset.onclick = e => { e.stopPropagation(); askReset(); };
+    map.title = '월드맵으로 돌아가기'; help.title = '안내 다시 보기';
+    map.onclick = e => { e.stopPropagation(); if (UI.busy) return; EF.state.scene = 'WORLD_MAP'; UI.render(); };
+    help.onclick = e => { e.stopPropagation(); openGuide(); };
+    bar.append(map, help, reset); UI.stage.append(bar);
+    UI.guideBar = { bar, map };
+    map.style.display = EF.SCENES[EF.state.scene].kind === 'world' ? 'none' : '';
+  };
+  // 장면이 바뀔 때: 월드맵에서는 [월드맵] 버튼을 숨긴다
+  const render = UI.render;
+  UI.render = function () {
+    const r = render.apply(this, arguments);
+    if (UI.guideBar) UI.guideBar.map.style.display = EF.SCENES[EF.state.scene].kind === 'world' ? 'none' : '';
+    return r;
+  };
+  // 처음 막이 열렸을 때 안내 쪽지
+  UI.onCurtainOpen = function () { if (!seen.welcome) { seen.welcome = true; openGuide(); } };
 })();
 
 </script>

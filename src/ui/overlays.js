@@ -130,6 +130,7 @@
       if (!it) { UI.busy = false; UI.render(); return; }
       switch (it.t) {
         case 'toast': UI.toast(it.text, it.kind); UI.render(); next(); break;
+        case 'hint': if (EF.Guide) EF.Guide.note(it.text); next(); break;
         case 'text': UI.showText(it, next); break;
         case 'view': UI.showView(it, next); break;
         case 'shake': UI.shake(); next(); break;

@@ -54,9 +54,31 @@
       blip('gpx ' + pick(['k', 'm', 'c', 'h', 'h', 'i']), { left: x + 'px', top: y + 'px', width: s * rnd(1, 3) + 'px', height: s + 'px' }, rnd(90, 260));
     }
   }
+  // 화면 아무 곳(좌우 배경 포함)에 산발적으로: 노이즈 덩어리 · 픽셀 블록 · 색 반전 조각 · 어긋난 가로 선
+  function scatter(n, big) {
+    for (let i = 0; i < n; i++) {
+      const x = rnd(-20, innerWidth), y = rnd(-20, innerHeight), kind = pick(['noise', 'noise', 'px', 'px', 'inv', 'hue', 'line']);
+      if (kind === 'noise') { const w = rnd(40, big ? 260 : 140), hh = rnd(20, big ? 160 : 90); blip('gnoise', { left: x + 'px', top: y + 'px', width: w + 'px', height: hh + 'px' }, rnd(120, 420)); }
+      else if (kind === 'line') blip('gline', { left: x + 'px', top: y + 'px', width: rnd(80, big ? 520 : 260) + 'px' }, rnd(80, 200));
+      else if (kind === 'px') { const sz = rnd(5, big ? 46 : 26); blip('gpx ' + pick(['k', 'k', 'm', 'c']), { left: x + 'px', top: y + 'px', width: sz * rnd(1, 4) + 'px', height: sz + 'px' }, rnd(90, 260)); }
+      else blip('gpx ' + (kind === 'inv' ? 'i' : 'h'), { left: x + 'px', top: y + 'px', width: rnd(30, big ? 220 : 110) + 'px', height: rnd(10, big ? 90 : 50) + 'px' }, rnd(100, 300));
+    }
+  }
+
   function band(kind) { // 가로 띠: 색 반전 / 색 뒤틀림 / 검은 틈
     const hgt = kind === 'gap' ? rnd(2, 7) : rnd(8, 40);
     blip('gband ' + kind, { top: rnd(0, innerHeight) + 'px', height: hgt + 'px' }, kind === 'gap' ? rnd(60, 140) : rnd(80, 200));
+  }
+  // 4단계부터: 커튼과 그림 창을 뺀 나머지(머리글·로고·설명 칸·무대 뒤·바닥글)가 제자리에서 조금씩 어긋나 멈춰 있다. 5단계는 더 크게.
+  const DRIFT_SEL = ['#masthead .logo', '#tagline', '#caption', '#ptitle', '#pintro', '#caption .tip', '.bs-head', '.bs-gate', '.program', '#foot'];
+  function drift(stage) {
+    const k = stage >= 5 ? 1.8 : stage >= 4 ? 1 : 0;
+    let seed = 11; const r = () => (seed = (seed * 9301 + 49297) % 233280) / 233280 - .5; // 매번 같은 어긋남
+    DRIFT_SEL.forEach(sel => document.querySelectorAll(sel).forEach(el => {
+      const dx = r() * 18 * k, dy = r() * 8 * k, dr = r() * 1.6 * k;
+      el.classList.toggle('gdrift', k > 0);
+      el.style.setProperty('--dx', dx.toFixed(1) + 'px'); el.style.setProperty('--dy', dy.toFixed(1) + 'px'); el.style.setProperty('--dr', dr.toFixed(2) + 'deg');
+    }));
   }
   function shove() { // 칸이 순간적으로 옆으로 밀림
     const el = pick(['#masthead', '#stagewrap', '#caption', '.backstage', '#foot'].map(s => document.querySelector(s)).filter(Boolean));
@@ -97,14 +119,14 @@
     if (stage === G.stage && G.ready) {
       // 같은 단계: 5단계면 새로 바뀐 설명 글도 멈춘 채 조금 깨뜨린다(이미 깨진 글은 그대로)
       if (stage >= 5) textNodes().forEach(n => { if (frozen.get(n) !== n.nodeValue && Math.random() < .5) corrupt(n, .06, 0); });
-      if (site && Math.abs(site.scrollHeight - (+cracks.getAttribute('height') || 0)) > 40) drawCracks(stage); // 무대 뒤가 펼쳐지는 등 높이가 바뀌면 균열을 다시 그린다
+      if (site && Math.abs(site.scrollHeight - (+cracks.getAttribute('height') || 0)) > 40) { drawCracks(stage); } // 무대 뒤가 펼쳐지는 등 높이가 바뀌면 다시 그린다
       return;
     }
     G.stage = stage; G.ready = true;
     timers.forEach(clearInterval); timers = [];
     document.body.dataset.glitch = stage;
-    drawCracks(stage);
-    if (stage >= 5) { ghost(false); textNodes().forEach(n => Math.random() < .5 && corrupt(n, .06, 0)); return; } // 멈춘 채 깨진 글자가 남는다
+    drawCracks(stage); drift(reduced ? 0 : stage);
+    if (stage >= 5) { textNodes().forEach(n => Math.random() < .5 && corrupt(n, .06, 0)); return; } // 멈춘 채 깨진 글자가 남는다
     if (reduced || stage < 2) return;
     const every = (ms, fn) => timers.push(setInterval(fn, ms));
     const L = { 2: { text: [6000, .03], px: 0 }, 3: { text: [1600, .06], px: [900, 3], shove: 4200 }, 4: { text: [520, .1], px: [300, 6], shove: 1300, band: 700, gap: 2100 } }[stage];
@@ -113,6 +135,8 @@
     if (L.shove) every(L.shove, () => Math.random() < .8 && shove());
     if (L.band) every(L.band, () => band(pick(['inv', 'hue', 'hue'])));
     if (L.gap) every(L.gap, () => band('gap'));
+    // 화면 전체 산발적인 글리치 (좌우 배경 포함)
+    every({ 2: 2600, 3: 650, 4: 230 }[stage], () => scatter(Math.ceil(rnd(...{ 2: [1, 2], 3: [1, 4], 4: [2, 7] }[stage])), stage >= 4));
     // ---- 덧붙인 연출 ----
     if (stage >= 3) {
       every(stage >= 4 ? 2600 : 5200, tabTitle);                 // 브라우저 탭 제목이 깨짐
@@ -120,7 +144,6 @@
       every(stage >= 4 ? 3700 : 8200, () => Math.random() < .75 && whisper()); // 숨은 문장이 번쩍임
       every(stage >= 4 ? 2900 : 6500, echo);                     // 설명 글이 겹쳐 보임
     }
-    ghost(stage >= 4);                                           // 마우스 잔상 (반 박자 늦게 따라온다)
   };
 
   // 브라우저 탭 제목: 잠깐 깨졌다가 돌아온다
@@ -154,20 +177,5 @@
     const el = document.getElementById('pintro'); if (!el) return;
     el.classList.add('gecho'); setTimeout(() => el.classList.remove('gecho'), rnd(160, 340));
   }
-  // 마우스 잔상: 4단계에서만. 실제 커서보다 반 박자 늦게 따라온다
-  let ghostEl, ghostOn = false, trail = [], mx = -100, my = -100;
-  addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
-  function ghost(on) {
-    if (reduced) on = false;
-    if (on === ghostOn) return; ghostOn = on;
-    if (!ghostEl) { ghostEl = document.createElement('div'); ghostEl.className = 'gghost'; layer.append(ghostEl); }
-    ghostEl.style.display = on ? '' : 'none';
-    if (on) (function tick() {
-      if (!ghostOn) return;
-      trail.push([mx, my]); if (trail.length > 14) trail.shift();
-      const [x, y] = trail[0]; ghostEl.style.transform = `translate(${x}px, ${y}px)`;
-      requestAnimationFrame(tick);
-    })();
-  }
-  addEventListener('resize', () => G.ready && drawCracks(G.stage));
+  addEventListener('resize', () => { if (G.ready) { drawCracks(G.stage); } });
 })();

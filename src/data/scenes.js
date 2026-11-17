@@ -53,7 +53,7 @@
   }
 
   const npc = (id, label, icon, box, npcId, o = {}) =>
-    hs('npc', id, label, icon, box, o.rules || [{ do: [{ say: npcId }] }], { temp: !!o.temp });
+    hs('npc', id, label, icon, box, o.rules || [{ do: [{ say: npcId }] }], { temp: !!o.temp, npc: npcId });
 
   const move = (id, label, icon, box, to, o = {}) =>
     hs('move', id, label, icon, box, o.rules || [{ do: [{ go: to }] }], { temp: !!o.temp, showIf: o.showIf });
@@ -63,6 +63,9 @@
   EF.BG_IMAGES = [];
   // 오작동 배경(선택): 4단계부터 assets/bg/<ID>_err.png 를 쓴다. 넣은 장면 ID 를 적는다. 없으면 CSS 색 효과만.
   EF.BG_ERR_IMAGES = [];
+  // 사이트 바깥 배경(좌우 여백 포함) · 오류 단계별 그림: assets/page/stage<N>.png
+  // 그림을 넣은 단계 숫자를 적는다. 예: [1, 2, 3, 4, 5]. 없는 단계는 바로 아래 단계 그림을 쓰고, 하나도 없으면 기본 종이 배경.
+  EF.PAGE_BG_IMAGES = [];
 
   const S = (EF.SCENES = {});
   const add = s => (S[s.id] = s);
@@ -151,6 +154,8 @@
           { if: [{ flag: 'ariaConfronted' }], do: [{ say: 'aria', ctx: '대화' }] },
           { if: [{ deduced: 'FINAL-01' }, { stageMin: 4 }, { notEnded: true }],
             do: [{ say: 'aria', ctx: '대면' }, { flag: 'ariaConfronted' }] },
+          // 4단계인데 통합 추리(FINAL-01)가 아직이면: 평소 대사 + "놓친 단서가 있다"는 도움말
+          { if: [{ stageMin: 4 }, { notEnded: true }, { not: { deduced: 'FINAL-01' } }], do: [{ say: 'aria', ctx: '대화' }, { hint: '아리아가 무언가 숨기고 있는 것 같지만, 아직 물어볼 단서가 부족해요. 놓친 곳이 있는지 둘러보세요.' }] },
           { if: [{ stageMin: 2 }], do: [{ say: 'aria', ctx: '대화' }] },
           { do: [{ say: 'aria', ctx: '출입 차단' }] }
         ]
