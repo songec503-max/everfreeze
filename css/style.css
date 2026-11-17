@@ -495,11 +495,30 @@ body[data-village="gw"]{--tape:126,156,100} body[data-village="lm"]{--tape:106,1
 .sign.gate small{font-family:var(--serif);font-size:18px;color:var(--ink2)}
 .sign:hover{transform:rotate(0)}
 
-/* 무대 뒤 책자: 표를 누르면 아래에서 올라온다 */
-.program{position:absolute;left:7%;right:7%;top:9%;bottom:-2%;z-index:70;transform:translateY(110%);transition:transform .7s cubic-bezier(.3,.8,.3,1);
+/* ===== 무대 뒤 구역: 장소 설명 칸 아래, 스크롤해서 내려오는 곳 ===== */
+.backstage{margin-top:34px;padding:26px 30px 30px;scroll-margin-top:16px;background-color:var(--paper);background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
+  box-shadow:0 1px 0 var(--paper-edge),3px 4px 0 #efe4cf,6px 8px 0 #e4d7bd,0 14px 30px rgba(60,40,20,.16);text-align:center}
+.bs-head{margin-bottom:18px}
+.bs-title{font-family:var(--serif);font-size:40px;font-weight:700;letter-spacing:.22em;color:#8a3d48}
+.bs-title::before,.bs-title::after{content:'❦';font-size:18px;vertical-align:middle;margin:0 14px;letter-spacing:0;color:#c9707a}
+.bs-sub{font-family:var(--serif);color:var(--ink2);font-size:16px}
+/* 한 단계: 닫힌 무대 뒤 문 (붉은 막 위의 종이 표) */
+.bs-gate{display:inline-flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;border:0;padding:46px 90px 40px;position:relative;
+  background:linear-gradient(90deg,rgba(60,10,20,.25),transparent 20%,transparent 80%,rgba(60,10,20,.25)),
+             repeating-linear-gradient(90deg,#9e3a47 0 16px,#c45a66 16px 38px,#ad4652 38px 54px,#d27480 54px 62px,#b24e5a 62px 74px);
+  box-shadow:0 10px 24px rgba(40,10,15,.35);border-radius:2px;transition:transform .2s,opacity .5s,max-height .6s,padding .6s;max-height:260px;overflow:hidden}
+.bs-gate::before{content:'';position:absolute;inset:26px 60px;background:var(--paper);box-shadow:4px 5px 0 #ece0c8,0 10px 20px rgba(30,10,10,.35);transform:rotate(-1.2deg)}
+.bs-gate .gate-txt,.bs-gate small{position:relative}
+.bs-gate .gate-txt{font-family:var(--serif);font-size:34px;font-weight:700;letter-spacing:.12em;color:#8a3d48}
+.bs-gate small{font-family:var(--serif);font-size:16px;color:var(--ink2)}
+.bs-gate:hover{transform:translateY(-3px)}
+.backstage.open .bs-gate{opacity:0;max-height:0;padding:0 90px;pointer-events:none}
+/* 책자: 문을 누르면 아래로 펼쳐진다 */
+.backstage .program{position:relative;left:auto;right:auto;top:auto;bottom:auto;transform:none;display:flex;flex-direction:column;text-align:left;
+  height:0;opacity:0;overflow:hidden;padding:0 34px;margin-top:0;transition:height .8s cubic-bezier(.3,.8,.3,1),opacity .6s,padding .6s;
   background-color:#fffaf0;background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
-  box-shadow:0 1px 0 var(--paper-edge),4px 5px 0 #ece0c8,8px 10px 0 #dfd1b4,0 -10px 40px rgba(30,10,10,.45);padding:20px 34px 30px;display:flex;flex-direction:column}
-.program.up{transform:none}
+  box-shadow:0 1px 0 var(--paper-edge),4px 5px 0 #ece0c8,8px 10px 0 #dfd1b4}
+.backstage.open .program{height:640px;opacity:1;padding:20px 34px 30px}
 .pg-tabs{display:flex;gap:10px;justify-content:center;margin-bottom:12px}
 .pg-tab{font-family:var(--serif);font-size:24px;padding:8px 26px;background:#efe2c9;border:1px solid #cdb894;border-radius:3px;color:var(--ink2);cursor:pointer;box-shadow:1px 2px 0 #cdb894}
 .pg-tab.on{background:#8a3d48;border-color:#6b2d36;color:#fff}
@@ -520,7 +539,7 @@ body[data-village="gw"]{--tape:126,156,100} body[data-village="lm"]{--tape:106,1
 .pg-corner.next{right:0;background:linear-gradient(315deg,transparent 50%,#e8d9bb 50%,#f6ecd6 62%,#d9c6a0 100%);box-shadow:-3px -3px 6px rgba(0,0,0,.08)}
 .pg-corner.prev{left:0;background:linear-gradient(45deg,transparent 50%,#e8d9bb 50%,#f6ecd6 62%,#d9c6a0 100%);box-shadow:3px -3px 6px rgba(0,0,0,.08)}
 .pg-corner:hover{width:90px;height:90px}
-.pg-shut{position:absolute;right:30px;top:20px;font-family:var(--serif);font-size:18px;padding:6px 16px;background:#f6ead2;border:1px solid #b89b74;border-radius:3px;box-shadow:1px 2px 0 #cdb894;cursor:pointer}
+.pg-shut{position:absolute;right:30px;top:20px;z-index:3;font-family:var(--serif);font-size:18px;padding:6px 16px;background:#f6ead2;border:1px solid #b89b74;border-radius:3px;box-shadow:1px 2px 0 #cdb894;cursor:pointer}
 .ph-frame{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border:2px dashed #cdb894;border-radius:4px;background:repeating-linear-gradient(45deg,#fbf3e2 0 12px,#f7ecd6 12px 24px);color:var(--ink2);font-family:var(--serif);font-size:20px;text-align:center;padding:16px}
 .ph-frame b{font-size:32px;color:#8a3d48}
 .ph-frame.tall{height:100%}

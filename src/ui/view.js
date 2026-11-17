@@ -49,6 +49,8 @@
       if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
         // 퍼즐 창(dismissEscOnly)은 Esc 로만 닫힌다
         if (UI.dismiss && (e.key === 'Escape' || !UI.dismissEscOnly)) { e.preventDefault(); UI.dismiss(); }
+        // 창(퍼즐 등)이 열려 있을 때 Space 가 페이지를 내려 막이 내려가지 않게 한다 (입력 칸은 제외)
+        else if (UI.dismiss && e.key === ' ' && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) e.preventDefault();
       } else if (EF.CONFIG.showMemo && (e.key === 'n' || e.key === 'N') && !UI.busy) UI.openNotebook();
     });
     // 브라우저 뒤로/앞으로: 이미 방문한 페이지로만 이동 허용(주소창으로 잠긴 곳 우회 방지)
