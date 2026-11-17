@@ -432,7 +432,7 @@ body{background-color:#e9dfcc;background-image:var(--speckle);background-size:23
 #stage .hs{background:transparent;border:2px dashed transparent;border-radius:14px;backdrop-filter:none;box-shadow:none;transition:border-color .15s,box-shadow .15s,background .15s;cursor:pointer}
 #stage .hs .lbl{opacity:0;transform:translateY(4px);transition:opacity .15s,transform .15s;font-family:var(--serif);font-size:18px;background:var(--paper);border-radius:2px;box-shadow:2px 2px 0 rgba(60,40,20,.25)}
 #stage .hs:hover{transform:none;background:rgba(255,248,232,.16);border-color:rgba(255,250,238,.95);box-shadow:0 0 0 3px rgba(60,40,20,.28),inset 0 0 0 2px rgba(60,40,20,.12)}
-#stage .hs:hover .lbl{opacity:1;transform:none}
+#stage .hs .lbl{display:none!important} /* 클릭할 곳에 이름표는 넣지 않는다 */
 /* 그림이 없는 임시 장면: 아이콘만 희미하게 (그림이 들어오면 사라짐) */
 #stage:not(.has-img) .hs .ico{opacity:.75}
 #stage.has-img .hs .ico{opacity:0}
@@ -468,80 +468,73 @@ body[data-village="gw"]{--tape:126,156,100} body[data-village="lm"]{--tape:106,1
 .opt{font-family:var(--serif);background:#fffaf0;border:1px solid #d9c8a6;border-radius:2px}
 .opt.on{background:#fbefd9;border-color:var(--frame-dk)}
 
-/* 시작 화면: 닫힌 종이 커튼 */
-.curtain-title{position:absolute;inset:0;z-index:60;cursor:pointer;overflow:hidden}
-.curtain{position:absolute;top:0;bottom:0;width:50.5%;transition:transform 1.2s cubic-bezier(.6,.05,.3,1);
-  background:repeating-linear-gradient(90deg,#a9434f 0 18px,#c45a66 18px 40px,#b44c58 40px 56px,#d06e78 56px 64px);
-  box-shadow:inset 0 -30px 40px rgba(60,10,20,.35)}
-.curtain::after{content:'';position:absolute;inset:0;background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;opacity:.7}
-.curtain.left{left:0;border-right:3px solid #7e2c37}
-.curtain.right{right:0;border-left:3px solid #7e2c37}
-.curtain-title .valance{position:absolute;left:0;right:0;top:0;height:90px;z-index:2;
-  background:radial-gradient(60px 46px at 50% 0,#c9a35a 96%,transparent) 0 0/120px 90px repeat-x,linear-gradient(#b8924d,#c9a35a) 0 0/100% 34px no-repeat;
-  filter:drop-shadow(0 4px 2px rgba(40,20,10,.35))}
-.plaque{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-1deg);z-index:3;text-align:center;padding:34px 70px 28px;
+/* ===== 오페라 커튼 · 무대 뒤 (src/ui/backstage.js) ===== */
+.opera{position:absolute;inset:0;z-index:60;pointer-events:none}
+.opera.closed{pointer-events:auto}
+/* 커튼 천: 세로 주름 + 종이 알갱이. 닫히면 화면을 덮고, 열리면 양옆 위로 걷혀 묶인다(오페라 막) */
+.drape{position:absolute;top:0;bottom:0;width:51%;
+  background:linear-gradient(90deg,rgba(60,10,20,.28),transparent 18%,transparent 82%,rgba(60,10,20,.28)),
+             repeating-linear-gradient(90deg,#9e3a47 0 16px,#c45a66 16px 38px,#ad4652 38px 54px,#d27480 54px 62px,#b24e5a 62px 74px);
+  transition:clip-path 1.4s cubic-bezier(.55,.05,.3,1);filter:drop-shadow(0 0 10px rgba(40,5,10,.45))}
+.drape::after{content:'';position:absolute;inset:0;background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;opacity:.7}
+.drape.left{left:0;clip-path:polygon(0 0,100% 0,100% 18%,100% 38%,100% 60%,100% 82%,100% 100%,0 100%)}
+.drape.right{right:0;clip-path:polygon(100% 0,0 0,0 18%,0 38%,0 60%,0 82%,0 100%,100% 100%)}
+.opera.opening .drape.left,.opera.open .drape.left{clip-path:polygon(0 0,17% 0,12% 14%,7% 28%,3% 44%,1% 58%,0 70%,0 100%)}
+.opera.opening .drape.right,.opera.open .drape.right{clip-path:polygon(100% 0,83% 0,88% 14%,93% 28%,97% 44%,99% 58%,100% 70%,100% 100%)}
+/* 위쪽 휘장 (천장): 항상 그림 창 위에 걸려 있다 */
+.opera-valance{position:absolute;left:0;right:0;top:0;height:74px;z-index:3;pointer-events:none;
+  background:radial-gradient(46px 40px at 50% 0,#b8924d 96%,transparent) 0 26px/92px 48px repeat-x,
+             linear-gradient(#7e2c37,#9e3a47) 0 0/100% 30px no-repeat;
+  filter:drop-shadow(0 4px 2px rgba(40,10,10,.35))}
+/* 천장에 줄로 매단 패 */
+.hang{position:absolute;left:50%;top:0;z-index:2;display:flex;flex-direction:column;align-items:center;pointer-events:none;
+  transform:translate(-50%,0);transition:transform .7s cubic-bezier(.34,1.35,.5,1)}
+.hang.up{transform:translate(-50%,-115%);transition:transform .75s cubic-bezier(.55,0,.8,.2)}
+.ropes{width:58%;height:190px;border-left:3px solid #6b4a2a;border-right:3px solid #6b4a2a;
+  background:linear-gradient(90deg,transparent 0 calc(50% - 1px),transparent calc(50% + 1px))}
+.sign{pointer-events:auto;cursor:pointer;text-align:center;transform:rotate(-1.5deg);
   background-color:var(--paper);background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
-  box-shadow:0 1px 0 var(--paper-edge),4px 5px 0 #ece0c8,8px 10px 0 #dfd1b4,0 20px 40px rgba(30,10,10,.45);transition:opacity .5s}
-.p-logo{font-family:var(--serif);font-size:76px;font-weight:700;letter-spacing:.2em;color:#8a3d48}
-.p-sub{font-family:var(--serif);font-size:22px;color:var(--ink2);margin-top:2px}
-.p-cue{font-family:var(--serif);font-size:18px;color:#8a3d48;margin-top:18px;animation:cue 1.6s ease-in-out infinite}
-@keyframes cue{50%{opacity:.35}}
-.curtain-title.open .curtain.left{transform:translateX(-100%)}
-.curtain-title.open .curtain.right{transform:translateX(100%)}
-.curtain-title.open .plaque,.curtain-title.open .valance{opacity:0;transition:opacity .4s}
+  box-shadow:0 1px 0 var(--paper-edge),4px 5px 0 #ece0c8,8px 10px 0 #dfd1b4,0 20px 40px rgba(30,10,10,.45);position:relative}
+.sign::before,.sign::after{content:'';position:absolute;top:-8px;width:14px;height:14px;border-radius:50%;background:#b8924d;box-shadow:inset 0 -2px 0 #7a5a2a}
+.sign::before{left:21%}.sign::after{right:21%}
+.sign.logo{padding:44px 84px 40px}
+.logo-txt{font-family:var(--serif);font-size:84px;font-weight:700;letter-spacing:.2em;color:#8a3d48}
+.sign.gate{padding:26px 54px 22px}
+.gate-txt{display:block;font-family:var(--serif);font-size:46px;font-weight:700;letter-spacing:.18em;color:#8a3d48}
+.sign.gate small{font-family:var(--serif);font-size:18px;color:var(--ink2)}
+.sign:hover{transform:rotate(0)}
 
-/* ===== 무대 뒤 (src/ui/backstage.js) ===== */
-/* 스크롤하면 그림 창 위에서 내려오는 커튼 */
-.drop-curtain{position:absolute;inset:0;z-index:55;transform:translateY(-100%);will-change:transform;
-  background:repeating-linear-gradient(90deg,#a9434f 0 18px,#c45a66 18px 40px,#b44c58 40px 56px,#d06e78 56px 64px);
-  box-shadow:0 10px 24px rgba(40,10,15,.45)}
-.drop-curtain::before{content:'';position:absolute;inset:0;background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;opacity:.7}
-.drop-fringe{position:absolute;left:0;right:0;bottom:-26px;height:28px;background:radial-gradient(22px 26px at 50% 0,#8a3d48 96%,transparent) 0 0/44px 28px repeat-x}
-.drop-cue{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-1deg);text-align:center;padding:26px 54px;opacity:0;transition:opacity .3s;cursor:pointer;
-  background-color:var(--paper);box-shadow:0 1px 0 var(--paper-edge),4px 5px 0 #ece0c8,0 18px 36px rgba(30,10,10,.45)}
-.drop-curtain.shut .drop-cue{opacity:1}
-.drop-cue b{display:block;font-family:var(--serif);font-size:40px;color:#8a3d48}
-.drop-cue span{font-family:var(--serif);font-size:20px;color:var(--ink2)}
-.drop-curtain:not(.shut){pointer-events:none}
-
-/* 무대와 무대 뒤 사이의 종이 표 */
-.bs-ticket{display:block;margin:28px auto 0;padding:14px 40px;font-family:var(--serif);font-size:20px;color:var(--ink);cursor:pointer;
-  background:#f6ead2;border:1px dashed #b89b74;border-radius:3px;box-shadow:2px 3px 0 #cdb894,0 8px 18px rgba(60,40,20,.15);transform:rotate(-1deg);transition:transform .15s}
-.bs-ticket:hover{transform:rotate(0) translateY(-2px)}
-.bs-ticket span{color:#8a3d48;margin-right:6px}
-.bs-ticket small{display:block;font-size:13px;color:var(--ink2);margin-top:2px}
-
-/* 무대 뒤 책 */
-.backstage{margin-top:28px;padding:22px 26px 26px;scroll-margin-top:16px;background-color:var(--paper);background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
-  box-shadow:0 1px 0 var(--paper-edge),3px 4px 0 #efe4cf,6px 8px 0 #e4d7bd,0 14px 30px rgba(60,40,20,.16)}
-.bs-head{text-align:center;margin-bottom:14px}
-.bs-title{font-family:var(--serif);font-size:38px;font-weight:700;letter-spacing:.2em;color:#8a3d48}
-.bs-title::before,.bs-title::after{content:'❦';font-size:18px;vertical-align:middle;margin:0 14px;letter-spacing:0;color:#c9707a}
-.bs-sub{font-family:var(--serif);color:var(--ink2);font-size:15px}
-.bs-tabs{display:flex;justify-content:center;gap:10px;margin-bottom:-1px;position:relative;z-index:2}
-.bs-tab{font-family:var(--serif);font-size:17px;padding:8px 22px;background:#efe2c9;border:1px solid #cdb894;border-bottom:0;border-radius:6px 6px 0 0;color:var(--ink2);cursor:pointer}
-.bs-tab.on{background:#fffaf0;color:#8a3d48;font-weight:700}
-.bs-book{position:relative;height:560px;perspective:1800px;background:#fffaf0;border:1px solid #cdb894;box-shadow:inset 0 0 0 6px #fffaf0,inset 0 0 0 7px #eadcc0}
-.bs-leaf{position:absolute;inset:0;padding:22px 30px;opacity:0;pointer-events:none;transform-origin:left center;backface-visibility:hidden;background:#fffaf0;
-  transition:transform .7s cubic-bezier(.5,.05,.3,1),opacity .5s}
-.bs-leaf.on{opacity:1;pointer-events:auto;transform:none;z-index:2}
-.bs-leaf.out-next{opacity:0;transform:rotateY(-95deg);z-index:3}
-.bs-leaf.out-prev{opacity:0;transform:translateX(40px);z-index:1}
-.bs-leaf.in-prev{animation:leafBack .7s cubic-bezier(.5,.05,.3,1)}
-@keyframes leafBack{from{transform:rotateY(-95deg);opacity:0}to{transform:none;opacity:1}}
-.bs-page-head{display:flex;align-items:center;gap:12px;border-bottom:1px solid #e3d4b6;padding-bottom:10px;margin-bottom:16px}
-.bs-page-head h3{margin:0;font-family:var(--serif);font-size:28px;color:var(--ink)}
-.bs-ico{font-size:30px}
-.bs-no{margin-left:auto;font-family:var(--serif);color:var(--ink2)}
-.bs-page-body{height:calc(100% - 70px)}
-.ph-frame{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:2px dashed #cdb894;border-radius:4px;background:repeating-linear-gradient(45deg,#fbf3e2 0 12px,#f7ecd6 12px 24px);color:var(--ink2);font-family:var(--serif);text-align:center;padding:16px}
-.ph-frame b{font-size:24px;color:#8a3d48}
-.ph-frame.tall,.ph-frame.wide{height:100%}
-.ph-frame.wide{aspect-ratio:16/9;height:auto;max-height:100%;margin:0 auto;width:min(100%,770px)}
+/* 무대 뒤 책자: 표를 누르면 아래에서 올라온다 */
+.program{position:absolute;left:7%;right:7%;top:9%;bottom:-2%;z-index:70;transform:translateY(110%);transition:transform .7s cubic-bezier(.3,.8,.3,1);
+  background-color:#fffaf0;background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
+  box-shadow:0 1px 0 var(--paper-edge),4px 5px 0 #ece0c8,8px 10px 0 #dfd1b4,0 -10px 40px rgba(30,10,10,.45);padding:20px 34px 30px;display:flex;flex-direction:column}
+.program.up{transform:none}
+.pg-tabs{display:flex;gap:10px;justify-content:center;margin-bottom:12px}
+.pg-tab{font-family:var(--serif);font-size:24px;padding:8px 26px;background:#efe2c9;border:1px solid #cdb894;border-radius:3px;color:var(--ink2);cursor:pointer;box-shadow:1px 2px 0 #cdb894}
+.pg-tab.on{background:#8a3d48;border-color:#6b2d36;color:#fff}
+.pg-sheet{position:relative;flex:1;perspective:2200px}
+.pg-leaf{position:absolute;inset:0;padding:18px 26px 22px;background:#fffdf6;border:1px solid #e3d4b6;opacity:0;pointer-events:none;transform-origin:left center;backface-visibility:hidden;
+  transition:transform .8s cubic-bezier(.5,.05,.3,1),opacity .6s}
+.pg-leaf.on{opacity:1;pointer-events:auto;z-index:2}
+.pg-leaf.turn-away{opacity:0;transform:rotateY(-100deg);z-index:3}
+.pg-leaf.slide-away{opacity:0;transform:translateX(30px);z-index:1}
+.pg-leaf.in-back{animation:leafBack .8s cubic-bezier(.5,.05,.3,1)}
+@keyframes leafBack{from{transform:rotateY(-100deg);opacity:0}to{transform:none;opacity:1}}
+.pg-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid #e3d4b6;padding-bottom:8px;margin-bottom:14px}
+.pg-head h3{margin:0;font-family:var(--serif);font-size:34px;color:var(--ink)}
+.pg-no{margin-left:auto;font-family:var(--serif);font-size:18px;color:var(--ink2)}
+.pg-body{height:calc(100% - 64px)}
+/* 접힌 책장 모서리: 누르면 넘어간다 */
+.pg-corner{position:absolute;bottom:0;width:70px;height:70px;cursor:pointer;z-index:4;transition:width .2s,height .2s}
+.pg-corner.next{right:0;background:linear-gradient(315deg,transparent 50%,#e8d9bb 50%,#f6ecd6 62%,#d9c6a0 100%);box-shadow:-3px -3px 6px rgba(0,0,0,.08)}
+.pg-corner.prev{left:0;background:linear-gradient(45deg,transparent 50%,#e8d9bb 50%,#f6ecd6 62%,#d9c6a0 100%);box-shadow:3px -3px 6px rgba(0,0,0,.08)}
+.pg-corner:hover{width:90px;height:90px}
+.pg-shut{position:absolute;right:30px;top:20px;font-family:var(--serif);font-size:18px;padding:6px 16px;background:#f6ead2;border:1px solid #b89b74;border-radius:3px;box-shadow:1px 2px 0 #cdb894;cursor:pointer}
+.ph-frame{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border:2px dashed #cdb894;border-radius:4px;background:repeating-linear-gradient(45deg,#fbf3e2 0 12px,#f7ecd6 12px 24px);color:var(--ink2);font-family:var(--serif);font-size:20px;text-align:center;padding:16px}
+.ph-frame b{font-size:32px;color:#8a3d48}
+.ph-frame.tall{height:100%}
+.ph-frame.wide{aspect-ratio:16/9;max-height:100%;margin:0 auto;height:100%}
 .ph-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;height:100%}
-.bs-nav{display:flex;justify-content:space-between;margin-top:14px}
-.bs-turn{font-family:var(--serif);font-size:16px;padding:8px 18px;background:#f6ead2;border:1px solid #b89b74;border-radius:3px;box-shadow:1px 2px 0 #cdb894;cursor:pointer}
-.bs-turn:disabled{opacity:.4;cursor:default}
 
 </style>
 </head>
@@ -556,7 +549,7 @@ body[data-village="gw"]{--tape:126,156,100} body[data-village="lm"]{--tape:106,1
     <section id="caption">
       <h2 id="ptitle"></h2>
       <p id="pintro"></p>
-      <p class="tip">그림 속에서 눌러 볼 수 있는 곳을 찾아 클릭해 보세요. 그림 아래쪽 ▼ 에 마우스를 대고 누르면 뒤로 갈 수 있습니다. <a href="#" id="hintLink">클릭할 수 있는 곳 표시하기</a></p>
+      <p class="tip">그림 속에서 눌러 볼 수 있는 곳을 찾아 클릭해 보세요. 그림 아래쪽 ▼ 를 누르면 뒤로 갑니다. 마우스 휠을 내리면 막이 내립니다. <a href="#" id="hintLink">클릭할 수 있는 곳 표시하기</a></p>
     </section>
   </main>
   <footer id="foot"><span id="counter"></span><span class="sep">|</span><span>Best viewed on PC · 1280px 이상 권장</span><span id="devSlot"></span></footer>
@@ -1567,25 +1560,7 @@ body[data-village="gw"]{--tape:126,156,100} body[data-village="lm"]{--tape:106,1
     });
     UI.render();
     UI.fit();
-    UI.showTitle();
-    if (UI.initBackstage) UI.initBackstage(); // 아래로 내리면 막이 내리고 '무대 뒤' 페이지
-  };
-
-  // 시작 화면: 닫힌 종이 커튼 위에 제목. 누르면 막이 양옆으로 열리고 월드맵이 나온다.
-  UI.showTitle = function () {
-    const t = h('div', 'curtain-title');
-    const L = h('div', 'curtain left'), R = h('div', 'curtain right'), val = h('div', 'valance');
-    const plaque = h('div', 'plaque');
-    plaque.append(h('div', 'p-logo', 'EVERFREEZE'), h('div', 'p-sub', '세 마을 안내 사이트'), h('div', 'p-cue', '막을 올리려면 누르세요'));
-    t.append(L, R, val, plaque);
-    stage.append(t);
-    UI.busy = true;
-    const open = () => {
-      if (t.classList.contains('open')) return;
-      t.classList.add('open'); UI.dismiss = null;
-      setTimeout(() => { t.remove(); UI.busy = false; }, 1300);
-    };
-    t.onclick = open; UI.dismiss = open;
+    UI.initStageCurtain(); // 오페라 커튼: 시작 화면 · 휠로 막 내리기 · 무대 뒤 (backstage.js)
   };
 
   UI.fit = function () {
@@ -2411,89 +2386,134 @@ body[data-village="gw"]{--tape:126,156,100} body[data-village="lm"]{--tape:106,1
 
 </script>
 <script>
-/* 무대 뒤: 게임에서는 나오지 않는 설정 자료(그래픽노블 · 아트북 · 영상).
-   - 페이지를 아래로 내리면 그림 창에 커튼이 위에서 내려와 닫힌다(스크롤에 따라 내려옴, 올리면 다시 걷힘).
-   - 커튼 아래 '무대 뒤' 책에서 세 쪽을 넘겨 본다. 지금은 "들어올 예정" 자리표시만 있다.
-   - 작업물이 오면 아래 PAGES 의 body 만 바꾸면 된다. */
+/* 오페라 커튼 · 무대 뒤
+   그림 창 위에 오페라 극장 커튼 하나를 두고, 세 가지 순간에 쓴다.
+   1) 시작: 커튼이 닫혀 있고 천장에서 줄로 로고가 매달려 있다. 누르면 로고가 줄에 끌려 천장 위로 사라지고 커튼이 양옆 위로 걷힌다.
+   2) 휠을 내리면: 커튼이 양옆에서 닫히고 천장에서 "무대 뒤" 표가 줄에 매달려 내려온다. (바로 자료가 보이지 않는 한 단계)
+      표를 누르면: 그래픽노블 · 아트북 · 영상 책자가 아래에서 올라온다. 탭이나 책장 모서리를 눌러 넘긴다(화살표 없음).
+   3) 휠을 올리면: 책자 → 닫힌 커튼 → 커튼이 열려 다시 게임. 한 번 굴릴 때 한 단계씩.
+   작업물이 오면 PAGES 의 body 만 바꾸면 된다. */
 (function () {
   const EF = window.EF, UI = EF.UI, h = EF.h;
 
   const PAGES = [
-    { id: 'novel', tab: '그래픽노블', icon: '📖',
+    { id: 'novel', tab: '그래픽노블',
       body: '<div class="ph-frame tall"><b>그래픽노블</b><span>이 자리에 EVERFREEZE 그래픽노블이 들어올 예정입니다.</span></div>' },
-    { id: 'artbook', tab: '아트북', icon: '🎨',
+    { id: 'artbook', tab: '아트북',
       body: '<div class="ph-grid">' + ['캐릭터', '환경', '랜드마크', '키 비주얼'].map(t => `<div class="ph-frame"><b>${t}</b><span>아트북 이미지가 들어올 예정입니다.</span></div>`).join('') + '</div>' },
-    { id: 'video', tab: '영상', icon: '🎬',
-      body: '<div class="ph-frame wide"><b>▶ 영상</b><span>이 자리에 EVERFREEZE 영상이 들어올 예정입니다.</span></div>' }
+    { id: 'video', tab: '영상',
+      body: '<div class="ph-frame wide"><b>영상</b><span>이 자리에 EVERFREEZE 영상이 들어올 예정입니다.</span></div>' }
   ];
 
-  UI.initBackstage = function () {
-    const site = document.getElementById('site');
-    const foot = document.getElementById('foot');
-    const stage = UI.stage, wrap = document.getElementById('stagewrap');
+  const T = { open: 1500, close: 1300, rise: 750, drop: 700 }; // 애니메이션 시간(ms)
+  const wait = ms => new Promise(r => setTimeout(r, ms));
 
-    // ---- 그림 창 위로 내려오는 커튼 ----
-    const drop = h('div', 'drop-curtain');
-    const cue = h('div', 'drop-cue');
-    cue.append(h('b', '', '막이 내렸습니다'), h('span', '', '▲ 눌러서 무대로 돌아가기'));
-    drop.append(h('div', 'drop-fringe'), cue);
-    stage.append(drop);
-    drop.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+  UI.initStageCurtain = function () {
+    const stage = UI.stage;
+    // ---- 커튼 ----
+    const op = h('div', 'opera closed');
+    const L = h('div', 'drape left'), R = h('div', 'drape right');
+    const val = h('div', 'opera-valance');
+    // 천장에 줄로 매단 패 (로고 또는 '무대 뒤' 표)
+    const hang = h('div', 'hang');
+    const ropes = h('div', 'ropes');
+    const sign = h('div', 'sign');
+    hang.append(ropes, sign);
+    op.append(L, R, hang, val);
+    stage.append(op);
 
-    // ---- 무대 뒤 책 ----
-    const sec = h('section', 'backstage'); sec.id = 'backstage';
-    const head = h('div', 'bs-head');
-    head.append(h('div', 'bs-title', '무대 뒤'), h('div', 'bs-sub', '게임 속에서는 보이지 않는 이야기 · 그래픽노블 · 아트북 · 영상'));
-    const tabs = h('div', 'bs-tabs');
-    const book = h('div', 'bs-book');
+    // ---- 무대 뒤 책자 ----
+    const book = h('div', 'program');
+    const tabs = h('div', 'pg-tabs');
+    const sheet = h('div', 'pg-sheet');
     const leaves = PAGES.map((p, i) => {
-      const lf = h('div', 'bs-leaf');
-      lf.innerHTML = `<div class="bs-page-head"><span class="bs-ico">${p.icon}</span><h3>${p.tab}</h3><span class="bs-no">${i + 1} / ${PAGES.length}</span></div><div class="bs-page-body">${p.body}</div>`;
-      book.append(lf);
-      const t = h('button', 'bs-tab', p.tab); t.onclick = () => go(i); tabs.append(t);
+      const lf = h('div', 'pg-leaf');
+      lf.innerHTML = `<div class="pg-head"><h3>${p.tab}</h3><span class="pg-no">${i + 1} / ${PAGES.length}</span></div><div class="pg-body">${p.body}</div>`;
+      // 책장 모서리를 누르면 다음 쪽 / 앞쪽 (화살표 대신 접힌 모서리)
+      const nx = h('div', 'pg-corner next'), pv = h('div', 'pg-corner prev');
+      nx.title = '다음 쪽'; pv.title = '앞 쪽';
+      nx.onclick = () => go(i + 1); pv.onclick = () => go(i - 1);
+      if (i < PAGES.length - 1) lf.append(nx);
+      if (i > 0) lf.append(pv);
+      sheet.append(lf);
+      const t = h('button', 'pg-tab', p.tab); t.onclick = () => go(i); tabs.append(t);
       return lf;
     });
-    const prev = h('button', 'bs-turn prev', '◀ 이전 쪽'), next = h('button', 'bs-turn next', '다음 쪽 ▶');
-    const nav = h('div', 'bs-nav'); nav.append(prev, next);
-    sec.append(head, tabs, book, nav);
-    site.insertBefore(sec, foot);
-
-    // 무대와 무대 뒤 사이: 누르면 내려가는 종이 표
-    const ticket = h('button', 'bs-ticket');
-    ticket.innerHTML = '<span>▼</span> 무대 뒤 이야기 보기 <small>그래픽노블 · 아트북 · 영상</small>';
-    ticket.onclick = () => sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    site.insertBefore(ticket, sec);
+    const shut = h('button', 'pg-shut', '책자 덮기');
+    shut.onclick = () => step(-1);
+    book.append(tabs, sheet, shut);
+    stage.append(book);
 
     let cur = 0;
-    function go(i, dir) {
-      if (i < 0 || i >= PAGES.length) return;
-      const from = leaves[cur], to = leaves[i];
-      if (i !== cur) {
-        const d = dir || (i > cur ? 1 : -1);
-        from.classList.remove('on', 'in-next', 'in-prev'); from.classList.add(d > 0 ? 'out-next' : 'out-prev');
-        to.classList.remove('out-next', 'out-prev'); to.classList.add('on', d > 0 ? 'in-next' : 'in-prev');
-        setTimeout(() => from.classList.remove('out-next', 'out-prev'), 700);
-      } else to.classList.add('on');
+    function go(i) {
+      if (i < 0 || i >= PAGES.length || i === cur && leaves[i].classList.contains('on')) return;
+      const d = i > cur ? 1 : -1, from = leaves[cur], to = leaves[i];
+      if (from !== to) { from.classList.remove('on', 'in-back'); from.classList.add(d > 0 ? 'turn-away' : 'slide-away'); setTimeout(() => from.classList.remove('turn-away', 'slide-away'), 800); }
+      to.classList.remove('turn-away', 'slide-away'); to.classList.add('on'); if (d < 0) to.classList.add('in-back');
       cur = i;
       [...tabs.children].forEach((t, j) => t.classList.toggle('on', j === i));
-      prev.disabled = i === 0; next.disabled = i === PAGES.length - 1;
     }
-    prev.onclick = () => go(cur - 1, -1);
-    next.onclick = () => go(cur + 1, 1);
-    go(0);
+    leaves[0].classList.add('on'); tabs.children[0].classList.add('on');
 
-    // ---- 스크롤에 따라 커튼이 내려온다 ----
-    function onScroll() {
-      const r = wrap.getBoundingClientRect();
-      // 맨 위에서는 완전히 걷혀 있다. 60px 넘게 내리면 내려오기 시작해, 그림 창 높이의 60%만큼 더 내리면 다 닫힌다
-      const p = Math.max(0, Math.min(1, (scrollY - 60) / (r.height * 0.6)));
-      drop.style.transform = `translateY(${(p - 1) * 100}%)`;
-      drop.classList.toggle('shut', p > 0.98);
-      stage.classList.toggle('curtained', p > 0.02);
+    // ---- 상태 ----
+    // 'title' 닫힘+로고 → 'play' 열림 → 'gate' 닫힘+무대 뒤 표 → 'book' 책자
+    const C = UI.curtain = { state: 'title', busy: true, el: op };
+    const setSign = kind => {
+      sign.className = 'sign ' + kind;
+      sign.innerHTML = kind === 'logo' ? '<span class="logo-txt">EVERFREEZE</span>' : '<span class="gate-txt">무대 뒤</span><small>그래픽노블 · 아트북 · 영상</small>';
+    };
+    async function openFromClosed() {        // 패가 줄에 끌려 올라가고 → 커튼이 양옆 위로 걷힌다
+      hang.classList.add('up'); await wait(T.rise);
+      op.classList.remove('closed'); op.classList.add('opening'); await wait(T.open);
+      op.classList.remove('opening'); op.classList.add('open');
     }
-    addEventListener('scroll', onScroll, { passive: true });
-    addEventListener('resize', onScroll);
-    onScroll();
+    async function closeToGate() {           // 커튼이 양옆에서 닫히고 → '무대 뒤' 표가 내려온다
+      setSign('gate'); hang.classList.add('up');
+      op.classList.remove('open'); op.classList.add('closed'); await wait(T.close);
+      hang.classList.remove('up'); await wait(T.drop);
+    }
+    async function run(fn, next) {
+      if (C.busy) return; C.busy = true; UI.busy = true;
+      await fn(); C.state = next; C.busy = false; UI.busy = next !== 'play';
+    }
+    // dir: +1 = 휠 내림(닫기 쪽으로), -1 = 휠 올림(열기 쪽으로)
+    function step(dir) {
+      if (C.busy) return;
+      const s = C.state;
+      if (dir > 0 && s === 'play' && !UI.dismiss) run(closeToGate, 'gate');
+      else if (dir < 0 && s === 'gate') run(openFromClosed, 'play');
+      else if (dir < 0 && s === 'book') run(async () => { book.classList.remove('up'); await wait(700); }, 'gate');
+    }
+    C.step = step;
+    sign.onclick = e => {
+      e.stopPropagation();
+      if (C.busy) return;
+      if (C.state === 'title') run(openFromClosed, 'play');
+      else if (C.state === 'gate') run(async () => { book.classList.add('up'); await wait(700); }, 'book');
+    };
+    op.onclick = () => { if (C.state === 'title') sign.onclick({ stopPropagation() {} }); };
+
+    // 휠: 한 번 굴릴 때 한 단계 (애니메이션 중에는 무시)
+    let lastWheel = 0;
+    addEventListener('wheel', e => {
+      if (C.state === 'play' && (UI.dismiss || document.querySelector('.closeup, .scrim'))) return; // 창이 열려 있을 땐 무시
+      const now = Date.now();
+      if (Math.abs(e.deltaY) < 4) return;
+      e.preventDefault();
+      if (now - lastWheel < 450) return;
+      lastWheel = now;
+      step(e.deltaY > 0 ? 1 : -1);
+    }, { passive: false });
+
+    // 시작 화면
+    setSign('logo');
+    UI.busy = true;
+    UI.dismiss = null;
+    // 시작 화면에서 Enter/Space 로도 막을 올릴 수 있다
+    addEventListener('keydown', e => {
+      if (C.state === 'title' && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); sign.onclick({ stopPropagation() {} }); }
+    });
+    C.busy = false;
   };
 })();
 

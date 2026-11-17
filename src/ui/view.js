@@ -59,25 +59,7 @@
     });
     UI.render();
     UI.fit();
-    UI.showTitle();
-    if (UI.initBackstage) UI.initBackstage(); // 아래로 내리면 막이 내리고 '무대 뒤' 페이지
-  };
-
-  // 시작 화면: 닫힌 종이 커튼 위에 제목. 누르면 막이 양옆으로 열리고 월드맵이 나온다.
-  UI.showTitle = function () {
-    const t = h('div', 'curtain-title');
-    const L = h('div', 'curtain left'), R = h('div', 'curtain right'), val = h('div', 'valance');
-    const plaque = h('div', 'plaque');
-    plaque.append(h('div', 'p-logo', 'EVERFREEZE'), h('div', 'p-sub', '세 마을 안내 사이트'), h('div', 'p-cue', '막을 올리려면 누르세요'));
-    t.append(L, R, val, plaque);
-    stage.append(t);
-    UI.busy = true;
-    const open = () => {
-      if (t.classList.contains('open')) return;
-      t.classList.add('open'); UI.dismiss = null;
-      setTimeout(() => { t.remove(); UI.busy = false; }, 1300);
-    };
-    t.onclick = open; UI.dismiss = open;
+    UI.initStageCurtain(); // 오페라 커튼: 시작 화면 · 휠로 막 내리기 · 무대 뒤 (backstage.js)
   };
 
   UI.fit = function () {
