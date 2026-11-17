@@ -52,8 +52,8 @@
     'v-oldthing':  { kind: 'pic', icon: '🪵', tone: ['#5a4630', '#2e2418'] },                       // 그림만
     'v-cloak':     { kind: 'pattern', rows: ['☀️', '🕰️', '🌊'] },                                   // 위 해 · 가운데 시계탑 · 아래 물결
     'v-workbench': { kind: 'steps', total: 10, done: 7, mark: '★' },                                // ★ = 7
-    'v-registry':  { overlay: true, bare: true, kind: 'doc', paper: 'ledger', head: '🍂 글렌위버 주민 명부',
-      rows: [['오크스', '시에나'], ['마렌', '페넬'], ['토비', '로완']] }, // 글렌위버 주민만 · '하나' 없음
+    'v-registry':  { overlay: true, bare: true, kind: 'doc', paper: 'ledger', cols: ['🌿', '🍂', '🐚'],
+      rows: [['클로버', '오크스', '노아'], ['벨라', '시에나', '루루'], ['아리아', '마렌', '로완'], ['토비', '페넬', '']] }, // '하나' 없음
 
     // ===== 루미나리아 =====
     'v-mailbox':  { kind: 'stack', icon: '✉️', count: 3, mark: '●' },                               // ● = 3

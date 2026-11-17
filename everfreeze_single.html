@@ -540,7 +540,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
         '차가 식지를 않네요. 아까부터 계속 막 끓은 그대로예요.',
         '좋은 거겠죠? 따뜻한 건 좋은 거니까.' ] },
       { if: [{ stageMin: 2 }], text: [
-        '명부요? 글렌위버 사람 이름은 전부 거기 있어요. 빠진 사람은 없어요.',
+        '명부요? 세 마을 사람 이름은 전부 거기 있어요. 빠진 사람은 없어요.',
         '…없을 거예요.' ] },
       { text: [
         '어서 와요. 차 한잔 할래요? 마침 물이 끓었어요.',
@@ -703,13 +703,13 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
     'P-LEDGER': {
       view: 'v-ledger', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '대출 장부 대조', type: 'pick', answer: 3, level: '쉬움',
-      prompt: '대출 장부에 같은 책을 빌려 간 사람들이 적혀 있다. 모두 글렌위버 사람이라는데, 이상한 이름은 누구일까?',
-      options: ['토비 · 글렌위버', '마렌 · 글렌위버', '페넬 · 글렌위버', '하나 · 글렌위버', '로완 · 글렌위버'],
-      hint: '글렌위버의 마을 주택에 글렌위버 주민 명부가 있다. 장부의 이름과 하나씩 맞춰 보자.',
+      prompt: '대출 장부에 같은 책을 빌려 간 사람들의 이름이 적혀 있다. 이상한 이름은 누구일까?',
+      options: ['토비', '마렌', '페넬', '하나', '로완'],
+      hint: '글렌위버의 마을 주택에 주민 명부가 있다. 장부의 이름과 하나씩 맞춰 보자.',
       success: '명부에 없는 이름이 장부에 적혀 있다. 존재한 적 없는 사람이 같은 책을 반복해서 빌려 갔다.',
       fail: '그 사람은 명부에 있는 것 같다.',
       onSolve: [{ grant: 'R-05' }],
-      clueAt: '글렌위버 · 마을 주택 · 글렌위버 주민 명부 (명부에 없는 이름 = 하나)'
+      clueAt: '글렌위버 · 마을 주택 · 주민 명부 (명부에 없는 이름 = 하나)'
     },
     'P-ARCHIVE': {
       view: 'v-record', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
@@ -861,8 +861,8 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
     'v-oldthing':  { kind: 'pic', icon: '🪵', tone: ['#5a4630', '#2e2418'] },                       // 그림만
     'v-cloak':     { kind: 'pattern', rows: ['☀️', '🕰️', '🌊'] },                                   // 위 해 · 가운데 시계탑 · 아래 물결
     'v-workbench': { kind: 'steps', total: 10, done: 7, mark: '★' },                                // ★ = 7
-    'v-registry':  { overlay: true, bare: true, kind: 'doc', paper: 'ledger', head: '🍂 글렌위버 주민 명부',
-      rows: [['오크스', '시에나'], ['마렌', '페넬'], ['토비', '로완']] }, // 글렌위버 주민만 · '하나' 없음
+    'v-registry':  { overlay: true, bare: true, kind: 'doc', paper: 'ledger', cols: ['🌿', '🍂', '🐚'],
+      rows: [['클로버', '오크스', '노아'], ['벨라', '시에나', '루루'], ['아리아', '마렌', '로완'], ['토비', '페넬', '']] }, // '하나' 없음
 
     // ===== 루미나리아 =====
     'v-mailbox':  { kind: 'stack', icon: '✉️', count: 3, mark: '●' },                               // ● = 3
