@@ -65,43 +65,6 @@
     }
   }
 
-  // 배경 종이가 찢겨 뒤의 검은 바탕이 보인다 (3단계부터, 단계가 오를수록 늘고 커진다)
-  let tears, tearsTop;
-  function drawTears(stage) {
-    const NS = 'http://www.w3.org/2000/svg';
-    if (!tears) {
-      tears = document.createElementNS(NS, 'svg'); tears.setAttribute('class', 'paper-tears'); document.body.prepend(tears);
-      tearsTop = document.createElementNS(NS, 'svg'); tearsTop.setAttribute('class', 'paper-tears top'); document.body.append(tearsTop);
-    }
-    const W = document.documentElement.scrollWidth, H = Math.max(document.documentElement.scrollHeight, innerHeight);
-    [tears, tearsTop].forEach(t => { t.setAttribute('width', W); t.setAttribute('height', H); t.setAttribute('viewBox', `0 0 ${W} ${H}`); t.innerHTML = ''; });
-    if (stage < 3) return;
-    let seed = 31; const r = () => (seed = (seed * 9301 + 49297) % 233280) / 233280; // 매번 같은 자리
-    const sr = site.getBoundingClientRect(), sl = sr.left + scrollX, srt = sr.right + scrollX;
-    // 찢긴 구멍 하나: 바깥은 밝은 찢긴 종이 가장자리, 안쪽은 검은 바탕
-    const hole = (svg, cx, cy, rx, ry) => {
-      const N = 26, rim = [], inner = [];
-      for (let i = 0; i < N; i++) {
-        const a = i / N * Math.PI * 2, j = .72 + r() * .5, k = j - .08 - r() * .1;
-        rim.push([cx + Math.cos(a) * rx * j, cy + Math.sin(a) * ry * j]);
-        inner.push([cx + Math.cos(a) * rx * k + (r() - .5) * 4, cy + Math.sin(a) * ry * k + (r() - .5) * 4]);
-      }
-      const d = pts => 'M' + pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' L') + ' Z';
-      const a = document.createElementNS(NS, 'path'); a.setAttribute('d', d(rim)); a.setAttribute('class', 'tear-rim');
-      const b = document.createElementNS(NS, 'path'); b.setAttribute('d', d(inner)); b.setAttribute('class', 'tear-hole');
-      svg.append(a, b);
-      // 찢긴 섬유 몇 가닥
-      for (let i = 0; i < 6; i++) { const p0 = inner[Math.floor(r() * N)], f = document.createElementNS(NS, 'path');
-        f.setAttribute('d', `M${p0[0].toFixed(1)},${p0[1].toFixed(1)} l${((r() - .5) * 14).toFixed(1)},${((r() - .5) * 14).toFixed(1)}`); f.setAttribute('class', 'tear-fiber'); svg.append(f); }
-    };
-    const margin = () => r() < .5 ? rnd2(10, Math.max(20, sl - 30)) : rnd2(Math.min(W - 20, srt + 30), W - 10);
-    function rnd2(a, b) { return a + r() * (b - a); }
-    const count = { 3: 3, 4: 7, 5: 11 }[Math.min(stage, 5)], scale = { 3: 1, 4: 1.5, 5: 2 }[Math.min(stage, 5)];
-    for (let i = 0; i < count; i++) hole(tears, margin(), rnd2(40, H - 40), (18 + r() * 34) * scale, (14 + r() * 28) * scale);
-    // 4단계부터: 사이트 종이 가장자리도 살짝 찢긴다 / 5단계: 더 크게
-    if (stage >= 4) for (let i = 0; i < (stage >= 5 ? 5 : 2); i++) hole(tearsTop, r() < .5 ? sl + r() * 30 : srt - r() * 30, rnd2(120, H - 120), (16 + r() * 26) * (stage >= 5 ? 1.6 : 1), (12 + r() * 22) * (stage >= 5 ? 1.6 : 1));
-  }
-
   function band(kind) { // 가로 띠: 색 반전 / 색 뒤틀림 / 검은 틈
     const hgt = kind === 'gap' ? rnd(2, 7) : rnd(8, 40);
     blip('gband ' + kind, { top: rnd(0, innerHeight) + 'px', height: hgt + 'px' }, kind === 'gap' ? rnd(60, 140) : rnd(80, 200));
@@ -145,13 +108,13 @@
     if (stage === G.stage && G.ready) {
       // 같은 단계: 5단계면 새로 바뀐 설명 글도 멈춘 채 조금 깨뜨린다(이미 깨진 글은 그대로)
       if (stage >= 5) textNodes().forEach(n => { if (frozen.get(n) !== n.nodeValue && Math.random() < .5) corrupt(n, .06, 0); });
-      if (site && Math.abs(site.scrollHeight - (+cracks.getAttribute('height') || 0)) > 40) { drawCracks(stage); drawTears(stage); } // 무대 뒤가 펼쳐지는 등 높이가 바뀌면 다시 그린다
+      if (site && Math.abs(site.scrollHeight - (+cracks.getAttribute('height') || 0)) > 40) { drawCracks(stage); } // 무대 뒤가 펼쳐지는 등 높이가 바뀌면 다시 그린다
       return;
     }
     G.stage = stage; G.ready = true;
     timers.forEach(clearInterval); timers = [];
     document.body.dataset.glitch = stage;
-    drawCracks(stage); drawTears(stage);
+    drawCracks(stage);
     if (stage >= 5) { ghost(false); textNodes().forEach(n => Math.random() < .5 && corrupt(n, .06, 0)); return; } // 멈춘 채 깨진 글자가 남는다
     if (reduced || stage < 2) return;
     const every = (ms, fn) => timers.push(setInterval(fn, ms));
@@ -219,5 +182,5 @@
       requestAnimationFrame(tick);
     })();
   }
-  addEventListener('resize', () => { if (G.ready) { drawCracks(G.stage); drawTears(G.stage); } });
+  addEventListener('resize', () => { if (G.ready) { drawCracks(G.stage); ; } });
 })();
