@@ -12,9 +12,9 @@
     { title: '돌아다니는 방법',
       body: '마을과 장소를 눌러 안으로 들어가요.\n그림 아래쪽 ▼ 를 누르면 한 단계 뒤로 돌아가요.\n그림 창 위 [월드맵] 버튼을 누르면 언제든 처음 지도로 돌아가요.\n물건을 가까이 본 화면에서도 ▼ 를 누르면 원래 장면으로 돌아가요.' },
     { title: '단서와 퍼즐',
-      body: '물건을 누르면 가까이 들여다볼 수 있어요. 그 안에 숫자나 기호가 숨어 있기도 해요.\n한 마을의 퍼즐 단서는 다른 마을에 있어요. 여러 마을을 오가며 기억해 두세요.\n퍼즐을 3번 틀리면 힌트가 나와요. 그림이 흔들리는 곳은 아직 열리지 않은 곳이에요.' },
+      body: '물건을 누르면 가까이 들여다볼 수 있어요.\n그 안에 숫자나 기호가 숨어 있기도 해요.\n한 마을의 퍼즐 단서는 다른 마을에 있어요.\n여러 마을을 오가며 기억해 두세요.\n퍼즐을 3번 틀리면 힌트가 나와요.\n그림이 흔들리는 곳은 아직 열리지 않은 곳이에요.' },
     { title: '무언가 이상하다면',
-      body: '단서를 모을수록 세계가 조금씩 어긋나고, 그때마다 새로운 곳이 열려요.\n막힐 때는 아직 가 보지 않은 장소나 다시 말을 걸어 보지 않은 사람을 찾아보세요.\n페이지를 아래로 내리면 \'무대 뒤\' 이야기도 볼 수 있어요.' }
+      body: '단서를 모을수록 세계가 조금씩 어긋나고, 그때마다 새로운 곳이 열려요.\n막힐 때는 아직 가 보지 않은 장소나\n다시 말을 걸어 보지 않은 사람을 찾아보세요.\n페이지를 아래로 내리면 \'무대 뒤\' 이야기도 볼 수 있어요.' }
   ];
   const TIPS = {
     shake:  '아직은 열 수 없어요. 다른 곳을 먼저 둘러보세요.',
@@ -91,7 +91,13 @@
     map.title = '월드맵으로 돌아가기'; help.title = '안내 다시 보기';
     map.onclick = e => { e.stopPropagation(); if (UI.busy) return; EF.state.scene = 'WORLD_MAP'; UI.render(); };
     help.onclick = e => { e.stopPropagation(); openGuide(); };
-    bar.append(map, help, reset);
+    bar.append(reset, help, map); // 순서: 처음부터 · 도움말 · 월드맵
+    // 지금 누를 수 없는 버튼(클로즈업 · 대화 · 퍼즐 · 안내 창이 열려 있을 때)은 색을 빼서 꺼진 것처럼 보이게 한다
+    const sync = () => {
+      const off = !!(UI.busy || UI.dismiss);
+      [reset, help, map].forEach(b => { b.classList.toggle('off', off); b.disabled = off; b.setAttribute('aria-disabled', off); });
+    };
+    setInterval(sync, 150); sync();
     const wrap = document.getElementById('stagewrap'); wrap.parentNode.insertBefore(bar, wrap);
     UI.guideBar = { bar, map };
     map.style.display = EF.SCENES[EF.state.scene].kind === 'world' ? 'none' : '';

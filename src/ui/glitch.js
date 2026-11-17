@@ -93,6 +93,14 @@
     cracks.setAttribute('viewBox', `0 0 ${W} ${H}`); cracks.setAttribute('width', W); cracks.setAttribute('height', H);
     cracks.innerHTML = '';
     if (stage < 4) return;
+    // 균열 그림을 넣었으면(EF.CRACK_IMAGES) 그 그림을 사이트 전체에 덮는다. 없는 단계는 바로 아래 단계 그림.
+    const ci = EF.CRACK_IMAGES || {}, key = Object.keys(ci).map(Number).filter(k => k <= stage).sort((a, b) => b - a)[0];
+    if (key) {
+      const im = document.createElementNS(cracks.namespaceURI, 'image');
+      im.setAttribute('href', ci[key]); im.setAttribute('x', 0); im.setAttribute('y', 0); im.setAttribute('width', W); im.setAttribute('height', H);
+      im.setAttribute('preserveAspectRatio', 'none'); cracks.append(im);
+      return;
+    }
     let seed = 7; const r = () => (seed = (seed * 9301 + 49297) % 233280) / 233280; // 매번 같은 모양
     const crack = (x, y, len, ang, w) => {
       let d = `M${x},${y}`, px = x, py = y;
