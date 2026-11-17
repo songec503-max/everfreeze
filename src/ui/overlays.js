@@ -19,20 +19,42 @@
   };
 
   UI.showSay = function (it, done) {
-    const n = EF.NPCS[it.npc], sc = scrim(), box = h('div', 'textbox dialogue');
-    const por = h('div', 'portrait', n.name[0]); por.style.background = n.color;
-    const head = h('div', 'dhead');
-    head.append(h('b', '', n.name), h('span', 'role', n.role));
-    if (it.ctx) head.append(h('span', 'ctx', it.ctx));
-    const body = h('div', 'body', EF.npcLine(it.npc));
-    const btn = h('button', 'btn close', '닫기');
+    const n = EF.NPCS[it.npc];
+    // 인물 크롭: 배경 속 인물을 누르면 따로 그린 인물 그림이 그림 창 전체에 뜨고, 대화창이 그 위에 얹힌다
+    const cu = h('div', 'closeup npc-cu');
+    if (EF.NPC_IMAGES.includes(it.npc)) cu.style.background = `url(assets/npc/${it.npc}.png) center/cover no-repeat`;
+    else {
+      cu.style.background = `radial-gradient(ellipse at 50% 38%, ${n.color} 0%, #2b2638 85%)`;
+      cu.append(h('div', 'npc-ph', n.name), h('div', 'cv-tag', `임시 그림 · assets/npc/${it.npc}.png`));
+    }
+    UI.stage.append(cu);
+    const sc = scrim(), box = h('div', 'textbox dialogue');
+    const pages = it.pages || [{ who: it.npc, text: EF.npcLine(it.npc, it.ctx) }];
+    const por = h('div', 'portrait'), head = h('div', 'dhead'), body = h('div', 'body');
+    const btn = h('button', 'btn close'), count = h('span', 'dcount');
     const col = h('div', 'dcol'); col.append(head, body);
-    box.append(por, col, btn);
+    const side = h('div', 'dside'); side.append(count, btn);
+    box.append(por, col, side);
     sc.append(box);
-    const close = () => closeWith(sc, done);
-    btn.onclick = e => { e.stopPropagation(); close(); };
-    sc.onclick = e => { if (e.target === sc) close(); };
-    UI.dismiss = close;
+    let i = 0;
+    const draw = () => {
+      const pg = pages[i], who = EF.NPCS[pg.who] || n;
+      por.textContent = who.name[0]; por.style.background = who.color;
+      box.classList.toggle('is-clover', pg.who === 'clover');
+      head.innerHTML = '';
+      head.append(h('b', '', who.name)); // 이름만 보인다 (역할·설정 문구는 화면에 쓰지 않음)
+      if (it.ctx && pg.who === it.npc) head.append(h('span', 'ctx', it.ctx));
+      body.textContent = pg.text;
+      const last = i === pages.length - 1;
+      btn.textContent = last ? '닫기' : '다음 ▶';
+      count.textContent = pages.length > 1 ? `${i + 1} / ${pages.length}` : '';
+    };
+    const close = () => { cu.remove(); closeWith(sc, done); };
+    const next = () => { if (i < pages.length - 1) { i++; draw(); } else close(); };
+    btn.onclick = e => { e.stopPropagation(); next(); };
+    sc.onclick = e => { if (e.target === sc) next(); };
+    UI.dismiss = next; // Enter/Space/Esc: 다음 장, 마지막 장이면 닫기
+    draw();
   };
 
   UI.showEnding = function (done) {

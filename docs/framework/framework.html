@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --move:#3d8b57; --gain:#e08a1e; --stage:#d9534f; --ded:#7b5cc4; --gate:#4a7fd0; --chain:#555; --back:#e05a9a; --clue:#a0703c;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;font-family:'Noto Sans KR','WenQuanYi Zen Hei',sans-serif;color:#222;font-size:12px}
+#wrap{position:relative;width:2280px;padding:18px 24px 40px}
+h1{margin:0 0 4px;font-size:30px;font-weight:800;letter-spacing:-.5px}
+.sub{color:#666;font-size:13px;margin-bottom:8px}
+.legend{display:flex;flex-wrap:wrap;gap:16px;align-items:center;font-size:12px;color:#555;margin-bottom:12px}
+.legend .ln{display:inline-flex;align-items:center;gap:6px}
+.legend svg{overflow:visible}
+.chip{display:inline-block;width:14px;height:12px;border:1.5px solid;border-radius:2px;vertical-align:middle;margin-right:4px}
+.colhead{display:grid;grid-template-columns:150px 170px 210px 200px 540px 190px 300px;column-gap:28px;font-weight:800;font-size:14px;margin:8px 0 6px}
+#rows{position:relative}
+.block{display:grid;grid-template-columns:150px 170px 210px 200px 540px 190px 300px;column-gap:28px;margin-bottom:22px;position:relative}
+.box{border:1.5px solid #999;border-radius:3px;padding:4px 7px;background:#fff;line-height:1.35;position:relative;z-index:2}
+.box small{display:block;color:#888;font-size:10px}
+.vbox{align-self:center;font-weight:800;font-size:14px;text-align:center;padding:10px 6px;background:#e4eefb;border-color:#5b86c9;color:#234}
+.sbox{font-weight:800;font-size:13px;text-align:center;padding:9px 6px;background:#e4eefb;border-color:#5b86c9;color:#234}
+.sbox.sub2{background:#eaf5e4;border-color:#6fae6a;color:#253}
+.k-npc{background:#e6f0fb;border-color:#6f9ad6}
+.k-inspect{background:#fff3dc;border-color:#e0a84a}
+.k-puzzle{background:#efe8fb;border-color:#9b7fd6}
+.k-move{background:#e8f5e4;border-color:#6fae6a}
+.k-intro{background:#e9f8fa;border:1.5px dashed #6cb8c4;color:#2b6f78}
+.k-back{background:#fde8f1;border:1.5px dashed #e05a9a;color:#b03a74}
+.temp{border-style:dashed}
+.cond{border:1.5px dashed #7fa6e0;color:#3f6fb8;background:#fff;font-size:11px}
+.res{font-size:11.5px}
+.res.r-move{background:#e8f5e4;border-color:#6fae6a}
+.res.r-view{background:#fff8ea;border-color:#e0a84a}
+.res.r-gain{background:#fff0d6;border-color:#e08a1e}
+.res.r-shake{background:#f4f4f4;border-color:#aaa;color:#555}
+.res.r-say{background:#e6f0fb;border-color:#6f9ad6}
+.res.r-puzzle{background:#efe8fb;border-color:#9b7fd6}
+.res.r-solve{background:#efe8fb;border-color:#7b5cc4}
+.res.r-intro{background:#e9f8fa;border:1.5px dashed #6cb8c4;color:#2b6f78}
+.res.r-back{background:#fde8f1;border:1.5px dashed #e05a9a;color:#b03a74}
+.res b{font-weight:700}
+.res .q{color:#555}
+.ev{font-weight:700;font-size:11.5px;background:#fbe3dc;border-color:#d9765c;color:#7a2e1c}
+.ev.clue{background:#e6f0fb;border-color:#5b86c9;color:#234}
+.ev.opt{background:#fff;border:1.5px dashed #555;color:#333}
+.cx{font-size:11.5px}
+.cx.tier{background:#fbe3dc;border-color:#d9534f;color:#7a2e1c}
+.cx.ded{background:#e9f5e4;border-color:#5f9a50;color:#234}
+.cx.dedopt{background:#fff;border:1.5px dashed #5f9a50}
+.cx.clue{background:#fff;border:1.5px dashed #a0703c;color:#5a3a16}
+.cx b{display:block;font-size:12px}
+.cell{display:flex;flex-direction:column;gap:6px}
+.grp{display:grid;grid-template-columns:200px 540px;column-gap:28px;row-gap:6px}
+#svg{position:absolute;left:0;top:0;pointer-events:none;z-index:1;overflow:visible}
+</style></head>
+<body><div id="wrap">
+<h1 id="title"></h1>
+<div class="sub" id="subtitle"></div>
+<div class="legend" id="legend"></div>
+<div class="colhead"><div>마을 지도</div><div>장소 · 하위 장소</div><div>클릭 요소 (핫스팟 · 위치 x,y,w,h)</div><div>조건</div><div>결과 (화면에 나오는 것)</div><div>증거 · 흔적</div><div>연결 (단계 · 추리 · 다른 퍼즐 단서)</div></div>
+<div id="rows"></div>
+<svg id="svg"></svg>
+</div>
+<!-- 사이트 데이터·엔진 (그대로 읽어 온다) -->
+<script src="../../src/data/texts.js"></script>
+<script src="../../src/data/npcs.js"></script>
+<script src="../../src/data/evidence.js"></script>
+<script src="../../src/data/deductions.js"></script>
+<script src="../../src/data/puzzles.js"></script>
+<script src="../../src/data/views.js"></script>
+<script src="../../src/data/scenes.js"></script>
+<script src="../../src/engine/state.js"></script>
+<script src="../../src/engine/conditions.js"></script>
+<script src="../../src/engine/engine.js"></script>
+<script>
+(function () {
+const EF = window.EF;
+const P = new URLSearchParams(location.search);
+const V = P.get('v') || 'GW';
+const CONF = {
+  RM: { code: '08-A', name: '로즈메리', map: 'MAP_ROSEMARY' },
+  GW: { code: '08-B', name: '글렌위버', map: 'MAP_GLENWEAVER' },
+  LM: { code: '08-C', name: '루미나리아', map: 'MAP_LUMINARIA' }
+}[V];
+const VILLAGE_OF = id => id.startsWith('RM_') || id === 'MAP_ROSEMARY' ? '로즈메리' : id.startsWith('GW_') || id === 'MAP_GLENWEAVER' ? '글렌위버' : id.startsWith('LM_') || id === 'MAP_LUMINARIA' ? '루미나리아' : '';
+
+// 다른 마을 퍼즐의 단서를 주는 곳 (장면, 핫스팟) → 퍼즐, 단서 내용
+const CLUES = [
+  ['RM_PLAZA', 'clock', 'P-SHELF', '시계 11시 59분'], ['RM_PLAZA', 'clock', 'P-ATELIER', '바늘은 늘 시계 방향'],
+  ['RM_PLAZA', 'board', 'P-OLDREC', '▲ = 공지 2장'], ['RM_LIBRARY_READING', 'shelf', 'P-SHELF', '읽는 법: 바깥 링부터, 분 먼저'],
+  ['RM_LIBRARY_ARCHIVE', 'fragments', 'P-LETTER', '하루의 순서: 아침 낮 저녁 밤 밤'], ['RM_BELLA_SHOP', 'ledger-shop', 'P-MAILBOX', '우편 마차 6:20'],
+  ['GW_HOUSE', 'registry', 'P-LEDGER', '명부에 없는 이름 = 하나'], ['GW_TOWER', 'shift-log', 'P-ATELIER', '교대 순서: 새벽 한낮 노을 밤'],
+  ['GW_SIENNA', 'workbench-gw', 'P-OLDREC', '★ = 망토 7단계'], ['GW_SIENNA', 'cloak', 'P-ARCHIVE', '완성 도안: 위 해 · 가운데 시계탑 · 아래 물결'],
+  ['LM_HARBOR', 'sign', 'P-DRAWER', '입항 시각 4:17'], ['LM_CAFE', 'jelly', 'P-BIRDHOUSE', '조명 순서: 파랑 분홍 노랑 초록'],
+  ['LM_LIGHTHOUSE', 'mailbox', 'P-OLDREC', '● = 편지 3통']
+];
+const PUZ_HOME = {}; // 퍼즐이 있는 곳
+Object.values(EF.SCENES).forEach(sc => sc.hotspots.forEach(hp => hp.rules.forEach(r => (r.do || []).forEach(a => { if (a.puzzle) PUZ_HOME[a.puzzle] = `${VILLAGE_OF(sc.id)} · ${sc.name} · ${hp.label}`; }))));
+
+const KIND = { npc: '대화', inspect: '조사', puzzle: '퍼즐', move: '이동' };
+const esc = t => String(t).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+const cut = (t, n = 70) => (t = String(t)).length > n ? t.slice(0, n) + '…' : t;
+
+// ---------- 조건 → 글 ----------
+function condText(c) {
+  if (!c || (Array.isArray(c) && !c.length)) return '항상 (그 외)';
+  if (Array.isArray(c)) return c.map(condText).join(' 그리고 ');
+  return Object.keys(c).map(k => {
+    const v = c[k];
+    switch (k) {
+      case 'stageMin': return `${v}단계 이상`;
+      case 'stageMax': return `${v}단계 이하`;
+      case 'has': return `${v} ${EF.EVIDENCE[v] ? EF.EVIDENCE[v].name : ''} 보유`;
+      case 'solved': return `퍼즐 ${v}(${EF.PUZZLES[v].title}) 완료`;
+      case 'flag': return v === 'ariaConfronted' ? '아리아 대면 완료' : `기록 ${v}`;
+      case 'deduced': return `추리 ${v} 완료`;
+      case 'ended': return '엔딩 후';
+      case 'notEnded': return '엔딩 전';
+      case 'talked': return '두 번째 말 걸기부터';
+      case 'scene': return EF.SCENES[v] ? EF.SCENES[v].name : v;
+      case 'not': return condText(v).replace(/(\d)단계 이상/, '$1단계 미만').replace(/ 완료$/, ' 전').replace(/ 보유$/, ' 없음');
+      case 'any': return '(' + v.map(condText).join(' 또는 ') + ')';
+      case 'all': return condText(v);
+    }
+    return k;
+  }).join(' 그리고 ');
+}
+
+// ---------- 클로즈업 요약 ----------
+function viewText(v) {
+  const id = typeof v === 'string' ? v : null; const d = id ? EF.VIEWS[id] : v;
+  if (!d) return '';
+  let s = '';
+  switch (d.kind) {
+    case 'pic': s = `그림 ${d.icon || ''}`; break;
+    case 'doc': s = [d.head, d.cols && d.cols.join('·'), (d.rows || []).slice(0, 2).map(r => [].concat(r).join(' ')).join(' / ') + ((d.rows || []).length > 2 ? ` … (${d.rows.length}줄)` : ''), d.foot].filter(Boolean).join(' · '); break;
+    case 'strip': s = d.items.join(' → '); break;
+    case 'clock': s = `시계 ${d.h}:${String(d.m).padStart(2, '0')}`; break;
+    case 'lights': s = `불빛이 차례로 켜짐 (${d.colors.length}색)`; break;
+    case 'pattern': s = `문양 3줄: ${d.rows.join(' / ')}`; break;
+    case 'steps': s = `${d.mark || ''} 바느질 ${d.done}/${d.total}에서 멈춤`; break;
+    case 'pins': s = `종이 ${d.items.length}장 ${d.items[0].icon || ''} ${d.items[0].text || ''} ${d.items[0].mark || ''}`; break;
+    case 'stack': s = `${d.icon} ${d.count}개 ${d.mark || ''}`; break;
+    case 'ringguide': s = '나이테 1→4(바깥부터) · 긴 바늘① 짧은 바늘②'; break;
+  }
+  return `<b>클로즈업</b> ${id ? `<span class="q">${id}</span> ` : ''}— ${esc(s)}`;
+}
+
+// ---------- 대화 요약 ----------
+function sayText(npc, ctx) {
+  const n = EF.NPCS[npc];
+  const lines = (n.lines || []).filter(l => !l.ctx || l.ctx === ctx);
+  let out = `<b>대화창 · ${n.name}${ctx ? ' (' + ctx + ')' : ''}</b>`;
+  if (!lines.length) return out + ' — 000과 대화 (임시)';
+  const show = lines.filter(l => !(l.if || []).some(c => c.scene && c.scene !== CUR_SCENE));
+  show.forEach(l => {
+    const pages = [].concat(l.text), first = typeof pages[0] === 'string' ? pages[0] : pages[0].text || pages[0].clover;
+    const lab = (l.if && l.if.length ? condText(l.if.filter(c => !c.scene)) : '기본').replace('항상 (그 외)', '기본');
+    out += `<br><span class="q">· ${esc(lab)}:</span> 「${esc(cut(first, 46))}」${pages.length > 1 ? ` <span class="q">(${pages.length}장)</span>` : ''}`;
+  });
+  return out;
+}
+let CUR_SCENE = '';
+
+function answerText(p) {
+  switch (p.type) {
+    case 'pick': return p.options[p.answer];
+    case 'dial': case 'rings': case 'code': return p.answer;
+    case 'cipher': return `${p.symbols.join('')} → ${p.answer}`;
+    case 'lever': return p.answer.map(k => p.levers.find(l => l.key === k).name).join(' → ');
+    case 'clock': return `${p.answer.h}시 ${p.answer.m}분`;
+    case 'slide': return '3×3 그림 완성 (위 ' + p.rows.map(r => r.name).join(' · ') + ' 아래)';
+    case 'signal': return p.answer.map(k => p.signals.find(s => s.key === k).name).join(' · ');
+    case 'glass': return p.pieces.map(x => x.name).join(' · ') + ' (시계 방향, ▲ 모두 위)';
+    case 'order': return p.items.join(' → ');
+  }
+  return '';
+}
+const TYPE_KO = { pick: '고르기', dial: '다이얼', rings: '회전 링', code: '숫자', cipher: '암호', lever: '레버', clock: '시계', slide: '슬라이드', signal: '등대 신호', glass: '유리 조각', order: '순서' };
+
+// ---------- 규칙 결과 → 행 ----------
+function resRow(actions) {
+  const parts = [], cls = [], grants = [];
+  actions.forEach(a => {
+    const k = Object.keys(a)[0];
+    if (k === 'go') { parts.push(`<b>이동</b> → ${EF.SCENES[a.go].name}`); cls.push('r-move'); }
+    if (k === 'view') { parts.push(viewText(a.view)); cls.push('r-view'); }
+    if (k === 'shake') { parts.push('<b>흔들림</b> — 글 없이 그림만 살짝 흔들림 (아직 상호작용 불가)'); cls.push('r-shake'); }
+    if (k === 'say') { parts.push(sayText(a.say, a.ctx)); cls.push('r-say'); }
+    if (k === 'puzzle') { const p = EF.PUZZLES[a.puzzle]; parts.push(`<b>퍼즐 열기</b> → ${a.puzzle} ${p.title} <span class="q">(${TYPE_KO[p.type]} · ${p.level})</span>`); cls.push('r-puzzle'); }
+    if (k === 'grant') { parts.push(`<b>증거 획득</b> → ${a.grant} ${EF.EVIDENCE[a.grant].name}`); cls.push('r-gain'); grants.push(a.grant); }
+    if (k === 'flag') { parts.push(`<b>사건 기록</b> → ${a.flag === 'ariaConfronted' ? '아리아 대면 완료' : a.flag}`); }
+  });
+  const c = cls.includes('r-gain') ? 'r-gain' : cls[0] || '';
+  return { html: parts.join('<br>'), cls: c, grants };
+}
+
+// ---------- 그리기 ----------
+const rowsEl = document.getElementById('rows');
+const links = []; // [fromEl, toEl, style]
+const evBoxes = {}; // id → el
+const conx = [];    // 연결 칸에 올릴 것 {key, html, cls, fromEls:[]}
+const conxByKey = {};
+function addConx(key, html, cls, fromEl, style) {
+  if (!conxByKey[key]) { conxByKey[key] = { key, html, cls, from: [] }; conx.push(conxByKey[key]); }
+  conxByKey[key].from.push([fromEl, style]);
+}
+const el = (cls, html) => { const d = document.createElement('div'); d.className = cls; if (html !== undefined) d.innerHTML = html; return d; };
+const box = (cls, html) => el('box ' + cls, html);
+
+function sceneBlock(sc, isMap, depth) {
+  CUR_SCENE = sc.id;
+  const blk = el('block');
+  const c1 = el('cell'), c2 = el('cell'), cRest = el('');
+  cRest.style.gridColumn = '3 / 8';
+  cRest.style.display = 'grid'; cRest.style.gridTemplateColumns = '210px 200px 540px 190px 300px'; cRest.style.columnGap = '28px'; cRest.style.rowGap = '6px';
+  let sbox;
+  if (isMap) { sbox = box('vbox', CONF.name); c1.append(sbox); c1.style.justifyContent = 'center'; }
+  else {
+    sbox = box('sbox' + (depth ? ' sub2' : ''), esc(sc.name)); c2.append(sbox); c2.style.justifyContent = 'center';
+    if (depth) sbox.style.marginLeft = (depth * 14) + 'px';
+  }
+  blk.append(c1, c2, cRest);
+  const addRow = (hsEl, condHtml, res, extraCls) => {
+    const cEl = condHtml !== null ? box('cond', condHtml) : el('');
+    const rEl = box('res ' + (res.cls || '') + (extraCls ? ' ' + extraCls : ''), res.html);
+    const evCell = el('cell');
+    (res.grants || []).forEach(g => {
+      const e = EF.EVIDENCE[g];
+      const eb = box('ev ' + (e.type === 'clue' ? 'clue' : e.type === 'opt' ? 'opt' : ''), `${g} ${esc(e.name)}`);
+      evCell.append(eb); evBoxes[g] = eb; links.push([rEl, eb, 'gain']);
+    });
+    return [cEl, rEl, evCell];
+  };
+  const grid = cRest;
+  const place = (hsEl, rows) => {
+    // hsEl 는 첫 칸, rows 는 [cond, res, ev] 들. hsEl 를 rows 높이만큼 세로로 늘린다.
+    const n = rows.length;
+    hsEl.style.gridRow = `span ${n}`; hsEl.style.alignSelf = 'center';
+    grid.append(hsEl);
+    rows.forEach((r, i) => { r.forEach(x => grid.append(x)); grid.append(el('')); });
+    return hsEl;
+  };
+  // 입장 시 소개
+  const intro = sc.intro ? (typeof sc.intro === 'string' ? esc(sc.intro) : Object.keys(sc.intro).map(k => `<span class="q">${k}단계:</span> ${esc(sc.intro[k])}`).join('<br>')) : esc(isMap ? EF.TEXT.site.mapIntro : '');
+  const introHs = box('k-intro', '▶ 입장 시 소개');
+  const ir = addRow(introHs, null, { html: intro, cls: 'r-intro' });
+  place(introHs, [ir]);
+  links.push([sbox, introHs, 'chain']);
+
+  sc.hotspots.forEach(hp => {
+    const hsEl = box('k-' + hp.kind + (hp.temp ? ' temp' : ''), `${esc(hp.label)} · ${KIND[hp.kind]}<small>x${hp.x} y${hp.y} w${hp.w} h${hp.h}${hp.showIf ? ' · 조건부 표시' : ''}</small>`);
+    const rows = [];
+    hp.rules.forEach(r => {
+      const res = resRow(r.do || []);
+      const rr = addRow(hsEl, condText(r.if), res);
+      rows.push(rr);
+      // 퍼즐을 여는 규칙이면 "풀면" 줄을 덧붙인다
+      const pz = (r.do || []).find(a => a.puzzle);
+      if (pz) {
+        const p = EF.PUZZLES[pz.puzzle];
+        const solved = { html: `<b>정답</b>: ${esc(answerText(p))}<br><b>힌트(오답 3회 후)</b>: ${esc(p.hint)}<br><b>풀면</b>: ${p.view ? p.view + ' 클로즈업 · ' : ''}<span class="q">(기획 메모) ${esc(cut(p.success, 60))}</span>`, cls: 'r-solve', grants: (p.onSolve || []).filter(a => a.grant).map(a => a.grant) };
+        rows.push(addRow(hsEl, '풀면 (정답)', solved));
+      }
+    });
+    place(hsEl, rows);
+    links.push([sbox, hsEl, 'chain']);
+    rows.forEach(([cEl, rEl]) => { if (cEl.className) links.push([hsEl, cEl, 'gate']); links.push([cEl.className ? cEl : hsEl, rEl, 'arrow']); });
+    // 단서 연결
+    CLUES.filter(c => c[0] === sc.id && c[1] === hp.id).forEach(c => {
+      addConx('clue-' + c[2] + c[3], `<b>단서 → ${c[2]} ${esc(EF.PUZZLES[c[2]].title)}</b>${esc(PUZ_HOME[c[2]] || '')}<br>${esc(c[3])}`, 'clue', rows[rows.length - 1][1], 'clue');
+    });
+  });
+  // 뒤로
+  if (sc.parent) {
+    const bk = box('k-back', '◀ 뒤로 ▼ · 하단 가장자리');
+    const br = addRow(bk, null, { html: `→ ${esc(EF.SCENES[sc.parent].name)}`, cls: 'r-back' });
+    place(bk, [br]);
+    links.push([sbox, bk, 'chain']);
+  }
+  rowsEl.append(blk);
+  return sbox;
+}
+
+// 마을 장면 순서: 지도 → 장소(하위 장소는 바로 뒤, 들여쓰기)
+const mapSc = EF.SCENES[CONF.map];
+const vbox = sceneBlock(mapSc, true, 0);
+const order = [];
+const kids = id => Object.values(EF.SCENES).filter(s => s.parent === id && s.kind === 'location');
+const walk = (id, d) => kids(id).forEach(s => { order.push([s, d]); walk(s.id, d + 1); });
+walk(CONF.map, 0);
+const sboxes = {};
+order.forEach(([s, d]) => {
+  const b = sceneBlock(s, false, d);
+  sboxes[s.id] = b;
+  links.push([d ? sboxes[s.parent] : vbox, b, d ? 'move' : 'move']);
+});
+
+// 단계 · 추리 연결
+const tierOf = id => EF.TIERS.findIndex(t => t.includes(id));
+Object.keys(evBoxes).forEach(id => {
+  const t = tierOf(id);
+  if (t >= 0) addConx('tier' + t, `<b>${t + 1}구간 완료 → ${t + 2}단계 진입</b>${EF.TIERS[t].join(' · ')} 모두 획득`, 'tier', evBoxes[id], 'stage');
+  EF.DEDUCTIONS.filter(d => d.requires.includes(id)).forEach(d => {
+    addConx('ded' + d.id, `<b>${d.id} ${esc(d.title)}</b>재료: ${d.requires.join(' · ')}${d.requires.some(r => !evBoxes[r]) ? ' (다른 마을 증거 포함)' : ''}`, d.kind === 'opt' ? 'dedopt' : 'ded', evBoxes[id], 'ded');
+  });
+});
+
+// 연결 칸 상자: 오른쪽 칸(7번째)에 가장 가까운 출발점 높이로, 겹치지 않게
+const svg = document.getElementById('svg');
+const wrap = document.getElementById('wrap');
+const conxLayer = el(''); conxLayer.style.position = 'absolute'; conxLayer.style.left = '0'; conxLayer.style.top = '0'; conxLayer.style.width = '100%';
+wrap.append(conxLayer);
+requestAnimationFrame(() => requestAnimationFrame(() => {
+  const W = wrap.getBoundingClientRect();
+  const R = e => { const r = e.getBoundingClientRect(); return { x: r.left - W.left, y: r.top - W.top, w: r.width, h: r.height }; };
+  const colX = R(document.querySelectorAll('.colhead div')[6]).x;
+  conx.sort((a, b) => Math.min(...a.from.map(f => R(f[0]).y)) - Math.min(...b.from.map(f => R(f[0]).y)));
+  let yCursor = 0;
+  conx.forEach(c => {
+    const b = box('cx ' + c.cls, c.html);
+    b.style.position = 'absolute'; b.style.width = '300px'; b.style.left = colX + 'px';
+    const want = Math.min(...c.from.map(f => R(f[0]).y));
+    const y = Math.max(want, yCursor);
+    b.style.top = y + 'px';
+    conxLayer.append(b);
+    yCursor = y + b.getBoundingClientRect().height + 8;
+    c.from.forEach(([f, st]) => links.push([f, b, st]));
+  });
+  wrap.style.height = Math.max(wrap.scrollHeight, yCursor + 40) + 'px';
+  // 선 그리기
+  const H = wrap.scrollHeight;
+  svg.setAttribute('width', W.width); svg.setAttribute('height', H);
+  const STY = {
+    chain: ['#777', '', 1.2, false], gate: ['#4a7fd0', '4 3', 1.2, false], arrow: ['#333', '', 1.2, true],
+    gain: ['#e08a1e', '', 1.6, true], stage: ['#d9534f', '6 4', 1.4, true], ded: ['#7b5cc4', '', 1.3, true],
+    clue: ['#a0703c', '6 4', 1.4, true], move: ['#3d8b57', '', 1.6, true], back: ['#e05a9a', '5 4', 1.2, true]
+  };
+  const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+  Object.entries(STY).forEach(([k, s]) => {
+    defs.innerHTML += `<marker id="m-${k}" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="${s[0]}"/></marker>`;
+  });
+  svg.append(defs);
+  links.forEach(([a, b, st]) => {
+    if (!a || !b || !a.isConnected || !b.isConnected) return;
+    const A = R(a), B = R(b), s = STY[st];
+    let x1 = A.x + A.w, y1 = A.y + A.h / 2, x2 = B.x, y2 = B.y + B.h / 2;
+    let d;
+    if (st === 'chain' || st === 'move') { // 왼쪽 나무 줄기
+      const mx = x1 + 12; d = `M${x1},${y1} H${mx} V${y2} H${x2 - 2}`;
+    } else if (st === 'stage' || st === 'ded' || st === 'clue') {
+      const mx = x2 - 30; d = `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2 - 2},${y2}`;
+    } else d = `M${x1},${y1} C${(x1 + x2) / 2},${y1} ${(x1 + x2) / 2},${y2} ${x2 - 2},${y2}`;
+    const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    p.setAttribute('d', d); p.setAttribute('fill', 'none'); p.setAttribute('stroke', s[0]); p.setAttribute('stroke-width', s[2]);
+    if (s[1]) p.setAttribute('stroke-dasharray', s[1]);
+    if (s[3]) p.setAttribute('marker-end', `url(#m-${st})`);
+    if (st === 'stage' || st === 'ded' || st === 'clue') p.setAttribute('opacity', '.8');
+    svg.append(p);
+  });
+  document.body.dataset.ready = '1';
+}));
+
+// 제목 · 범례
+document.getElementById('title').textContent = `EVERFREEZE — ${CONF.code}. ${CONF.name} 상세 연결망 (장면 → 클릭 → 결과 → 연쇄)`;
+document.getElementById('subtitle').textContent = '줄 하나 = 클릭이 일으키는 결과 하나. 조건(파란 점선) → 결과 순서로 읽는다. 위에서부터 처음 맞는 조건 하나만 실행된다. 대사·문장은 초안이며 사이트 데이터에서 바로 뽑았다(데이터를 고치면 이 그림도 다시 뽑을 수 있음).';
+const L = [['이동 · 해금', '#3d8b57', ''], ['획득(증거·흔적)', '#e08a1e', ''], ['단계 누적', '#d9534f', '6 4'], ['추리 재료', '#7b5cc4', ''], ['조건 · 게이트', '#4a7fd0', '4 3'], ['단서 제공 → 퍼즐', '#a0703c', '6 4'], ['뒤로(하단 가장자리 ▼)', '#e05a9a', '5 4']];
+const lg = document.getElementById('legend');
+L.forEach(([t, c, da]) => lg.insertAdjacentHTML('beforeend', `<span class="ln"><svg width="40" height="8"><line x1="0" y1="4" x2="34" y2="4" stroke="${c}" stroke-width="2" ${da ? `stroke-dasharray="${da}"` : ''}/><path d="M32,0 L40,4 L32,8z" fill="${c}"/></svg>${t}</span>`));
+[['대화', '#6f9ad6', '#e6f0fb'], ['조사(클로즈업)', '#e0a84a', '#fff3dc'], ['퍼즐', '#9b7fd6', '#efe8fb'], ['이동', '#6fae6a', '#e8f5e4'], ['흔적 R', '#d9765c', '#fbe3dc'], ['흔들림(불가)', '#aaa', '#f4f4f4']].forEach(([t, b, f]) => lg.insertAdjacentHTML('beforeend', `<span><span class="chip" style="border-color:${b};background:${f}"></span>${t}</span>`));
+lg.insertAdjacentHTML('beforeend', '<span><span class="chip" style="border-style:dashed;border-color:#888"></span>임시</span>');
+})();
+</script>
+</body></html>

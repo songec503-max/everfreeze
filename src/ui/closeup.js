@@ -157,6 +157,7 @@
   };
 
   // it: { view: 'v-…' | {kind…} }
+  //   그림 파일: assets/view/<ID>.png (EF.VIEW_IMAGES 에 등록). 기본은 그림 그대로, overlay:true 인 것만 그림 위에 글을 얹는다.
   UI.showView = function (it, done) {
     const id = typeof it.view === 'string' ? it.view : null;
     const v = id ? EF.VIEWS[id] : (it.view || { kind: 'pic' });
@@ -164,7 +165,19 @@
 
     const cu = h('div', 'closeup' + (EF.isEnded() ? ' quiet' : ''));
     cu.dataset.view = id || '';
-    cu.append((R[v.kind] || R.pic)(v, id));
+    const hasImg = id && EF.VIEW_IMAGES.includes(id);
+    // 그림이 있을 때:
+    //  - 기본(퍼즐 단서 그림): 글자·숫자·기호까지 그림에 그려져 있으므로 그림만 보여 준다.
+    //  - overlay:true(퍼즐과 무관한 그림): 글 없는 바탕 그림 위 box 영역에 글을 얹는다. bare:true 면 종이 바탕도 뺀다.
+    const content = hasImg && !v.overlay ? R.pic({}, id) : (R[v.kind] || R.pic)(v, id);
+    if (hasImg && v.overlay && v.kind !== 'pic') {
+      cu.style.background = `url(assets/view/${id}.png) center/cover no-repeat`;
+      content.classList.add('on-img');
+      if (v.bare) content.classList.add('bare');
+      const b = v.box || [240, 110, 800, 500];
+      Object.assign(content.style, { position: 'absolute', left: b[0] + 'px', top: b[1] + 'px', width: b[2] + 'px', height: b[3] + 'px' });
+    }
+    cu.append(content);
     // 돌아가기: 장면과 같은 하단 띠 + ▼
     const back = h('div', 'edge-back'); back.append(h('div', 'edge-arrow'));
     cu.append(back);

@@ -59,6 +59,7 @@
     });
     UI.render();
     UI.fit();
+    UI.initStageCurtain(); // 오페라 커튼: 시작 화면 · 휠로 막 내리기 · 무대 뒤 (backstage.js)
   };
 
   UI.fit = function () {
@@ -69,6 +70,15 @@
   };
 
   // 뒤로: 한 단계 위 장면(장소 → 마을 지도 → 월드맵)으로
+  // 장소 소개 문구. intro 가 { 단계: 문구 } 이면 지금 단계 이하 중 가장 높은 단계의 문구를 쓴다.
+  EF.introFor = function (sc, stg) {
+    const it = sc.intro;
+    if (!it) return sc.kind === 'world' ? EF.TEXT.site.worldIntro : EF.TEXT.site.mapIntro;
+    if (typeof it === 'string') return it;
+    const k = Object.keys(it).map(Number).filter(x => x <= stg).sort((a, b) => b - a)[0];
+    return it[k] || it[Object.keys(it)[0]];
+  };
+
   UI.goBack = function () {
     if (UI.busy) return;
     const sc = EF.SCENES[EF.state.scene];
@@ -84,8 +94,18 @@
     firstRender = false;
     document.title = `${sc.name} · EVERFREEZE`;
     stage.dataset.stage = stg; document.body.dataset.stage = stg;
-    const img = EF.BG_IMAGES.includes(sc.id) ? `url(assets/bg/${sc.id}.png) center/cover no-repeat, ` : '';
+    const bgId = sc.bgAlt && EF.check(sc.bgAlt.if) ? sc.bgAlt.id : sc.id; // 상태에 따라 바뀌는 그림(예: 비밀 통로 열림)
+    const err = stg >= 4 && EF.BG_ERR_IMAGES.includes(bgId);
+    const img = err ? `url(assets/bg/${bgId}_err.png) center/cover no-repeat, `
+      : EF.BG_IMAGES.includes(bgId) ? `url(assets/bg/${bgId}.png) center/cover no-repeat, ` : '';
     sceneEl.style.background = img + sc.bg;
+    sceneEl.classList.toggle('err-img', err); // 오작동 그림이 있으면 CSS 색 효과는 끈다
+    sceneEl.classList.toggle('has-img', !!img); // 그림이 있으면 '배경 이미지 자리' 글씨를 숨긴다
+    // 그림이 있는 장면: 클릭할 곳은 평소엔 안 보이고 마우스를 올리면 테두리만 나타난다.
+    // 그림이 없는(임시) 장면: 무엇이 어디 있는지 알 수 있게 아이콘을 희미하게 보여 준다.
+    stage.classList.toggle('has-img', !!img);
+    // 마을별 무대 틀 색 (로즈메리 장미 · 글렌위버 잎 · 루미나리아 바다 · 월드맵 금빛)
+    document.body.dataset.village = { '로즈메리': 'rm', '글렌위버': 'gw', '루미나리아': 'lm' }[sc.village] || 'world';
     wm.textContent = sc.name;
 
     // 사이트 틀: 문구(단계에 따라 변화) · 페이지 설명
@@ -93,7 +113,7 @@
     counter.textContent = EF.TEXT.site.counter[stg];
     if (nbCount) nbCount.textContent = Object.keys(st.evidence).length;
     ptitle.textContent = sc.name;
-    pintro.textContent = sc.intro || (sc.kind === 'world' ? EF.TEXT.site.worldIntro : EF.TEXT.site.mapIntro);
+    pintro.textContent = EF.introFor(sc, stg);
     backEl.style.display = sc.parent ? '' : 'none';
 
     // 핫스팟

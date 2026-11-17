@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<style>
+#wrap{width:2160px}
+#top{display:grid;grid-template-columns:430px 300px 1150px;column-gap:110px}
+.tiercol,.stcol,.sitecol{display:flex;flex-direction:column}
+.tiercol{gap:0}
+.tier{display:flex;flex-direction:column;gap:4px;height:230px;justify-content:flex-start}
+.tr{font-size:11.5px;padding:3px 8px}
+.st{height:110px;display:flex;flex-direction:column;justify-content:center;font-size:13px;margin-bottom:120px}
+.st b{font-size:15px}
+.site{display:flex;flex-direction:column;gap:6px;height:230px}
+.site .look{font-size:12px;background:#fff;border:1.5px dashed #888}
+.site .open{font-size:12px;background:#fff;border:1.5px dashed #5f9a50;color:#2f5a25}
+h2{font-size:18px;margin:30px 0 10px}
+#flow{display:flex;gap:46px;align-items:center}
+#flow .box{font-size:12px;width:250px}
+.mains{display:flex;flex-direction:column;gap:14px}
+.ded{background:#eaf5e4;border-color:#5f9a50}
+.dedopt{background:#fff;border:1.5px dashed #5f9a50;font-size:12px}
+.evt{background:#fbe3dc;border-color:#d9765c}
+.pzb{background:#f1ecfb;border-color:#9b7fd6}
+.say{background:#e6f0fb;border-color:#6f9ad6}
+#bottom{display:grid;grid-template-columns:1000px 1000px;column-gap:60px;margin-top:22px}
+#opts{display:flex;gap:14px;flex-wrap:wrap}
+#opts .box{width:235px}
+</style></head>
+<body><div id="wrap">
+<h1>EVERFREEZE — 10. 오류 단계 · 추리 · 엔딩 연결망</h1>
+<div class="sub">흔적(R)이 구간을 채우면 단계가 오르고, 단계가 오를 때마다 사이트 겉모습과 대사·장소 소개가 조금씩 어긋나며 새 장소가 열린다. 추리는 사이트가 안에서 자동 처리한다. 사이트 데이터에서 바로 뽑았다.</div>
+<div class="legend" id="legend"></div>
+<div id="top">
+  <div><div class="colhead">구간별 흔적 (얻는 곳 · 방식)</div><div class="tiercol" id="tiers"></div></div>
+  <div><div class="colhead">오류 단계</div><div class="stcol" id="stages"></div></div>
+  <div><div class="colhead">사이트 겉모습 · 새로 열리는 것 · 대사 변화</div><div class="sitecol" id="site"></div></div>
+</div>
+<h2>추리 · 아리아 대면 · 엔딩 흐름 (사이트가 자동 처리, 화면에 보이지 않음)</h2>
+<div id="flow"></div>
+<div id="bottom">
+  <div><h2 style="margin-top:0">선택 추리 (진행에는 영향 없음)</h2><div id="opts"></div></div>
+  <div class="box note" id="endnote"></div>
+</div>
+<svg id="svg"></svg>
+</div>
+<script src="../../src/data/texts.js"></script>
+<script src="../../src/data/npcs.js"></script>
+<script src="../../src/data/evidence.js"></script>
+<script src="../../src/data/deductions.js"></script>
+<script src="../../src/data/puzzles.js"></script>
+<script src="../../src/data/views.js"></script>
+<script src="../../src/data/scenes.js"></script>
+<script src="../../src/engine/state.js"></script>
+<script src="../../src/engine/conditions.js"></script>
+<script src="../../src/engine/engine.js"></script>
+<script src="common.js"></script>
+<script>
+(function () {
+const EF = window.EF, F = window.FW, esc = F.esc, el = F.el, TX = EF.TEXT;
+F.legend(document.getElementById('legend'));
+const links = [];
+// ---- 단계 ----
+const stCol = document.getElementById('stages'), tierCol = document.getElementById('tiers'), siteCol = document.getElementById('site');
+const LOOK = { 1: '변화 없음', 2: '채도 약간↓ · 가장자리 어둡게', 3: '채도↓ · 색 틀어짐 · 가는 줄무늬 노이즈 · 로고 자간 좁아짐', 4: '채도 크게↓ · 화면 떨림 · 색 번짐 · 머리말 틀 점선', 5: '흑백에 가까움 · 모든 움직임 정지' };
+const OPEN = {
+  1: ['도서관 입구는 아리아가 막는다 (출입 제한 증거는 얻을 수 있음)', '잠긴 곳·단계 미달 퍼즐은 누르면 흔들림'],
+  2: ['도서관 열람실 문 열림 (출입 제한 문 → 열람실)', '광장 게시판 · 새집 장치 퍼즐'],
+  3: ['자료 보관실 (열람실 퍼즐 완료 필요)', '회전 선반 · 공방 작업대 · 우편함 퍼즐'],
+  4: ['오래된 기록 · 편지 퍼즐', '아리아 대면 가능 (FINAL-01 완료 후)'],
+  5: ["엔딩 화면 → '계속 둘러보기'", '새 증거·퍼즐·추리 차단 · 조사는 같은 클로즈업이 흑백으로']
+};
+const SAY = {
+  1: '대사: 지나친 친절 · 같은 인사 (벨라 「오늘도 날씨가 참 좋지?」)',
+  2: '대사: 반복을 얼버무림 (노아 「누가 내릴지도 모르잖아.」)',
+  3: '대사: 말끝이 어긋남 (오크스 「나이테가 올해는 하나도 늘지 않았어.」)',
+  4: '대사: 클로버가 예측 밖임이 드러남 (루루 「조명이 손님을 모르는 건 처음이에요.」)',
+  5: '대사: 모두 첫인사 한 줄만 되풀이 · 장소 소개는 「멈춰 있다」'
+};
+const stEls = {}, trEls = {};
+[1, 2, 3, 4, 5].forEach(s => {
+  const b = el('box stage st' + (s === 5 ? ' s5' : ''), `<b>${s}단계 · ${esc(TX.stages[s].name)}</b>${s === 1 ? '시작' : `${EF.TIERS[s - 2][0]}~${EF.TIERS[s - 2].slice(-1)[0].slice(2)} 완료 시 진입`}`);
+  stCol.append(b); stEls[s] = b;
+  const site = el('site');
+  const look = el('box look', `겉모습 · 머리말: ${esc(TX.site.tagline[s])}<br>방문자: ${esc(TX.site.counter[s])} · 그림 효과: ${esc(LOOK[s])}`);
+  site.append(look);
+  OPEN[s].forEach(t => { const o = el('box open', esc(t)); site.append(o); links.push([b, o, 'gate', { elbow: true, ay: 70 }]); });
+  site.append(el('box look', esc(SAY[s])));
+  siteCol.append(site);
+  links.push([b, look, 'chain', { op: '.7' }]);
+  if (s > 1) {
+    const t = el('tier');
+    EF.TIERS[s - 2].forEach(id => {
+      const g = F.GRANT[id], e = EF.EVIDENCE[id];
+      const r = el('box ev tr', `${id} ${esc(e.name)} — ${esc(F.place(g.sc, g.hp))} · ${esc(g.how)}`);
+      t.append(r); trEls[id] = r;
+      links.push([r, b, 'stage', { op: '.8' }]);
+    });
+    tierCol.append(t);
+  }
+});
+// 흔적 상자를 다음 단계 높이 근처로
+[2, 3, 4].forEach(s => links.push([stEls[s - 1], stEls[s], 'chain', { down: true }]));
+links.push([stEls[4], stEls[5], 'chain', { down: true }]);
+// ---- 흐름 ----
+const flow = document.getElementById('flow');
+const mains = el('mains');
+EF.DEDUCTIONS.filter(d => d.kind === 'main').forEach(d => mains.append(el('box ded', `<b>${d.id} ${esc(d.title)}</b><br>재료: ${d.requires.join(' · ')}<br>모이면 자동 완료`)));
+const fin = EF.DEDUCTIONS.find(d => d.kind === 'final');
+const finB = el('box ded', `<b>${fin.id} 통합 추리</b><br>MAIN 3개 완료 + 4단계 이상<br>가설만 · 정답 없음`);
+const face = EF.NPCS.aria.lines.find(l => l.ctx === '대면');
+const faceP = [].concat(face.text);
+const faceTxt = faceP.map(p => typeof p === 'string' ? p : '클로버: ' + p.clover);
+const ariaB = el('box say', `<b>아리아 대면 이벤트</b><br>도서관 앞 아리아 클릭 (대화 ${faceP.length}장)<br>「${esc(faceTxt[0])}」<br>「${esc(faceTxt[2])}」<br>「${esc(faceTxt[3])}」 …`);
+const flagB = el('box evt', `<b>사건 기록: 아리아 대면 완료</b><br>아틀리에 작업대 열림 (그 전에는 흔들림)<br>다시 말 걸면 「${esc(F.cut(EF.NPCS.aria.lines.find(l => l.if && l.if.some(c => c.flag)).text, 22))}」`);
+const pz = EF.PUZZLES['P-ATELIER'];
+const pzB = el('box pzb', `<b>P-ATELIER ${esc(pz.title)}</b><br>→ R-13 아틀리에 작업대<br>풀면 클로즈업 ${pz.view}`);
+const endB = el('box stage s5', `<b>5단계 · ${esc(TX.stages[5].name)}</b><br>엔딩 화면 → '${esc(TX.ending.btn)}'`);
+flow.append(mains, finB, ariaB, flagB, pzB, endB);
+[...mains.children].forEach(m => links.push([m, finB, 'ded']));
+[[finB, ariaB], [ariaB, flagB], [flagB, pzB], [pzB, endB]].forEach(([a, b]) => links.push([a, b, 'chain']));
+// 선택 추리
+const opts = document.getElementById('opts');
+EF.DEDUCTIONS.filter(d => d.kind === 'opt').forEach(d => opts.append(el('box dedopt', `<b>${d.id} ${esc(d.title)}</b><br>재료: ${d.requires.join(' · ')}<br><span class="q">${esc(d.hypo)}</span>`)));
+document.getElementById('endnote').innerHTML = `<b>5단계 이후 막히는 것 · 바뀌는 것</b><br>
+· 새 증거 획득 · 퍼즐 열기 · 사건 기록 · 추리 완료 모두 차단<br>
+· 조사: 같은 클로즈업이 흑백으로 열린다 (풀지 못한 퍼즐 자리도 흑백 그림)<br>
+· 대화: 모든 인물이 첫인사 한 줄만 똑같이 되풀이 · 장소 소개는 「…멈춰 있다」 문구<br>
+· 이동과 대화는 계속 가능<br>
+· 엔딩 문구(임시): ${esc(TX.ending.title)} — ${esc(F.cut(TX.ending.body.replace(/\n/g, ' '), 70))}`;
+document.fonts.ready.then(() => requestAnimationFrame(() => requestAnimationFrame(() => {
+  F.draw(document.getElementById('wrap'), document.getElementById('svg'), links);
+  document.body.dataset.ready = '1';
+})));
+})();
+</script>
+</body></html>

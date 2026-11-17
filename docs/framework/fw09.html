@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<style>
+#wrap{width:2160px}
+#grid{display:grid;grid-template-columns:400px 640px 170px 340px;column-gap:140px;position:relative}
+.cluecol,.pzcol,.evcol,.stcol{display:flex;flex-direction:column;position:relative}
+.cluecol{gap:34px;padding-top:24px}
+.pzcol{gap:14px}
+.clue{font-size:12px;min-height:56px}
+.clue .q{font-size:11px}
+.pz{padding:8px 12px 10px;border-width:2px}
+.pz h3{margin:0 0 6px;font-size:16px;display:flex;align-items:center;gap:8px}
+.pz h3 .lv{margin-left:auto;font-size:12px;color:#fff;border-radius:6px;padding:2px 12px;font-weight:700}
+.lv.e{background:#4a9a5e}.lv.h{background:#c9503c}.lv.x{background:#c9503c}
+.pz table{border-collapse:collapse;font-size:12px;width:100%}
+.pz td{padding:2px 0;vertical-align:top}
+.pz td:first-child{width:92px;color:#555;font-weight:700}
+.rules{margin-top:40px;width:1050px}
+</style></head>
+<body><div id="wrap">
+<h1>EVERFREEZE — 09. 퍼즐 · 단서 연결망 (마을을 오가며 푼다)</h1>
+<div class="sub">단서는 반드시 다른 마을에 있다. 줄이 마을 경계를 가로지른다 (색 = 마을: 보라 로즈메리 · 초록 글렌위버 · 파랑 루미나리아). 단서는 조사하면 열리는 클로즈업 그림 속에 있다. 정답·문장은 전부 임시이며 사이트 데이터에서 바로 뽑았다.</div>
+<div class="legend" id="legend"></div>
+<div id="grid">
+  <div><div class="colhead">단서가 있는 곳 (조사 → 클로즈업)</div><div class="cluecol" id="clues"></div></div>
+  <div><div class="colhead">퍼즐 (정답 · 힌트)</div><div class="pzcol" id="pzs"></div></div>
+  <div><div class="colhead">얻는 흔적</div><div class="evcol" id="evs"></div></div>
+  <div><div class="colhead">단계 · 열리는 것</div><div class="stcol" id="sts"></div></div>
+</div>
+<div class="box note rules" id="rules"></div>
+<svg id="svg"></svg>
+</div>
+<script src="../../src/data/texts.js"></script>
+<script src="../../src/data/npcs.js"></script>
+<script src="../../src/data/evidence.js"></script>
+<script src="../../src/data/deductions.js"></script>
+<script src="../../src/data/puzzles.js"></script>
+<script src="../../src/data/views.js"></script>
+<script src="../../src/data/scenes.js"></script>
+<script src="../../src/engine/state.js"></script>
+<script src="../../src/engine/conditions.js"></script>
+<script src="../../src/engine/engine.js"></script>
+<script src="common.js"></script>
+<script>
+(function () {
+const EF = window.EF, F = window.FW, esc = F.esc, el = F.el;
+F.legend(document.getElementById('legend'));
+const links = [];
+const pzEls = {}, evEls = {};
+// ---- 퍼즐 카드 ----
+const pzCol = document.getElementById('pzs');
+Object.entries(EF.PUZZLES).forEach(([pid, p]) => {
+  const { sc, hp } = F.PUZ[pid];
+  const v = F.VILLAGE_OF(sc.id);
+  const lvc = p.level === '쉬움' ? 'e' : p.level === '어려움' ? 'h' : 'x';
+  const solveView = p.view ? `클로즈업 ${p.view} — ${esc(F.viewText(p.view))}` : '';
+  const card = el('box pz ' + F.VCLS[v], `<h3>${pid} <span style="font-weight:700">${esc(p.title)}</span><span class="lv ${lvc}">${esc(p.level)}</span></h3>
+  <table>
+   <tr><td>위치</td><td>${esc(F.place(sc, hp))} · 유형: ${F.TYPE_KO[p.type]} · 열리는 때: ${esc(F.opens(pid))}</td></tr>
+   <tr><td>정답</td><td>${esc(F.answer(p))}</td></tr>
+   <tr><td>힌트 (오답 3회)</td><td>${esc(p.hint)}</td></tr>
+   <tr><td>풀면</td><td>${solveView}<br><span class="q">(기획 메모, 화면에는 안 나옴) 「${esc(F.cut(p.success, 60))}」</span></td></tr>
+  </table>`);
+  pzCol.append(card); pzEls[pid] = card;
+});
+// ---- 단서 (장소별로 묶기) ----
+const clueCol = document.getElementById('clues');
+const groups = [];
+F.CLUES.forEach(c => {
+  const key = c[0] + '|' + c[1];
+  let g = groups.find(x => x.key === key);
+  if (!g) { g = { key, sc: EF.SCENES[c[0]], hp: EF.SCENES[c[0]].hotspots.find(h => h.id === c[1]), items: [] }; groups.push(g); }
+  g.items.push(c);
+});
+const vOrder = { '로즈메리': 0, '글렌위버': 1, '루미나리아': 2 };
+groups.sort((a, b) => vOrder[F.VILLAGE_OF(a.sc.id)] - vOrder[F.VILLAGE_OF(b.sc.id)]);
+groups.forEach(g => {
+  const v = F.VILLAGE_OF(g.sc.id);
+  const viewId = (g.hp.rules.flatMap(r => r.do || []).find(a => a.view && typeof a.view === 'string') || {}).view || (EF.PUZZLES[(g.hp.rules.flatMap(r => r.do || []).find(a => a.puzzle) || {}).puzzle] || {}).view;
+  const b = el('box clue ' + F.VCLS[v], `${esc(F.place(g.sc, g.hp))}${viewId ? ` <span class="q">· ${viewId}</span>` : ''}` + g.items.map(c => `<br>→ <b>${c[2]}</b>: ${esc(c[3])}`).join(''));
+  clueCol.append(b);
+  g.items.forEach(c => links.push([b, pzEls[c[2]], 'clue', { op: '.85' }]));
+});
+// ---- 흔적 ----
+const evCol = document.getElementById('evs');
+// ---- 단계 ----
+const stCol = document.getElementById('sts');
+const TX = EF.TEXT.stages;
+const OPEN = {
+  2: '열림: 열람실 문 · 게시판 · 새집 장치 퍼즐',
+  3: '열림: 자료 보관실 · 회전 선반 · 공방 작업대 · 우편함',
+  4: '열림: 오래된 기록 · 편지 · 아리아 대면',
+  5: '엔딩 · 새로운 진행 차단'
+};
+const stEls = {};
+document.fonts.ready.then(() => requestAnimationFrame(() => {
+  const W = document.getElementById('wrap').getBoundingClientRect();
+  const R = e => { const r = e.getBoundingClientRect(); return { y: r.top - W.top, h: r.height }; };
+  const colTop = R(evCol).y;
+  Object.entries(EF.PUZZLES).forEach(([pid, p]) => {
+    const g = (p.onSolve || []).find(a => a.grant); if (!g) return;
+    const e = el('box ev', `${g.grant} ${esc(EF.EVIDENCE[g.grant].name)}`);
+    e.style.position = 'absolute'; e.style.width = '170px';
+    const pr = R(pzEls[pid]); e.style.top = (pr.y + pr.h / 2 - 14 - colTop) + 'px';
+    evCol.append(e); evEls[g.grant] = e;
+    links.push([pzEls[pid], e, 'gain']);
+  });
+  evCol.style.height = (R(pzCol).h) + 'px';
+  // 단계 상자: 2~5단계를 세로로, 각 구간 흔적의 평균 높이 근처에
+  const tiers = EF.TIERS;
+  let yCur = 0;
+  [2, 3, 4, 5].forEach((s, i) => {
+    const b = el('box stage' + (s === 5 ? ' s5' : ''), `<b>${s}단계 · ${esc(TX[s].name)}</b><br>${tiers[i][0]}~${tiers[i][tiers[i].length - 1].slice(2)} 완료 시 진입<br>${esc(OPEN[s])}`);
+    b.style.position = 'absolute'; b.style.width = '340px';
+    stCol.append(b);
+    const ys = tiers[i].filter(id => evEls[id]).map(id => R(evEls[id]).y - colTop);
+    let y = ys.length ? ys.reduce((a, c) => a + c, 0) / ys.length - 20 : yCur;
+    y = Math.max(y, yCur); b.style.top = y + 'px';
+    yCur = y + b.getBoundingClientRect().height + 90;
+    stEls[s] = b;
+    tiers[i].forEach(id => evEls[id] && links.push([evEls[id], b, 'stage', { op: '.75' }]));
+  });
+  [2, 3, 4].forEach(s => links.push([stEls[s], stEls[s + 1], 'chain', { down: true }]));
+  // 조건 · 해금
+  const gates = [
+    ['P-LEDGER', 'P-LEDGER 완료 + 3단계 → 자료 보관실 문 열림'],
+    ['P-ARCHIVE', 'P-ARCHIVE 완료 → 비밀 기록실 입구 나타남 (배경도 열린 판으로)'],
+    ['P-ATELIER', '아리아 대면 → 아틀리에 작업대 열림 (그 전에는 흔들림)']
+  ];
+  let gy = yCur + 10;
+  gates.forEach(([pid, t]) => {
+    const b = el('box gatebox', esc(t)); b.style.position = 'absolute'; b.style.width = '340px'; b.style.top = gy + 'px';
+    stCol.append(b); gy += b.getBoundingClientRect().height + 10;
+    links.push([pzEls[pid], b, 'gate', { op: '.8' }]);
+  });
+  stCol.style.height = gy + 'px';
+  document.getElementById('rules').innerHTML = `<b>공통 규칙</b><br>
+  · 건너뛰기 없음: 닫아도 미해결, 풀어야 증거가 들어오고 단계가 오른다. 퍼즐 창은 Esc(또는 닫기 버튼)로만 닫힌다.<br>
+  · 오답 3회부터 힌트 문장이 보인다 (닫았다 다시 열어도 유지).<br>
+  · 단서는 조사하면 열리는 클로즈업 그림 속에 있고, 언제든 다시 눌러 볼 수 있다. 숫자·기호는 그림에 직접, 시계 바늘·명부·장부·교대 기록의 글은 사이트가 그림 위에 얹는다.<br>
+  · 아직 열리지 않은 퍼즐은 누르면 글 없이 그림만 흔들린다.`;
+  requestAnimationFrame(() => { F.draw(document.getElementById('wrap'), document.getElementById('svg'), links); document.body.dataset.ready = '1'; });
+}));
+})();
+</script>
+</body></html>

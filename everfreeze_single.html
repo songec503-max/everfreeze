@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>EVERFREEZE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:#2b2a35; --ink2:#5a586b; --paper:#fffdf8; --line:#d9d4c7;
@@ -358,6 +360,182 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 .edge-back:hover .edge-arrow{opacity:1}
 @keyframes arrowBob{50%{transform:translateY(5px)}}
 
+/* 그림 위에 얹는 힌트(클로즈업 그림이 있을 때) */
+.closeup .on-img{background:transparent!important;flex:none}
+.closeup .on-img.bare .d-sheet,.closeup .on-img.bare .st-sheet{background:transparent!important;box-shadow:none;border:0;transform:none}
+.closeup .on-img .ck-rim,.closeup .on-img .ck-tick,.closeup .on-img .ck-num,.closeup .on-img .ck-dir{display:none}
+.closeup .on-img.cv-clock svg{width:100%;height:100%}
+.scene.err-img{filter:none!important}
+.scene.has-img .wm{display:none}
+/* 인물 크롭(임시) */
+.npc-cu{z-index:18;align-items:center;justify-content:center}
+.npc-ph{font-size:160px;font-weight:800;color:rgba(255,255,255,.55);margin-top:-160px;letter-spacing:.06em}
+.npc-cu .cv-tag{position:absolute;left:14px;top:12px;font-size:13px;color:rgba(255,255,255,.7);background:rgba(0,0,0,.25);padding:2px 8px;border-radius:4px}
+
+/* 대화 여러 장 */
+.dside{display:flex;flex-direction:column;align-items:flex-end;gap:8px;align-self:flex-end}
+.dcount{font-size:12px;color:var(--ink2)}
+.textbox.dialogue .body{white-space:pre-line}
+.textbox.dialogue.is-clover{border-color:#5f8f4f}
+
+/* =====================================================================
+   디자인 v2 — 종이 무대 홈페이지
+   · 사이트 틀: 섬유 알갱이가 박힌 크림색 수제 종이, 오려 붙인 가장자리
+   · 그림 창: 마을마다 색이 바뀌는 종이 무대 틀(위쪽 물결 휘장)
+   · 창: 종이 쪽지(겹친 종이 그림자 + 마스킹 테이프)
+   · 클릭할 곳: 평소엔 안 보이고, 마우스를 올리면 종이 오린 듯한 테두리
+   ===================================================================== */
+:root{
+  --paper:#fbf5e8; --paper2:#f3e8d3; --paper-edge:#e2d3b6; --ink:#3a2f28; --ink2:#7a6a5a;
+  --serif:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;
+  --font:'Gowun Dodum','Pretendard','Noto Sans KR','Malgun Gothic',system-ui,sans-serif;
+  --frame:#c9a35a; --frame-dk:#8a6a32; /* 월드맵: 금빛 */
+  --speckle:radial-gradient(circle at 20% 30%,rgba(120,90,60,.10) 0 1px,transparent 1.5px),
+            radial-gradient(circle at 70% 60%,rgba(90,110,80,.09) 0 1px,transparent 1.5px),
+            radial-gradient(circle at 40% 80%,rgba(150,90,90,.08) 0 1.2px,transparent 1.8px),
+            radial-gradient(circle at 85% 15%,rgba(80,80,120,.07) 0 .8px,transparent 1.3px);
+}
+body[data-village="rm"]{--frame:#c9707a;--frame-dk:#8a3d48}
+body[data-village="gw"]{--frame:#7e9c64;--frame-dk:#4d6a3a}
+body[data-village="lm"]{--frame:#6aa3a8;--frame-dk:#3d6f76}
+
+html,body{font-family:var(--font)}
+body{background-color:#e9dfcc;background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px}
+#site{max-width:1240px;padding:22px 16px 30px}
+
+/* 머리말: 오려 낸 종이 띠 + 아래 물결 가장자리 */
+#masthead{position:relative;background-color:var(--paper);background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
+  border:0;border-radius:0;padding:20px 22px 30px;box-shadow:0 2px 0 var(--paper-edge),4px 6px 0 rgba(90,70,40,.12),0 10px 22px rgba(60,40,20,.12);
+  -webkit-mask:radial-gradient(14px 10px at 50% 100%,transparent 98%,#000) 50% 100%/28px 100% repeat-x;mask:radial-gradient(14px 10px at 50% 100%,transparent 98%,#000) 50% 100%/28px 100% repeat-x}
+.logo{font-family:var(--serif);font-size:44px;font-weight:700;letter-spacing:.22em;color:var(--frame-dk);transition:color .6s}
+.logo::before,.logo::after{content:'❦';font-size:20px;vertical-align:middle;margin:0 14px;color:var(--frame);letter-spacing:0}
+.tagline{font-family:var(--serif);font-size:16px;color:var(--ink2);margin-top:4px}
+
+/* 본문 카드: 겹친 종이 */
+#page{margin-top:-6px;background-color:var(--paper);background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
+  border:0;border-radius:2px;padding:18px 20px 22px;box-shadow:0 1px 0 var(--paper-edge),3px 4px 0 #efe4cf,6px 8px 0 #e4d7bd,0 14px 30px rgba(60,40,20,.16)}
+
+/* 그림 창: 종이 무대 틀 */
+#stagewrap{border-radius:4px;background:var(--frame-dk);box-shadow:0 0 0 8px var(--frame),0 0 0 10px var(--frame-dk),0 0 0 12px var(--paper-edge),0 10px 24px rgba(40,25,10,.3);transition:box-shadow .6s;margin:12px 12px 0}
+#stagewrap::after{content:'';position:absolute;left:0;right:0;top:0;height:20px;z-index:50;pointer-events:none;
+  background:radial-gradient(18px 14px at 50% 0,var(--frame) 97%,transparent) 0 0/36px 20px repeat-x;filter:drop-shadow(0 2px 1px rgba(40,25,10,.35))}
+
+/* 설명 칸: 종이 쪽지 */
+#caption{margin:22px 12px 0;padding:14px 18px 12px;background:#fffaf0;border-left:4px solid var(--frame);box-shadow:2px 3px 0 #ece0c8;position:relative}
+#caption h2{font-family:var(--serif);font-size:26px;color:var(--frame-dk);margin:0 0 6px;transition:color .6s}
+#pintro{font-family:var(--serif);font-size:18px;line-height:1.7;color:var(--ink)}
+.tip{font-size:13px;color:var(--ink2)}
+.tip a{color:var(--frame-dk)}
+#foot{font-family:var(--serif);color:var(--ink2)}
+
+/* 클릭할 곳: 평소 투명, 마우스를 올리면 오린 종이 테두리 + 이름표 */
+#stage .hs{background:transparent;border:2px dashed transparent;border-radius:14px;backdrop-filter:none;box-shadow:none;transition:border-color .15s,box-shadow .15s,background .15s;cursor:pointer}
+#stage .hs .lbl{opacity:0;transform:translateY(4px);transition:opacity .15s,transform .15s;font-family:var(--serif);font-size:18px;background:var(--paper);border-radius:2px;box-shadow:2px 2px 0 rgba(60,40,20,.25)}
+#stage .hs:hover{transform:none;background:rgba(255,248,232,.16);border-color:rgba(255,250,238,.95);box-shadow:0 0 0 3px rgba(60,40,20,.28),inset 0 0 0 2px rgba(60,40,20,.12)}
+#stage .hs .lbl{display:none!important} /* 클릭할 곳에 이름표는 넣지 않는다 */
+/* 그림이 없는 임시 장면: 아이콘만 희미하게 (그림이 들어오면 사라짐) */
+#stage:not(.has-img) .hs .ico{opacity:.75}
+#stage.has-img .hs .ico{opacity:0}
+#stage.has-img .hs:hover .ico{opacity:0}
+/* '클릭할 수 있는 곳 표시하기'를 켜면 전부 보인다 */
+#stage.hints .hs{border-color:rgba(255,250,238,.9);background:rgba(255,248,232,.22)}
+#stage.hints .hs .lbl,#stage.hints .hs .ico{opacity:1}
+
+/* 창: 종이 쪽지 */
+.textbox,.puzzle,.ending{background-color:var(--paper);background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
+  border:0;border-radius:2px;box-shadow:0 1px 0 var(--paper-edge),3px 4px 0 #ece0c8,6px 8px 0 #dfd1b4,0 16px 34px rgba(30,20,10,.38);color:var(--ink)}
+.textbox::before,.puzzle::before,.ending::before{content:'';position:absolute;top:-12px;left:50%;width:120px;height:24px;margin-left:-60px;
+  background:rgba(var(--tape,201,112,122),.55);transform:rotate(-2deg);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+body[data-village="gw"]{--tape:126,156,100} body[data-village="lm"]{--tape:106,163,168} body[data-village="world"]{--tape:201,163,90}
+.puzzle,.ending{position:relative}
+.textbox{border-radius:2px}
+.textbox .body,.textbox.dialogue .body{font-family:var(--serif);font-size:22px}
+.dhead b{font-family:var(--serif);font-size:21px;color:var(--frame-dk)}
+.portrait{border:3px solid var(--paper);box-shadow:0 0 0 2px var(--frame-dk),2px 3px 0 rgba(0,0,0,.18);font-family:var(--serif)}
+.textbox.dialogue.is-clover{box-shadow:0 1px 0 var(--paper-edge),3px 4px 0 #e4ecd9,6px 8px 0 #d4e0c4,0 16px 34px rgba(30,20,10,.38)}
+.textbox.dialogue.is-clover .dhead b{color:#4f7a3f}
+.puzzle h3,.phead h3{font-family:var(--serif);font-size:24px;color:var(--frame-dk)}
+.puzzle .prompt{font-family:var(--serif)}
+.plevel{background:transparent;border:1px solid var(--frame);color:var(--frame-dk);border-radius:2px}
+.phint{background:#fff6dc;border:1px dashed #c9a35a;border-radius:2px;font-family:var(--serif)}
+.ending h2{font-family:var(--serif);font-size:30px;color:#4b3f63}
+.ending p{font-family:var(--serif)}
+/* 버튼: 종이 꼬리표 */
+.btn{font-family:var(--serif);background:#f6ead2;border:1px solid #b89b74;border-radius:3px;box-shadow:1px 2px 0 #cdb894;color:var(--ink)}
+.btn:hover{background:#fff4dc}
+.btn.primary{background:var(--frame);border-color:var(--frame-dk);color:#fff;box-shadow:1px 2px 0 var(--frame-dk)}
+.btn.primary:disabled{opacity:.45}
+.opt{font-family:var(--serif);background:#fffaf0;border:1px solid #d9c8a6;border-radius:2px}
+.opt.on{background:#fbefd9;border-color:var(--frame-dk)}
+
+/* ===== 오페라 커튼 · 무대 뒤 (src/ui/backstage.js) ===== */
+.opera{position:absolute;inset:0;z-index:60;pointer-events:none}
+.opera.closed{pointer-events:auto}
+/* 커튼 천: 세로 주름 + 종이 알갱이. 닫히면 화면을 덮고, 열리면 양옆 위로 걷혀 묶인다(오페라 막) */
+.drape{position:absolute;top:0;bottom:0;width:51%;
+  background:linear-gradient(90deg,rgba(60,10,20,.28),transparent 18%,transparent 82%,rgba(60,10,20,.28)),
+             repeating-linear-gradient(90deg,#9e3a47 0 16px,#c45a66 16px 38px,#ad4652 38px 54px,#d27480 54px 62px,#b24e5a 62px 74px);
+  transition:clip-path 1.4s cubic-bezier(.55,.05,.3,1);filter:drop-shadow(0 0 10px rgba(40,5,10,.45))}
+.drape::after{content:'';position:absolute;inset:0;background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;opacity:.7}
+.drape.left{left:0;clip-path:polygon(0 0,100% 0,100% 18%,100% 38%,100% 60%,100% 82%,100% 100%,0 100%)}
+.drape.right{right:0;clip-path:polygon(100% 0,0 0,0 18%,0 38%,0 60%,0 82%,0 100%,100% 100%)}
+.opera.opening .drape.left,.opera.open .drape.left{clip-path:polygon(0 0,17% 0,12% 14%,7% 28%,3% 44%,1% 58%,0 70%,0 100%)}
+.opera.opening .drape.right,.opera.open .drape.right{clip-path:polygon(100% 0,83% 0,88% 14%,93% 28%,97% 44%,99% 58%,100% 70%,100% 100%)}
+/* 위쪽 휘장 (천장): 항상 그림 창 위에 걸려 있다 */
+.opera-valance{position:absolute;left:0;right:0;top:0;height:74px;z-index:3;pointer-events:none;
+  background:radial-gradient(46px 40px at 50% 0,#b8924d 96%,transparent) 0 26px/92px 48px repeat-x,
+             linear-gradient(#7e2c37,#9e3a47) 0 0/100% 30px no-repeat;
+  filter:drop-shadow(0 4px 2px rgba(40,10,10,.35))}
+/* 천장에 줄로 매단 패 */
+.hang{position:absolute;left:50%;top:0;z-index:2;display:flex;flex-direction:column;align-items:center;pointer-events:none;
+  transform:translate(-50%,0);transition:transform .7s cubic-bezier(.34,1.35,.5,1)}
+.hang.up{transform:translate(-50%,-115%);transition:transform .75s cubic-bezier(.55,0,.8,.2)}
+.ropes{width:58%;height:190px;border-left:3px solid #6b4a2a;border-right:3px solid #6b4a2a;
+  background:linear-gradient(90deg,transparent 0 calc(50% - 1px),transparent calc(50% + 1px))}
+.sign{pointer-events:auto;cursor:pointer;text-align:center;transform:rotate(-1.5deg);
+  background-color:var(--paper);background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
+  box-shadow:0 1px 0 var(--paper-edge),4px 5px 0 #ece0c8,8px 10px 0 #dfd1b4,0 20px 40px rgba(30,10,10,.45);position:relative}
+.sign::before,.sign::after{content:'';position:absolute;top:-8px;width:14px;height:14px;border-radius:50%;background:#b8924d;box-shadow:inset 0 -2px 0 #7a5a2a}
+.sign::before{left:21%}.sign::after{right:21%}
+.sign.logo{padding:44px 84px 40px}
+.logo-txt{font-family:var(--serif);font-size:84px;font-weight:700;letter-spacing:.2em;color:#8a3d48}
+.sign.gate{padding:26px 54px 22px}
+.gate-txt{display:block;font-family:var(--serif);font-size:46px;font-weight:700;letter-spacing:.18em;color:#8a3d48}
+.sign.gate small{font-family:var(--serif);font-size:18px;color:var(--ink2)}
+.sign:hover{transform:rotate(0)}
+
+/* 무대 뒤 책자: 표를 누르면 아래에서 올라온다 */
+.program{position:absolute;left:7%;right:7%;top:9%;bottom:-2%;z-index:70;transform:translateY(110%);transition:transform .7s cubic-bezier(.3,.8,.3,1);
+  background-color:#fffaf0;background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
+  box-shadow:0 1px 0 var(--paper-edge),4px 5px 0 #ece0c8,8px 10px 0 #dfd1b4,0 -10px 40px rgba(30,10,10,.45);padding:20px 34px 30px;display:flex;flex-direction:column}
+.program.up{transform:none}
+.pg-tabs{display:flex;gap:10px;justify-content:center;margin-bottom:12px}
+.pg-tab{font-family:var(--serif);font-size:24px;padding:8px 26px;background:#efe2c9;border:1px solid #cdb894;border-radius:3px;color:var(--ink2);cursor:pointer;box-shadow:1px 2px 0 #cdb894}
+.pg-tab.on{background:#8a3d48;border-color:#6b2d36;color:#fff}
+.pg-sheet{position:relative;flex:1;perspective:2200px}
+.pg-leaf{position:absolute;inset:0;padding:18px 26px 22px;background:#fffdf6;border:1px solid #e3d4b6;opacity:0;pointer-events:none;transform-origin:left center;backface-visibility:hidden;
+  transition:transform .8s cubic-bezier(.5,.05,.3,1),opacity .6s}
+.pg-leaf.on{opacity:1;pointer-events:auto;z-index:2}
+.pg-leaf.turn-away{opacity:0;transform:rotateY(-100deg);z-index:3}
+.pg-leaf.slide-away{opacity:0;transform:translateX(30px);z-index:1}
+.pg-leaf.in-back{animation:leafBack .8s cubic-bezier(.5,.05,.3,1)}
+@keyframes leafBack{from{transform:rotateY(-100deg);opacity:0}to{transform:none;opacity:1}}
+.pg-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid #e3d4b6;padding-bottom:8px;margin-bottom:14px}
+.pg-head h3{margin:0;font-family:var(--serif);font-size:34px;color:var(--ink)}
+.pg-no{margin-left:auto;font-family:var(--serif);font-size:18px;color:var(--ink2)}
+.pg-body{height:calc(100% - 64px)}
+/* 접힌 책장 모서리: 누르면 넘어간다 */
+.pg-corner{position:absolute;bottom:0;width:70px;height:70px;cursor:pointer;z-index:4;transition:width .2s,height .2s}
+.pg-corner.next{right:0;background:linear-gradient(315deg,transparent 50%,#e8d9bb 50%,#f6ecd6 62%,#d9c6a0 100%);box-shadow:-3px -3px 6px rgba(0,0,0,.08)}
+.pg-corner.prev{left:0;background:linear-gradient(45deg,transparent 50%,#e8d9bb 50%,#f6ecd6 62%,#d9c6a0 100%);box-shadow:3px -3px 6px rgba(0,0,0,.08)}
+.pg-corner:hover{width:90px;height:90px}
+.pg-shut{position:absolute;right:30px;top:20px;font-family:var(--serif);font-size:18px;padding:6px 16px;background:#f6ead2;border:1px solid #b89b74;border-radius:3px;box-shadow:1px 2px 0 #cdb894;cursor:pointer}
+.ph-frame{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border:2px dashed #cdb894;border-radius:4px;background:repeating-linear-gradient(45deg,#fbf3e2 0 12px,#f7ecd6 12px 24px);color:var(--ink2);font-family:var(--serif);font-size:20px;text-align:center;padding:16px}
+.ph-frame b{font-size:32px;color:#8a3d48}
+.ph-frame.tall{height:100%}
+.ph-frame.wide{aspect-ratio:16/9;max-height:100%;margin:0 auto;height:100%}
+.ph-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;height:100%}
+
 </style>
 </head>
 <body>
@@ -371,7 +549,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
     <section id="caption">
       <h2 id="ptitle"></h2>
       <p id="pintro"></p>
-      <p class="tip">그림 속에서 눌러 볼 수 있는 곳을 찾아 클릭해 보세요. 그림 아래쪽 ▼ 에 마우스를 대고 누르면 뒤로 갈 수 있습니다. <a href="#" id="hintLink">클릭할 수 있는 곳 표시하기</a></p>
+      <p class="tip">그림 속에서 눌러 볼 수 있는 곳을 찾아 클릭해 보세요. 그림 아래쪽 ▼ 를 누르면 뒤로 갑니다. 마우스 휠을 내리면 막이 내립니다. <a href="#" id="hintLink">클릭할 수 있는 곳 표시하기</a></p>
     </section>
   </main>
   <footer id="foot"><span id="counter"></span><span class="sep">|</span><span>Best viewed on PC · 1280px 이상 권장</span><span id="devSlot"></span></footer>
@@ -428,19 +606,178 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
 </script>
 <script>
-/* NPC. lines: [{if:[조건], text}] 를 위에서부터 검사, 없으면 placeholder("000과 대화").
-   실제 대사가 정해지면 lines 에 추가만 하면 된다. */
+/* NPC 와 대사 (초안 · 함께 고쳐 나갈 문장).
+   lines 는 위에서부터 검사해 "처음 맞는 줄"을 쓴다. 그래서 늦은 단계·특별한 상황을 위에, 기본 대사를 아래에 둔다.
+     { if: [조건], ctx: '상황', text: '문장' 또는 [여러 장] }
+   화면에는 이름만 나온다. 이름 없는 엑스트라는 '주민1', '주민2' 처럼 번호로 부른다.
+     - 조건: stageMin / stageMax / ended / talked(이 인물과 말한 적 있음) / scene(장면 ID) / has / solved / flag / deduced …
+     - ctx: 그 상황에서만 (아리아: '출입 차단' · '대화' · '대면')
+     - 한 장 = '그 인물의 말' / { clover: '클로버의 말' }
+   맞는 줄이 없으면 "○○과 대화" 자리표시가 나온다.
+   대사 원칙: 모두 지나치게 친절하고 같은 말을 되풀이한다. 단계가 오를수록 말끝이 어긋난다.
+             엔딩(5단계) 뒤에는 모두 첫인사 한 줄만 똑같이 되풀이한다. 아리아는 끝까지 확답하지 않는다(열린 결말). */
 (function () {
   const EF = window.EF;
+  // 인물 크롭 그림: assets/npc/<인물ID>.png (1280×720). 넣은 인물 ID 를 여기에 적는다. 예: ['bella', 'noa']
+  EF.NPC_IMAGES = [];
+  const END = { ended: true };
+
   EF.NPCS = {
-    resident: { name: '주민', role: '마을 주민', color: '#9aa7b8', lines: [] },
-    // 벨라 = 예전 이름 "베라"(같은 인물). 올바른 이름은 벨라.
-    bella:  { name: '벨라', role: '로즈메리의 선택받은 주민 · 잡화점 주인', color: '#d9a3c4', lines: [] },
-    aria:   { name: '아리아', role: '도서관', color: '#b9a3e0', lines: [] },
-    oaks:   { name: '오크스', role: '나이테 회전형 만물상 주인', color: '#c9a26b', lines: [] },
-    sienna: { name: '시에나', role: '계절 망토 공방 주인', color: '#e0a39a', lines: [] },
-    noa:    { name: '노아', role: '바다거북 우체국 등대', color: '#7fc4c4', lines: [] },
-    lulu:   { name: '루루', role: '루루의 카페 주인', color: '#8fd0d9', lines: [] }
+    // 주인공. 화면에서 누를 수는 없고, 대화 속 대답에만 쓰인다.
+    clover: { name: '클로버', color: '#7fae6a', lines: [] },
+
+    // ===== 로즈메리 =====
+    // 벨라 = 예전 이름 "베라"(같은 인물). 로즈메리의 선택받은 주민. 세계가 되풀이된다는 것을 알면서, 클로버의 의심을 지우려 한다.
+    // 아리아를 '그분'이라 부른다. 상징: 낡은 오르골. (설정 메모 · 화면에는 쓰지 않음)
+    bella: { name: '벨라', color: '#d9a3c4', lines: [
+      { if: [END], text: '어서 와, 클로버! 오늘도 날씨가 참 좋지?' },
+      { if: [{ stageMin: 4 }], text: [
+        '클로버. 요즘 너, 자꾸 같은 걸 물어.',
+        '…아니, 내가 자꾸 같은 대답을 하는 걸까?',
+        { clover: '벨라, 너도 이상하다고 느끼는 거지?' },
+        '괜찮아. 그분이 그러셨어. 모르는 게 더 행복할 때도 있다고.',
+        '그러니까… 오늘도 날씨가 참 좋지?' ] },
+      { if: [{ stageMin: 3 }], text: [
+        '이 오르골? 할머니가 주신 거야.',
+        '태엽을 감으면 늘 같은 곡이 나와. 처음부터 끝까지, 한 음도 틀리지 않고.',
+        '…같은 게 계속된다는 건 좋은 거야. 그러니까 신경 쓰지 마. 오늘도 날씨가 참 좋지?' ] },
+      { if: [{ stageMin: 2 }], text: [
+        '장부? 아, 날짜를 매번 다시 적는 건 그냥 내 버릇이야. 그래야 마음이 편하거든.',
+        '클로버, 너무 깊이 생각하지 마. 생각이 많으면 하루가 길어지잖아.' ] },
+      { if: [{ talked: 'bella' }], text: '오늘도 날씨가 참 좋지? 이런 날이 계속되면 좋겠어.' },
+      { text: [
+        '어서 와, 클로버! 오늘도 날씨가 참 좋지?',
+        '필요한 게 있으면 뭐든 말해. 우리 가게엔 없는 게 없거든.',
+        { clover: '…어제도 똑같이 말하지 않았어?' },
+        '어제? 후후, 클로버도 참. 어제도 좋은 날이었으니까 그렇게 들린 거야.' ] }
+    ] },
+
+    // 아리아: 도서관 관리자. 과도하게 친절하고, 모든 것을 미리 알고 있는 듯. 상징: 회중시계.
+    aria: { name: '아리아', color: '#b9a3e0', lines: [
+      { if: [END], text: '안녕, 클로버. 오늘도 좋은 하루야.' },
+      // 대면: 통합 추리를 마친 뒤 4단계에서 (scenes.js 의 아리아 규칙이 ctx '대면' 으로 부른다)
+      { ctx: '대면', text: [
+        '…여기까지 왔구나, 클로버.',
+        '네가 무엇을 알아냈는지는 묻지 않을게. 나도 전부를 알지는 못하니까.',
+        '시계는 11시 59분에 멈춰 있어. 나는 그걸 지키고 있을 뿐이야.',
+        { clover: '누구를 위해서?' },
+        '…모두를 위해서. 어쩌면, 나를 위해서.',
+        '그 답을 찾게 되면… 그때는 네가 나에게 알려 줘.' ] },
+      { if: [{ flag: 'ariaConfronted' }], text: '아틀리에에 가 봐. 나는 여기서 기다릴게. …늘 그랬듯이.' },
+      { ctx: '출입 차단', if: [{ talked: 'aria' }], text: '정리가 끝나면 제일 먼저 너를 부를게. 약속해.' },
+      { ctx: '출입 차단', text: [
+        '안녕, 클로버. 도서관은 지금 정리 중이야.',
+        '미안해. 정리가 끝나면 제일 먼저 너를 부를게. 약속해.',
+        { clover: '정리는 언제 끝나?' },
+        '곧 끝나. 조금만 기다려 줘.' ] },
+      { if: [{ stageMin: 4 }], text: '오늘은 왜 이쪽으로 오는 거야? 전에는 이 길로 안 왔잖아?' },
+      { if: [{ stageMin: 3 }], text: [
+        '클로버, 오늘은 여기 몇 번째로 온 거니?',
+        '…아, 별 뜻 없어. 그냥 세어 보고 싶었어.' ] },
+      { text: [
+        '열람실은 열어 뒀어. 네가 그렇게 궁금해하니까.',
+        '하지만 너무 안쪽까지는 들어가지 않는 게 좋아. 먼지가 많거든.' ] }
+    ] },
+
+    // 이름 없는 엑스트라: 번호로만 부른다.
+    // 주민1 = 로즈메리 광장
+    resident1: { name: '주민1', color: '#9aa7b8', lines: [
+      { if: [END], text: '좋은 오후예요! 벌써 1시네요.' },
+      { if: [{ stageMin: 4 }], text: [
+        '시계탑이요? 11시 59분이죠. 늘 그랬잖아요.',
+        '…늘, 이라는 게 언제부터였더라.' ] },
+      { if: [{ stageMin: 3 }], text: [
+        '좋은 오후예요! 벌써 1시네요. 늘 이맘때 산책을 나와요.',
+        '…방금 제가 뭐라고 했죠? 아, 좋은 오후예요!' ] },
+      { text: [
+        '좋은 오후예요! 벌써 1시네요. 늘 이맘때 산책을 나와요.',
+        '게시판에 새 소식이 붙었대요. 어제 붙은 것과 똑같은 소식이지만요.' ] }
+    ] },
+    // 주민2 = 글렌위버 마을 주택
+    resident2: { name: '주민2', color: '#a7b49a', lines: [
+      { if: [END], text: '어서 와요. 차 한잔 할래요?' },
+      { if: [{ stageMin: 4 }], text: [
+        '차가 식지를 않네요. 아까부터 계속 막 끓은 그대로예요.',
+        '좋은 거겠죠? 따뜻한 건 좋은 거니까.' ] },
+      { if: [{ stageMin: 2 }], text: [
+        '명부요? 세 마을 사람 이름은 전부 거기 있어요. 빠진 사람은 없어요.',
+        '…없을 거예요.' ] },
+      { text: [
+        '어서 와요. 차 한잔 할래요? 마침 물이 끓었어요.',
+        '이 집 찻물은 언제나 딱 좋은 때에 끓는답니다.' ] }
+    ] },
+
+    // ===== 글렌위버 =====
+    // 오크스: 글렌위버의 선택받은 주민. 세계가 되풀이된다는 것을 알고 있다. 팔지 않는 낡은 물건을 간직한다.
+    oaks: { name: '오크스', color: '#c9a26b', lines: [
+      { if: [END], text: '허허, 어서 오너라. 나이테 만물상에 온 걸 환영한다.' },
+      { if: [{ stageMin: 4 }], text: [
+        '마을 사람들이 같은 이야기를 되풀이한다고? 허허, 나무도 해마다 같은 자리에서 잎을 틔운단다.',
+        '다만 나이테가 늘지 않는 나무는 자라는 게 아니라… 기다리는 거지.',
+        '얘야, 너는 무엇을 기다리고 있니?' ] },
+      { if: [{ stageMin: 3 }], text: '얘야, 이상하지 않니? 이 선반의 나이테가 올해는 하나도 늘지 않았어.' },
+      { if: [{ stageMin: 2 }], text: [
+        '저 낡은 것 말이냐? 그건 팔지 않는다.',
+        '누가 맡겨 두고 갔는지 기억나지 않는데, 이상하게 버릴 수가 없구나.' ] },
+      { if: [{ talked: 'oaks' }], text: '천천히 둘러보거라. 서두를 것 없다. 시간은… 넉넉하니까.' },
+      { text: [
+        '허허, 어서 오너라. 나이테 만물상에 온 걸 환영한다.',
+        '나무는 해마다 고리를 하나씩 늘리지. 그게 나무가 시간을 기억하는 방법이란다.' ] }
+    ] },
+
+    // 시에나: 계절 망토 공방. 망토는 늘 7단계에서 멈춘다.
+    sienna: { name: '시에나', color: '#e0a39a', lines: [
+      { if: [END], text: '어서 와! 이번 망토는 봄 거야. 완성되면 제일 먼저 보여 줄게!' },
+      { if: [{ stageMin: 4 }], text: [
+        '클로버, 너는 봄 말고 다른 계절을 본 적 있어?',
+        '여름 망토 도안을 그렸는데… 여름이 어떤 색이었는지 모르겠어.' ] },
+      { if: [{ stageMin: 3 }], text: [
+        '이상해. 일곱 번째 땀만 뜨면 손이 멈춰.',
+        '실이 엉킨 것도 아닌데, 다음 땀이… 생각나지 않아.' ] },
+      { if: [{ stageMin: 2 }], text: [
+        '걸린 망토들? 전부 견본이야.',
+        '진짜는 지금 짓고 있는 이거야. 거의 다 됐어. 정말 거의.' ] },
+      { if: [{ talked: 'sienna' }], text: '이번 망토는 봄 거야. 완성되면 제일 먼저 보여 줄게!' },
+      { text: [
+        '어서 와! 계절 망토 공방이야. 계절마다 다른 망토를 짓지.',
+        '이번 망토는 봄 거야. 완성되면 제일 먼저 보여 줄게!' ] }
+    ] },
+
+    // ===== 루미나리아 =====
+    // 노아: 루미나리아의 선택받은 주민. 세계가 되풀이된다는 것을 알고 있다. 매일 같은 시각, 같은 자리에서 배를 기다린다.
+    noa: { name: '노아', color: '#7fc4c4', lines: [
+      { if: [END], text: '바다거북 우체국에 온 걸 환영해! 편지는 거북이들이 날라.' },
+      { if: [{ stageMin: 4 }], text: [
+        '클로버, 편지 중에 네 이름이 적힌 게 있어.',
+        '보낸 사람 칸은 비어 있어. …누가 보냈는지는 너도 곧 알게 될 거야.' ] },
+      { if: [{ stageMin: 3 }], text: [
+        '우편함에 같은 편지가 또 왔어.',
+        '거북이들은 길을 잃지 않아. 편지가 받는 사람을 찾을 때까지 몇 번이고 돌아올 뿐이지.',
+        '…그 사람이 너라면, 언젠가는 열어 봐야 할 거야.' ] },
+      { if: [{ stageMin: 2 }], text: '나? 배가 들어오는 시간엔 늘 선착장에 서 있어. 누가 내릴지도 모르잖아.' },
+      { if: [{ talked: 'noa' }], text: '오늘도 편지가 왔어.' },
+      { text: [
+        '바다거북 우체국에 온 걸 환영해! 편지는 거북이들이 날라.',
+        '배는 매일 같은 시각에 들어와. 정확해. 한 번도 늦은 적이 없어.' ] }
+    ] },
+
+    // 루루: 해파리 디저트 카페. 해파리 조명이 손님보다 먼저 움직인다.
+    lulu: { name: '루루', color: '#8fd0d9', lines: [
+      { if: [END], text: '어서 오세요~ 루루의 카페예요!' },
+      { if: [{ stageMin: 4 }], text: [
+        '클로버 씨, 방금 조명이 켜지지 않았어요.',
+        '처음이에요. 조명이 손님을 모르는 건.' ] },
+      { if: [{ stageMin: 3 }], text: [
+        '어제 메뉴요? 해파리 젤리 소다랑 진주 크림 파이요. 그제도요.',
+        '…다른 메뉴를 만들어 본 적이 있었던가?' ] },
+      { if: [{ stageMin: 2 }], text: [
+        '해파리 조명은 손님이 어디로 갈지 먼저 알아요. 신기하죠?',
+        '저는 그냥… 조명이 켜지는 쪽에 컵을 놓을 뿐이에요.' ] },
+      { if: [{ talked: 'lulu' }], text: '오늘의 메뉴는 해파리 젤리 소다랑 진주 크림 파이예요!' },
+      { text: [
+        '어서 오세요~ 루루의 카페예요! 오늘의 메뉴는 해파리 젤리 소다랑 진주 크림 파이!',
+        '앗, 벌써 고르셨네요? 해파리 조명이 알려 줬어요.' ] }
+    ] }
   };
 })();
 
@@ -643,7 +980,10 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
      steps      바느질 단계(total 중 done 에서 멈춤, mark = 붙은 표시)
      pins       붙은 종이들(items: {icon, text, mark})
      stack      겹친 물건(icon, count, mark)
-     ringguide  「나이테 읽는 법」 그림(바깥 링부터, 긴 바늘 먼저) */
+     ringguide  「나이테 읽는 법」 그림(바깥 링부터, 긴 바늘 먼저)
+   그림 파일이 있으면(EF.VIEW_IMAGES):
+     - 퍼즐 단서 그림(기본): 숫자·글·기호까지 그림에 직접 그려져 있으므로 그림만 보여 준다.
+     - overlay:true (퍼즐과 무관한 그림): 글 없는 바탕 그림 위에 아래 내용을 얹는다(box, bare 로 위치 조정). */
 (function () {
   const EF = window.EF;
   EF.VIEW_IMAGES = []; // 예: ['v-oldthing'] → assets/view/v-oldthing.png
@@ -651,22 +991,22 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   EF.VIEWS = {
     // ===== 로즈메리 · 클로버의 집 =====
-    'v-desk':   { kind: 'doc', paper: 'note', rows: ['🕰️ ✔', '🛒 ✔', '📚 ✖', '', ''] },             // 내 손글씨 같은데 쓴 기억이 없는 하루
-    'v-drawer': { kind: 'pins', paper: 'drawer', items: rep({ text: '🕰️ → 🛒 → 🏠' }, 8) },        // 같은 하루가 여러 장
+    'v-desk':   { overlay: true, kind: 'doc', paper: 'note', rows: ['🕰️ ✔', '🛒 ✔', '📚 ✖', '', ''] },             // 내 손글씨 같은데 쓴 기억이 없는 하루
+    'v-drawer': { overlay: true, kind: 'pins', paper: 'drawer', items: rep({ text: '🕰️ → 🛒 → 🏠' }, 8) },        // 같은 하루가 여러 장
     'v-mirror': { kind: 'pic', icon: '🪞', tone: ['#f4e4d4', '#b9a38c'] },
 
     // ===== 로즈메리 · 광장 =====
-    'v-clock':  { kind: 'clock', h: 11, m: 59 },                                                   // 11:59 · 시계 방향
+    'v-clock':  { overlay: true, bare: true, kind: 'clock', h: 11, m: 59 },                                                   // 11:59 · 시계 방향
     'v-board':  { kind: 'pins', paper: 'cork', items: rep({ icon: '🧹', mark: '▲' }, 2) },          // ▲ = 2
 
     // ===== 로즈메리 · 도서관 =====
-    'v-libnotice': { kind: 'doc', paper: 'sign', rows: ['📚 🚫', '🔑 👤'] },
+    'v-libnotice': { overlay: true, kind: 'doc', paper: 'sign', rows: ['📚 🚫', '🔑 👤'] },
     'v-book':      { kind: 'ringguide' },                                                          // 바깥 링부터 · 분(긴 바늘) 먼저
-    'v-ledger':    { kind: 'doc', paper: 'ledger', cols: ['📅', '👤', '📕'], rows: rep(['봄 3일', '하나', '첫 번째 하루'], 5) },
+    'v-ledger':    { overlay: true, bare: true, kind: 'doc', paper: 'ledger', cols: ['📅', '👤', '📕'], rows: rep(['봄 3일', '하나', '첫 번째 하루'], 5) },
     'v-record':    { kind: 'strip', items: ['🌅', '☀️', '🌇', '🌙', '🌙'] },                       // 하루의 순서 + 다시 밤
     'v-archivebox': { kind: 'pic', icon: '🗃️', tone: ['#b9ad99', '#6f5a48'] },
-    'v-journal':   { kind: 'doc', paper: 'book', head: '📅 +1', rows: ['🧑 🕰️', '🧑 📖', '🧑 📓 👁️'] },  // 내일의 클로버
-    'v-oldrec':    { kind: 'pins', paper: 'drawer', items: rep({ icon: '📅', text: '봄 3일' }, 10) },
+    'v-journal':   { overlay: true, kind: 'doc', paper: 'book', head: '📅 +1', rows: ['🧑 🕰️', '🧑 📖', '🧑 📓 👁️'] },  // 내일의 클로버
+    'v-oldrec':    { overlay: true, kind: 'pins', paper: 'drawer', items: rep({ icon: '📅', text: '봄 3일' }, 10) },
 
     // ===== 로즈메리 · 벨라의 잡화점 =====
     'v-display':    { kind: 'pic', icon: '🧺', tone: ['#f1ddc0', '#b98f6a'] },
@@ -675,21 +1015,21 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
     // ===== 글렌위버 =====
     'v-birdhouse': { kind: 'pic', icon: '🐦', tone: ['#cfd9ee', '#8c8f7a'] },
-    'v-shiftlog':  { kind: 'doc', paper: 'ledger', cols: ['📅', '🌅', '☀️', '🌇', '🌙', '✓'],
+    'v-shiftlog':  { overlay: true, bare: true, kind: 'doc', paper: 'ledger', cols: ['📅', '🌅', '☀️', '🌇', '🌙', '✓'],
       rows: rep(['봄 3일', '05:12:00', '11:59:00', '17:44:00', '23:59:00', '✓'], 7) },             // 7일 내내 같은 날, 같은 초
     'v-shelf':     { kind: 'pic', icon: '🌀', tone: ['#e8d8b4', '#9b7b52'] },
     'v-oldthing':  { kind: 'pic', icon: '🪵', tone: ['#5a4630', '#2e2418'] },                       // 그림만
     'v-cloak':     { kind: 'pattern', rows: ['☀️', '🕰️', '🌊'] },                                   // 위 해 · 가운데 시계탑 · 아래 물결
     'v-workbench': { kind: 'steps', total: 10, done: 7, mark: '★' },                                // ★ = 7
-    'v-registry':  { kind: 'doc', paper: 'ledger', cols: ['🌿', '🍂', '🐚'],
+    'v-registry':  { overlay: true, bare: true, kind: 'doc', paper: 'ledger', cols: ['🌿', '🍂', '🐚'],
       rows: [['클로버', '오크스', '노아'], ['벨라', '시에나', '루루'], ['아리아', '마렌', '로완'], ['토비', '페넬', '']] }, // '하나' 없음
 
     // ===== 루미나리아 =====
     'v-mailbox':  { kind: 'stack', icon: '✉️', count: 3, mark: '●' },                               // ● = 3
-    'v-letter':   { kind: 'doc', paper: 'note', head: '클로버에게,', rows: ['', '', '', ''], blur: true, foot: '▒▒▒▒' },
+    'v-letter':   { overlay: true, kind: 'doc', paper: 'note', head: '클로버에게,', rows: ['', '', '', ''], blur: true, foot: '▒▒▒▒' },
     'v-glassart': { kind: 'pic', icon: '🔮', tone: ['#e9e4f4', '#9f93bd'] },
     'v-atelier':  { kind: 'pic', icon: '🪟', tone: ['#c8b8e8', '#5a6a9a'] },
-    'v-menu':     { kind: 'doc', paper: 'sign', cols: ['📅 −1', '📅'], rows: [['🍹', '🍹'], ['🥧', '🥧']] }, // 어제 = 오늘
+    'v-menu':     { overlay: true, kind: 'doc', paper: 'sign', cols: ['📅 −1', '📅'], rows: [['🍹', '🍹'], ['🥧', '🥧']] }, // 어제 = 오늘
     'v-jelly':    { kind: 'lights', colors: ['#5b8fd9', '#e59ac0', '#e8c547', '#5fb37a'] },          // 파랑 → 분홍 → 노랑 → 초록
     'v-pier':     { kind: 'pic', icon: '👣', tone: ['#cfe6f2', '#9ec6dc'] },
     'v-sign':     { kind: 'doc', paper: 'sign', rows: ['⚓ 루미나리아', '⛴️ 4:17'] }                   // 입항 4:17
@@ -701,6 +1041,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 /* 장면 + 핫스팟 + 규칙.
    - 좌표는 1280x720 기준 px. (x,y,w,h)
    - 핫스팟 rules 는 위에서부터 검사해 "처음 통과한 규칙"의 do 를 실행한다.
+   - intro: 장소 소개 문구. { 단계: 문구 } 로 쓰면 지금 단계 이하에서 가장 높은 단계의 문구가 나온다.
    - 조사(inspect)를 누르면 그 물건의 클로즈업 장면(views.js 의 view)이 열린다. 글로 설명하지 않는다.
    - 아직 상호작용할 수 없는 것(단계 미달·잠김)은 글 없이 화면이 살짝 흔들린다(shake).
    - temp:true 는 임시 요소(힌트 표시를 켜면 점선으로 보임).
@@ -760,6 +1101,8 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   // ---------- 장면 ----------
   // 배경 이미지를 넣은 장면 ID 를 여기에 적으면 assets/bg/<ID>.png 가 사용된다. 예: ['RM_HOME']
   EF.BG_IMAGES = [];
+  // 오작동 배경(선택): 4단계부터 assets/bg/<ID>_err.png 를 쓴다. 넣은 장면 ID 를 적는다. 없으면 CSS 색 효과만.
+  EF.BG_ERR_IMAGES = [];
 
   const S = (EF.SCENES = {});
   const add = s => (S[s.id] = s);
@@ -767,10 +1110,12 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   // ===== 월드맵 =====
   add({
     id: 'WORLD_MAP', name: '월드맵', kind: 'world', bg: sky('#cfe3f5', '#eaf0e6', '#d8e6c8', 55),
+    intro: { 1: '로즈메리, 글렌위버, 루미나리아. 세 마을이 모여 있는 지도.', 3: '세 마을은 지도 위 같은 자리에 있다. 바다의 윤곽만 조금 어긋나 있다.', 5: '세 마을은 제자리에 있다. 마을 사이의 풍경이 종이처럼 찢겨 있다.' },
     hotspots: [
-      move('go-rm', '로즈메리', '🌿', [130, 250, 270, 210], 'MAP_ROSEMARY'),
-      move('go-gw', '글렌위버', '🍂', [505, 200, 270, 210], 'MAP_GLENWEAVER'),
-      move('go-lm', '루미나리아', '🐚', [880, 280, 270, 210], 'MAP_LUMINARIA')
+      // 배치: 섬 지도 기준 — 글렌위버 북서쪽 숲, 루미나리아 북동쪽 해안(항구), 로즈메리 남쪽 가운데
+      move('go-gw', '글렌위버', '🍂', [400, 105, 225, 175], 'MAP_GLENWEAVER'),
+      move('go-lm', '루미나리아', '🐚', [745, 140, 240, 180], 'MAP_LUMINARIA'),
+      move('go-rm', '로즈메리', '🌿', [610, 410, 230, 180], 'MAP_ROSEMARY')
     ]
   });
 
@@ -778,6 +1123,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   add({
     id: 'MAP_ROSEMARY', name: '로즈메리', kind: 'map', parent: 'WORLD_MAP', village: '로즈메리',
     bg: sky('#e6def2', '#eef0e4', '#cfe3c2'),
+    intro: { 1: '장밋빛 지붕이 가지런한 로즈메리. 광장 한가운데 시계탑이 서 있다.', 3: '시계탑 종이 울린다. 바늘은 아직 그 시각에 닿지 않았다.', 5: '시계탑의 문자판이 옆으로 밀려 있다. 종소리는 한참 뒤에 들린다.' },
     hotspots: [
       move('m-home', '클로버의 집', '🏠', [110, 270, 220, 170], 'RM_HOME', { temp: true }),
       move('m-plaza', '광장 · 시계탑', '⏰', [370, 150, 240, 210], 'RM_PLAZA', { temp: true }),
@@ -788,6 +1134,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   add({
     id: 'MAP_GLENWEAVER', name: '글렌위버', kind: 'map', parent: 'WORLD_MAP', village: '글렌위버',
     bg: sky('#f6e6c8', '#f1ecd2', '#b9c99a'),
+    intro: { 1: '오래된 나무에 둘러싸인 글렌위버. 낮과 밤이 바뀌면 숲에서 들려오는 소리도 달라진다.', 3: '숲의 노래가 매번 같은 마디에서 끊긴다.', 5: '숲에서는 낮의 지저귐과 밤의 울음소리가 한꺼번에 들린다.' },
     hotspots: [
       move('m-tower', '주야 교대 새집 탑', '🐦', [110, 160, 250, 230], 'GW_TOWER'),
       move('m-oaks', '나이테 회전형 만물상', '🌳', [400, 260, 260, 190], 'GW_OAKS'),
@@ -798,6 +1145,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   add({
     id: 'MAP_LUMINARIA', name: '루미나리아', kind: 'map', parent: 'WORLD_MAP', village: '루미나리아',
     bg: sky('#cfeaf0', '#e4f2ef', '#efe5d2'),
+    intro: { 1: '바다거북이 편지를 싣고 오가는 항구 마을. 밤이면 바다가 진주빛으로 물든다.', 3: '파도가 같은 모양으로 밀려왔다가 같은 모양으로 돌아간다.', 5: '바다에는 파도가 두 겹으로 겹쳐 있다. 두 파도가 서로 다른 방향으로 밀려온다.' },
     hotspots: [
       move('m-light', '바다거북 우체국 등대', '🗼', [110, 140, 250, 260], 'LM_LIGHTHOUSE'),
       move('m-atelier', '펄 루미너스 아틀리에', '🔮', [400, 250, 260, 190], 'LM_ATELIER'),
@@ -809,7 +1157,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   // ===== 로즈메리 =====
   add({
     id: 'RM_HOME', name: '클로버의 집', kind: 'location', parent: 'MAP_ROSEMARY', village: '로즈메리',
-    bg: room('#f4e4d4', '#c9a27e'), intro: '클로버가 사는 아늑한 집. 모든 것이 제자리에 있다.',
+    bg: room('#f4e4d4', '#c9a27e'), intro: { 1: '클로버가 사는 아늑한 집. 모든 것이 제자리에 있다.', 3: '분명 옮겨 둔 물건까지 원래 자리에 돌아와 있다.', 5: '옮겨 둔 물건이 원래 자리에도 있다.' },
     hotspots: [
       inspect('desk', '책상', '📝', [120, 300, 260, 150], { view: 'v-desk', grant: 'O-04' }),
       puzzle('drawer', '서랍', '🗄️', [470, 330, 220, 150], 'P-DRAWER'),
@@ -819,18 +1167,18 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'RM_PLAZA', name: '광장 · 시계탑', kind: 'location', parent: 'MAP_ROSEMARY', village: '로즈메리',
-    bg: sky('#d8e8f5', '#eef2ec', '#d9d2c0'), intro: '마을 한가운데 시계탑이 서 있는 광장.',
+    bg: sky('#d8e8f5', '#eef2ec', '#d9d2c0'), intro: { 1: '시계탑이 서 있는 마을 광장. 어느 골목에서 돌아와도 탑이 보인다.', 3: '시계판의 테두리가 한쪽으로 밀려 있다. 눈을 떼었다 봐도 그대로다.', 5: '시계판이 두 겹으로 어긋나 있다. 탑 아래 광장 바닥에는 틈이 벌어져 있다.' },
     hotspots: [
       inspect('clock', '시계', '🕰️', [150, 120, 230, 300], { view: 'v-clock', grant: 'R-01' }),
       inspect('board', '게시판', '📌', [520, 260, 230, 180], { min: 2, view: 'v-board', grant: 'R-04' }),
-      npc('plaza-npc', '주민', '🧑', [860, 280, 150, 200], 'resident', { temp: true })
+      npc('plaza-npc', '주민1', '🧑', [860, 280, 150, 200], 'resident1', { temp: true })
     ]
   });
 
   // --- 도서관(외부) + 하위 장소 3곳 ---
   add({
     id: 'RM_LIBRARY_EXT', name: '도서관', kind: 'location', parent: 'MAP_ROSEMARY', village: '로즈메리',
-    bg: sky('#e0d6ee', '#ebe6dd', '#c9d8b5'), intro: '조용한 기록의 공간. 입구 앞에 아리아가 서 있다.',
+    bg: sky('#e0d6ee', '#ebe6dd', '#c9d8b5'), intro: { 1: '마을의 기록이 모인 도서관.', 2: '마을의 책과 자료가 모여 있는 조용한 곳. 도서관 입구에 다가서면, 문 너머의 소리까지 잦아드는 듯하다.', 3: '도서관의 문과 문틀이 조금 어긋나 있다.', 5: '도서관 문이 두 겹으로 보인다. 한쪽 문만 문틀에서 비껴나 있다.' },
     hotspots: [
       inspect('lib-notice', '출입 제한 안내문', '📄', [170, 330, 190, 140], { view: 'v-libnotice', grant: 'LIB-BLOCK' }),
       hs('move', 'lib-door', '도서관 문', '🚪', [470, 200, 260, 280], [
@@ -852,7 +1200,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'RM_LIBRARY_READING', name: '도서관 열람실', kind: 'location', parent: 'RM_LIBRARY_EXT', village: '로즈메리',
-    bg: room('#d9cdb8', '#8d6e55'), intro: '책이 빼곡한 열람실. 종이 냄새가 난다.',
+    bg: room('#d9cdb8', '#8d6e55'), intro: { 1: '책이 빼곡한 열람실. 책을 펼치면 종이 냄새가 난다.', 3: '방금 덮은 책을 다시 펼쳤다. 같은 쪽이 나온다.', 5: '다른 책을 펼쳐도 같은 문장이 나온다.' },
     hotspots: [
       puzzle('ledger', '대출 장부', '📒', [130, 330, 220, 140], 'P-LEDGER'),
       inspect('shelf', '책장', '📚', [440, 150, 260, 320], { view: 'v-book' }),
@@ -866,7 +1214,9 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'RM_LIBRARY_ARCHIVE', name: '자료 보관실', kind: 'location', parent: 'RM_LIBRARY_READING', village: '로즈메리',
-    bg: room('#b9ad99', '#6f5a48'), intro: '오래된 자료가 잠든 곳. 공기가 차갑다.',
+    // 기록 조각 퍼즐을 풀면 비밀 통로가 열린 그림(assets/bg/RM_LIBRARY_ARCHIVE_open.png)으로 바뀐다
+    bgAlt: { if: [{ solved: 'P-ARCHIVE' }], id: 'RM_LIBRARY_ARCHIVE_open' },
+    bg: room('#b9ad99', '#6f5a48'), intro: { 1: '오래된 자료를 모아 둔 보관실. 서류가 선반마다 정리되어 있다.', 3: '서류 사이에 빈자리가 있다. 그 자리만 먼지가 묻어 있지 않다.', 5: '선반의 서류가 서로 다른 자리에 겹쳐 보인다. 빈자리만 그대로다.' },
     hotspots: [
       puzzle('fragments', '기록 조각', '🧩', [150, 320, 240, 150], 'P-ARCHIVE'),
       inspect('archive-box', '보관함', '🗃️', [480, 230, 230, 240], { view: 'v-archivebox' }),
@@ -877,7 +1227,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'RM_LIBRARY_SECRET', name: '비밀 기록실', kind: 'location', parent: 'RM_LIBRARY_ARCHIVE', village: '로즈메리',
-    bg: room('#5b5268', '#3b3446'), intro: '숨겨진 기록이 남은 방. 아무도 오지 않은 지 오래된 듯하다.',
+    bg: room('#5b5268', '#3b3446'), intro: { 1: '숨겨진 기록이 남아 있는 방. 문 바깥에서는 보이지 않던 자리다.', 3: '오래 비어 있었던 방처럼 보인다. 의자에는 아직 온기가 남아 있다.', 5: '기록의 마지막 줄이 옅어졌다가 돌아온다. 그 아래는 비어 있다.' },
     hotspots: [
       inspect('journal', '관찰일지', '📓', [200, 290, 230, 170], { view: 'v-journal', grant: 'C-03' }),
       puzzle('old-record', '오래된 기록', '📜', [600, 240, 260, 220], 'P-OLDREC', { min: 4 })
@@ -886,7 +1236,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'RM_BELLA_SHOP', name: '벨라의 잡화점', kind: 'location', parent: 'MAP_ROSEMARY', village: '로즈메리',
-    bg: room('#f1ddc0', '#b98f6a'), intro: '없는 게 없는 작은 잡화점. 벨라가 가게를 지킨다.',
+    bg: room('#f1ddc0', '#b98f6a'), intro: { 1: '벨라가 가게를 지키는 작은 잡화점. 선반마다 생활용품이 놓여 있다.', 3: '비어 있던 선반 자리에 같은 물건이 다시 놓여 있다.', 5: '낡은 오르골에서 한 음이 난다. 곡은 이어지지 않고 그 음만 되풀이된다.' },
     hotspots: [
       npc('bella', '벨라', '🧑‍🌾', [150, 260, 160, 220], 'bella'),
       inspect('display', '진열대', '🧺', [560, 300, 220, 160], { view: 'v-display', grant: 'O-01' }),
@@ -897,7 +1247,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   // ===== 글렌위버 =====
   add({
     id: 'GW_TOWER', name: '주야 교대 새집 탑', kind: 'location', parent: 'MAP_GLENWEAVER', village: '글렌위버',
-    bg: room('#cfd9ee', '#8c8f7a'), intro: '낮과 밤이 교대하는 새집 탑.',
+    bg: room('#cfd9ee', '#8c8f7a'), intro: { 1: '낮에는 작은 동물과 곤충이, 밤에는 야행성 동물들이 새집 탑의 방을 드나든다.', 3: '새가 방을 떠났다. 지저귐은 빈방에서 계속 들린다.', 5: '같은 방에 낮의 새와 밤의 동물이 번갈아 나타난다. 방을 드나드는 소리는 한꺼번에 들린다.' },
     hotspots: [
       puzzle('birdhouse', '새집 장치', '🐦', [170, 160, 260, 300], 'P-BIRDHOUSE', { min: 2 }),
       inspect('shift-log', '교대 기록', '📋', [620, 300, 240, 160], { view: 'v-shiftlog', grant: 'C-01' })
@@ -906,7 +1256,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'GW_OAKS', name: '나이테 회전형 만물상', kind: 'location', parent: 'MAP_GLENWEAVER', village: '글렌위버',
-    bg: room('#e8d8b4', '#9b7b52'), intro: '나이테 모양 선반이 천천히 도는 만물상.',
+    bg: room('#e8d8b4', '#9b7b52'), intro: { 1: '오래된 빈 고목 속 만물상. 나이테를 따라 놓인 선반이 천천히 돈다.', 3: '선반이 돌 때마다 같은 도토리 그릇이 눈앞을 지나간다. 그다음 물건은 나오지 않는다.', 5: '선반은 한쪽으로 도는데, 위에 놓인 물건들은 반대쪽으로 밀린다.' },
     hotspots: [
       npc('oaks', '오크스', '🧔', [130, 260, 150, 220], 'oaks'),
       puzzle('shelf-spin', '회전 선반', '🌀', [420, 170, 260, 300], 'P-SHELF', { min: 3 }),
@@ -916,7 +1266,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'GW_SIENNA', name: '시에나의 계절 망토 공방', kind: 'location', parent: 'MAP_GLENWEAVER', village: '글렌위버',
-    bg: room('#f2d9d3', '#b88f7a'), intro: '계절마다 다른 망토를 짓는 공방.',
+    bg: room('#f2d9d3', '#b88f7a'), intro: { 1: '시에나가 사계절의 바람을 거미줄 실과 함께 엮어 망토를 만드는 공방.', 3: '작업대 위 망토 자락이 흔들린다. 옆에 늘어진 실은 움직이지 않는다.', 5: '바늘은 다음 땀으로 넘어가는데, 방금 꿰맨 자리가 다시 풀린다.' },
     hotspots: [
       npc('sienna', '시에나', '👩‍🎨', [130, 270, 150, 210], 'sienna'),
       inspect('cloak', '망토', '🧥', [400, 190, 230, 280], { view: 'v-cloak' }),
@@ -926,9 +1276,9 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'GW_HOUSE', name: '마을 주택', kind: 'location', parent: 'MAP_GLENWEAVER', village: '글렌위버',
-    bg: room('#efe5cf', '#c3a77f'), intro: '숲속 마을의 평범한 집.',
+    bg: room('#efe5cf', '#c3a77f'), intro: { 1: '숲속의 작은 집. 안에서 찻물 끓는 소리가 들린다.', 3: '찻물이 끓어오르는 소리가 들린다. 잠시 뒤, 똑같은 소리가 처음부터 다시 난다.', 5: '찻물 끓는 소리가 끊겼다가 한꺼번에 두 번 들린다.' },
     hotspots: [
-      npc('gw-resident', '주민', '🧑', [520, 260, 150, 220], 'resident', { temp: true }),
+      npc('gw-resident', '주민2', '🧑', [520, 260, 150, 220], 'resident2', { temp: true }),
       inspect('registry', '주민 명부', '📜', [860, 230, 220, 230], { view: 'v-registry' })
     ]
   });
@@ -936,7 +1286,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   // ===== 루미나리아 =====
   add({
     id: 'LM_LIGHTHOUSE', name: '바다거북 우체국 등대', kind: 'location', parent: 'MAP_LUMINARIA', village: '루미나리아',
-    bg: room('#d3ebf0', '#e3d7bd'), intro: '바다거북이 지키는 우체국 등대.',
+    bg: room('#d3ebf0', '#e3d7bd'), intro: { 1: '등대지기가 거북이 우체부들의 길을 살피는 곳. 이곳에서 출발한 편지에는 바다의 온기가 밴다.', 3: '편지를 꺼냈는데 우편함 안에 같은 편지가 또 들어 있다.', 5: '등대 불빛이 같은 구간을 두 번 비춘다. 정작 그다음 바닷길은 밝아지지 않는다.' },
     hotspots: [
       npc('noa', '노아', '🧑‍✈️', [130, 270, 150, 210], 'noa'),
       puzzle('mailbox', '우편함', '📮', [420, 280, 200, 180], 'P-MAILBOX', { min: 3 }),
@@ -946,7 +1296,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'LM_ATELIER', name: '펄 루미너스 아틀리에', kind: 'location', parent: 'MAP_LUMINARIA', village: '루미나리아',
-    bg: room('#e9e4f4', '#c9bfd9'), intro: '진주빛 유리가 빛나는 아틀리에.',
+    bg: room('#e9e4f4', '#c9bfd9'), intro: { 1: '투명한 유리 외벽 너머로 작업장과 해파리 수조가 보이는 펄 루미너스 아틀리에.', 3: '수조의 해파리는 움직이는데, 유리벽에 비친 빛은 한 박자 늦게 따라온다.', 4: '수조의 빛이 꺼졌다. 유리벽 안에서는 아직 해파리가 빛나고 있다.' },
     hotspots: [
       inspect('glass', '유리 작품', '🔮', [160, 170, 250, 300], { view: 'v-glassart' }),
       // 아리아와 마주한 뒤에만 열린다. 그 전에는 흔들림.
@@ -956,7 +1306,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'LM_CAFE', name: '루루의 카페', kind: 'location', parent: 'MAP_LUMINARIA', village: '루미나리아',
-    bg: room('#d6f0f1', '#a8d0cf'), intro: '해파리 조명이 떠다니는 카페.',
+    bg: room('#d6f0f1', '#a8d0cf'), intro: { 1: '해초 디저트와 젤리를 내는 카페. 수조의 해파리빛이 테이블에 은은하게 번진다.', 3: '수조의 해파리는 빛나고 있는데 테이블 위 조명만 잠깐 꺼졌다.', 5: '테이블 위의 빛이 꺼졌다 켜진다. 빈자리부터 매번 같은 순서로 밝아진다.' },
     hotspots: [
       npc('lulu', '루루', '👩‍🍳', [130, 270, 150, 210], 'lulu'),
       inspect('menu', '메뉴판', '🍵', [400, 190, 200, 200], { view: 'v-menu' }),
@@ -966,7 +1316,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'LM_HARBOR', name: '항구', kind: 'location', parent: 'MAP_LUMINARIA', village: '루미나리아',
-    bg: sky('#cfe6f2', '#9ec6dc', '#e6d9bd', 55), intro: '배가 드나드는 작은 항구.',
+    bg: sky('#cfe6f2', '#9ec6dc', '#e6d9bd', 55), intro: { 1: '바닷바람이 드는 작은 항구. 물가에 서면 파도 소리가 가까이 들린다.', 3: '파도가 부두 가장자리에 닿는다. 물결은 움직이는데 소리가 들리지 않는다.', 5: '파도는 이미 부서졌다. 잠시 뒤에야 부두에 부딪치는 소리가 들린다.' },
     hotspots: [
       inspect('pier', '선착장', '⛵', [200, 320, 260, 150], { view: 'v-pier', grant: 'O-02' }),
       inspect('sign', '표지판', '🪧', [720, 280, 180, 190], { view: 'v-sign' })
@@ -987,7 +1337,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
     ['R-07', 'R-08', 'R-09', 'R-10'],
     ['R-11', 'R-12', 'R-13']
   ];
-  const create = () => ({ scene: 'WORLD_MAP', evidence: {}, solved: {}, flags: {}, deduced: {}, fails: {}, order: 0 });
+  const create = () => ({ scene: 'WORLD_MAP', evidence: {}, solved: {}, flags: {}, deduced: {}, fails: {}, talks: {}, order: 0 });
   EF.state = create();
   EF.reset = () => { EF.state = create(); };
   EF.getStage = (s = EF.state) => 1 + EF.TIERS.filter(t => t.every(id => s.evidence[id])).length;
@@ -997,7 +1347,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
 </script>
 <script>
-/* 조건 평가. 배열은 AND. 지원: stageMin stageMax has solved flag deduced ended notEnded not any all */
+/* 조건 평가. 배열은 AND. 지원: stageMin stageMax has solved flag deduced ended notEnded scene talked not any all */
 (function () {
   const EF = window.EF;
   EF.check = function check(cond, s = EF.state) {
@@ -1014,6 +1364,8 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
         case 'deduced': return !!s.deduced[v];
         case 'ended': return EF.getStage(s) === 5;
         case 'notEnded': return EF.getStage(s) !== 5;
+        case 'scene': return s.scene === v;            // 지금 이 장면에 있을 때 (같은 인물을 장소마다 다르게)
+        case 'talked': return !!(s.talks && s.talks[v]); // 이 인물과 이미 말해 본 적이 있을 때
         case 'not': return !check(v, s);
         case 'any': return v.some(c => check(c, s));
         case 'all': return v.every(c => check(c, s));
@@ -1044,7 +1396,11 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
         case 'view': q.push({ t: 'view', view: a.view }); break;
         case 'shake': q.push({ t: 'shake' }); break;
         case 'text': q.push({ t: 'text', text: a.text, note: a.note, who: a.who }); break;
-        case 'say': q.push({ t: 'say', npc: a.say, ctx: a.ctx }); break;
+        case 'say':
+          // 말하는 순간의 상태로 대사를 고른 뒤, 말 건 횟수를 늘린다(다음엔 '다시 말 걸 때' 대사)
+          q.push({ t: 'say', npc: a.say, ctx: a.ctx, pages: EF.npcPages(a.say, a.ctx) });
+          s.talks[a.say] = (s.talks[a.say] || 0) + 1;
+          break;
         case 'toast': q.push({ t: 'toast', text: a.toast }); break;
         case 'grant':
           if (!s.evidence[a.grant]) {
@@ -1128,11 +1484,16 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
     return { ok: true, q };
   };
 
-  EF.npcLine = function (npcId) {
+  // 대사 고르기: lines 를 위에서부터 검사해 처음 맞는 것. ctx 가 적힌 줄은 그 상황(출입 차단·대면 등)에서만.
+  // text 는 문장 하나 또는 여러 장의 배열. 한 장은 '문장'(그 인물) / { clover: '문장' }(클로버) / { who: 인물ID, text }.
+  EF.npcPages = function (npcId, ctx) {
     const n = EF.NPCS[npcId];
-    const l = (n.lines || []).find(x => EF.check(x.if));
-    return l ? l.text : EF.TEXT.npcPlaceholder;
+    const l = (n.lines || []).find(x => (!x.ctx || x.ctx === ctx) && EF.check(x.if));
+    const raw = l ? [].concat(l.text) : [EF.TEXT.npcPlaceholder.replace('000', n.name)];
+    return raw.map(p => typeof p === 'string' ? { who: npcId, text: p }
+      : p.clover !== undefined ? { who: 'clover', text: p.clover } : { who: p.who || npcId, text: p.text });
   };
+  EF.npcLine = (npcId, ctx) => EF.npcPages(npcId, ctx)[0].text;
 })();
 
 </script>
@@ -1199,6 +1560,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
     });
     UI.render();
     UI.fit();
+    UI.initStageCurtain(); // 오페라 커튼: 시작 화면 · 휠로 막 내리기 · 무대 뒤 (backstage.js)
   };
 
   UI.fit = function () {
@@ -1209,6 +1571,15 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   };
 
   // 뒤로: 한 단계 위 장면(장소 → 마을 지도 → 월드맵)으로
+  // 장소 소개 문구. intro 가 { 단계: 문구 } 이면 지금 단계 이하 중 가장 높은 단계의 문구를 쓴다.
+  EF.introFor = function (sc, stg) {
+    const it = sc.intro;
+    if (!it) return sc.kind === 'world' ? EF.TEXT.site.worldIntro : EF.TEXT.site.mapIntro;
+    if (typeof it === 'string') return it;
+    const k = Object.keys(it).map(Number).filter(x => x <= stg).sort((a, b) => b - a)[0];
+    return it[k] || it[Object.keys(it)[0]];
+  };
+
   UI.goBack = function () {
     if (UI.busy) return;
     const sc = EF.SCENES[EF.state.scene];
@@ -1224,8 +1595,18 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
     firstRender = false;
     document.title = `${sc.name} · EVERFREEZE`;
     stage.dataset.stage = stg; document.body.dataset.stage = stg;
-    const img = EF.BG_IMAGES.includes(sc.id) ? `url(assets/bg/${sc.id}.png) center/cover no-repeat, ` : '';
+    const bgId = sc.bgAlt && EF.check(sc.bgAlt.if) ? sc.bgAlt.id : sc.id; // 상태에 따라 바뀌는 그림(예: 비밀 통로 열림)
+    const err = stg >= 4 && EF.BG_ERR_IMAGES.includes(bgId);
+    const img = err ? `url(assets/bg/${bgId}_err.png) center/cover no-repeat, `
+      : EF.BG_IMAGES.includes(bgId) ? `url(assets/bg/${bgId}.png) center/cover no-repeat, ` : '';
     sceneEl.style.background = img + sc.bg;
+    sceneEl.classList.toggle('err-img', err); // 오작동 그림이 있으면 CSS 색 효과는 끈다
+    sceneEl.classList.toggle('has-img', !!img); // 그림이 있으면 '배경 이미지 자리' 글씨를 숨긴다
+    // 그림이 있는 장면: 클릭할 곳은 평소엔 안 보이고 마우스를 올리면 테두리만 나타난다.
+    // 그림이 없는(임시) 장면: 무엇이 어디 있는지 알 수 있게 아이콘을 희미하게 보여 준다.
+    stage.classList.toggle('has-img', !!img);
+    // 마을별 무대 틀 색 (로즈메리 장미 · 글렌위버 잎 · 루미나리아 바다 · 월드맵 금빛)
+    document.body.dataset.village = { '로즈메리': 'rm', '글렌위버': 'gw', '루미나리아': 'lm' }[sc.village] || 'world';
     wm.textContent = sc.name;
 
     // 사이트 틀: 문구(단계에 따라 변화) · 페이지 설명
@@ -1233,7 +1614,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
     counter.textContent = EF.TEXT.site.counter[stg];
     if (nbCount) nbCount.textContent = Object.keys(st.evidence).length;
     ptitle.textContent = sc.name;
-    pintro.textContent = sc.intro || (sc.kind === 'world' ? EF.TEXT.site.worldIntro : EF.TEXT.site.mapIntro);
+    pintro.textContent = EF.introFor(sc, stg);
     backEl.style.display = sc.parent ? '' : 'none';
 
     // 핫스팟
@@ -1536,20 +1917,42 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   };
 
   UI.showSay = function (it, done) {
-    const n = EF.NPCS[it.npc], sc = scrim(), box = h('div', 'textbox dialogue');
-    const por = h('div', 'portrait', n.name[0]); por.style.background = n.color;
-    const head = h('div', 'dhead');
-    head.append(h('b', '', n.name), h('span', 'role', n.role));
-    if (it.ctx) head.append(h('span', 'ctx', it.ctx));
-    const body = h('div', 'body', EF.npcLine(it.npc));
-    const btn = h('button', 'btn close', '닫기');
+    const n = EF.NPCS[it.npc];
+    // 인물 크롭: 배경 속 인물을 누르면 따로 그린 인물 그림이 그림 창 전체에 뜨고, 대화창이 그 위에 얹힌다
+    const cu = h('div', 'closeup npc-cu');
+    if (EF.NPC_IMAGES.includes(it.npc)) cu.style.background = `url(assets/npc/${it.npc}.png) center/cover no-repeat`;
+    else {
+      cu.style.background = `radial-gradient(ellipse at 50% 38%, ${n.color} 0%, #2b2638 85%)`;
+      cu.append(h('div', 'npc-ph', n.name), h('div', 'cv-tag', `임시 그림 · assets/npc/${it.npc}.png`));
+    }
+    UI.stage.append(cu);
+    const sc = scrim(), box = h('div', 'textbox dialogue');
+    const pages = it.pages || [{ who: it.npc, text: EF.npcLine(it.npc, it.ctx) }];
+    const por = h('div', 'portrait'), head = h('div', 'dhead'), body = h('div', 'body');
+    const btn = h('button', 'btn close'), count = h('span', 'dcount');
     const col = h('div', 'dcol'); col.append(head, body);
-    box.append(por, col, btn);
+    const side = h('div', 'dside'); side.append(count, btn);
+    box.append(por, col, side);
     sc.append(box);
-    const close = () => closeWith(sc, done);
-    btn.onclick = e => { e.stopPropagation(); close(); };
-    sc.onclick = e => { if (e.target === sc) close(); };
-    UI.dismiss = close;
+    let i = 0;
+    const draw = () => {
+      const pg = pages[i], who = EF.NPCS[pg.who] || n;
+      por.textContent = who.name[0]; por.style.background = who.color;
+      box.classList.toggle('is-clover', pg.who === 'clover');
+      head.innerHTML = '';
+      head.append(h('b', '', who.name)); // 이름만 보인다 (역할·설정 문구는 화면에 쓰지 않음)
+      if (it.ctx && pg.who === it.npc) head.append(h('span', 'ctx', it.ctx));
+      body.textContent = pg.text;
+      const last = i === pages.length - 1;
+      btn.textContent = last ? '닫기' : '다음 ▶';
+      count.textContent = pages.length > 1 ? `${i + 1} / ${pages.length}` : '';
+    };
+    const close = () => { cu.remove(); closeWith(sc, done); };
+    const next = () => { if (i < pages.length - 1) { i++; draw(); } else close(); };
+    btn.onclick = e => { e.stopPropagation(); next(); };
+    sc.onclick = e => { if (e.target === sc) next(); };
+    UI.dismiss = next; // Enter/Space/Esc: 다음 장, 마지막 장이면 닫기
+    draw();
   };
 
   UI.showEnding = function (done) {
@@ -1800,6 +2203,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   };
 
   // it: { view: 'v-…' | {kind…} }
+  //   그림 파일: assets/view/<ID>.png (EF.VIEW_IMAGES 에 등록). 기본은 그림 그대로, overlay:true 인 것만 그림 위에 글을 얹는다.
   UI.showView = function (it, done) {
     const id = typeof it.view === 'string' ? it.view : null;
     const v = id ? EF.VIEWS[id] : (it.view || { kind: 'pic' });
@@ -1807,7 +2211,19 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
     const cu = h('div', 'closeup' + (EF.isEnded() ? ' quiet' : ''));
     cu.dataset.view = id || '';
-    cu.append((R[v.kind] || R.pic)(v, id));
+    const hasImg = id && EF.VIEW_IMAGES.includes(id);
+    // 그림이 있을 때:
+    //  - 기본(퍼즐 단서 그림): 글자·숫자·기호까지 그림에 그려져 있으므로 그림만 보여 준다.
+    //  - overlay:true(퍼즐과 무관한 그림): 글 없는 바탕 그림 위 box 영역에 글을 얹는다. bare:true 면 종이 바탕도 뺀다.
+    const content = hasImg && !v.overlay ? R.pic({}, id) : (R[v.kind] || R.pic)(v, id);
+    if (hasImg && v.overlay && v.kind !== 'pic') {
+      cu.style.background = `url(assets/view/${id}.png) center/cover no-repeat`;
+      content.classList.add('on-img');
+      if (v.bare) content.classList.add('bare');
+      const b = v.box || [240, 110, 800, 500];
+      Object.assign(content.style, { position: 'absolute', left: b[0] + 'px', top: b[1] + 'px', width: b[2] + 'px', height: b[3] + 'px' });
+    }
+    cu.append(content);
     // 돌아가기: 장면과 같은 하단 띠 + ▼
     const back = h('div', 'edge-back'); back.append(h('div', 'edge-arrow'));
     cu.append(back);
@@ -1965,6 +2381,139 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
       const close = h('button', '', '닫기'); close.onclick = () => this.toggle();
       row.append(reset, close); panel.append(row);
     }
+  };
+})();
+
+</script>
+<script>
+/* 오페라 커튼 · 무대 뒤
+   그림 창 위에 오페라 극장 커튼 하나를 두고, 세 가지 순간에 쓴다.
+   1) 시작: 커튼이 닫혀 있고 천장에서 줄로 로고가 매달려 있다. 누르면 로고가 줄에 끌려 천장 위로 사라지고 커튼이 양옆 위로 걷힌다.
+   2) 휠을 내리면: 커튼이 양옆에서 닫히고 천장에서 "무대 뒤" 표가 줄에 매달려 내려온다. (바로 자료가 보이지 않는 한 단계)
+      표를 누르면: 그래픽노블 · 아트북 · 영상 책자가 아래에서 올라온다. 탭이나 책장 모서리를 눌러 넘긴다(화살표 없음).
+   3) 휠을 올리면: 책자 → 닫힌 커튼 → 커튼이 열려 다시 게임. 한 번 굴릴 때 한 단계씩.
+   작업물이 오면 PAGES 의 body 만 바꾸면 된다. */
+(function () {
+  const EF = window.EF, UI = EF.UI, h = EF.h;
+
+  const PAGES = [
+    { id: 'novel', tab: '그래픽노블',
+      body: '<div class="ph-frame tall"><b>그래픽노블</b><span>이 자리에 EVERFREEZE 그래픽노블이 들어올 예정입니다.</span></div>' },
+    { id: 'artbook', tab: '아트북',
+      body: '<div class="ph-grid">' + ['캐릭터', '환경', '랜드마크', '키 비주얼'].map(t => `<div class="ph-frame"><b>${t}</b><span>아트북 이미지가 들어올 예정입니다.</span></div>`).join('') + '</div>' },
+    { id: 'video', tab: '영상',
+      body: '<div class="ph-frame wide"><b>영상</b><span>이 자리에 EVERFREEZE 영상이 들어올 예정입니다.</span></div>' }
+  ];
+
+  const T = { open: 1500, close: 1300, rise: 750, drop: 700 }; // 애니메이션 시간(ms)
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+
+  UI.initStageCurtain = function () {
+    const stage = UI.stage;
+    // ---- 커튼 ----
+    const op = h('div', 'opera closed');
+    const L = h('div', 'drape left'), R = h('div', 'drape right');
+    const val = h('div', 'opera-valance');
+    // 천장에 줄로 매단 패 (로고 또는 '무대 뒤' 표)
+    const hang = h('div', 'hang');
+    const ropes = h('div', 'ropes');
+    const sign = h('div', 'sign');
+    hang.append(ropes, sign);
+    op.append(L, R, hang, val);
+    stage.append(op);
+
+    // ---- 무대 뒤 책자 ----
+    const book = h('div', 'program');
+    const tabs = h('div', 'pg-tabs');
+    const sheet = h('div', 'pg-sheet');
+    const leaves = PAGES.map((p, i) => {
+      const lf = h('div', 'pg-leaf');
+      lf.innerHTML = `<div class="pg-head"><h3>${p.tab}</h3><span class="pg-no">${i + 1} / ${PAGES.length}</span></div><div class="pg-body">${p.body}</div>`;
+      // 책장 모서리를 누르면 다음 쪽 / 앞쪽 (화살표 대신 접힌 모서리)
+      const nx = h('div', 'pg-corner next'), pv = h('div', 'pg-corner prev');
+      nx.title = '다음 쪽'; pv.title = '앞 쪽';
+      nx.onclick = () => go(i + 1); pv.onclick = () => go(i - 1);
+      if (i < PAGES.length - 1) lf.append(nx);
+      if (i > 0) lf.append(pv);
+      sheet.append(lf);
+      const t = h('button', 'pg-tab', p.tab); t.onclick = () => go(i); tabs.append(t);
+      return lf;
+    });
+    const shut = h('button', 'pg-shut', '책자 덮기');
+    shut.onclick = () => step(-1);
+    book.append(tabs, sheet, shut);
+    stage.append(book);
+
+    let cur = 0;
+    function go(i) {
+      if (i < 0 || i >= PAGES.length || i === cur && leaves[i].classList.contains('on')) return;
+      const d = i > cur ? 1 : -1, from = leaves[cur], to = leaves[i];
+      if (from !== to) { from.classList.remove('on', 'in-back'); from.classList.add(d > 0 ? 'turn-away' : 'slide-away'); setTimeout(() => from.classList.remove('turn-away', 'slide-away'), 800); }
+      to.classList.remove('turn-away', 'slide-away'); to.classList.add('on'); if (d < 0) to.classList.add('in-back');
+      cur = i;
+      [...tabs.children].forEach((t, j) => t.classList.toggle('on', j === i));
+    }
+    leaves[0].classList.add('on'); tabs.children[0].classList.add('on');
+
+    // ---- 상태 ----
+    // 'title' 닫힘+로고 → 'play' 열림 → 'gate' 닫힘+무대 뒤 표 → 'book' 책자
+    const C = UI.curtain = { state: 'title', busy: true, el: op };
+    const setSign = kind => {
+      sign.className = 'sign ' + kind;
+      sign.innerHTML = kind === 'logo' ? '<span class="logo-txt">EVERFREEZE</span>' : '<span class="gate-txt">무대 뒤</span><small>그래픽노블 · 아트북 · 영상</small>';
+    };
+    async function openFromClosed() {        // 패가 줄에 끌려 올라가고 → 커튼이 양옆 위로 걷힌다
+      hang.classList.add('up'); await wait(T.rise);
+      op.classList.remove('closed'); op.classList.add('opening'); await wait(T.open);
+      op.classList.remove('opening'); op.classList.add('open');
+    }
+    async function closeToGate() {           // 커튼이 양옆에서 닫히고 → '무대 뒤' 표가 내려온다
+      setSign('gate'); hang.classList.add('up');
+      op.classList.remove('open'); op.classList.add('closed'); await wait(T.close);
+      hang.classList.remove('up'); await wait(T.drop);
+    }
+    async function run(fn, next) {
+      if (C.busy) return; C.busy = true; UI.busy = true;
+      await fn(); C.state = next; C.busy = false; UI.busy = next !== 'play';
+    }
+    // dir: +1 = 휠 내림(닫기 쪽으로), -1 = 휠 올림(열기 쪽으로)
+    function step(dir) {
+      if (C.busy) return;
+      const s = C.state;
+      if (dir > 0 && s === 'play' && !UI.dismiss) run(closeToGate, 'gate');
+      else if (dir < 0 && s === 'gate') run(openFromClosed, 'play');
+      else if (dir < 0 && s === 'book') run(async () => { book.classList.remove('up'); await wait(700); }, 'gate');
+    }
+    C.step = step;
+    sign.onclick = e => {
+      e.stopPropagation();
+      if (C.busy) return;
+      if (C.state === 'title') run(openFromClosed, 'play');
+      else if (C.state === 'gate') run(async () => { book.classList.add('up'); await wait(700); }, 'book');
+    };
+    op.onclick = () => { if (C.state === 'title') sign.onclick({ stopPropagation() {} }); };
+
+    // 휠: 한 번 굴릴 때 한 단계 (애니메이션 중에는 무시)
+    let lastWheel = 0;
+    addEventListener('wheel', e => {
+      if (C.state === 'play' && (UI.dismiss || document.querySelector('.closeup, .scrim'))) return; // 창이 열려 있을 땐 무시
+      const now = Date.now();
+      if (Math.abs(e.deltaY) < 4) return;
+      e.preventDefault();
+      if (now - lastWheel < 450) return;
+      lastWheel = now;
+      step(e.deltaY > 0 ? 1 : -1);
+    }, { passive: false });
+
+    // 시작 화면
+    setSign('logo');
+    UI.busy = true;
+    UI.dismiss = null;
+    // 시작 화면에서 Enter/Space 로도 막을 올릴 수 있다
+    addEventListener('keydown', e => {
+      if (C.state === 'title' && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); sign.onclick({ stopPropagation() {} }); }
+    });
+    C.busy = false;
   };
 })();
 

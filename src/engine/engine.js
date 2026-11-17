@@ -17,7 +17,11 @@
         case 'view': q.push({ t: 'view', view: a.view }); break;
         case 'shake': q.push({ t: 'shake' }); break;
         case 'text': q.push({ t: 'text', text: a.text, note: a.note, who: a.who }); break;
-        case 'say': q.push({ t: 'say', npc: a.say, ctx: a.ctx }); break;
+        case 'say':
+          // 말하는 순간의 상태로 대사를 고른 뒤, 말 건 횟수를 늘린다(다음엔 '다시 말 걸 때' 대사)
+          q.push({ t: 'say', npc: a.say, ctx: a.ctx, pages: EF.npcPages(a.say, a.ctx) });
+          s.talks[a.say] = (s.talks[a.say] || 0) + 1;
+          break;
         case 'toast': q.push({ t: 'toast', text: a.toast }); break;
         case 'grant':
           if (!s.evidence[a.grant]) {
@@ -101,9 +105,14 @@
     return { ok: true, q };
   };
 
-  EF.npcLine = function (npcId) {
+  // 대사 고르기: lines 를 위에서부터 검사해 처음 맞는 것. ctx 가 적힌 줄은 그 상황(출입 차단·대면 등)에서만.
+  // text 는 문장 하나 또는 여러 장의 배열. 한 장은 '문장'(그 인물) / { clover: '문장' }(클로버) / { who: 인물ID, text }.
+  EF.npcPages = function (npcId, ctx) {
     const n = EF.NPCS[npcId];
-    const l = (n.lines || []).find(x => EF.check(x.if));
-    return l ? l.text : EF.TEXT.npcPlaceholder;
+    const l = (n.lines || []).find(x => (!x.ctx || x.ctx === ctx) && EF.check(x.if));
+    const raw = l ? [].concat(l.text) : [EF.TEXT.npcPlaceholder.replace('000', n.name)];
+    return raw.map(p => typeof p === 'string' ? { who: npcId, text: p }
+      : p.clover !== undefined ? { who: 'clover', text: p.clover } : { who: p.who || npcId, text: p.text });
   };
+  EF.npcLine = (npcId, ctx) => EF.npcPages(npcId, ctx)[0].text;
 })();
