@@ -59,8 +59,14 @@
 
   // 엔딩: 오류가 화면을 덮고 창 밖의 아리아가 바라보다가, 사이트가 강제로 초기화된다 (glitch.js G.finale).
   //       예전 엔딩 카드(EF.TEXT.ending)는 연출을 쓸 수 없을 때만 쓴다.
-  UI.showEnding = function (done) {
-    if (EF.Glitch && EF.Glitch.finale) { UI.busy = true; UI.dismiss = () => {}; setTimeout(() => EF.Glitch.finale(), 900); return; } // done 은 부르지 않는다(곧 초기화)
+  //       마지막 퍼즐의 창문 클로즈업(it.view)을 띄운 채로 시작한다.
+  UI.showEnding = function (done, it = {}) {
+    if (EF.Glitch && EF.Glitch.finale) {
+      UI.showView({ view: it.view || 'v-atelier' }, () => {}); // 창문은 닫히지 않는다 (done 은 부르지 않는다: 곧 초기화)
+      UI.busy = true; UI.dismiss = () => {};
+      EF.Glitch.finale(UI.stage.querySelector('.closeup:last-of-type'));
+      return;
+    }
     const sc = scrim(); sc.classList.add('dim');
     const card = h('div', 'ending');
     card.append(h('h2', '', EF.TEXT.ending.title));
@@ -129,6 +135,8 @@
     UI.busy = true;
     UI.render();
     const next = () => {
+      // 엔딩이 들어 있으면: 마지막 퍼즐의 창문 클로즈업과 함께 엔딩만 바로 시작한다 (단계 알림 · 알림 글은 건너뜀)
+      if (queue.some(x => x.t === 'ending') && queue[0].t !== 'ending') { const v = queue.find(x => x.t === 'view'); queue.splice(0, queue.length, { t: 'ending', view: v && v.view }); }
       const it = queue.shift();
       if (!it) { UI.busy = false; UI.render(); return; }
       switch (it.t) {
@@ -140,7 +148,7 @@
         case 'say': UI.showSay(it, next); break;
         case 'puzzle': UI.showPuzzle(it.id, q => { queue.unshift(...q); next(); }); break;
         case 'stage': UI.render(); UI.banner(it.stage); next(); break;
-        case 'ending': UI.render(); UI.showEnding(next); break;
+        case 'ending': UI.render(); UI.showEnding(next, it); break;
         default: next();
       }
     };

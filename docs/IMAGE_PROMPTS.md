@@ -227,4 +227,4 @@ malfunction state: same composition and buildings, dark blue-violet and indigo p
 ## 엔딩 · 창 밖의 아리아 (선택)
 | 파일 | 쓰는 곳 | 프롬프트 | 비고 |
 |---|---|---|---|
-| `assets/ending/aria.png` | 엔딩 (사이트 바깥 오른쪽에 서 있음) | `full-body figure of Aria standing still and facing the viewer, arms at her sides, expressionless, staring straight ahead, flat 2D paper cut-out style, dark muted colors, transparent background, tall vertical composition` | 투명 배경 세로 그림. 넣으면 scenes.js 의 `EF.ENDING_ARIA_IMAGE = 'assets/ending/aria.png'` 로 등록. 없으면 임시 실루엣 |
+| `assets/ending/aria.png` | 엔딩 (창문 건너편, 유리 칸 안) | `upper body of Aria standing still behind a window and facing the viewer, expressionless, staring straight ahead, flat 2D paper cut-out style, dark muted colors, transparent background` | 투명 배경. 넣으면 scenes.js 의 `EF.ENDING_ARIA_IMAGE = 'assets/ending/aria.png'` 로 등록. 없으면 임시 실루엣. 창문 그림(v-atelier)을 넣으면 유리 칸 위치를 `EF.ENDING_WINDOW_PANE` 에 맞춘다 |

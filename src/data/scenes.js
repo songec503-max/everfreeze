@@ -68,6 +68,8 @@
   EF.PAGE_BG_IMAGES = [];
   // 엔딩에서 창 밖에 서 있는 아리아 그림(투명 배경 PNG, 세로로 긴 전신). 예: 'assets/ending/aria.png'. 비우면 임시 실루엣.
   EF.ENDING_ARIA_IMAGE = '';
+  // 창문 그림(v-atelier)을 넣었을 때 유리 칸의 위치 [왼쪽, 위, 너비, 높이] (그림 창 기준 %). 이 칸 안에서 아리아가 보인다.
+  EF.ENDING_WINDOW_PANE = [38, 26, 24, 48];
 
   const S = (EF.SCENES = {});
   const add = s => (S[s.id] = s);
