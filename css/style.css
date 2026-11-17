@@ -362,3 +362,9 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 .npc-cu{z-index:18;align-items:center;justify-content:center}
 .npc-ph{font-size:160px;font-weight:800;color:rgba(255,255,255,.55);margin-top:-160px;letter-spacing:.06em}
 .npc-cu .cv-tag{position:absolute;left:14px;top:12px;font-size:13px;color:rgba(255,255,255,.7);background:rgba(0,0,0,.25);padding:2px 8px;border-radius:4px}
+
+/* 대화 여러 장 */
+.dside{display:flex;flex-direction:column;align-items:flex-end;gap:8px;align-self:flex-end}
+.dcount{font-size:12px;color:var(--ink2)}
+.textbox.dialogue .body{white-space:pre-line}
+.textbox.dialogue.is-clover{border-color:#5f8f4f}

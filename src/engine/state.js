@@ -8,7 +8,7 @@
     ['R-07', 'R-08', 'R-09', 'R-10'],
     ['R-11', 'R-12', 'R-13']
   ];
-  const create = () => ({ scene: 'WORLD_MAP', evidence: {}, solved: {}, flags: {}, deduced: {}, fails: {}, order: 0 });
+  const create = () => ({ scene: 'WORLD_MAP', evidence: {}, solved: {}, flags: {}, deduced: {}, fails: {}, talks: {}, order: 0 });
   EF.state = create();
   EF.reset = () => { EF.state = create(); };
   EF.getStage = (s = EF.state) => 1 + EF.TIERS.filter(t => t.every(id => s.evidence[id])).length;

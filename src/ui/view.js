@@ -69,6 +69,15 @@
   };
 
   // 뒤로: 한 단계 위 장면(장소 → 마을 지도 → 월드맵)으로
+  // 장소 소개 문구. intro 가 { 단계: 문구 } 이면 지금 단계 이하 중 가장 높은 단계의 문구를 쓴다.
+  EF.introFor = function (sc, stg) {
+    const it = sc.intro;
+    if (!it) return sc.kind === 'world' ? EF.TEXT.site.worldIntro : EF.TEXT.site.mapIntro;
+    if (typeof it === 'string') return it;
+    const k = Object.keys(it).map(Number).filter(x => x <= stg).sort((a, b) => b - a)[0];
+    return it[k] || it[Object.keys(it)[0]];
+  };
+
   UI.goBack = function () {
     if (UI.busy) return;
     const sc = EF.SCENES[EF.state.scene];
@@ -98,7 +107,7 @@
     counter.textContent = EF.TEXT.site.counter[stg];
     if (nbCount) nbCount.textContent = Object.keys(st.evidence).length;
     ptitle.textContent = sc.name;
-    pintro.textContent = sc.intro || (sc.kind === 'world' ? EF.TEXT.site.worldIntro : EF.TEXT.site.mapIntro);
+    pintro.textContent = EF.introFor(sc, stg);
     backEl.style.display = sc.parent ? '' : 'none';
 
     // 핫스팟

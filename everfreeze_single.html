@@ -370,6 +370,12 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 .npc-ph{font-size:160px;font-weight:800;color:rgba(255,255,255,.55);margin-top:-160px;letter-spacing:.06em}
 .npc-cu .cv-tag{position:absolute;left:14px;top:12px;font-size:13px;color:rgba(255,255,255,.7);background:rgba(0,0,0,.25);padding:2px 8px;border-radius:4px}
 
+/* 대화 여러 장 */
+.dside{display:flex;flex-direction:column;align-items:flex-end;gap:8px;align-self:flex-end}
+.dcount{font-size:12px;color:var(--ink2)}
+.textbox.dialogue .body{white-space:pre-line}
+.textbox.dialogue.is-clover{border-color:#5f8f4f}
+
 </style>
 </head>
 <body>
@@ -440,21 +446,179 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
 </script>
 <script>
-/* NPC. lines: [{if:[조건], text}] 를 위에서부터 검사, 없으면 placeholder("000과 대화").
-   실제 대사가 정해지면 lines 에 추가만 하면 된다. */
+/* NPC 와 대사 (초안 · 함께 고쳐 나갈 문장).
+   lines 는 위에서부터 검사해 "처음 맞는 줄"을 쓴다. 그래서 늦은 단계·특별한 상황을 위에, 기본 대사를 아래에 둔다.
+     { if: [조건], ctx: '상황', text: '문장' 또는 [여러 장] }
+     - 조건: stageMin / stageMax / ended / talked(이 인물과 말한 적 있음) / scene(장면 ID) / has / solved / flag / deduced …
+     - ctx: 그 상황에서만 (아리아: '출입 차단' · '대화' · '대면')
+     - 한 장 = '그 인물의 말' / { clover: '클로버의 말' }
+   맞는 줄이 없으면 "○○과 대화" 자리표시가 나온다.
+   대사 원칙: 모두 지나치게 친절하고 같은 말을 되풀이한다. 단계가 오를수록 말끝이 어긋난다.
+             엔딩(5단계) 뒤에는 모두 첫인사 한 줄만 똑같이 되풀이한다. 아리아는 끝까지 확답하지 않는다(열린 결말). */
 (function () {
   const EF = window.EF;
   // 인물 크롭 그림: assets/npc/<인물ID>.png (1280×720). 넣은 인물 ID 를 여기에 적는다. 예: ['bella', 'noa']
   EF.NPC_IMAGES = [];
+  const END = { ended: true };
+
   EF.NPCS = {
-    resident: { name: '주민', role: '마을 주민', color: '#9aa7b8', lines: [] },
-    // 벨라 = 예전 이름 "베라"(같은 인물). 올바른 이름은 벨라.
-    bella:  { name: '벨라', role: '로즈메리의 선택받은 주민 · 잡화점 주인', color: '#d9a3c4', lines: [] },
-    aria:   { name: '아리아', role: '도서관', color: '#b9a3e0', lines: [] },
-    oaks:   { name: '오크스', role: '나이테 회전형 만물상 주인', color: '#c9a26b', lines: [] },
-    sienna: { name: '시에나', role: '계절 망토 공방 주인', color: '#e0a39a', lines: [] },
-    noa:    { name: '노아', role: '바다거북 우체국 등대', color: '#7fc4c4', lines: [] },
-    lulu:   { name: '루루', role: '루루의 카페 주인', color: '#8fd0d9', lines: [] }
+    // 주인공. 화면에서 누를 수는 없고, 대화 속 대답에만 쓰인다.
+    clover: { name: '클로버', role: '로즈메리 주민', color: '#7fae6a', lines: [] },
+
+    // ===== 로즈메리 =====
+    // 벨라 = 예전 이름 "베라"(같은 인물). 선택받은 주민. 의심을 지우려 한다. 상징: 낡은 오르골.
+    bella: { name: '벨라', role: '로즈메리의 선택받은 주민 · 잡화점 주인', color: '#d9a3c4', lines: [
+      { if: [END], text: '어서 와, 클로버! 오늘도 날씨가 참 좋지?' },
+      { if: [{ stageMin: 4 }], text: [
+        '클로버. 요즘 너, 자꾸 같은 걸 물어.',
+        '…아니, 내가 자꾸 같은 대답을 하는 걸까?',
+        { clover: '벨라, 너도 이상하다고 느끼는 거지?' },
+        '괜찮아. 아리아 님이 그러셨어. 모르는 게 더 행복할 때도 있다고.',
+        '그러니까… 오늘도 날씨가 참 좋지?' ] },
+      { if: [{ stageMin: 3 }], text: [
+        '이 오르골? 할머니가 주신 거야. …아마 그럴 거야.',
+        '언제 받았는지는 기억이 안 나. 그런데 늘 여기 있었던 건 알아.',
+        '아, 미안. 무슨 얘기 하고 있었지? 오늘도 날씨가 참 좋지?' ] },
+      { if: [{ stageMin: 2 }], text: [
+        '장부? 아, 날짜를 매번 다시 적는 건 그냥 내 버릇이야. 그래야 마음이 편하거든.',
+        '클로버, 너무 깊이 생각하지 마. 생각이 많으면 하루가 길어지잖아.' ] },
+      { if: [{ talked: 'bella' }], text: '오늘도 날씨가 참 좋지? 이런 날이 계속되면 좋겠어.' },
+      { text: [
+        '어서 와, 클로버! 오늘도 날씨가 참 좋지?',
+        '필요한 게 있으면 뭐든 말해. 우리 가게엔 없는 게 없거든.',
+        { clover: '…어제도 똑같이 말하지 않았어?' },
+        '어제? 후후, 클로버도 참. 어제도 좋은 날이었으니까 그렇게 들린 거야.' ] }
+    ] },
+
+    // 아리아: 도서관 관리자. 과도하게 친절하고, 모든 것을 미리 알고 있는 듯. 상징: 회중시계.
+    aria: { name: '아리아', role: '로즈메리 도서관 관리자', color: '#b9a3e0', lines: [
+      { if: [END], text: '안녕, 클로버. 오늘도 좋은 하루야.' },
+      // 대면: 통합 추리를 마친 뒤 4단계에서 (scenes.js 의 아리아 규칙이 ctx '대면' 으로 부른다)
+      { ctx: '대면', text: [
+        '…여기까지 왔구나, 클로버.',
+        '네가 무엇을 알아냈는지는 묻지 않을게. 나도 전부를 알지는 못하니까.',
+        '시계는 11시 59분에 멈춰 있어. 나는 그걸 지키고 있을 뿐이야.',
+        { clover: '누구를 위해서?' },
+        '…모두를 위해서. 어쩌면, 나를 위해서.',
+        '루미나리아의 아틀리에에 가 봐. 마지막 장면이 거기 있어.',
+        '그걸 보고 나서도 같은 질문을 할 수 있다면, 그때 다시 이야기하자.' ] },
+      { if: [{ flag: 'ariaConfronted' }], text: '아틀리에에 가 봐. 나는 여기서 기다릴게. …늘 그랬듯이.' },
+      { ctx: '출입 차단', if: [{ talked: 'aria' }], text: '정리가 끝나면 제일 먼저 너를 부를게. 약속해.' },
+      { ctx: '출입 차단', text: [
+        '안녕, 클로버. 도서관은 지금 정리 중이야.',
+        '미안해. 정리가 끝나면 제일 먼저 너를 부를게. 약속해.',
+        { clover: '정리는 언제 끝나?' },
+        '곧. …늘 곧이야.' ] },
+      { if: [{ stageMin: 4 }], text: [
+        '너는 늘 다른 길로 오더라. 다른 아이들은 같은 길로만 오는데.',
+        '그게 좋은 건지 나쁜 건지… 나도 아직 모르겠어.' ] },
+      { if: [{ stageMin: 3 }], text: [
+        '클로버, 오늘은 여기 몇 번째로 온 거니?',
+        '…아, 별 뜻 없어. 그냥 세어 보고 싶었어.' ] },
+      { text: [
+        '열람실은 열어 뒀어. 네가 그렇게 궁금해하니까.',
+        '하지만 너무 안쪽까지는 들어가지 않는 게 좋아. 먼지가 많거든.' ] }
+    ] },
+
+    // 주민: 같은 인물 ID 를 쓰지만 장소(scene)마다 다른 사람이다.
+    resident: { name: '주민', role: '마을 주민', color: '#9aa7b8', lines: [
+      // 로즈메리 광장
+      { if: [END, { scene: 'RM_PLAZA' }], text: '좋은 오후예요! 벌써 1시네요.' },
+      { if: [{ scene: 'RM_PLAZA' }, { stageMin: 4 }], text: [
+        '시계탑이요? 11시 59분이죠. 늘 그랬잖아요.',
+        '…늘, 이라는 게 언제부터였더라.' ] },
+      { if: [{ scene: 'RM_PLAZA' }, { stageMin: 3 }], text: [
+        '좋은 오후예요! 벌써 1시네요. 늘 이맘때 산책을 나와요.',
+        '…방금 제가 뭐라고 했죠? 아, 좋은 오후예요!' ] },
+      { if: [{ scene: 'RM_PLAZA' }], text: [
+        '좋은 오후예요! 벌써 1시네요. 늘 이맘때 산책을 나와요.',
+        '게시판에 새 소식이 붙었대요. 어제 붙은 것과 똑같은 소식이지만요.' ] },
+      // 글렌위버 마을 주택
+      { if: [END, { scene: 'GW_HOUSE' }], text: '어서 와요. 차 한잔 할래요?' },
+      { if: [{ scene: 'GW_HOUSE' }, { stageMin: 4 }], text: [
+        '차가 식지를 않네요. 아까부터 계속 막 끓은 그대로예요.',
+        '좋은 거겠죠? 따뜻한 건 좋은 거니까.' ] },
+      { if: [{ scene: 'GW_HOUSE' }, { stageMin: 2 }], text: [
+        '명부요? 세 마을 사람 이름은 전부 거기 있어요. 빠진 사람은 없어요.',
+        '…없을 거예요.' ] },
+      { if: [{ scene: 'GW_HOUSE' }], text: [
+        '어서 와요. 차 한잔 할래요? 마침 물이 끓었어요.',
+        '이 집 찻물은 언제나 딱 좋은 때에 끓는답니다.' ] }
+    ] },
+
+    // ===== 글렌위버 =====
+    // 오크스: 나이테 만물상 노인. 팔지 않는 낡은 물건을 간직한다.
+    oaks: { name: '오크스', role: '나이테 회전형 만물상 주인', color: '#c9a26b', lines: [
+      { if: [END], text: '허허, 어서 오너라. 나이테 만물상에 온 걸 환영한다.' },
+      { if: [{ stageMin: 4 }], text: [
+        '늙으면 같은 이야기를 되풀이한다더구나. 그런데 요즘은 마을 사람 모두가 그래.',
+        '나만 늙은 게 아니었나 보다. 허허…' ] },
+      { if: [{ stageMin: 3 }], text: [
+        '얘야, 이상하지 않니? 이 선반의 나이테가 올해는 하나도 늘지 않았어.',
+        '아니, 올해가 아니라… 언제부터였더라.' ] },
+      { if: [{ stageMin: 2 }], text: [
+        '저 낡은 것 말이냐? 그건 팔지 않는다.',
+        '누가 맡겨 두고 갔는지 기억나지 않는데, 이상하게 버릴 수가 없구나.' ] },
+      { if: [{ talked: 'oaks' }], text: '천천히 둘러보거라. 서두를 것 없다. 시간은… 넉넉하니까.' },
+      { text: [
+        '허허, 어서 오너라. 나이테 만물상에 온 걸 환영한다.',
+        '나무는 해마다 고리를 하나씩 늘리지. 그게 나무가 시간을 기억하는 방법이란다.' ] }
+    ] },
+
+    // 시에나: 계절 망토 공방. 망토는 늘 7단계에서 멈춘다.
+    sienna: { name: '시에나', role: '계절 망토 공방 주인', color: '#e0a39a', lines: [
+      { if: [END], text: '어서 와! 이번 망토는 봄 거야. 완성되면 제일 먼저 보여 줄게!' },
+      { if: [{ stageMin: 4 }], text: [
+        '클로버, 너는 봄 말고 다른 계절을 본 적 있어?',
+        '여름 망토 도안을 그렸는데… 여름이 어떤 색이었는지 모르겠어.' ] },
+      { if: [{ stageMin: 3 }], text: [
+        '이상해. 일곱 번째 땀만 뜨면 손이 멈춰.',
+        '실이 엉킨 것도 아닌데, 다음 땀이… 생각나지 않아.' ] },
+      { if: [{ stageMin: 2 }], text: [
+        '걸린 망토들? 전부 견본이야.',
+        '진짜는 지금 짓고 있는 이거야. 거의 다 됐어. 정말 거의.' ] },
+      { if: [{ talked: 'sienna' }], text: '이번 망토는 봄 거야. 완성되면 제일 먼저 보여 줄게!' },
+      { text: [
+        '어서 와! 계절 망토 공방이야. 계절마다 다른 망토를 짓지.',
+        '이번 망토는 봄 거야. 완성되면 제일 먼저 보여 줄게!' ] }
+    ] },
+
+    // ===== 루미나리아 =====
+    // 노아: 바다거북 우체국 등대지기. 매일 같은 시각, 같은 자리에서 배를 기다린다.
+    noa: { name: '노아', role: '바다거북 우체국 등대지기', color: '#7fc4c4', lines: [
+      { if: [END], text: '바다거북 우체국에 온 걸 환영해! 편지는 거북이들이 날라.' },
+      { if: [{ stageMin: 4 }], text: [
+        '클로버, 편지 중에 네 이름이 적힌 게 있어.',
+        '보낸 사람 칸은 비어 있어. 그런데 글씨가… 꼭 네 글씨 같아.' ] },
+      { if: [{ stageMin: 3 }], text: [
+        '우편함에 같은 편지가 또 왔어. 어제 분명히 배달했는데.',
+        '거북이들이 길을 잃은 걸까? 아니면 편지가 집을 못 찾는 걸까.' ] },
+      { if: [{ stageMin: 2 }], text: [
+        '나? 배가 들어오는 시간엔 늘 선착장에 서 있어. 누가 내릴지도 모르잖아.',
+        '…아직 아무도 내린 적은 없지만.' ] },
+      { if: [{ talked: 'noa' }], text: '오늘도 편지가 왔어. 받는 사람은… 음, 오늘도 같아.' },
+      { text: [
+        '바다거북 우체국에 온 걸 환영해! 편지는 거북이들이 날라.',
+        '배는 매일 같은 시각에 들어와. 정확해. 한 번도 늦은 적이 없어.' ] }
+    ] },
+
+    // 루루: 해파리 디저트 카페. 해파리 조명이 손님보다 먼저 움직인다.
+    lulu: { name: '루루', role: '루루의 카페 주인', color: '#8fd0d9', lines: [
+      { if: [END], text: '어서 오세요~ 루루의 카페예요!' },
+      { if: [{ stageMin: 4 }], text: [
+        '클로버 씨, 방금 조명이 켜지지 않았어요.',
+        '처음이에요. 조명이 손님을 모르는 건.' ] },
+      { if: [{ stageMin: 3 }], text: [
+        '어제 메뉴요? 해파리 젤리 소다랑 진주 크림 파이요. 그제도요.',
+        '…다른 메뉴를 만들어 본 적이 있었던가?' ] },
+      { if: [{ stageMin: 2 }], text: [
+        '해파리 조명은 손님이 어디로 갈지 먼저 알아요. 신기하죠?',
+        '저는 그냥… 조명이 켜지는 쪽에 컵을 놓을 뿐이에요.' ] },
+      { if: [{ talked: 'lulu' }], text: '오늘의 메뉴는 해파리 젤리 소다랑 진주 크림 파이예요!' },
+      { text: [
+        '어서 오세요~ 루루의 카페예요! 오늘의 메뉴는 해파리 젤리 소다랑 진주 크림 파이!',
+        '앗, 벌써 고르셨네요? 해파리 조명이 알려 줬어요.' ] }
+    ] }
   };
 })();
 
@@ -718,6 +882,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 /* 장면 + 핫스팟 + 규칙.
    - 좌표는 1280x720 기준 px. (x,y,w,h)
    - 핫스팟 rules 는 위에서부터 검사해 "처음 통과한 규칙"의 do 를 실행한다.
+   - intro: 장소 소개 문구. { 단계: 문구 } 로 쓰면 지금 단계 이하에서 가장 높은 단계의 문구가 나온다.
    - 조사(inspect)를 누르면 그 물건의 클로즈업 장면(views.js 의 view)이 열린다. 글로 설명하지 않는다.
    - 아직 상호작용할 수 없는 것(단계 미달·잠김)은 글 없이 화면이 살짝 흔들린다(shake).
    - temp:true 는 임시 요소(힌트 표시를 켜면 점선으로 보임).
@@ -786,6 +951,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   // ===== 월드맵 =====
   add({
     id: 'WORLD_MAP', name: '월드맵', kind: 'world', bg: sky('#cfe3f5', '#eaf0e6', '#d8e6c8', 55),
+    intro: { 1: '세 마을이 하나의 섬 위에 모여 있다. 가고 싶은 마을을 눌러 보세요.', 3: '세 마을이 하나의 섬 위에 모여 있다. 바다 건너는 늘 안개 낀 것처럼 흐릿하다.', 5: '세 마을이 하나의 섬 위에 멈춰 있다.' },
     hotspots: [
       // 배치: 섬 지도 기준 — 글렌위버 북서쪽 숲, 루미나리아 북동쪽 해안(항구), 로즈메리 남쪽 가운데
       move('go-gw', '글렌위버', '🍂', [400, 105, 225, 175], 'MAP_GLENWEAVER'),
@@ -798,6 +964,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   add({
     id: 'MAP_ROSEMARY', name: '로즈메리', kind: 'map', parent: 'WORLD_MAP', village: '로즈메리',
     bg: sky('#e6def2', '#eef0e4', '#cfe3c2'),
+    intro: { 1: '장밋빛 지붕이 가지런한 로즈메리. 시계탑 종소리에 맞춰 하루가 흘러간다.', 3: '장밋빛 지붕이 가지런한 로즈메리. 종소리가 오늘도 같은 때에 울린다. 어제도, 그제도.', 5: '장밋빛 지붕이 가지런한 로즈메리. 종소리가 더는 울리지 않는다.' },
     hotspots: [
       move('m-home', '클로버의 집', '🏠', [110, 270, 220, 170], 'RM_HOME', { temp: true }),
       move('m-plaza', '광장 · 시계탑', '⏰', [370, 150, 240, 210], 'RM_PLAZA', { temp: true }),
@@ -808,6 +975,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   add({
     id: 'MAP_GLENWEAVER', name: '글렌위버', kind: 'map', parent: 'WORLD_MAP', village: '글렌위버',
     bg: sky('#f6e6c8', '#f1ecd2', '#b9c99a'),
+    intro: { 1: '숲과 나무가 지붕이 되는 마을, 글렌위버. 새들이 낮과 밤을 교대로 지킨다.', 3: '숲과 나무가 지붕이 되는 마을, 글렌위버. 새들의 노래가 매번 같은 마디에서 끊긴다.', 5: '숲과 나무가 지붕이 되는 마을, 글렌위버. 새들이 날갯짓을 멈춘 채 떠 있다.' },
     hotspots: [
       move('m-tower', '주야 교대 새집 탑', '🐦', [110, 160, 250, 230], 'GW_TOWER'),
       move('m-oaks', '나이테 회전형 만물상', '🌳', [400, 260, 260, 190], 'GW_OAKS'),
@@ -818,6 +986,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   add({
     id: 'MAP_LUMINARIA', name: '루미나리아', kind: 'map', parent: 'WORLD_MAP', village: '루미나리아',
     bg: sky('#cfeaf0', '#e4f2ef', '#efe5d2'),
+    intro: { 1: '바닷바람과 진주빛이 머무는 루미나리아. 바다거북이 편지를 싣고 오간다.', 3: '바닷바람과 진주빛이 머무는 루미나리아. 파도가 같은 모양으로 밀려왔다가 같은 모양으로 돌아간다.', 5: '바닷바람과 진주빛이 머무는 루미나리아. 파도가 밀려오다 만 채 멈춰 있다.' },
     hotspots: [
       move('m-light', '바다거북 우체국 등대', '🗼', [110, 140, 250, 260], 'LM_LIGHTHOUSE'),
       move('m-atelier', '펄 루미너스 아틀리에', '🔮', [400, 250, 260, 190], 'LM_ATELIER'),
@@ -829,7 +998,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   // ===== 로즈메리 =====
   add({
     id: 'RM_HOME', name: '클로버의 집', kind: 'location', parent: 'MAP_ROSEMARY', village: '로즈메리',
-    bg: room('#f4e4d4', '#c9a27e'), intro: '클로버가 사는 아늑한 집. 모든 것이 제자리에 있다.',
+    bg: room('#f4e4d4', '#c9a27e'), intro: { 1: '클로버가 사는 아늑한 집. 모든 것이 제자리에 있다.', 3: '클로버가 사는 아늑한 집. 모든 것이 제자리에 있다. 어제 옮겨 둔 것까지도, 원래 자리로.', 5: '클로버가 사는 아늑한 집. 모든 것이 제자리에 있다. 앞으로도 영원히.' },
     hotspots: [
       inspect('desk', '책상', '📝', [120, 300, 260, 150], { view: 'v-desk', grant: 'O-04' }),
       puzzle('drawer', '서랍', '🗄️', [470, 330, 220, 150], 'P-DRAWER'),
@@ -839,7 +1008,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'RM_PLAZA', name: '광장 · 시계탑', kind: 'location', parent: 'MAP_ROSEMARY', village: '로즈메리',
-    bg: sky('#d8e8f5', '#eef2ec', '#d9d2c0'), intro: '마을 한가운데 시계탑이 서 있는 광장.',
+    bg: sky('#d8e8f5', '#eef2ec', '#d9d2c0'), intro: { 1: '마을 한가운데 시계탑이 서 있는 광장. 오후 1시의 햇살이 따뜻하다.', 3: '마을 한가운데 시계탑이 서 있는 광장. 햇살은 오늘도 오후 1시의 각도로 비춘다.', 5: '시계탑 아래 광장. 그림자가 움직이지 않는다.' },
     hotspots: [
       inspect('clock', '시계', '🕰️', [150, 120, 230, 300], { view: 'v-clock', grant: 'R-01' }),
       inspect('board', '게시판', '📌', [520, 260, 230, 180], { min: 2, view: 'v-board', grant: 'R-04' }),
@@ -850,7 +1019,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   // --- 도서관(외부) + 하위 장소 3곳 ---
   add({
     id: 'RM_LIBRARY_EXT', name: '도서관', kind: 'location', parent: 'MAP_ROSEMARY', village: '로즈메리',
-    bg: sky('#e0d6ee', '#ebe6dd', '#c9d8b5'), intro: '조용한 기록의 공간. 입구 앞에 아리아가 서 있다.',
+    bg: sky('#e0d6ee', '#ebe6dd', '#c9d8b5'), intro: { 1: '조용한 기록의 공간. 입구 앞에 아리아가 서 있다.', 2: '도서관 문이 조금 열려 있다. 아리아가 미소 짓고 있다.', 4: '아리아가 같은 자리에 서 있다. 처음부터 한 걸음도 움직이지 않은 것처럼.', 5: '도서관 문 앞, 아리아가 미소 지은 채 멈춰 있다.' },
     hotspots: [
       inspect('lib-notice', '출입 제한 안내문', '📄', [170, 330, 190, 140], { view: 'v-libnotice', grant: 'LIB-BLOCK' }),
       hs('move', 'lib-door', '도서관 문', '🚪', [470, 200, 260, 280], [
@@ -872,7 +1041,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'RM_LIBRARY_READING', name: '도서관 열람실', kind: 'location', parent: 'RM_LIBRARY_EXT', village: '로즈메리',
-    bg: room('#d9cdb8', '#8d6e55'), intro: '책이 빼곡한 열람실. 종이 냄새가 난다.',
+    bg: room('#d9cdb8', '#8d6e55'), intro: { 1: '책이 빼곡한 열람실. 종이 냄새가 난다.', 3: '책이 빼곡한 열람실. 몇 권은 펼칠 때마다 같은 쪽이 펼쳐진다.', 5: '책이 빼곡한 열람실. 책장을 넘겨도 다음 장이 나오지 않는다.' },
     hotspots: [
       puzzle('ledger', '대출 장부', '📒', [130, 330, 220, 140], 'P-LEDGER'),
       inspect('shelf', '책장', '📚', [440, 150, 260, 320], { view: 'v-book' }),
@@ -888,7 +1057,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
     id: 'RM_LIBRARY_ARCHIVE', name: '자료 보관실', kind: 'location', parent: 'RM_LIBRARY_READING', village: '로즈메리',
     // 기록 조각 퍼즐을 풀면 비밀 통로가 열린 그림(assets/bg/RM_LIBRARY_ARCHIVE_open.png)으로 바뀐다
     bgAlt: { if: [{ solved: 'P-ARCHIVE' }], id: 'RM_LIBRARY_ARCHIVE_open' },
-    bg: room('#b9ad99', '#6f5a48'), intro: '오래된 자료가 잠든 곳. 공기가 차갑다.',
+    bg: room('#b9ad99', '#6f5a48'), intro: { 1: '오래된 자료가 잠든 곳. 공기가 차갑다.', 4: '오래된 자료가 잠든 곳. 누군가 방금 전까지 여기 있었던 것 같다.', 5: '오래된 자료가 잠든 곳. 먼지조차 내려앉지 않는다.' },
     hotspots: [
       puzzle('fragments', '기록 조각', '🧩', [150, 320, 240, 150], 'P-ARCHIVE'),
       inspect('archive-box', '보관함', '🗃️', [480, 230, 230, 240], { view: 'v-archivebox' }),
@@ -899,7 +1068,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'RM_LIBRARY_SECRET', name: '비밀 기록실', kind: 'location', parent: 'RM_LIBRARY_ARCHIVE', village: '로즈메리',
-    bg: room('#5b5268', '#3b3446'), intro: '숨겨진 기록이 남은 방. 아무도 오지 않은 지 오래된 듯하다.',
+    bg: room('#5b5268', '#3b3446'), intro: { 1: '숨겨진 기록이 남은 방. 아무도 오지 않은 지 오래된 듯하다.', 4: '아무도 오지 않은 방인데, 의자에 아직 온기가 남아 있다.', 5: '숨겨진 기록이 남은 방. 더는 아무것도 적히지 않는다.' },
     hotspots: [
       inspect('journal', '관찰일지', '📓', [200, 290, 230, 170], { view: 'v-journal', grant: 'C-03' }),
       puzzle('old-record', '오래된 기록', '📜', [600, 240, 260, 220], 'P-OLDREC', { min: 4 })
@@ -908,7 +1077,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'RM_BELLA_SHOP', name: '벨라의 잡화점', kind: 'location', parent: 'MAP_ROSEMARY', village: '로즈메리',
-    bg: room('#f1ddc0', '#b98f6a'), intro: '없는 게 없는 작은 잡화점. 벨라가 가게를 지킨다.',
+    bg: room('#f1ddc0', '#b98f6a'), intro: { 1: '없는 게 없는 작은 잡화점. 벨라가 가게를 지킨다.', 3: '없는 게 없는 작은 잡화점. 선반 위 물건의 수가 매일 정확히 같다.', 5: '없는 게 없는 작은 잡화점. 오르골 소리가 한 음에서 멈춰 있다.' },
     hotspots: [
       npc('bella', '벨라', '🧑‍🌾', [150, 260, 160, 220], 'bella'),
       inspect('display', '진열대', '🧺', [560, 300, 220, 160], { view: 'v-display', grant: 'O-01' }),
@@ -919,7 +1088,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   // ===== 글렌위버 =====
   add({
     id: 'GW_TOWER', name: '주야 교대 새집 탑', kind: 'location', parent: 'MAP_GLENWEAVER', village: '글렌위버',
-    bg: room('#cfd9ee', '#8c8f7a'), intro: '낮과 밤이 교대하는 새집 탑.',
+    bg: room('#cfd9ee', '#8c8f7a'), intro: { 1: '낮과 밤이 교대하는 새집 탑. 새들이 시간에 맞춰 들고 난다.', 3: '낮과 밤이 교대하는 새집 탑. 새들이 들고 나는 순서가 단 한 번도 바뀌지 않는다.', 5: '새집 탑. 낮도 밤도 교대하지 않는다.' },
     hotspots: [
       puzzle('birdhouse', '새집 장치', '🐦', [170, 160, 260, 300], 'P-BIRDHOUSE', { min: 2 }),
       inspect('shift-log', '교대 기록', '📋', [620, 300, 240, 160], { view: 'v-shiftlog', grant: 'C-01' })
@@ -928,7 +1097,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'GW_OAKS', name: '나이테 회전형 만물상', kind: 'location', parent: 'MAP_GLENWEAVER', village: '글렌위버',
-    bg: room('#e8d8b4', '#9b7b52'), intro: '나이테 모양 선반이 천천히 도는 만물상.',
+    bg: room('#e8d8b4', '#9b7b52'), intro: { 1: '나이테 모양 선반이 천천히 도는 만물상.', 3: '나이테 모양 선반이 천천히 도는 만물상. 선반은 돌고 있지만 나이테는 늘어나지 않는다.', 5: '나이테 만물상. 선반이 멈춰 있다.' },
     hotspots: [
       npc('oaks', '오크스', '🧔', [130, 260, 150, 220], 'oaks'),
       puzzle('shelf-spin', '회전 선반', '🌀', [420, 170, 260, 300], 'P-SHELF', { min: 3 }),
@@ -938,7 +1107,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'GW_SIENNA', name: '시에나의 계절 망토 공방', kind: 'location', parent: 'MAP_GLENWEAVER', village: '글렌위버',
-    bg: room('#f2d9d3', '#b88f7a'), intro: '계절마다 다른 망토를 짓는 공방.',
+    bg: room('#f2d9d3', '#b88f7a'), intro: { 1: '계절마다 다른 망토를 짓는 공방.', 3: '계절마다 다른 망토를 짓는 공방. 걸린 망토는 많은데 완성된 것은 하나도 없다.', 5: '계절 망토 공방. 바늘이 일곱 번째 땀에 꽂힌 채 멈춰 있다.' },
     hotspots: [
       npc('sienna', '시에나', '👩‍🎨', [130, 270, 150, 210], 'sienna'),
       inspect('cloak', '망토', '🧥', [400, 190, 230, 280], { view: 'v-cloak' }),
@@ -948,7 +1117,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'GW_HOUSE', name: '마을 주택', kind: 'location', parent: 'MAP_GLENWEAVER', village: '글렌위버',
-    bg: room('#efe5cf', '#c3a77f'), intro: '숲속 마을의 평범한 집.',
+    bg: room('#efe5cf', '#c3a77f'), intro: { 1: '숲속 마을의 평범한 집. 찻물 끓는 소리가 난다.', 3: '숲속 마을의 평범한 집. 찻물 끓는 소리가 난다. 아까부터 계속.', 5: '숲속 마을의 평범한 집. 찻물 끓는 소리마저 멈췄다.' },
     hotspots: [
       npc('gw-resident', '주민', '🧑', [520, 260, 150, 220], 'resident', { temp: true }),
       inspect('registry', '주민 명부', '📜', [860, 230, 220, 230], { view: 'v-registry' })
@@ -958,7 +1127,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   // ===== 루미나리아 =====
   add({
     id: 'LM_LIGHTHOUSE', name: '바다거북 우체국 등대', kind: 'location', parent: 'MAP_LUMINARIA', village: '루미나리아',
-    bg: room('#d3ebf0', '#e3d7bd'), intro: '바다거북이 지키는 우체국 등대.',
+    bg: room('#d3ebf0', '#e3d7bd'), intro: { 1: '바다거북이 지키는 우체국 등대. 편지 냄새와 바다 냄새가 섞여 있다.', 3: '바다거북이 지키는 우체국 등대. 우편함은 비워도 비워도 같은 무게로 차 있다.', 5: '우체국 등대. 등대 불빛이 한 방향을 비춘 채 멈춰 있다.' },
     hotspots: [
       npc('noa', '노아', '🧑‍✈️', [130, 270, 150, 210], 'noa'),
       puzzle('mailbox', '우편함', '📮', [420, 280, 200, 180], 'P-MAILBOX', { min: 3 }),
@@ -968,7 +1137,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'LM_ATELIER', name: '펄 루미너스 아틀리에', kind: 'location', parent: 'MAP_LUMINARIA', village: '루미나리아',
-    bg: room('#e9e4f4', '#c9bfd9'), intro: '진주빛 유리가 빛나는 아틀리에.',
+    bg: room('#e9e4f4', '#c9bfd9'), intro: { 1: '진주빛 유리가 빛나는 아틀리에.', 4: '진주빛 유리가 빛나는 아틀리에. 유리 조각들이 무언가를 기다리듯 작업대 위에 놓여 있다.', 5: '진주빛 아틀리에. 유리 속 장면이 이쪽을 바라보고 있다.' },
     hotspots: [
       inspect('glass', '유리 작품', '🔮', [160, 170, 250, 300], { view: 'v-glassart' }),
       // 아리아와 마주한 뒤에만 열린다. 그 전에는 흔들림.
@@ -978,7 +1147,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'LM_CAFE', name: '루루의 카페', kind: 'location', parent: 'MAP_LUMINARIA', village: '루미나리아',
-    bg: room('#d6f0f1', '#a8d0cf'), intro: '해파리 조명이 떠다니는 카페.',
+    bg: room('#d6f0f1', '#a8d0cf'), intro: { 1: '해파리 조명이 떠다니는 카페. 달콤한 냄새가 난다.', 3: '해파리 조명이 떠다니는 카페. 조명이 손님보다 먼저 자리를 찾아간다.', 5: '해파리 카페. 조명이 빛을 머금은 채 멈춰 있다.' },
     hotspots: [
       npc('lulu', '루루', '👩‍🍳', [130, 270, 150, 210], 'lulu'),
       inspect('menu', '메뉴판', '🍵', [400, 190, 200, 200], { view: 'v-menu' }),
@@ -988,7 +1157,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
   add({
     id: 'LM_HARBOR', name: '항구', kind: 'location', parent: 'MAP_LUMINARIA', village: '루미나리아',
-    bg: sky('#cfe6f2', '#9ec6dc', '#e6d9bd', 55), intro: '배가 드나드는 작은 항구.',
+    bg: sky('#cfe6f2', '#9ec6dc', '#e6d9bd', 55), intro: { 1: '배가 드나드는 작은 항구. 배는 늘 정시에 들어온다.', 3: '배가 드나드는 작은 항구. 늘 같은 배가, 아무도 태우지 않은 채 들어온다.', 5: '작은 항구. 배가 수평선에 걸린 채 멈춰 있다.' },
     hotspots: [
       inspect('pier', '선착장', '⛵', [200, 320, 260, 150], { view: 'v-pier', grant: 'O-02' }),
       inspect('sign', '표지판', '🪧', [720, 280, 180, 190], { view: 'v-sign' })
@@ -1009,7 +1178,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
     ['R-07', 'R-08', 'R-09', 'R-10'],
     ['R-11', 'R-12', 'R-13']
   ];
-  const create = () => ({ scene: 'WORLD_MAP', evidence: {}, solved: {}, flags: {}, deduced: {}, fails: {}, order: 0 });
+  const create = () => ({ scene: 'WORLD_MAP', evidence: {}, solved: {}, flags: {}, deduced: {}, fails: {}, talks: {}, order: 0 });
   EF.state = create();
   EF.reset = () => { EF.state = create(); };
   EF.getStage = (s = EF.state) => 1 + EF.TIERS.filter(t => t.every(id => s.evidence[id])).length;
@@ -1019,7 +1188,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 
 </script>
 <script>
-/* 조건 평가. 배열은 AND. 지원: stageMin stageMax has solved flag deduced ended notEnded not any all */
+/* 조건 평가. 배열은 AND. 지원: stageMin stageMax has solved flag deduced ended notEnded scene talked not any all */
 (function () {
   const EF = window.EF;
   EF.check = function check(cond, s = EF.state) {
@@ -1036,6 +1205,8 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
         case 'deduced': return !!s.deduced[v];
         case 'ended': return EF.getStage(s) === 5;
         case 'notEnded': return EF.getStage(s) !== 5;
+        case 'scene': return s.scene === v;            // 지금 이 장면에 있을 때 (같은 인물을 장소마다 다르게)
+        case 'talked': return !!(s.talks && s.talks[v]); // 이 인물과 이미 말해 본 적이 있을 때
         case 'not': return !check(v, s);
         case 'any': return v.some(c => check(c, s));
         case 'all': return v.every(c => check(c, s));
@@ -1066,7 +1237,11 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
         case 'view': q.push({ t: 'view', view: a.view }); break;
         case 'shake': q.push({ t: 'shake' }); break;
         case 'text': q.push({ t: 'text', text: a.text, note: a.note, who: a.who }); break;
-        case 'say': q.push({ t: 'say', npc: a.say, ctx: a.ctx }); break;
+        case 'say':
+          // 말하는 순간의 상태로 대사를 고른 뒤, 말 건 횟수를 늘린다(다음엔 '다시 말 걸 때' 대사)
+          q.push({ t: 'say', npc: a.say, ctx: a.ctx, pages: EF.npcPages(a.say, a.ctx) });
+          s.talks[a.say] = (s.talks[a.say] || 0) + 1;
+          break;
         case 'toast': q.push({ t: 'toast', text: a.toast }); break;
         case 'grant':
           if (!s.evidence[a.grant]) {
@@ -1150,11 +1325,16 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
     return { ok: true, q };
   };
 
-  EF.npcLine = function (npcId) {
+  // 대사 고르기: lines 를 위에서부터 검사해 처음 맞는 것. ctx 가 적힌 줄은 그 상황(출입 차단·대면 등)에서만.
+  // text 는 문장 하나 또는 여러 장의 배열. 한 장은 '문장'(그 인물) / { clover: '문장' }(클로버) / { who: 인물ID, text }.
+  EF.npcPages = function (npcId, ctx) {
     const n = EF.NPCS[npcId];
-    const l = (n.lines || []).find(x => EF.check(x.if));
-    return l ? l.text : EF.TEXT.npcPlaceholder;
+    const l = (n.lines || []).find(x => (!x.ctx || x.ctx === ctx) && EF.check(x.if));
+    const raw = l ? [].concat(l.text) : [EF.TEXT.npcPlaceholder.replace('000', n.name)];
+    return raw.map(p => typeof p === 'string' ? { who: npcId, text: p }
+      : p.clover !== undefined ? { who: 'clover', text: p.clover } : { who: p.who || npcId, text: p.text });
   };
+  EF.npcLine = (npcId, ctx) => EF.npcPages(npcId, ctx)[0].text;
 })();
 
 </script>
@@ -1231,6 +1411,15 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
   };
 
   // 뒤로: 한 단계 위 장면(장소 → 마을 지도 → 월드맵)으로
+  // 장소 소개 문구. intro 가 { 단계: 문구 } 이면 지금 단계 이하 중 가장 높은 단계의 문구를 쓴다.
+  EF.introFor = function (sc, stg) {
+    const it = sc.intro;
+    if (!it) return sc.kind === 'world' ? EF.TEXT.site.worldIntro : EF.TEXT.site.mapIntro;
+    if (typeof it === 'string') return it;
+    const k = Object.keys(it).map(Number).filter(x => x <= stg).sort((a, b) => b - a)[0];
+    return it[k] || it[Object.keys(it)[0]];
+  };
+
   UI.goBack = function () {
     if (UI.busy) return;
     const sc = EF.SCENES[EF.state.scene];
@@ -1260,7 +1449,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
     counter.textContent = EF.TEXT.site.counter[stg];
     if (nbCount) nbCount.textContent = Object.keys(st.evidence).length;
     ptitle.textContent = sc.name;
-    pintro.textContent = sc.intro || (sc.kind === 'world' ? EF.TEXT.site.worldIntro : EF.TEXT.site.mapIntro);
+    pintro.textContent = EF.introFor(sc, stg);
     backEl.style.display = sc.parent ? '' : 'none';
 
     // 핫스팟
@@ -1573,19 +1762,32 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
     }
     UI.stage.append(cu);
     const sc = scrim(), box = h('div', 'textbox dialogue');
-    const por = h('div', 'portrait', n.name[0]); por.style.background = n.color;
-    const head = h('div', 'dhead');
-    head.append(h('b', '', n.name), h('span', 'role', n.role));
-    if (it.ctx) head.append(h('span', 'ctx', it.ctx));
-    const body = h('div', 'body', EF.npcLine(it.npc));
-    const btn = h('button', 'btn close', '닫기');
+    const pages = it.pages || [{ who: it.npc, text: EF.npcLine(it.npc, it.ctx) }];
+    const por = h('div', 'portrait'), head = h('div', 'dhead'), body = h('div', 'body');
+    const btn = h('button', 'btn close'), count = h('span', 'dcount');
     const col = h('div', 'dcol'); col.append(head, body);
-    box.append(por, col, btn);
+    const side = h('div', 'dside'); side.append(count, btn);
+    box.append(por, col, side);
     sc.append(box);
+    let i = 0;
+    const draw = () => {
+      const pg = pages[i], who = EF.NPCS[pg.who] || n;
+      por.textContent = who.name[0]; por.style.background = who.color;
+      box.classList.toggle('is-clover', pg.who === 'clover');
+      head.innerHTML = '';
+      head.append(h('b', '', who.name), h('span', 'role', who.role));
+      if (it.ctx && pg.who === it.npc) head.append(h('span', 'ctx', it.ctx));
+      body.textContent = pg.text;
+      const last = i === pages.length - 1;
+      btn.textContent = last ? '닫기' : '다음 ▶';
+      count.textContent = pages.length > 1 ? `${i + 1} / ${pages.length}` : '';
+    };
     const close = () => { cu.remove(); closeWith(sc, done); };
-    btn.onclick = e => { e.stopPropagation(); close(); };
-    sc.onclick = e => { if (e.target === sc) close(); };
-    UI.dismiss = close;
+    const next = () => { if (i < pages.length - 1) { i++; draw(); } else close(); };
+    btn.onclick = e => { e.stopPropagation(); next(); };
+    sc.onclick = e => { if (e.target === sc) next(); };
+    UI.dismiss = next; // Enter/Space/Esc: 다음 장, 마지막 장이면 닫기
+    draw();
   };
 
   UI.showEnding = function (done) {
