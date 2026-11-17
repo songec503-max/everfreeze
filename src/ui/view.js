@@ -96,7 +96,7 @@
     }
     firstRender = false;
     document.title = `${sc.name} · EVERFREEZE`;
-    stage.dataset.stage = stg; document.body.dataset.stage = stg;
+    stage.dataset.stage = stg; document.body.dataset.stage = stg; document.documentElement.dataset.cur = Math.min(5, stg); // 단계별 마우스 포인터
     { const pb = EF.PAGE_BG_IMAGES.filter(n => n <= stg).sort((a, b) => b - a)[0]; // 단계별 사이트 배경 그림
       document.body.classList.toggle('page-bg', !!pb);
       document.body.style.backgroundImage = pb ? `url(assets/page/stage${pb}.png)` : ''; }

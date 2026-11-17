@@ -115,7 +115,7 @@
     timers.forEach(clearInterval); timers = [];
     document.body.dataset.glitch = stage;
     drawCracks(stage);
-    if (stage >= 5) { ghost(false); textNodes().forEach(n => Math.random() < .5 && corrupt(n, .06, 0)); return; } // 멈춘 채 깨진 글자가 남는다
+    if (stage >= 5) { textNodes().forEach(n => Math.random() < .5 && corrupt(n, .06, 0)); return; } // 멈춘 채 깨진 글자가 남는다
     if (reduced || stage < 2) return;
     const every = (ms, fn) => timers.push(setInterval(fn, ms));
     const L = { 2: { text: [6000, .03], px: 0 }, 3: { text: [1600, .06], px: [900, 3], shove: 4200 }, 4: { text: [520, .1], px: [300, 6], shove: 1300, band: 700, gap: 2100 } }[stage];
@@ -133,7 +133,6 @@
       every(stage >= 4 ? 3700 : 8200, () => Math.random() < .75 && whisper()); // 숨은 문장이 번쩍임
       every(stage >= 4 ? 2900 : 6500, echo);                     // 설명 글이 겹쳐 보임
     }
-    ghost(stage >= 4);                                           // 마우스 잔상 (반 박자 늦게 따라온다)
   };
 
   // 브라우저 탭 제목: 잠깐 깨졌다가 돌아온다
@@ -167,20 +166,5 @@
     const el = document.getElementById('pintro'); if (!el) return;
     el.classList.add('gecho'); setTimeout(() => el.classList.remove('gecho'), rnd(160, 340));
   }
-  // 마우스 잔상: 4단계에서만. 실제 커서보다 반 박자 늦게 따라온다
-  let ghostEl, ghostOn = false, trail = [], mx = -100, my = -100;
-  addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
-  function ghost(on) {
-    if (reduced) on = false;
-    if (on === ghostOn) return; ghostOn = on;
-    if (!ghostEl) { ghostEl = document.createElement('div'); ghostEl.className = 'gghost'; layer.append(ghostEl); }
-    ghostEl.style.display = on ? '' : 'none';
-    if (on) (function tick() {
-      if (!ghostOn) return;
-      trail.push([mx, my]); if (trail.length > 14) trail.shift();
-      const [x, y] = trail[0]; ghostEl.style.transform = `translate(${x}px, ${y}px)`;
-      requestAnimationFrame(tick);
-    })();
-  }
-  addEventListener('resize', () => { if (G.ready) { drawCracks(G.stage); ; } });
+  addEventListener('resize', () => { if (G.ready) { drawCracks(G.stage); } });
 })();
