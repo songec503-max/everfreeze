@@ -59,6 +59,25 @@
     });
     UI.render();
     UI.fit();
+    UI.showTitle();
+    if (UI.initBackstage) UI.initBackstage(); // 아래로 내리면 막이 내리고 '무대 뒤' 페이지
+  };
+
+  // 시작 화면: 닫힌 종이 커튼 위에 제목. 누르면 막이 양옆으로 열리고 월드맵이 나온다.
+  UI.showTitle = function () {
+    const t = h('div', 'curtain-title');
+    const L = h('div', 'curtain left'), R = h('div', 'curtain right'), val = h('div', 'valance');
+    const plaque = h('div', 'plaque');
+    plaque.append(h('div', 'p-logo', 'EVERFREEZE'), h('div', 'p-sub', '세 마을 안내 사이트'), h('div', 'p-cue', '막을 올리려면 누르세요'));
+    t.append(L, R, val, plaque);
+    stage.append(t);
+    UI.busy = true;
+    const open = () => {
+      if (t.classList.contains('open')) return;
+      t.classList.add('open'); UI.dismiss = null;
+      setTimeout(() => { t.remove(); UI.busy = false; }, 1300);
+    };
+    t.onclick = open; UI.dismiss = open;
   };
 
   UI.fit = function () {
@@ -100,6 +119,11 @@
     sceneEl.style.background = img + sc.bg;
     sceneEl.classList.toggle('err-img', err); // 오작동 그림이 있으면 CSS 색 효과는 끈다
     sceneEl.classList.toggle('has-img', !!img); // 그림이 있으면 '배경 이미지 자리' 글씨를 숨긴다
+    // 그림이 있는 장면: 클릭할 곳은 평소엔 안 보이고 마우스를 올리면 테두리만 나타난다.
+    // 그림이 없는(임시) 장면: 무엇이 어디 있는지 알 수 있게 아이콘을 희미하게 보여 준다.
+    stage.classList.toggle('has-img', !!img);
+    // 마을별 무대 틀 색 (로즈메리 장미 · 글렌위버 잎 · 루미나리아 바다 · 월드맵 금빛)
+    document.body.dataset.village = { '로즈메리': 'rm', '글렌위버': 'gw', '루미나리아': 'lm' }[sc.village] || 'world';
     wm.textContent = sc.name;
 
     // 사이트 틀: 문구(단계에 따라 변화) · 페이지 설명

@@ -368,3 +368,168 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 .dcount{font-size:12px;color:var(--ink2)}
 .textbox.dialogue .body{white-space:pre-line}
 .textbox.dialogue.is-clover{border-color:#5f8f4f}
+
+/* =====================================================================
+   디자인 v2 — 종이 무대 홈페이지
+   · 사이트 틀: 섬유 알갱이가 박힌 크림색 수제 종이, 오려 붙인 가장자리
+   · 그림 창: 마을마다 색이 바뀌는 종이 무대 틀(위쪽 물결 휘장)
+   · 창: 종이 쪽지(겹친 종이 그림자 + 마스킹 테이프)
+   · 클릭할 곳: 평소엔 안 보이고, 마우스를 올리면 종이 오린 듯한 테두리
+   ===================================================================== */
+:root{
+  --paper:#fbf5e8; --paper2:#f3e8d3; --paper-edge:#e2d3b6; --ink:#3a2f28; --ink2:#7a6a5a;
+  --serif:'Gowun Batang','Nanum Myeongjo','Noto Serif KR',serif;
+  --font:'Gowun Dodum','Pretendard','Noto Sans KR','Malgun Gothic',system-ui,sans-serif;
+  --frame:#c9a35a; --frame-dk:#8a6a32; /* 월드맵: 금빛 */
+  --speckle:radial-gradient(circle at 20% 30%,rgba(120,90,60,.10) 0 1px,transparent 1.5px),
+            radial-gradient(circle at 70% 60%,rgba(90,110,80,.09) 0 1px,transparent 1.5px),
+            radial-gradient(circle at 40% 80%,rgba(150,90,90,.08) 0 1.2px,transparent 1.8px),
+            radial-gradient(circle at 85% 15%,rgba(80,80,120,.07) 0 .8px,transparent 1.3px);
+}
+body[data-village="rm"]{--frame:#c9707a;--frame-dk:#8a3d48}
+body[data-village="gw"]{--frame:#7e9c64;--frame-dk:#4d6a3a}
+body[data-village="lm"]{--frame:#6aa3a8;--frame-dk:#3d6f76}
+
+html,body{font-family:var(--font)}
+body{background-color:#e9dfcc;background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px}
+#site{max-width:1240px;padding:22px 16px 30px}
+
+/* 머리말: 오려 낸 종이 띠 + 아래 물결 가장자리 */
+#masthead{position:relative;background-color:var(--paper);background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
+  border:0;border-radius:0;padding:20px 22px 30px;box-shadow:0 2px 0 var(--paper-edge),4px 6px 0 rgba(90,70,40,.12),0 10px 22px rgba(60,40,20,.12);
+  -webkit-mask:radial-gradient(14px 10px at 50% 100%,transparent 98%,#000) 50% 100%/28px 100% repeat-x;mask:radial-gradient(14px 10px at 50% 100%,transparent 98%,#000) 50% 100%/28px 100% repeat-x}
+.logo{font-family:var(--serif);font-size:44px;font-weight:700;letter-spacing:.22em;color:var(--frame-dk);transition:color .6s}
+.logo::before,.logo::after{content:'❦';font-size:20px;vertical-align:middle;margin:0 14px;color:var(--frame);letter-spacing:0}
+.tagline{font-family:var(--serif);font-size:16px;color:var(--ink2);margin-top:4px}
+
+/* 본문 카드: 겹친 종이 */
+#page{margin-top:-6px;background-color:var(--paper);background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
+  border:0;border-radius:2px;padding:18px 20px 22px;box-shadow:0 1px 0 var(--paper-edge),3px 4px 0 #efe4cf,6px 8px 0 #e4d7bd,0 14px 30px rgba(60,40,20,.16)}
+
+/* 그림 창: 종이 무대 틀 */
+#stagewrap{border-radius:4px;background:var(--frame-dk);box-shadow:0 0 0 8px var(--frame),0 0 0 10px var(--frame-dk),0 0 0 12px var(--paper-edge),0 10px 24px rgba(40,25,10,.3);transition:box-shadow .6s;margin:12px 12px 0}
+#stagewrap::after{content:'';position:absolute;left:0;right:0;top:0;height:20px;z-index:50;pointer-events:none;
+  background:radial-gradient(18px 14px at 50% 0,var(--frame) 97%,transparent) 0 0/36px 20px repeat-x;filter:drop-shadow(0 2px 1px rgba(40,25,10,.35))}
+
+/* 설명 칸: 종이 쪽지 */
+#caption{margin:22px 12px 0;padding:14px 18px 12px;background:#fffaf0;border-left:4px solid var(--frame);box-shadow:2px 3px 0 #ece0c8;position:relative}
+#caption h2{font-family:var(--serif);font-size:26px;color:var(--frame-dk);margin:0 0 6px;transition:color .6s}
+#pintro{font-family:var(--serif);font-size:18px;line-height:1.7;color:var(--ink)}
+.tip{font-size:13px;color:var(--ink2)}
+.tip a{color:var(--frame-dk)}
+#foot{font-family:var(--serif);color:var(--ink2)}
+
+/* 클릭할 곳: 평소 투명, 마우스를 올리면 오린 종이 테두리 + 이름표 */
+#stage .hs{background:transparent;border:2px dashed transparent;border-radius:14px;backdrop-filter:none;box-shadow:none;transition:border-color .15s,box-shadow .15s,background .15s;cursor:pointer}
+#stage .hs .lbl{opacity:0;transform:translateY(4px);transition:opacity .15s,transform .15s;font-family:var(--serif);font-size:18px;background:var(--paper);border-radius:2px;box-shadow:2px 2px 0 rgba(60,40,20,.25)}
+#stage .hs:hover{transform:none;background:rgba(255,248,232,.16);border-color:rgba(255,250,238,.95);box-shadow:0 0 0 3px rgba(60,40,20,.28),inset 0 0 0 2px rgba(60,40,20,.12)}
+#stage .hs:hover .lbl{opacity:1;transform:none}
+/* 그림이 없는 임시 장면: 아이콘만 희미하게 (그림이 들어오면 사라짐) */
+#stage:not(.has-img) .hs .ico{opacity:.75}
+#stage.has-img .hs .ico{opacity:0}
+#stage.has-img .hs:hover .ico{opacity:0}
+/* '클릭할 수 있는 곳 표시하기'를 켜면 전부 보인다 */
+#stage.hints .hs{border-color:rgba(255,250,238,.9);background:rgba(255,248,232,.22)}
+#stage.hints .hs .lbl,#stage.hints .hs .ico{opacity:1}
+
+/* 창: 종이 쪽지 */
+.textbox,.puzzle,.ending{background-color:var(--paper);background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
+  border:0;border-radius:2px;box-shadow:0 1px 0 var(--paper-edge),3px 4px 0 #ece0c8,6px 8px 0 #dfd1b4,0 16px 34px rgba(30,20,10,.38);color:var(--ink)}
+.textbox::before,.puzzle::before,.ending::before{content:'';position:absolute;top:-12px;left:50%;width:120px;height:24px;margin-left:-60px;
+  background:rgba(var(--tape,201,112,122),.55);transform:rotate(-2deg);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+body[data-village="gw"]{--tape:126,156,100} body[data-village="lm"]{--tape:106,163,168} body[data-village="world"]{--tape:201,163,90}
+.puzzle,.ending{position:relative}
+.textbox{border-radius:2px}
+.textbox .body,.textbox.dialogue .body{font-family:var(--serif);font-size:22px}
+.dhead b{font-family:var(--serif);font-size:21px;color:var(--frame-dk)}
+.portrait{border:3px solid var(--paper);box-shadow:0 0 0 2px var(--frame-dk),2px 3px 0 rgba(0,0,0,.18);font-family:var(--serif)}
+.textbox.dialogue.is-clover{box-shadow:0 1px 0 var(--paper-edge),3px 4px 0 #e4ecd9,6px 8px 0 #d4e0c4,0 16px 34px rgba(30,20,10,.38)}
+.textbox.dialogue.is-clover .dhead b{color:#4f7a3f}
+.puzzle h3,.phead h3{font-family:var(--serif);font-size:24px;color:var(--frame-dk)}
+.puzzle .prompt{font-family:var(--serif)}
+.plevel{background:transparent;border:1px solid var(--frame);color:var(--frame-dk);border-radius:2px}
+.phint{background:#fff6dc;border:1px dashed #c9a35a;border-radius:2px;font-family:var(--serif)}
+.ending h2{font-family:var(--serif);font-size:30px;color:#4b3f63}
+.ending p{font-family:var(--serif)}
+/* 버튼: 종이 꼬리표 */
+.btn{font-family:var(--serif);background:#f6ead2;border:1px solid #b89b74;border-radius:3px;box-shadow:1px 2px 0 #cdb894;color:var(--ink)}
+.btn:hover{background:#fff4dc}
+.btn.primary{background:var(--frame);border-color:var(--frame-dk);color:#fff;box-shadow:1px 2px 0 var(--frame-dk)}
+.btn.primary:disabled{opacity:.45}
+.opt{font-family:var(--serif);background:#fffaf0;border:1px solid #d9c8a6;border-radius:2px}
+.opt.on{background:#fbefd9;border-color:var(--frame-dk)}
+
+/* 시작 화면: 닫힌 종이 커튼 */
+.curtain-title{position:absolute;inset:0;z-index:60;cursor:pointer;overflow:hidden}
+.curtain{position:absolute;top:0;bottom:0;width:50.5%;transition:transform 1.2s cubic-bezier(.6,.05,.3,1);
+  background:repeating-linear-gradient(90deg,#a9434f 0 18px,#c45a66 18px 40px,#b44c58 40px 56px,#d06e78 56px 64px);
+  box-shadow:inset 0 -30px 40px rgba(60,10,20,.35)}
+.curtain::after{content:'';position:absolute;inset:0;background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;opacity:.7}
+.curtain.left{left:0;border-right:3px solid #7e2c37}
+.curtain.right{right:0;border-left:3px solid #7e2c37}
+.curtain-title .valance{position:absolute;left:0;right:0;top:0;height:90px;z-index:2;
+  background:radial-gradient(60px 46px at 50% 0,#c9a35a 96%,transparent) 0 0/120px 90px repeat-x,linear-gradient(#b8924d,#c9a35a) 0 0/100% 34px no-repeat;
+  filter:drop-shadow(0 4px 2px rgba(40,20,10,.35))}
+.plaque{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-1deg);z-index:3;text-align:center;padding:34px 70px 28px;
+  background-color:var(--paper);background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
+  box-shadow:0 1px 0 var(--paper-edge),4px 5px 0 #ece0c8,8px 10px 0 #dfd1b4,0 20px 40px rgba(30,10,10,.45);transition:opacity .5s}
+.p-logo{font-family:var(--serif);font-size:76px;font-weight:700;letter-spacing:.2em;color:#8a3d48}
+.p-sub{font-family:var(--serif);font-size:22px;color:var(--ink2);margin-top:2px}
+.p-cue{font-family:var(--serif);font-size:18px;color:#8a3d48;margin-top:18px;animation:cue 1.6s ease-in-out infinite}
+@keyframes cue{50%{opacity:.35}}
+.curtain-title.open .curtain.left{transform:translateX(-100%)}
+.curtain-title.open .curtain.right{transform:translateX(100%)}
+.curtain-title.open .plaque,.curtain-title.open .valance{opacity:0;transition:opacity .4s}
+
+/* ===== 무대 뒤 (src/ui/backstage.js) ===== */
+/* 스크롤하면 그림 창 위에서 내려오는 커튼 */
+.drop-curtain{position:absolute;inset:0;z-index:55;transform:translateY(-100%);will-change:transform;
+  background:repeating-linear-gradient(90deg,#a9434f 0 18px,#c45a66 18px 40px,#b44c58 40px 56px,#d06e78 56px 64px);
+  box-shadow:0 10px 24px rgba(40,10,15,.45)}
+.drop-curtain::before{content:'';position:absolute;inset:0;background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;opacity:.7}
+.drop-fringe{position:absolute;left:0;right:0;bottom:-26px;height:28px;background:radial-gradient(22px 26px at 50% 0,#8a3d48 96%,transparent) 0 0/44px 28px repeat-x}
+.drop-cue{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-1deg);text-align:center;padding:26px 54px;opacity:0;transition:opacity .3s;cursor:pointer;
+  background-color:var(--paper);box-shadow:0 1px 0 var(--paper-edge),4px 5px 0 #ece0c8,0 18px 36px rgba(30,10,10,.45)}
+.drop-curtain.shut .drop-cue{opacity:1}
+.drop-cue b{display:block;font-family:var(--serif);font-size:40px;color:#8a3d48}
+.drop-cue span{font-family:var(--serif);font-size:20px;color:var(--ink2)}
+.drop-curtain:not(.shut){pointer-events:none}
+
+/* 무대와 무대 뒤 사이의 종이 표 */
+.bs-ticket{display:block;margin:28px auto 0;padding:14px 40px;font-family:var(--serif);font-size:20px;color:var(--ink);cursor:pointer;
+  background:#f6ead2;border:1px dashed #b89b74;border-radius:3px;box-shadow:2px 3px 0 #cdb894,0 8px 18px rgba(60,40,20,.15);transform:rotate(-1deg);transition:transform .15s}
+.bs-ticket:hover{transform:rotate(0) translateY(-2px)}
+.bs-ticket span{color:#8a3d48;margin-right:6px}
+.bs-ticket small{display:block;font-size:13px;color:var(--ink2);margin-top:2px}
+
+/* 무대 뒤 책 */
+.backstage{margin-top:28px;padding:22px 26px 26px;scroll-margin-top:16px;background-color:var(--paper);background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
+  box-shadow:0 1px 0 var(--paper-edge),3px 4px 0 #efe4cf,6px 8px 0 #e4d7bd,0 14px 30px rgba(60,40,20,.16)}
+.bs-head{text-align:center;margin-bottom:14px}
+.bs-title{font-family:var(--serif);font-size:38px;font-weight:700;letter-spacing:.2em;color:#8a3d48}
+.bs-title::before,.bs-title::after{content:'❦';font-size:18px;vertical-align:middle;margin:0 14px;letter-spacing:0;color:#c9707a}
+.bs-sub{font-family:var(--serif);color:var(--ink2);font-size:15px}
+.bs-tabs{display:flex;justify-content:center;gap:10px;margin-bottom:-1px;position:relative;z-index:2}
+.bs-tab{font-family:var(--serif);font-size:17px;padding:8px 22px;background:#efe2c9;border:1px solid #cdb894;border-bottom:0;border-radius:6px 6px 0 0;color:var(--ink2);cursor:pointer}
+.bs-tab.on{background:#fffaf0;color:#8a3d48;font-weight:700}
+.bs-book{position:relative;height:560px;perspective:1800px;background:#fffaf0;border:1px solid #cdb894;box-shadow:inset 0 0 0 6px #fffaf0,inset 0 0 0 7px #eadcc0}
+.bs-leaf{position:absolute;inset:0;padding:22px 30px;opacity:0;pointer-events:none;transform-origin:left center;backface-visibility:hidden;background:#fffaf0;
+  transition:transform .7s cubic-bezier(.5,.05,.3,1),opacity .5s}
+.bs-leaf.on{opacity:1;pointer-events:auto;transform:none;z-index:2}
+.bs-leaf.out-next{opacity:0;transform:rotateY(-95deg);z-index:3}
+.bs-leaf.out-prev{opacity:0;transform:translateX(40px);z-index:1}
+.bs-leaf.in-prev{animation:leafBack .7s cubic-bezier(.5,.05,.3,1)}
+@keyframes leafBack{from{transform:rotateY(-95deg);opacity:0}to{transform:none;opacity:1}}
+.bs-page-head{display:flex;align-items:center;gap:12px;border-bottom:1px solid #e3d4b6;padding-bottom:10px;margin-bottom:16px}
+.bs-page-head h3{margin:0;font-family:var(--serif);font-size:28px;color:var(--ink)}
+.bs-ico{font-size:30px}
+.bs-no{margin-left:auto;font-family:var(--serif);color:var(--ink2)}
+.bs-page-body{height:calc(100% - 70px)}
+.ph-frame{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:2px dashed #cdb894;border-radius:4px;background:repeating-linear-gradient(45deg,#fbf3e2 0 12px,#f7ecd6 12px 24px);color:var(--ink2);font-family:var(--serif);text-align:center;padding:16px}
+.ph-frame b{font-size:24px;color:#8a3d48}
+.ph-frame.tall,.ph-frame.wide{height:100%}
+.ph-frame.wide{aspect-ratio:16/9;height:auto;max-height:100%;margin:0 auto;width:min(100%,770px)}
+.ph-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;height:100%}
+.bs-nav{display:flex;justify-content:space-between;margin-top:14px}
+.bs-turn{font-family:var(--serif);font-size:16px;padding:8px 18px;background:#f6ead2;border:1px solid #b89b74;border-radius:3px;box-shadow:1px 2px 0 #cdb894;cursor:pointer}
+.bs-turn:disabled{opacity:.4;cursor:default}
