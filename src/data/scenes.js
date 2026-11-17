@@ -68,6 +68,8 @@
   EF.PAGE_BG_IMAGES = [];
   // 엔딩에서 창 밖에 서 있는 아리아 그림(투명 배경 PNG, 세로로 긴 전신). 예: 'assets/ending/aria.png'. 비우면 임시 실루엣.
   EF.ENDING_ARIA_IMAGE = '';
+  // 4단계부터 사이트에 생기는 균열 그림 (단계 숫자 → 파일). 넣으면 그림으로, 비우면 지금의 선 균열. 예: { 4: 'assets/crack/stage4.png', 5: 'assets/crack/stage5.png' }
+  EF.CRACK_IMAGES = {};
   // 창문 그림(v-atelier)을 넣었을 때 유리 칸의 위치 [왼쪽, 위, 너비, 높이] (그림 창 기준 %). 이 칸 안에서 아리아가 보인다.
   EF.ENDING_WINDOW_PANE = [38, 26, 24, 48];
 
@@ -156,8 +158,12 @@
       npc('aria', '아리아', '👤', [820, 250, 150, 230], 'aria', {
         rules: [
           { if: [{ flag: 'ariaConfronted' }], do: [{ say: 'aria', ctx: '대화' }] },
-          { if: [{ deduced: 'FINAL-01' }, { stageMin: 4 }, { notEnded: true }],
+          // 대면: 통합 추리(FINAL-01) + 우체국 등대 편지 신호(P-LETTER)를 풀어야만
+          { if: [{ deduced: 'FINAL-01' }, { solved: 'P-LETTER' }, { stageMin: 4 }, { notEnded: true }],
             do: [{ say: 'aria', ctx: '대면' }, { flag: 'ariaConfronted' }] },
+          // 추리는 끝났는데 편지 신호가 아직이면: 평소 대사 + 등대로 이끄는 도움말
+          { if: [{ deduced: 'FINAL-01' }, { stageMin: 4 }, { notEnded: true }, { not: { solved: 'P-LETTER' } }],
+            do: [{ say: 'aria', ctx: '대화' }, { hint: '아리아에게 묻기 전에 확인할 것이 하나 남은 것 같아요. 루미나리아 우체국 등대를 다시 둘러보세요.' }] },
           // 4단계인데 통합 추리(FINAL-01)가 아직이면: 평소 대사 + "놓친 단서가 있다"는 도움말
           { if: [{ stageMin: 4 }, { notEnded: true }, { not: { deduced: 'FINAL-01' } }], do: [{ say: 'aria', ctx: '대화' }, { hint: '아리아가 무언가 숨기고 있는 것 같지만, 아직 물어볼 단서가 부족해요. 놓친 곳이 있는지 둘러보세요.' }] },
           { if: [{ stageMin: 2 }], do: [{ say: 'aria', ctx: '대화' }] },
@@ -269,7 +275,7 @@
     hotspots: [
       inspect('glass', '유리 작품', '🔮', [160, 170, 250, 300], { view: 'v-glassart' }),
       // 아리아와 마주한 뒤에만 열린다. 그 전에는 흔들림.
-      puzzle('workbench-lm', '작업대', '🛠️', [640, 300, 280, 160], 'P-ATELIER', { lock: { flag: 'ariaConfronted' } })
+      puzzle('workbench-lm', '작업대', '🛠️', [640, 300, 280, 160], 'P-ATELIER', { lock: { all: [{ solved: 'P-LETTER' }, { flag: 'ariaConfronted' }] } }) // 편지 신호 + 아리아 대면 뒤에만
     ]
   });
 

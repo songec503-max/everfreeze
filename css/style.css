@@ -717,3 +717,7 @@ body.finale .glitch-layer{z-index:9150} /* 엔딩: 노이즈 조각은 막 위, 
 /* 엔딩 연출은 5단계의 '모든 움직임 멈춤'에서 뺀다 (창문이 나타나는 애니메이션이 멈추면 보이지 않는다) */
 body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.finale .glitch-layer *,body.finale #site{animation-play-state:running!important}
 .fin-window .closeup,.fin-window #stagewrap{animation:none!important}
+/* 누를 수 없는 상단 버튼: 색을 빼고 흐리게, 눌러도 반응 없음 */
+.stag.off{filter:grayscale(1) saturate(0);opacity:.42;cursor:not-allowed;box-shadow:0 1px 0 var(--paper-edge);transform:rotate(-1.5deg)!important}
+.stag.off::before{background:#9a948a!important}
+.stag:disabled{pointer-events:none}

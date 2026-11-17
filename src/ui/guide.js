@@ -91,7 +91,13 @@
     map.title = '월드맵으로 돌아가기'; help.title = '안내 다시 보기';
     map.onclick = e => { e.stopPropagation(); if (UI.busy) return; EF.state.scene = 'WORLD_MAP'; UI.render(); };
     help.onclick = e => { e.stopPropagation(); openGuide(); };
-    bar.append(map, help, reset);
+    bar.append(reset, help, map); // 순서: 처음부터 · 도움말 · 월드맵
+    // 지금 누를 수 없는 버튼(클로즈업 · 대화 · 퍼즐 · 안내 창이 열려 있을 때)은 색을 빼서 꺼진 것처럼 보이게 한다
+    const sync = () => {
+      const off = !!(UI.busy || UI.dismiss);
+      [reset, help, map].forEach(b => { b.classList.toggle('off', off); b.disabled = off; b.setAttribute('aria-disabled', off); });
+    };
+    setInterval(sync, 150); sync();
     const wrap = document.getElementById('stagewrap'); wrap.parentNode.insertBefore(bar, wrap);
     UI.guideBar = { bar, map };
     map.style.display = EF.SCENES[EF.state.scene].kind === 'world' ? 'none' : '';
