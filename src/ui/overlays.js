@@ -64,7 +64,7 @@
     if (EF.Glitch && EF.Glitch.finale) {
       UI.showView({ view: it.view || 'v-atelier' }, () => {}); // 창문은 닫히지 않는다 (done 은 부르지 않는다: 곧 초기화)
       UI.busy = true; UI.dismiss = () => {};
-      EF.Glitch.finale(UI.stage.querySelector('.closeup:last-of-type'));
+      const cus = UI.stage.querySelectorAll('.closeup'); EF.Glitch.finale(cus[cus.length - 1]);
       return;
     }
     const sc = scrim(); sc.classList.add('dim');

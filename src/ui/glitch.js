@@ -198,9 +198,14 @@
     let lvl = 0; const setLvl = v => { lvl = v; veil.style.setProperty('--lv', v); };
     // 창문: 그림 창 가운데의 창문 클로즈업을 막 위로 옮겨 놓은 복제본 (오류에 덮이지 않는다)
     const box = document.createElement('div'); box.className = 'fin-window';
-    const place = () => { const r = (win && win.isConnected ? win : document.getElementById('stagewrap')).getBoundingClientRect();
+    // 그림 창 전체(틀 · 커튼 · 가운데 창문)를 그대로 복제해 막 위에 올린다 → 보이는 모습은 원래 그림 창 그대로
+    const sw = document.getElementById('stagewrap');
+    const place = () => { const r = sw.getBoundingClientRect();
       Object.assign(box.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' }); };
-    if (win) { const c = win.cloneNode(true); c.querySelectorAll('.edge-back, .cv-tag').forEach(e => e.remove()); box.append(c); }
+    { const c = sw.cloneNode(true); c.classList.add('fin-stage');
+      c.querySelectorAll('.cv-tag, .hs, .gtip').forEach(e => e.remove());
+      c.querySelectorAll('.closeup').forEach(e => e.classList.add('quiet'));
+      box.append(c); }
     // 창문 건너편의 아리아 (유리 뒤)
     const aria = document.createElement('div'); aria.className = 'fin-aria';
     const img = EF.ENDING_ARIA_IMAGE;

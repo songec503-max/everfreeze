@@ -696,13 +696,13 @@ body.finale-max #site{filter:grayscale(.55) contrast(1.8) saturate(2.4) hue-rota
 @keyframes finGrain{0%{background-position:0 0,0 0}33%{background-position:-37px 23px,0 1px}66%{background-position:29px -41px,0 2px}100%{background-position:-11px 17px,0 0}}
 .fin-veil.full{opacity:1;background-color:rgba(8,6,12,.93)}
 .fin-veil.black{background:#000;animation:none}
-.fin-window{position:fixed;z-index:9200;pointer-events:none;overflow:hidden;border-radius:4px;box-shadow:0 0 0 6px #120e18,0 0 60px 10px rgba(0,0,0,.7)}
-.fin-window>.closeup{position:absolute;inset:0}
+.fin-window{position:fixed;z-index:9200;filter:grayscale(.55);pointer-events:none} /* 5단계 사이트와 같은 빛 바램 */
+.fin-window>.fin-stage{margin:0!important;width:100%;height:100%}
 .fin-window.cracking{animation:finWin .12s steps(2) infinite}
 @keyframes finWin{0%{transform:translate(0,0)}50%{transform:translate(4px,-2px)}100%{transform:translate(-3px,3px)}}
 .fin-window.gone{opacity:0;transition:opacity .5s steps(5);clip-path:polygon(0 0,100% 0,100% 22%,0 30%,0 47%,100% 41%,100% 68%,0 76%,0 100%,100% 100%)}
 /* 창문 건너편의 아리아: 유리 뒤에 서 있다 */
-.fin-pane{position:absolute;z-index:30;overflow:hidden;border-radius:3px}
+.fin-pane{position:absolute;z-index:30;overflow:hidden;border-radius:3px;filter:grayscale(1) brightness(.8)} /* 회색 창문과 같은 색 */
 .fin-pane.bars::after{content:'';position:absolute;inset:0;z-index:3;pointer-events:none; /* 임시 창문 아이콘의 창살 */
   background:linear-gradient(90deg,transparent calc(50% - var(--bar)/2),#b5604a calc(50% - var(--bar)/2),#b5604a calc(50% + var(--bar)/2),transparent calc(50% + var(--bar)/2)),
     linear-gradient(0deg,transparent calc(50% - var(--bar)/2),#b5604a calc(50% - var(--bar)/2),#b5604a calc(50% + var(--bar)/2),transparent calc(50% + var(--bar)/2))}
@@ -712,6 +712,8 @@ body.finale-max #site{filter:grayscale(.55) contrast(1.8) saturate(2.4) hue-rota
 .fin-aria svg{width:100%;height:100%;display:block}
 .fin-aria.on{opacity:.92}
 .fin-aria.gone{opacity:0;transition:opacity .35s steps(4);clip-path:polygon(0 0,100% 0,100% 38%,0 44%,0 61%,100% 55%,100% 100%,0 100%)}
-.fin-glass{position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.16) 38%,transparent 46%),linear-gradient(115deg,transparent 52%,rgba(255,255,255,.09) 56%,transparent 60%),rgba(200,190,230,.10)}
+.fin-glass{position:absolute;inset:0;pointer-events:none;background:rgba(255,255,255,.06)}
 body.finale .glitch-layer{z-index:9150} /* 엔딩: 노이즈 조각은 막 위, 아리아 아래 */
+/* 엔딩 연출은 5단계의 '모든 움직임 멈춤'에서 뺀다 (창문이 나타나는 애니메이션이 멈추면 보이지 않는다) */
+body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.finale .glitch-layer *,body.finale #site{animation-play-state:running!important}
+.fin-window .closeup,.fin-window #stagewrap{animation:none!important}
