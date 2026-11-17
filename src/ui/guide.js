@@ -1,7 +1,7 @@
 /* 친절한 안내
    1) 처음 막이 열리면 안내 쪽지 4장 (누를 곳 · 이동 · 단서와 힌트 · 세계의 어긋남과 무대 뒤)
-   2) 그림 창 왼쪽 위: [월드맵] 버튼(마을 지도·세부 장소에서) · [도움말] 버튼(언제든 안내 쪽지 다시 보기) · [처음부터] 버튼(사이트 초기화)
-   3) 처음 한 번만 뜨는 짧은 도움말: 처음 흔들림 · 처음 클로즈업 · 처음 퍼즐 · 처음 단계가 오를 때
+   2) 그림 창 바로 위(머리글 점선 아래): [월드맵] 버튼(마을 지도·세부 장소에서) · [도움말] 버튼(언제든 안내 쪽지 다시 보기) · [처음부터] 버튼(사이트 초기화)
+   3) 처음 한 번만 뜨는 짧은 도움말(그림 창 위쪽): 처음 흔들림 · 처음 퍼즐 · 처음 단계가 오를 때
    문장은 아래 PAGES · TIPS 에서 고친다. */
 (function () {
   const EF = window.EF, UI = EF.UI, h = EF.h;
@@ -10,7 +10,7 @@
     { title: 'EVERFREEZE에 오신 것을 환영해요',
       body: '세 마을을 돌아다니며 그림 속 물건과 사람을 눌러 살펴보세요.\n마우스를 올렸을 때 테두리가 생기는 곳이 누를 수 있는 곳이에요.\n사람을 누르면 이야기를 나눌 수 있어요.' },
     { title: '돌아다니는 방법',
-      body: '마을과 장소를 눌러 안으로 들어가요.\n그림 아래쪽 ▼ 를 누르면 한 단계 뒤로 돌아가요.\n왼쪽 위 [월드맵] 버튼을 누르면 언제든 처음 지도로 돌아가요.' },
+      body: '마을과 장소를 눌러 안으로 들어가요.\n그림 아래쪽 ▼ 를 누르면 한 단계 뒤로 돌아가요.\n그림 창 위 [월드맵] 버튼을 누르면 언제든 처음 지도로 돌아가요.\n물건을 가까이 본 화면에서도 ▼ 를 누르면 원래 장면으로 돌아가요.' },
     { title: '단서와 퍼즐',
       body: '물건을 누르면 가까이 들여다볼 수 있어요. 그 안에 숫자나 기호가 숨어 있기도 해요.\n한 마을의 퍼즐 단서는 다른 마을에 있어요. 여러 마을을 오가며 기억해 두세요.\n퍼즐을 3번 틀리면 힌트가 나와요. 그림이 흔들리는 곳은 아직 열리지 않은 곳이에요.' },
     { title: '무언가 이상하다면',
@@ -18,7 +18,6 @@
   ];
   const TIPS = {
     shake:  '아직은 열 수 없어요. 다른 곳을 먼저 둘러보세요.',
-    view:   '아래쪽 ▼ 를 누르면 원래 장면으로 돌아가요.',
     puzzle: '3번 틀리면 힌트가 나와요. 닫아도 괜찮아요. (Esc)',
     stage:  '세계가 어긋나기 시작했어요. 새로운 곳이 열렸을지도 몰라요.'
   };
@@ -41,7 +40,7 @@
   }
   EF.Guide = { tip, note };
   const wrap = (name, key) => { const f = UI[name]; UI[name] = function () { tip(key); return f.apply(this, arguments); }; };
-  wrap('shake', 'shake'); wrap('showView', 'view'); wrap('showPuzzle', 'puzzle');
+  wrap('shake', 'shake'); wrap('showPuzzle', 'puzzle'); // ▼ 돌아가기 안내는 [도움말]에만 둔다
   const banner = UI.banner; UI.banner = function () { banner.apply(this, arguments); setTimeout(() => tip('stage'), 1200); };
 
   // ---- 안내 쪽지 ----
@@ -85,14 +84,15 @@
 
   // ---- 그림 창 왼쪽 위 버튼 ----
   UI.initGuide = function () {
-    const bar = h('div', 'stage-tags');
+    const bar = h('div', 'stage-tags pre'); // 머리글 점선 아래, 그림 창 바로 위
     const map = h('button', 'stag map', '월드맵'), help = h('button', 'stag help', '도움말'), reset = h('button', 'stag reset', '처음부터');
     reset.title = '사이트 초기화';
     reset.onclick = e => { e.stopPropagation(); askReset(); };
     map.title = '월드맵으로 돌아가기'; help.title = '안내 다시 보기';
     map.onclick = e => { e.stopPropagation(); if (UI.busy) return; EF.state.scene = 'WORLD_MAP'; UI.render(); };
     help.onclick = e => { e.stopPropagation(); openGuide(); };
-    bar.append(map, help, reset); UI.stage.append(bar);
+    bar.append(map, help, reset);
+    const wrap = document.getElementById('stagewrap'); wrap.parentNode.insertBefore(bar, wrap);
     UI.guideBar = { bar, map };
     map.style.display = EF.SCENES[EF.state.scene].kind === 'world' ? 'none' : '';
   };
@@ -104,5 +104,5 @@
     return r;
   };
   // 처음 막이 열렸을 때 안내 쪽지
-  UI.onCurtainOpen = function () { if (!seen.welcome) { seen.welcome = true; openGuide(); } };
+  UI.onCurtainOpen = function () { if (UI.guideBar) UI.guideBar.bar.classList.remove('pre'); if (!seen.welcome) { seen.welcome = true; openGuide(); } };
 })();

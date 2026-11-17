@@ -159,7 +159,7 @@ body.page-bg{background-size:cover;background-position:center;background-attachm
 body[data-stage="3"] #masthead .logo{letter-spacing:.14em}
 body[data-stage="4"] #masthead{border-style:dashed}
 body[data-stage="4"] .tagline{opacity:.75}
-body[data-stage="5"]{filter:grayscale(.55)}
+body[data-stage="5"] #site{filter:grayscale(.55)} /* body 에 filter 를 걸면 화면 고정 요소(엔딩 막 등)의 위치가 틀어진다 */
 body[data-stage="5"] .tagline{letter-spacing:.3em}
 .banner{top:70px}
 
@@ -636,17 +636,18 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
 
 /* ===== 친절한 안내 (src/ui/guide.js) ===== */
 /* 그림 창 왼쪽 위 종이 꼬리표 버튼: 월드맵 · 도움말 */
-.stage-tags{position:absolute;left:200px;top:84px;z-index:16;display:flex;gap:10px} /* 열린 커튼 자락 오른쪽 */
-.stag{font-family:var(--serif);font-size:22px;padding:8px 20px 8px 18px;cursor:pointer;color:var(--ink);
+.stage-tags{display:flex;gap:10px;margin:10px 14px 4px;transition:opacity .5s} /* 머리글 점선 아래 · 그림 창 위 */
+.stage-tags.pre{opacity:0;visibility:hidden} /* 처음 막이 열리기 전에는 숨김 */
+.stag{font-family:var(--serif);font-size:18px;padding:6px 17px 6px 14px;cursor:pointer;color:var(--ink);
   background-color:var(--paper);background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
   border:0;border-radius:2px 14px 14px 2px;box-shadow:0 1px 0 var(--paper-edge),3px 4px 0 rgba(60,40,20,.28);transform:rotate(-1.5deg);transition:transform .15s}
-.stag::before{content:'';display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--frame-dk);margin-right:9px;vertical-align:middle;box-shadow:inset 0 1px 1px rgba(0,0,0,.3)}
+.stag::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--frame-dk);margin-right:9px;vertical-align:middle;box-shadow:inset 0 1px 1px rgba(0,0,0,.3)}
 .stag:hover{transform:rotate(0) translateY(-2px)}
 .stag.help::before{background:#b8924d}
-/* 처음 한 번만 뜨는 짧은 도움말 */
-.gtip{position:absolute;left:50%;bottom:96px;z-index:30;pointer-events:none;max-width:860px;padding:14px 26px;font-family:var(--serif);font-size:22px;color:var(--ink);
+/* 짧은 도움말: 그림 창 위쪽에 뜬다 (아래쪽 대화창을 가리지 않게) */
+.gtip{position:absolute;left:50%;top:70px;z-index:30;pointer-events:none;max-width:860px;padding:14px 26px;font-family:var(--serif);font-size:22px;color:var(--ink);
   background:#fffaf0;box-shadow:0 1px 0 var(--paper-edge),3px 4px 0 #ece0c8,0 12px 26px rgba(30,20,10,.35);border-left:6px solid var(--frame);
-  opacity:0;transform:translate(-50%,12px) rotate(-.6deg);transition:opacity .4s,transform .4s}
+  opacity:0;transform:translate(-50%,-12px) rotate(-.6deg);transition:opacity .4s,transform .4s}
 .gtip.on{opacity:1;transform:translate(-50%,0) rotate(-.6deg)}
 /* 안내 쪽지 */
 .guide{position:relative;width:820px;padding:34px 44px 26px;color:var(--ink);
@@ -689,6 +690,43 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
 /* ===== 4단계부터: 커튼·그림 창 외의 요소들이 제자리에서 살짝씩 어긋나 있다 (glitch.js drift) ===== */
 .gdrift{translate:var(--dx,0) var(--dy,0);rotate:var(--dr,0deg)}
 
+.st-start{font-size:28px;color:#8a3d48;margin-left:10px;align-self:center} /* 복원된 기록: 읽기 시작점 */
+
+/* ===== 엔딩 (glitch.js G.finale) ===== */
+body.finale{overflow:hidden}
+body.finale #site{animation:finShake .09s steps(2) infinite}
+body.finale-max #site{filter:grayscale(.55) contrast(1.8) saturate(2.4) hue-rotate(40deg)}
+@keyframes finShake{0%{transform:translate(0,0)}50%{transform:translate(calc(var(--fx,1)*6px),-3px)}100%{transform:translate(-5px,4px)}}
+.fin-veil{position:fixed;inset:0;z-index:9100;pointer-events:all;opacity:calc(var(--lv,0) * 1);transition:opacity .2s;
+  background-color:rgba(10,8,14,calc(var(--lv,0) * .7));
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' seed='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .1  0 0 0 0 .08  0 0 0 0 .14  0 0 0 -2.2 1.4'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 3px);
+  background-size:160px 160px,auto;animation:finGrain .1s steps(3) infinite}
+@keyframes finGrain{0%{background-position:0 0,0 0}33%{background-position:-37px 23px,0 1px}66%{background-position:29px -41px,0 2px}100%{background-position:-11px 17px,0 0}}
+.fin-veil.full{opacity:1;background-color:rgba(8,6,12,.93)}
+.fin-veil.black{background:#000;animation:none}
+.fin-window{position:fixed;z-index:9200;filter:grayscale(.55);pointer-events:none} /* 5단계 사이트와 같은 빛 바램 */
+.fin-window>.fin-stage{margin:0!important;width:100%;height:100%}
+.fin-window.cracking{animation:finWin .12s steps(2) infinite}
+@keyframes finWin{0%{transform:translate(0,0)}50%{transform:translate(4px,-2px)}100%{transform:translate(-3px,3px)}}
+.fin-window.gone{opacity:0;transition:opacity .5s steps(5);clip-path:polygon(0 0,100% 0,100% 22%,0 30%,0 47%,100% 41%,100% 68%,0 76%,0 100%,100% 100%)}
+/* 창문 건너편의 아리아: 유리 뒤에 서 있다 */
+.fin-pane{position:absolute;z-index:30;overflow:hidden;border-radius:3px;filter:grayscale(1) brightness(.8)} /* 회색 창문과 같은 색 */
+.fin-pane.bars::after{content:'';position:absolute;inset:0;z-index:3;pointer-events:none; /* 임시 창문 아이콘의 창살 */
+  background:linear-gradient(90deg,transparent calc(50% - var(--bar)/2),#b5604a calc(50% - var(--bar)/2),#b5604a calc(50% + var(--bar)/2),transparent calc(50% + var(--bar)/2)),
+    linear-gradient(0deg,transparent calc(50% - var(--bar)/2),#b5604a calc(50% - var(--bar)/2),#b5604a calc(50% + var(--bar)/2),transparent calc(50% + var(--bar)/2))}
+.fin-glass{z-index:2}
+.fin-aria{position:absolute;left:50%;bottom:-4%;width:78%;height:96%;transform:translateX(-50%);opacity:0;transition:opacity 1.4s ease;
+  background:center bottom/contain no-repeat;filter:blur(.6px) brightness(.9)}
+.fin-aria svg{width:100%;height:100%;display:block}
+.fin-aria.on{opacity:.92}
+.fin-aria.gone{opacity:0;transition:opacity .35s steps(4);clip-path:polygon(0 0,100% 0,100% 38%,0 44%,0 61%,100% 55%,100% 100%,0 100%)}
+.fin-glass{position:absolute;inset:0;pointer-events:none;background:rgba(255,255,255,.06)}
+body.finale .glitch-layer{z-index:9150} /* 엔딩: 노이즈 조각은 막 위, 아리아 아래 */
+/* 엔딩 연출은 5단계의 '모든 움직임 멈춤'에서 뺀다 (창문이 나타나는 애니메이션이 멈추면 보이지 않는다) */
+body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.finale .glitch-layer *,body.finale #site{animation-play-state:running!important}
+.fin-window .closeup,.fin-window #stagewrap{animation:none!important}
+
 </style>
 </head>
 <body>
@@ -702,7 +740,7 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
     <section id="caption">
       <h2 id="ptitle"></h2>
       <p id="pintro"></p>
-      <p class="tip">그림 속에서 마우스를 올렸을 때 테두리가 생기는 곳을 눌러 보세요. 그림 아래쪽 ▼ 는 한 단계 뒤로, 왼쪽 위 [월드맵]은 처음 지도로 돌아갑니다. 막히면 [도움말]을 눌러 보세요. 페이지를 아래로 내리면 막이 내리고 무대 뒤로 갈 수 있습니다. <a href="#" id="hintLink">클릭할 수 있는 곳 표시하기</a></p>
+      <p class="tip">그림 속에서 마우스를 올렸을 때 테두리가 생기는 곳을 눌러 보세요. 그림 창 위 [월드맵]은 처음 지도로 돌아갑니다. 막히면 [도움말]을 눌러 보세요. 페이지를 아래로 내리면 막이 내리고 무대 뒤로 갈 수 있습니다. <a href="#" id="hintLink">클릭할 수 있는 곳 표시하기</a></p>
     </section>
   </main>
   <footer id="foot"><span id="counter"></span><span class="sep">|</span><span>Best viewed on PC · 1280px 이상 권장</span><span id="devSlot"></span></footer>
@@ -952,7 +990,7 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
     E('R-07', 'trace', '회전 선반', '만물상', '나이테 선반의 숫자가 되풀이되고 있다. (임시)'),
     E('R-08', 'trace', '공방 작업대', '망토 공방', '계절이 바뀌어도 망토가 같은 단계에서 멈춰 있다. (임시)'),
     E('R-09', 'trace', '우편함', '우체국 등대', '배달된 적 없는 편지가 매일 다시 도착한다. (임시)'),
-    E('R-10', 'trace', '복원된 기록', '자료 보관실', '복원한 기록에는 하루의 순서가 적혀 있다. (임시)'),
+    E('R-10', 'trace', '복원된 기록', '자료 보관실', '복원한 기록에는 하루가 거꾸로 적혀 있다. (임시)'),
     E('R-11', 'trace', '오래된 기록', '비밀 기록실', '아주 오래전부터 같은 날이 되풀이되었다는 기록. (임시)'),
     E('R-12', 'trace', '편지', '우체국 등대', '클로버에게 보낸 것 같은, 부치지 못한 편지. (임시)'),
     E('R-13', 'trace', '아틀리에 작업대', '아틀리에', '유리 조각이 하나의 장면으로 이어진다. (임시)'),
@@ -1059,7 +1097,7 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
                { key: 'yellow', name: '노랑', color: '#e8c547' }, { key: 'green', name: '초록', color: '#5fb37a' }],
       answer: ['blue', 'pink', 'yellow', 'green'],
       display: ['yellow', 'blue', 'green', 'pink'], // 화면에 놓인 순서
-      hint: '이 순서를 어디선가 본 적이 있다. 루미나리아 카페의 해파리 조명이 켜지는 순서다.',
+      hint: '이 레버들과 똑같이 놓인 것을 본 적이 있다. 루미나리아 카페의 해파리 조명이 켜지는 순서다.',
       success: '톱니가 멈추고 장치의 안쪽이 보였다. 낮과 밤이 "재생"되는 느낌이다.',
       fail: '레버가 툭 하고 원래 자리로 돌아갔다.',
       onSolve: [{ grant: 'R-06' }],
@@ -1091,29 +1129,31 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
     'P-LETTER': {
       view: 'v-letter', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '등대 신호 편지', type: 'signal', level: '쉬움',
-      prompt: '봉인된 편지에 "하루의 순서대로 신호를 보내라"고 적혀 있다. 등대 불빛을 다섯 번 비춰 보자.',
+      prompt: '봉인된 편지에 "기록에 남은 순서대로 신호를 보내라"고 적혀 있다. 등대 불빛을 다섯 번 비춰 보자.',
       signals: [{ key: 'morning', name: '아침', icon: '🌅' }, { key: 'noon', name: '낮', icon: '☀️' },
                 { key: 'evening', name: '저녁', icon: '🌇' }, { key: 'night', name: '밤', icon: '🌙' }],
-      answer: ['morning', 'noon', 'evening', 'night', 'night'],
-      hint: '복원된 기록에 적힌 하루의 순서를 떠올려 보자. 아침, 낮, 저녁, 밤 순서로 같은 신호를 다시 보내면 된다.',
+      answer: ['evening', 'night', 'morning', 'night', 'noon'],
+      hint: '로즈메리 자료 보관실에서 복원한 기록을 다시 보자. 화살표가 가리키는 쪽으로, 오른쪽 끝에서부터 거꾸로 읽어야 한다.',
       success: '봉인이 풀렸다. 클로버에게 보낸 것 같은, 부치지 못한 편지다. 소인의 날짜가 지워져 있다.',
       fail: '불빛이 바다 위에서 흩어졌다.',
       onSolve: [{ grant: 'R-12' }],
-      clueAt: '로즈메리 · 자료 보관실 · 기록 조각 (하루의 순서: 아침 낮 저녁 밤)'
+      clueAt: '로즈메리 · 자료 보관실 · 복원된 기록 (오른쪽에서 왼쪽으로: 저녁 밤 아침 밤 낮)'
     },
     'P-ATELIER': {
       view: 'v-atelier', // 풀면 이 클로즈업(views.js)이 열린다. success 문장은 화면에 나오지 않음(기획 메모용)
       title: '유리 조각 맞추기', type: 'glass', level: '어려움',
-      prompt: '네 개의 유리 조각을 틀에 맞추자. 조각을 눌러 고른 뒤 다른 칸을 누르면 자리가 바뀌고, ⟳ 로 돌릴 수 있다.',
+      prompt: '네 개의 유리 조각을 틀에 맞추자. 조각을 눌러 고른 뒤 다른 칸을 누르면 자리가 바뀌고, ⟳ 로 돌릴 수 있다. 조각마다 ▲ 가 가리켜야 할 쪽이 있다.',
       // 칸 순서: 0 왼쪽 위 → 1 오른쪽 위 → 2 오른쪽 아래 → 3 왼쪽 아래 (시계 방향)
       pieces: [{ key: 'dawn', name: '새벽', color: '#c8b8e8' }, { key: 'noon', name: '한낮', color: '#f3dc8a' },
                { key: 'dusk', name: '노을', color: '#f0a986' }, { key: 'night', name: '밤', color: '#5a6a9a' }],
-      start: [{ p: 2, r: 1 }, { p: 0, r: 2 }, { p: 3, r: 0 }, { p: 1, r: 3 }], // 처음 놓인 조각(p)과 회전(r×90°)
-      hint: '하루는 시계 방향으로 흐른다. 왼쪽 위의 새벽에서 시작해, 새집 탑의 교대 순서를 따라 놓아 보자.',
+      start: [{ p: 2, r: 1 }, { p: 0, r: 2 }, { p: 3, r: 0 }, { p: 1, r: 1 }], // 처음 놓인 조각(p)과 회전(r×90°, 시계 방향)
+      // 조각마다 ▲ 가 가리켜야 할 쪽 (0 위 · 1 오른쪽 · 2 아래 · 3 왼쪽): 새벽 위 · 한낮 왼쪽 · 노을 아래 · 밤 위
+      target: [0, 3, 2, 0],
+      hint: '하루는 시계 방향으로 흐른다. 왼쪽 위의 새벽에서 시작해 새집 탑의 교대 순서대로 놓자. ▲ 의 방향은 교대 기록 머리줄의 새가 날아가는 쪽이다.',
       success: '유리 조각이 하나의 장면으로 이어졌다. 아무도 보지 않는 장면이었다.',
       fail: '빛이 어긋난다.',
       onSolve: [{ grant: 'R-13' }],
-      clueAt: '글렌위버 · 새집 탑 · 교대 기록(새벽 한낮 노을 밤) + 로즈메리 · 광장 시계(시계 방향)'
+      clueAt: '글렌위버 · 새집 탑 · 교대 기록(새벽 한낮 노을 밤 · 새가 날아가는 쪽 ↑ ← ↓ ↑) + 로즈메리 · 광장 시계(시계 방향)'
     }
   };
 })();
@@ -1126,9 +1166,9 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
    kind:
      pic        그림 한 장. assets/view/<ID>.png 를 넣고 EF.VIEW_IMAGES 에 ID 를 적으면 그 그림이 나온다(없으면 임시 아이콘).
      doc        종이·표지판·장부. head rows(줄: 문자열 또는 [칸,칸…]) cols(표 머리) foot paper(note|sign|ledger|book) blur
-     strip      아이콘이 화살표로 이어진 띠(items)
+     strip      아이콘이 화살표로 이어진 띠(items, rtl: 오른쪽 끝에서 시작해 왼쪽으로 읽음)
      clock      시계(h, m)
-     lights     차례로 켜지는 불빛(colors)
+     lights     차례로 켜지는 불빛(colors = 놓인 자리 순서, order = 켜지는 순서)
      pattern    줄마다 같은 문양(rows)
      steps      바느질 단계(total 중 done 에서 멈춤, mark = 붙은 표시)
      pins       붙은 종이들(items: {icon, text, mark})
@@ -1156,7 +1196,7 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
     'v-libnotice': { overlay: true, kind: 'doc', paper: 'sign', rows: ['📚 🚫', '🔑 👤'] },
     'v-book':      { kind: 'ringguide' },                                                          // 바깥 링부터 · 분(긴 바늘) 먼저
     'v-ledger':    { overlay: true, bare: true, kind: 'doc', paper: 'ledger', cols: ['📅', '👤', '📕'], rows: rep(['봄 3일', '하나', '첫 번째 하루'], 5) },
-    'v-record':    { kind: 'strip', items: ['🌅', '☀️', '🌇', '🌙', '🌙'] },                       // 하루의 순서 + 다시 밤
+    'v-record':    { kind: 'strip', rtl: true, items: ['🌇', '🌙', '🌅', '🌙', '☀️'] },             // 오른쪽 끝(시작 표시)에서 왼쪽으로: 저녁 밤 아침 밤 낮
     'v-archivebox': { kind: 'pic', icon: '🗃️', tone: ['#b9ad99', '#6f5a48'] },
     'v-journal':   { overlay: true, kind: 'doc', paper: 'book', head: '📅 +1', rows: ['🧑 🕰️', '🧑 📖', '🧑 📓 👁️'] },  // 내일의 클로버
     'v-oldrec':    { overlay: true, kind: 'pins', paper: 'drawer', items: rep({ icon: '📅', text: '봄 3일' }, 10) },
@@ -1168,7 +1208,7 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
 
     // ===== 글렌위버 =====
     'v-birdhouse': { kind: 'pic', icon: '🐦', tone: ['#cfd9ee', '#8c8f7a'] },
-    'v-shiftlog':  { overlay: true, bare: true, kind: 'doc', paper: 'ledger', cols: ['📅', '🌅', '☀️', '🌇', '🌙', '✓'],
+    'v-shiftlog':  { overlay: true, bare: true, kind: 'doc', paper: 'ledger', cols: ['📅', '🌅 🐦↑', '☀️ 🐦←', '🌇 🐦↓', '🌙 🐦↑', '✓'],
       rows: rep(['봄 3일', '05:12:00', '11:59:00', '17:44:00', '23:59:00', '✓'], 7) },             // 7일 내내 같은 날, 같은 초
     'v-shelf':     { kind: 'pic', icon: '🌀', tone: ['#e8d8b4', '#9b7b52'] },
     'v-oldthing':  { kind: 'pic', icon: '🪵', tone: ['#5a4630', '#2e2418'] },                       // 그림만
@@ -1183,7 +1223,8 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
     'v-glassart': { kind: 'pic', icon: '🔮', tone: ['#e9e4f4', '#9f93bd'] },
     'v-atelier':  { kind: 'pic', icon: '🪟', tone: ['#c8b8e8', '#5a6a9a'] },
     'v-menu':     { overlay: true, kind: 'doc', paper: 'sign', cols: ['📅 −1', '📅'], rows: [['🍹', '🍹'], ['🥧', '🥧']] }, // 어제 = 오늘
-    'v-jelly':    { kind: 'lights', colors: ['#5b8fd9', '#e59ac0', '#e8c547', '#5fb37a'] },          // 파랑 → 분홍 → 노랑 → 초록
+    // 놓인 자리는 레버와 같은 노랑 · 파랑 · 초록 · 분홍, 켜지는 순서는 파랑 → 분홍 → 노랑 → 초록 (order = colors 의 번호)
+    'v-jelly':    { kind: 'lights', colors: ['#e8c547', '#5b8fd9', '#5fb37a', '#e59ac0'], order: [1, 3, 0, 2] },
     'v-pier':     { kind: 'pic', icon: '👣', tone: ['#cfe6f2', '#9ec6dc'] },
     'v-sign':     { kind: 'doc', paper: 'sign', rows: ['⚓ 루미나리아', '⛴️ 4:17'] }                   // 입항 4:17
   };
@@ -1259,6 +1300,10 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
   // 사이트 바깥 배경(좌우 여백 포함) · 오류 단계별 그림: assets/page/stage<N>.png
   // 그림을 넣은 단계 숫자를 적는다. 예: [1, 2, 3, 4, 5]. 없는 단계는 바로 아래 단계 그림을 쓰고, 하나도 없으면 기본 종이 배경.
   EF.PAGE_BG_IMAGES = [];
+  // 엔딩에서 창 밖에 서 있는 아리아 그림(투명 배경 PNG, 세로로 긴 전신). 예: 'assets/ending/aria.png'. 비우면 임시 실루엣.
+  EF.ENDING_ARIA_IMAGE = '';
+  // 창문 그림(v-atelier)을 넣었을 때 유리 칸의 위치 [왼쪽, 위, 너비, 높이] (그림 창 기준 %). 이 칸 안에서 아리아가 보인다.
+  EF.ENDING_WINDOW_PANE = [38, 26, 24, 48];
 
   const S = (EF.SCENES = {});
   const add = s => (S[s.id] = s);
@@ -2058,7 +2103,8 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
       });
     };
     area.append(grid); draw(); api.ready(true);
-    return () => cells.every((c, i) => c.p === i && c.r === 0);
+    const target = p.target || [0, 0, 0, 0]; // 조각마다 ▲ 가 가리켜야 할 쪽
+    return () => cells.every((c, i) => c.p === i && c.r === target[i]);
   };
 })();
 
@@ -2123,7 +2169,16 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
     draw();
   };
 
-  UI.showEnding = function (done) {
+  // 엔딩: 오류가 화면을 덮고 창 밖의 아리아가 바라보다가, 사이트가 강제로 초기화된다 (glitch.js G.finale).
+  //       예전 엔딩 카드(EF.TEXT.ending)는 연출을 쓸 수 없을 때만 쓴다.
+  //       마지막 퍼즐의 창문 클로즈업(it.view)을 띄운 채로 시작한다.
+  UI.showEnding = function (done, it = {}) {
+    if (EF.Glitch && EF.Glitch.finale) {
+      UI.showView({ view: it.view || 'v-atelier' }, () => {}); // 창문은 닫히지 않는다 (done 은 부르지 않는다: 곧 초기화)
+      UI.busy = true; UI.dismiss = () => {};
+      const cus = UI.stage.querySelectorAll('.closeup'); EF.Glitch.finale(cus[cus.length - 1]);
+      return;
+    }
     const sc = scrim(); sc.classList.add('dim');
     const card = h('div', 'ending');
     card.append(h('h2', '', EF.TEXT.ending.title));
@@ -2192,6 +2247,8 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
     UI.busy = true;
     UI.render();
     const next = () => {
+      // 엔딩이 들어 있으면: 마지막 퍼즐의 창문 클로즈업과 함께 엔딩만 바로 시작한다 (단계 알림 · 알림 글은 건너뜀)
+      if (queue.some(x => x.t === 'ending') && queue[0].t !== 'ending') { const v = queue.find(x => x.t === 'view'); queue.splice(0, queue.length, { t: 'ending', view: v && v.view }); }
       const it = queue.shift();
       if (!it) { UI.busy = false; UI.render(); return; }
       switch (it.t) {
@@ -2203,7 +2260,7 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
         case 'say': UI.showSay(it, next); break;
         case 'puzzle': UI.showPuzzle(it.id, q => { queue.unshift(...q); next(); }); break;
         case 'stage': UI.render(); UI.banner(it.stage); next(); break;
-        case 'ending': UI.render(); UI.showEnding(next); break;
+        case 'ending': UI.render(); UI.showEnding(next, it); break;
         default: next();
       }
     };
@@ -2261,7 +2318,11 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
   R.strip = v => {
     const box = h('div', 'cv-strip');
     const sheet = h('div', 'st-sheet');
-    v.items.forEach((icon, i) => { if (i) sheet.append(h('span', 'st-arrow', '→')); sheet.append(h('span', 'st-icon', icon)); });
+    if (v.rtl) { // 오른쪽 끝(●)에서 시작해 왼쪽으로 읽는다: 화면에는 거꾸로 놓고 화살표는 ←
+      const items = v.items.slice().reverse();
+      items.forEach((icon, i) => { if (i) sheet.append(h('span', 'st-arrow', '←')); sheet.append(h('span', 'st-icon', icon)); });
+      sheet.append(h('span', 'st-start', '●'));
+    } else v.items.forEach((icon, i) => { if (i) sheet.append(h('span', 'st-arrow', '→')); sheet.append(h('span', 'st-icon', icon)); });
     box.append(sheet);
     return box;
   };
@@ -2293,7 +2354,8 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
     const n = v.colors.length;
     v.colors.forEach((c, i) => {
       const b = h('div', 'bulb'); b.style.setProperty('--c', c);
-      b.style.animationDelay = (i * 0.7) + 's'; b.style.animationDuration = (n * 0.7 + 1.2) + 's';
+      const k = v.order ? v.order.indexOf(i) : i; // 몇 번째로 켜지는지
+      b.style.animationDelay = (k * 0.7) + 's'; b.style.animationDuration = (n * 0.7 + 1.2) + 's';
       box.append(b);
     });
     return box;
@@ -2739,7 +2801,7 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
     blip('gband ' + kind, { top: rnd(0, innerHeight) + 'px', height: hgt + 'px' }, kind === 'gap' ? rnd(60, 140) : rnd(80, 200));
   }
   // 4단계부터: 커튼과 그림 창을 뺀 나머지(머리글·로고·설명 칸·무대 뒤·바닥글)가 제자리에서 조금씩 어긋나 멈춰 있다. 5단계는 더 크게.
-  const DRIFT_SEL = ['#masthead .logo', '#tagline', '#caption', '#ptitle', '#pintro', '#caption .tip', '.bs-head', '.bs-gate', '.program', '#foot'];
+  const DRIFT_SEL = ['.stage-tags', '#masthead .logo', '#tagline', '#caption', '#ptitle', '#pintro', '#caption .tip', '.bs-head', '.bs-gate', '.program', '#foot'];
   function drift(stage) {
     const k = stage >= 5 ? 1.8 : stage >= 4 ? 1 : 0;
     let seed = 11; const r = () => (seed = (seed * 9301 + 49297) % 233280) / 233280 - .5; // 매번 같은 어긋남
@@ -2847,14 +2909,90 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
     el.classList.add('gecho'); setTimeout(() => el.classList.remove('gecho'), rnd(160, 340));
   }
   addEventListener('resize', () => { if (G.ready) { drawCracks(G.stage); } });
+
+  // ===== 엔딩: 마지막 퍼즐을 풀면 그림 창 가운데 창문(이어 붙인 유리)이 뜬다.
+  //       그 순간 오류가 갑자기 심해져 화면 전체를 덮어 가고, 창문만 깨지지 않고 남는다.
+  //       창문이 뜨고 2초 뒤, 창문 건너편에 아리아가 나타나 가만히 바라보다가 사라진다.
+  //       이어 창문도 오류에 삼켜지고 암전 → 사이트가 강제로 처음 상태로 초기화된다.
+  //  시간(ms, 창문이 뜬 때부터)은 T 에서, 아리아 그림은 EF.ENDING_ARIA_IMAGE(없으면 임시 실루엣)에서 바꾼다.
+  const T = { aria: 2000, ariaGone: 6800, takeover: 7600, swallow: 8600, black: 9400, reset: 10900 };
+  G.finale = function (win) {
+    if (G.inFinale) return; G.inFinale = true;
+    ensureLayer();
+    timers.forEach(clearInterval); timers = [];
+    scrollTo({ top: 0 });
+    document.body.classList.add('finale');
+    const at = (ms, fn) => setTimeout(fn, ms);
+    const every = (ms, fn) => timers.push(setInterval(fn, ms));
+    // 화면 전체를 덮어 가는 노이즈 막 (불투명도가 점점 오른다)
+    const veil = document.createElement('div'); veil.className = 'fin-veil'; document.body.append(veil);
+    let lvl = 0; const setLvl = v => { lvl = v; veil.style.setProperty('--lv', v); };
+    // 창문: 그림 창 가운데의 창문 클로즈업을 막 위로 옮겨 놓은 복제본 (오류에 덮이지 않는다)
+    const box = document.createElement('div'); box.className = 'fin-window';
+    // 그림 창 전체(틀 · 커튼 · 가운데 창문)를 그대로 복제해 막 위에 올린다 → 보이는 모습은 원래 그림 창 그대로
+    const sw = document.getElementById('stagewrap');
+    const place = () => { const r = sw.getBoundingClientRect();
+      Object.assign(box.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' }); };
+    { const c = sw.cloneNode(true); c.classList.add('fin-stage');
+      c.querySelectorAll('.cv-tag, .hs, .gtip').forEach(e => e.remove());
+      c.querySelectorAll('.closeup').forEach(e => e.classList.add('quiet'));
+      box.append(c); }
+    // 창문 건너편의 아리아 (유리 뒤)
+    const aria = document.createElement('div'); aria.className = 'fin-aria';
+    const img = EF.ENDING_ARIA_IMAGE;
+    if (img) aria.style.backgroundImage = `url(${img})`;
+    else aria.innerHTML = `<svg viewBox="0 0 200 300" preserveAspectRatio="xMidYMax meet">
+      <path d="M100 30c-30 0-48 23-48 53 0 27 9 41 16 52l-5 30c-36 12-52 40-57 84L2 300h196l-4-51c-5-44-21-72-57-84l-5-30c7-11 16-25 16-52 0-30-18-53-48-53z" fill="#17121e"/>
+      <path d="M52 82c-4 36 2 82-11 124 20-11 27-36 27-62M148 82c4 36-2 82 11 124-20-11-27-36-27-62" fill="#17121e"/>
+      <ellipse cx="84" cy="88" rx="5.5" ry="3" fill="#f4eefc"/><ellipse cx="116" cy="88" rx="5.5" ry="3" fill="#f4eefc"/></svg>`;
+    const glass = document.createElement('div'); glass.className = 'fin-glass'; // 유리에 비친 빛 (아리아 위에 얹힘)
+    const pane = document.createElement('div'); pane.className = 'fin-pane'; // 창문 유리 칸: 이 안에서만 아리아가 보인다
+    pane.append(aria, glass);
+    box.append(pane);
+    place(); document.body.append(box);
+    // 유리 칸의 위치: 임시 창문 아이콘이면 그 유리 부분, 창문 그림을 넣었으면 EF.ENDING_WINDOW_PANE(그림 창 기준 %)
+    const placePane = () => {
+      const br = box.getBoundingClientRect(), ico = box.querySelector('.cv-icon');
+      let x, y, w, hh;
+      if (ico && ico.firstChild) {
+        const rg = document.createRange(); rg.selectNodeContents(ico); const r = rg.getBoundingClientRect();
+        const g = Math.min(r.width, r.height); // 아이콘 글자 크기
+        w = g * .72; hh = g * .73; x = r.left + (r.width - w) / 2 - br.left; y = r.top + (r.height - hh) / 2 + g * .075 - br.top; // 글자 상자 안 창문 그림의 유리 부분
+        pane.classList.add('bars'); pane.style.setProperty('--bar', Math.max(4, g * .042) + 'px');
+      } else {
+        const P = EF.ENDING_WINDOW_PANE || [38, 26, 24, 48];
+        x = br.width * P[0] / 100; y = br.height * P[1] / 100; w = br.width * P[2] / 100; hh = br.height * P[3] / 100;
+      }
+      Object.assign(pane.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: hh + 'px' });
+    };
+    placePane();
+    addEventListener('resize', () => { place(); placePane(); });
+    // 1) 갑자기: 모든 오류가 한꺼번에 심해진다
+    every(60, () => scatter(Math.ceil(rnd(5, 12 + lvl * 20)), true));
+    every(110, () => band(pick(['inv', 'hue', 'gap', 'gap'])));
+    every(140, () => pixels(Math.ceil(rnd(4, 10))));
+    every(260, shove);
+    every(90, () => { const ns = textNodes(); if (ns.length) corrupt(pick(ns), .25 + lvl * .5, rnd(200, 600)); });
+    every(500, tabTitle);
+    const t0 = performance.now();
+    every(100, () => setLvl(Math.min(.85, (performance.now() - t0) / T.takeover * .85))); // 막이 점점 짙어진다
+    // 2) 창문이 뜨고 2초 뒤: 창문 건너편에 아리아가 나타나 가만히 바라본다 → 사라진다
+    at(T.aria, () => aria.classList.add('on'));
+    at(T.ariaGone, () => aria.classList.add('gone'));
+    // 3) 오류가 화면을 장악한다 → 창문도 삼켜진다 → 암전 → 강제 초기화
+    at(T.takeover, () => { setLvl(1); veil.classList.add('full'); document.body.classList.add('finale-max'); box.classList.add('cracking'); });
+    at(T.swallow, () => box.classList.add('gone'));
+    at(T.black, () => { timers.forEach(clearInterval); timers = []; layer.innerHTML = ''; box.remove(); veil.classList.add('black'); document.title = '▒▒▒▒▒▒▒▒▒'; });
+    at(T.reset, () => { location.href = location.pathname + location.search; }); // 주소의 #장면 을 지우고 처음부터
+  };
 })();
 
 </script>
 <script>
 /* 친절한 안내
    1) 처음 막이 열리면 안내 쪽지 4장 (누를 곳 · 이동 · 단서와 힌트 · 세계의 어긋남과 무대 뒤)
-   2) 그림 창 왼쪽 위: [월드맵] 버튼(마을 지도·세부 장소에서) · [도움말] 버튼(언제든 안내 쪽지 다시 보기) · [처음부터] 버튼(사이트 초기화)
-   3) 처음 한 번만 뜨는 짧은 도움말: 처음 흔들림 · 처음 클로즈업 · 처음 퍼즐 · 처음 단계가 오를 때
+   2) 그림 창 바로 위(머리글 점선 아래): [월드맵] 버튼(마을 지도·세부 장소에서) · [도움말] 버튼(언제든 안내 쪽지 다시 보기) · [처음부터] 버튼(사이트 초기화)
+   3) 처음 한 번만 뜨는 짧은 도움말(그림 창 위쪽): 처음 흔들림 · 처음 퍼즐 · 처음 단계가 오를 때
    문장은 아래 PAGES · TIPS 에서 고친다. */
 (function () {
   const EF = window.EF, UI = EF.UI, h = EF.h;
@@ -2863,7 +3001,7 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
     { title: 'EVERFREEZE에 오신 것을 환영해요',
       body: '세 마을을 돌아다니며 그림 속 물건과 사람을 눌러 살펴보세요.\n마우스를 올렸을 때 테두리가 생기는 곳이 누를 수 있는 곳이에요.\n사람을 누르면 이야기를 나눌 수 있어요.' },
     { title: '돌아다니는 방법',
-      body: '마을과 장소를 눌러 안으로 들어가요.\n그림 아래쪽 ▼ 를 누르면 한 단계 뒤로 돌아가요.\n왼쪽 위 [월드맵] 버튼을 누르면 언제든 처음 지도로 돌아가요.' },
+      body: '마을과 장소를 눌러 안으로 들어가요.\n그림 아래쪽 ▼ 를 누르면 한 단계 뒤로 돌아가요.\n그림 창 위 [월드맵] 버튼을 누르면 언제든 처음 지도로 돌아가요.\n물건을 가까이 본 화면에서도 ▼ 를 누르면 원래 장면으로 돌아가요.' },
     { title: '단서와 퍼즐',
       body: '물건을 누르면 가까이 들여다볼 수 있어요. 그 안에 숫자나 기호가 숨어 있기도 해요.\n한 마을의 퍼즐 단서는 다른 마을에 있어요. 여러 마을을 오가며 기억해 두세요.\n퍼즐을 3번 틀리면 힌트가 나와요. 그림이 흔들리는 곳은 아직 열리지 않은 곳이에요.' },
     { title: '무언가 이상하다면',
@@ -2871,7 +3009,6 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
   ];
   const TIPS = {
     shake:  '아직은 열 수 없어요. 다른 곳을 먼저 둘러보세요.',
-    view:   '아래쪽 ▼ 를 누르면 원래 장면으로 돌아가요.',
     puzzle: '3번 틀리면 힌트가 나와요. 닫아도 괜찮아요. (Esc)',
     stage:  '세계가 어긋나기 시작했어요. 새로운 곳이 열렸을지도 몰라요.'
   };
@@ -2894,7 +3031,7 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
   }
   EF.Guide = { tip, note };
   const wrap = (name, key) => { const f = UI[name]; UI[name] = function () { tip(key); return f.apply(this, arguments); }; };
-  wrap('shake', 'shake'); wrap('showView', 'view'); wrap('showPuzzle', 'puzzle');
+  wrap('shake', 'shake'); wrap('showPuzzle', 'puzzle'); // ▼ 돌아가기 안내는 [도움말]에만 둔다
   const banner = UI.banner; UI.banner = function () { banner.apply(this, arguments); setTimeout(() => tip('stage'), 1200); };
 
   // ---- 안내 쪽지 ----
@@ -2938,14 +3075,15 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
 
   // ---- 그림 창 왼쪽 위 버튼 ----
   UI.initGuide = function () {
-    const bar = h('div', 'stage-tags');
+    const bar = h('div', 'stage-tags pre'); // 머리글 점선 아래, 그림 창 바로 위
     const map = h('button', 'stag map', '월드맵'), help = h('button', 'stag help', '도움말'), reset = h('button', 'stag reset', '처음부터');
     reset.title = '사이트 초기화';
     reset.onclick = e => { e.stopPropagation(); askReset(); };
     map.title = '월드맵으로 돌아가기'; help.title = '안내 다시 보기';
     map.onclick = e => { e.stopPropagation(); if (UI.busy) return; EF.state.scene = 'WORLD_MAP'; UI.render(); };
     help.onclick = e => { e.stopPropagation(); openGuide(); };
-    bar.append(map, help, reset); UI.stage.append(bar);
+    bar.append(map, help, reset);
+    const wrap = document.getElementById('stagewrap'); wrap.parentNode.insertBefore(bar, wrap);
     UI.guideBar = { bar, map };
     map.style.display = EF.SCENES[EF.state.scene].kind === 'world' ? 'none' : '';
   };
@@ -2957,7 +3095,7 @@ html[data-cur="5"],html[data-cur="5"] *{cursor:url(assets/cursor/stage5.png) 1 1
     return r;
   };
   // 처음 막이 열렸을 때 안내 쪽지
-  UI.onCurtainOpen = function () { if (!seen.welcome) { seen.welcome = true; openGuide(); } };
+  UI.onCurtainOpen = function () { if (UI.guideBar) UI.guideBar.bar.classList.remove('pre'); if (!seen.welcome) { seen.welcome = true; openGuide(); } };
 })();
 
 </script>

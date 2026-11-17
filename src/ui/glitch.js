@@ -70,7 +70,7 @@
     blip('gband ' + kind, { top: rnd(0, innerHeight) + 'px', height: hgt + 'px' }, kind === 'gap' ? rnd(60, 140) : rnd(80, 200));
   }
   // 4단계부터: 커튼과 그림 창을 뺀 나머지(머리글·로고·설명 칸·무대 뒤·바닥글)가 제자리에서 조금씩 어긋나 멈춰 있다. 5단계는 더 크게.
-  const DRIFT_SEL = ['#masthead .logo', '#tagline', '#caption', '#ptitle', '#pintro', '#caption .tip', '.bs-head', '.bs-gate', '.program', '#foot'];
+  const DRIFT_SEL = ['.stage-tags', '#masthead .logo', '#tagline', '#caption', '#ptitle', '#pintro', '#caption .tip', '.bs-head', '.bs-gate', '.program', '#foot'];
   function drift(stage) {
     const k = stage >= 5 ? 1.8 : stage >= 4 ? 1 : 0;
     let seed = 11; const r = () => (seed = (seed * 9301 + 49297) % 233280) / 233280 - .5; // 매번 같은 어긋남
@@ -178,4 +178,80 @@
     el.classList.add('gecho'); setTimeout(() => el.classList.remove('gecho'), rnd(160, 340));
   }
   addEventListener('resize', () => { if (G.ready) { drawCracks(G.stage); } });
+
+  // ===== 엔딩: 마지막 퍼즐을 풀면 그림 창 가운데 창문(이어 붙인 유리)이 뜬다.
+  //       그 순간 오류가 갑자기 심해져 화면 전체를 덮어 가고, 창문만 깨지지 않고 남는다.
+  //       창문이 뜨고 2초 뒤, 창문 건너편에 아리아가 나타나 가만히 바라보다가 사라진다.
+  //       이어 창문도 오류에 삼켜지고 암전 → 사이트가 강제로 처음 상태로 초기화된다.
+  //  시간(ms, 창문이 뜬 때부터)은 T 에서, 아리아 그림은 EF.ENDING_ARIA_IMAGE(없으면 임시 실루엣)에서 바꾼다.
+  const T = { aria: 2000, ariaGone: 6800, takeover: 7600, swallow: 8600, black: 9400, reset: 10900 };
+  G.finale = function (win) {
+    if (G.inFinale) return; G.inFinale = true;
+    ensureLayer();
+    timers.forEach(clearInterval); timers = [];
+    scrollTo({ top: 0 });
+    document.body.classList.add('finale');
+    const at = (ms, fn) => setTimeout(fn, ms);
+    const every = (ms, fn) => timers.push(setInterval(fn, ms));
+    // 화면 전체를 덮어 가는 노이즈 막 (불투명도가 점점 오른다)
+    const veil = document.createElement('div'); veil.className = 'fin-veil'; document.body.append(veil);
+    let lvl = 0; const setLvl = v => { lvl = v; veil.style.setProperty('--lv', v); };
+    // 창문: 그림 창 가운데의 창문 클로즈업을 막 위로 옮겨 놓은 복제본 (오류에 덮이지 않는다)
+    const box = document.createElement('div'); box.className = 'fin-window';
+    // 그림 창 전체(틀 · 커튼 · 가운데 창문)를 그대로 복제해 막 위에 올린다 → 보이는 모습은 원래 그림 창 그대로
+    const sw = document.getElementById('stagewrap');
+    const place = () => { const r = sw.getBoundingClientRect();
+      Object.assign(box.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' }); };
+    { const c = sw.cloneNode(true); c.classList.add('fin-stage');
+      c.querySelectorAll('.cv-tag, .hs, .gtip').forEach(e => e.remove());
+      c.querySelectorAll('.closeup').forEach(e => e.classList.add('quiet'));
+      box.append(c); }
+    // 창문 건너편의 아리아 (유리 뒤)
+    const aria = document.createElement('div'); aria.className = 'fin-aria';
+    const img = EF.ENDING_ARIA_IMAGE;
+    if (img) aria.style.backgroundImage = `url(${img})`;
+    else aria.innerHTML = `<svg viewBox="0 0 200 300" preserveAspectRatio="xMidYMax meet">
+      <path d="M100 30c-30 0-48 23-48 53 0 27 9 41 16 52l-5 30c-36 12-52 40-57 84L2 300h196l-4-51c-5-44-21-72-57-84l-5-30c7-11 16-25 16-52 0-30-18-53-48-53z" fill="#17121e"/>
+      <path d="M52 82c-4 36 2 82-11 124 20-11 27-36 27-62M148 82c4 36-2 82 11 124-20-11-27-36-27-62" fill="#17121e"/>
+      <ellipse cx="84" cy="88" rx="5.5" ry="3" fill="#f4eefc"/><ellipse cx="116" cy="88" rx="5.5" ry="3" fill="#f4eefc"/></svg>`;
+    const glass = document.createElement('div'); glass.className = 'fin-glass'; // 유리에 비친 빛 (아리아 위에 얹힘)
+    const pane = document.createElement('div'); pane.className = 'fin-pane'; // 창문 유리 칸: 이 안에서만 아리아가 보인다
+    pane.append(aria, glass);
+    box.append(pane);
+    place(); document.body.append(box);
+    // 유리 칸의 위치: 임시 창문 아이콘이면 그 유리 부분, 창문 그림을 넣었으면 EF.ENDING_WINDOW_PANE(그림 창 기준 %)
+    const placePane = () => {
+      const br = box.getBoundingClientRect(), ico = box.querySelector('.cv-icon');
+      let x, y, w, hh;
+      if (ico && ico.firstChild) {
+        const rg = document.createRange(); rg.selectNodeContents(ico); const r = rg.getBoundingClientRect();
+        const g = Math.min(r.width, r.height); // 아이콘 글자 크기
+        w = g * .72; hh = g * .73; x = r.left + (r.width - w) / 2 - br.left; y = r.top + (r.height - hh) / 2 + g * .075 - br.top; // 글자 상자 안 창문 그림의 유리 부분
+        pane.classList.add('bars'); pane.style.setProperty('--bar', Math.max(4, g * .042) + 'px');
+      } else {
+        const P = EF.ENDING_WINDOW_PANE || [38, 26, 24, 48];
+        x = br.width * P[0] / 100; y = br.height * P[1] / 100; w = br.width * P[2] / 100; hh = br.height * P[3] / 100;
+      }
+      Object.assign(pane.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: hh + 'px' });
+    };
+    placePane();
+    addEventListener('resize', () => { place(); placePane(); });
+    // 1) 갑자기: 모든 오류가 한꺼번에 심해진다
+    every(60, () => scatter(Math.ceil(rnd(5, 12 + lvl * 20)), true));
+    every(110, () => band(pick(['inv', 'hue', 'gap', 'gap'])));
+    every(140, () => pixels(Math.ceil(rnd(4, 10))));
+    every(260, shove);
+    every(90, () => { const ns = textNodes(); if (ns.length) corrupt(pick(ns), .25 + lvl * .5, rnd(200, 600)); });
+    every(500, tabTitle);
+    const t0 = performance.now();
+    every(100, () => setLvl(Math.min(.85, (performance.now() - t0) / T.takeover * .85))); // 막이 점점 짙어진다
+    // 2) 창문이 뜨고 2초 뒤: 창문 건너편에 아리아가 나타나 가만히 바라본다 → 사라진다
+    at(T.aria, () => aria.classList.add('on'));
+    at(T.ariaGone, () => aria.classList.add('gone'));
+    // 3) 오류가 화면을 장악한다 → 창문도 삼켜진다 → 암전 → 강제 초기화
+    at(T.takeover, () => { setLvl(1); veil.classList.add('full'); document.body.classList.add('finale-max'); box.classList.add('cracking'); });
+    at(T.swallow, () => box.classList.add('gone'));
+    at(T.black, () => { timers.forEach(clearInterval); timers = []; layer.innerHTML = ''; box.remove(); veil.classList.add('black'); document.title = '▒▒▒▒▒▒▒▒▒'; });
+    at(T.reset, () => { location.href = location.pathname + location.search; }); // 주소의 #장면 을 지우고 처음부터
+  };
 })();

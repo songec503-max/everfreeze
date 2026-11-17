@@ -180,9 +180,9 @@ malfunction state: same composition and buildings, dark blue-violet and indigo p
 | `v-registry.png` | P-LEDGER | F-GW | `a framed residents register on a cottage wall with three columns headed by a rose, an oak leaf and a seashell, names written in each column` | 🌹 **클로버 · 벨라 · 아리아 · 토비** / 🍂 **오크스 · 시에나 · 마렌 · 페넬** / 🐚 **노아 · 루루 · 로완** (**'하나' 없음**) |
 | `v-ledger.png` | P-LEDGER 풀린 뒤 | F-RM | `an open library lending ledger, every row is identical: the same date, the same borrower name, the same book title` | 5줄 모두 **봄 3일 · 하나 · 첫 번째 하루** |
 | `v-cloak.png` | P-ARCHIVE | F-GW | `a finished cloak pattern sheet pinned on the workshop wall, embroidered in three horizontal bands: top band suns, middle band clock towers, bottom band waves` | 위 **해** · 가운데 **시계탑** · 아래 **물결** (그림 문양) |
-| `v-jelly.png` | P-BIRDHOUSE | F-LM | `four jellyfish-shaped lamps hanging in a row from the café ceiling, glowing in order from left to right: blue, pink, yellow, green, with a faint motion trail showing the order` | 색 순서 **파랑 → 분홍 → 노랑 → 초록** (화면에서는 지금처럼 차례로 켜지는 효과를 유지하려면 알려 줄 것) |
-| `v-shiftlog.png` | P-ATELIER | F-GW | `a wooden clipboard holding a shift log table, header icons dawn, noon, sunset, night, seven rows with exactly the same date and the same times, a check mark on every row` | 머리 🌅 ☀️ 🌇 🌙 ✓, 7줄 모두 **봄 3일 · 05:12:00 · 11:59:00 · 17:44:00 · 23:59:00 · ✓** |
-| `v-record.png` | P-LETTER | F-RM | `a long torn paper strip restored and taped together, showing a sequence of five small paintings joined by arrows: sunrise, sun, sunset, moon, moon` | 🌅 → ☀️ → 🌇 → 🌙 → 🌙 (마지막 **밤 두 번**) |
+| `v-jelly.png` | P-BIRDHOUSE | F-LM | `four jellyfish-shaped lamps hanging in a row from the café ceiling, from left to right: yellow, blue, green, pink, all unlit and dim, ready to glow` | 놓인 자리(왼→오) **노랑 · 파랑 · 초록 · 분홍** (새집 레버와 같은 배치). 켜지는 순서 **파랑 → 분홍 → 노랑 → 초록** 은 사이트가 그림 위에 빛으로 보여 준다 |
+| `v-shiftlog.png` | P-ATELIER | F-GW | `a wooden clipboard holding a shift log table, header icons dawn, noon, sunset, night, each header with a tiny bluebird flying in a direction (dawn: up, noon: left, sunset: down, night: up), seven rows with exactly the same date and the same times, a check mark on every row` | 머리 🌅🐦↑ ☀️🐦← 🌇🐦↓ 🌙🐦↑ ✓ (새 방향 = 유리 조각 ▲ 방향), 7줄 모두 **봄 3일 · 05:12:00 · 11:59:00 · 17:44:00 · 23:59:00 · ✓** |
+| `v-record.png` | P-LETTER | F-RM | `a long torn paper strip restored and taped together, showing five small paintings joined by arrows pointing to the LEFT, from left to right: sun, moon, sunrise, moon, sunset, with a small red dot at the far right end marking where to start reading` | 왼쪽부터 ☀️ ← 🌙 ← 🌅 ← 🌙 ← 🌇 ● (● 오른쪽 끝에서 시작해 왼쪽으로 = 저녁 밤 아침 밤 낮) |
 | `v-board.png` | P-OLDREC (▲) | F-RM | `a wooden cork notice board, two identical paper notices with a broom drawing pinned side by side, each stamped with a red triangle mark` | 같은 공지 **2장**, 각각 빨간 **▲** |
 | `v-mailbox.png` | P-OLDREC (●) | F-LM | `an open brass mailbox, three identical envelopes inside, each sealed with a round red wax seal` | 편지 **3통**, 각각 **●** 봉인 |
 | `v-workbench.png` | P-OLDREC (★) | F-GW | `a sewing workbench with an unfinished cloak, a paper tag with a star mark pinned to it, a row of ten stitch marks numbered 1 to 7 completed and 8 to 10 empty, the needle stopped at stitch 7` | **★** 표 + 땀 번호 **1~7**(7에서 바늘 멈춤), 8~10 빈칸 |
@@ -223,3 +223,8 @@ malfunction state: same composition and buildings, dark blue-violet and indigo p
 - [ ] 글자·숫자·워터마크 없음 (퍼즐 단서 그림 7-2 는 예외: 지정한 글·숫자·기호가 **정확히** 들어갔는지 확인)
 - [ ] 클릭할 물건이 프레임에 가려지지 않고, 맨 아래 76px 띠 위에 있다
 - [ ] 인물 고유색·소품이 아트북과 같다 (벨라 2.5등신, 나머지 3등신 계열)
+
+## 엔딩 · 창 밖의 아리아 (선택)
+| 파일 | 쓰는 곳 | 프롬프트 | 비고 |
+|---|---|---|---|
+| `assets/ending/aria.png` | 엔딩 (창문 건너편, 유리 칸 안) | `upper body of Aria standing still behind a window and facing the viewer, expressionless, staring straight ahead, flat 2D paper cut-out style, dark muted colors, transparent background` | 투명 배경. 넣으면 scenes.js 의 `EF.ENDING_ARIA_IMAGE = 'assets/ending/aria.png'` 로 등록. 없으면 임시 실루엣. 창문 그림(v-atelier)을 넣으면 유리 칸 위치를 `EF.ENDING_WINDOW_PANE` 에 맞춘다 |

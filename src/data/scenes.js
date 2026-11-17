@@ -66,6 +66,10 @@
   // 사이트 바깥 배경(좌우 여백 포함) · 오류 단계별 그림: assets/page/stage<N>.png
   // 그림을 넣은 단계 숫자를 적는다. 예: [1, 2, 3, 4, 5]. 없는 단계는 바로 아래 단계 그림을 쓰고, 하나도 없으면 기본 종이 배경.
   EF.PAGE_BG_IMAGES = [];
+  // 엔딩에서 창 밖에 서 있는 아리아 그림(투명 배경 PNG, 세로로 긴 전신). 예: 'assets/ending/aria.png'. 비우면 임시 실루엣.
+  EF.ENDING_ARIA_IMAGE = '';
+  // 창문 그림(v-atelier)을 넣었을 때 유리 칸의 위치 [왼쪽, 위, 너비, 높이] (그림 창 기준 %). 이 칸 안에서 아리아가 보인다.
+  EF.ENDING_WINDOW_PANE = [38, 26, 24, 48];
 
   const S = (EF.SCENES = {});
   const add = s => (S[s.id] = s);
