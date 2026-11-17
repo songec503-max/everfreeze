@@ -305,13 +305,23 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 .p-row{display:flex;gap:50px;font-size:120px;padding:6px 40px;border-top:3px dashed rgba(255,230,200,.5);border-bottom:3px dashed rgba(255,230,200,.5)}
 
 /* 바느질 단계 */
-.cv-steps{display:flex;align-items:center;justify-content:center;background:#f2d9d3;background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.03) 0 2px,transparent 2px 6px)}
-.s-row{display:flex;gap:18px;align-items:center}
-.s-tag{font-size:70px;color:#7a3b3b;margin-right:24px;background:#fff6dc;border:3px solid #7a3b3b;border-radius:10px;padding:0 16px}
-.s-dot{position:relative;width:80px;height:80px;border-radius:50%;border:3px dashed #b88f7a;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800;color:#fff}
-.s-dot.done{background:#a2584a;border:3px solid #7a3b3b}
-.s-dot.stop{background:#a2584a;border:4px solid #3a1f1f;box-shadow:0 0 0 8px rgba(162,88,74,.25)}
-.s-needle{position:absolute;top:-82px;font-size:70px}
+.cv-steps{display:flex;align-items:center;justify-content:center;background:#e9d2c6}
+.s-cloth{position:relative;display:flex;align-items:center;gap:40px;padding:70px 70px 70px 50px;background:#f4e3d6;transform:rotate(-1.5deg);
+  background-image:repeating-linear-gradient(0deg,rgba(120,70,50,.06) 0 1px,transparent 1px 5px),repeating-linear-gradient(90deg,rgba(120,70,50,.05) 0 1px,transparent 1px 5px);
+  box-shadow:3px 6px 0 rgba(90,50,40,.18);clip-path:polygon(0 3%,4% 0,30% 2%,62% 0,100% 2%,99% 40%,100% 97%,70% 100%,35% 98%,2% 100%,0 60%)}
+.s-tag{font-size:54px;color:#7a3b3b;background:#fff6dc;border:2px dashed #7a3b3b;border-radius:6px;padding:0 14px;transform:rotate(3deg)}
+.s-row{display:flex;gap:16px;align-items:center}
+.s-st{position:relative;width:50px;height:8px}
+.s-st::before,.s-st::after{content:"";position:absolute;top:2px;width:4px;height:4px;border-radius:50%;background:rgba(90,50,40,.35)} /* 바늘구멍 */
+.s-st::before{left:-2px}.s-st::after{right:-2px}
+.s-st.sewn{background:#a2584a;border-radius:4px;box-shadow:0 2px 0 #6d3329;transform:rotate(-4deg)}
+.s-st.sewn:nth-child(even){transform:rotate(3deg)}
+.s-st.sewn::before,.s-st.sewn::after{display:none}
+.s-st.last{background:linear-gradient(90deg,#a2584a 55%,transparent 55%);box-shadow:none}
+.s-needle{position:absolute;left:24px;top:-74px;width:6px;height:96px;border-radius:3px 3px 50% 50%/3px 3px 100% 100%;transform:rotate(28deg);transform-origin:bottom;
+  background:linear-gradient(90deg,#9aa3ab,#e9eef2 45%,#8c949b)}
+.s-needle::before{content:"";position:absolute;left:1.5px;top:8px;width:3px;height:12px;border-radius:2px;background:#f4e3d6} /* 바늘귀 */
+.s-needle::after{content:"";position:absolute;left:-30px;top:6px;width:38px;height:70px;border:3px solid #a2584a;border-color:#a2584a transparent transparent #a2584a;border-radius:50%;transform:rotate(-20deg)} /* 늘어진 실 */
 
 /* 붙은 종이들 */
 .cv-pins{display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:26px;padding:40px}
@@ -666,3 +676,6 @@ html[data-cur="2"],html[data-cur="2"] *{cursor:url(../assets/cursor/stage2.png) 
 html[data-cur="3"],html[data-cur="3"] *{cursor:url(../assets/cursor/stage3.png) 1 1,auto!important}
 html[data-cur="4"],html[data-cur="4"] *{cursor:url(../assets/cursor/stage4.png) 1 1,auto!important}
 html[data-cur="5"],html[data-cur="5"] *{cursor:url(../assets/cursor/stage5.png) 1 1,auto!important}
+
+/* ===== 4단계부터: 커튼·그림 창 외의 요소들이 제자리에서 살짝씩 어긋나 있다 (glitch.js drift) ===== */
+.gdrift{translate:var(--dx,0) var(--dy,0);rotate:var(--dr,0deg)}

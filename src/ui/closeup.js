@@ -90,16 +90,19 @@
     return box;
   };
 
+  // 천 위의 바느질 줄: 앞쪽 땀은 실로 꿰매져 있고, 바늘이 마지막 땀에 꽂힌 채 멈춰 있다. 남은 자리는 바늘구멍만.
+  // (누르는 버튼이 아니라 보기만 하는 단서 · 번호 없이 땀 수를 세게 한다)
   R.steps = v => {
     const box = h('div', 'cv-steps');
+    const cloth = h('div', 's-cloth');
+    if (v.mark) cloth.append(h('div', 's-tag', v.mark));
     const row = h('div', 's-row');
-    if (v.mark) row.append(h('div', 's-tag', v.mark));
     for (let i = 1; i <= v.total; i++) {
-      const d = h('div', 's-dot' + (i < v.done ? ' done' : i === v.done ? ' stop' : ''), i <= v.done ? String(i) : '');
-      if (i === v.done) d.append(h('span', 's-needle', '🪡'));
-      row.append(d);
+      const st = h('div', 's-st' + (i <= v.done ? ' sewn' : ''));
+      if (i === v.done) { st.classList.add('last'); st.append(h('span', 's-needle')); }
+      row.append(st);
     }
-    box.append(row);
+    cloth.append(row); box.append(cloth);
     return box;
   };
 

@@ -69,6 +69,17 @@
     const hgt = kind === 'gap' ? rnd(2, 7) : rnd(8, 40);
     blip('gband ' + kind, { top: rnd(0, innerHeight) + 'px', height: hgt + 'px' }, kind === 'gap' ? rnd(60, 140) : rnd(80, 200));
   }
+  // 4단계부터: 커튼과 그림 창을 뺀 나머지(머리글·로고·설명 칸·무대 뒤·바닥글)가 제자리에서 조금씩 어긋나 멈춰 있다. 5단계는 더 크게.
+  const DRIFT_SEL = ['#masthead .logo', '#tagline', '#caption', '#ptitle', '#pintro', '#caption .tip', '.bs-head', '.bs-gate', '.program', '#foot'];
+  function drift(stage) {
+    const k = stage >= 5 ? 1.8 : stage >= 4 ? 1 : 0;
+    let seed = 11; const r = () => (seed = (seed * 9301 + 49297) % 233280) / 233280 - .5; // 매번 같은 어긋남
+    DRIFT_SEL.forEach(sel => document.querySelectorAll(sel).forEach(el => {
+      const dx = r() * 18 * k, dy = r() * 8 * k, dr = r() * 1.6 * k;
+      el.classList.toggle('gdrift', k > 0);
+      el.style.setProperty('--dx', dx.toFixed(1) + 'px'); el.style.setProperty('--dy', dy.toFixed(1) + 'px'); el.style.setProperty('--dr', dr.toFixed(2) + 'deg');
+    }));
+  }
   function shove() { // 칸이 순간적으로 옆으로 밀림
     const el = pick(['#masthead', '#stagewrap', '#caption', '.backstage', '#foot'].map(s => document.querySelector(s)).filter(Boolean));
     const dx = rnd(5, 16) * (Math.random() < .5 ? -1 : 1);
@@ -114,7 +125,7 @@
     G.stage = stage; G.ready = true;
     timers.forEach(clearInterval); timers = [];
     document.body.dataset.glitch = stage;
-    drawCracks(stage);
+    drawCracks(stage); drift(reduced ? 0 : stage);
     if (stage >= 5) { textNodes().forEach(n => Math.random() < .5 && corrupt(n, .06, 0)); return; } // 멈춘 채 깨진 글자가 남는다
     if (reduced || stage < 2) return;
     const every = (ms, fn) => timers.push(setInterval(fn, ms));
