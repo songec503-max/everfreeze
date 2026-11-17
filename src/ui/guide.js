@@ -33,7 +33,13 @@
     requestAnimationFrame(() => t.classList.add('on'));
     setTimeout(() => { t.classList.remove('on'); setTimeout(() => t.remove(), 500); }, 4200);
   }
-  EF.Guide = { tip };
+  function note(text) { // 상황에 따른 도움말 (매번)
+    UI.stage.querySelectorAll('.gtip').forEach(t => t.remove());
+    const t = h('div', 'gtip', text); UI.stage.append(t);
+    requestAnimationFrame(() => t.classList.add('on'));
+    setTimeout(() => { t.classList.remove('on'); setTimeout(() => t.remove(), 500); }, 5200);
+  }
+  EF.Guide = { tip, note };
   const wrap = (name, key) => { const f = UI[name]; UI[name] = function () { tip(key); return f.apply(this, arguments); }; };
   wrap('shake', 'shake'); wrap('showView', 'view'); wrap('showPuzzle', 'puzzle');
   const banner = UI.banner; UI.banner = function () { banner.apply(this, arguments); setTimeout(() => tip('stage'), 1200); };

@@ -23,6 +23,7 @@
           s.talks[a.say] = (s.talks[a.say] || 0) + 1;
           break;
         case 'toast': q.push({ t: 'toast', text: a.toast }); break;
+        case 'hint': q.push({ t: 'hint', text: a.hint }); break; // 친절한 도움말 꼬리표
         case 'grant':
           if (!s.evidence[a.grant]) {
             s.evidence[a.grant] = ++s.order;

@@ -127,7 +127,9 @@
       const b = h('button', `hs hs-${hp.kind}` + (hp.temp ? ' temp' : ''));
       b.style.cssText = `left:${hp.x}px;top:${hp.y}px;width:${hp.w}px;height:${hp.h}px`;
       b.dataset.id = hp.id;
-      b.append(h('span', 'ico', hp.icon), h('span', 'lbl', hp.label));
+      if (hp.npc && EF.NPCS[hp.npc]) { // 임시 그림일 때 인물은 색 동그라미 + 이름 첫 글자 (그림이 들어오면 숨겨진다)
+        const n = EF.NPCS[hp.npc], ic = h('span', 'ico npc-ico', n.name[0]); ic.style.background = n.color; b.append(ic, h('span', 'lbl', hp.label));
+      } else b.append(h('span', 'ico', hp.icon), h('span', 'lbl', hp.label));
       b.onclick = () => { if (UI.busy) return; UI.run(EF.click(hp)); };
       hsEl.append(b);
     });
