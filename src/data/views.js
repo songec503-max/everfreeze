@@ -4,9 +4,9 @@
    kind:
      pic        그림 한 장. assets/view/<ID>.png 를 넣고 EF.VIEW_IMAGES 에 ID 를 적으면 그 그림이 나온다(없으면 임시 아이콘).
      doc        종이·표지판·장부. head rows(줄: 문자열 또는 [칸,칸…]) cols(표 머리) foot paper(note|sign|ledger|book) blur
-     strip      아이콘이 화살표로 이어진 띠(items)
+     strip      아이콘이 화살표로 이어진 띠(items, rtl: 오른쪽 끝에서 시작해 왼쪽으로 읽음)
      clock      시계(h, m)
-     lights     차례로 켜지는 불빛(colors)
+     lights     차례로 켜지는 불빛(colors = 놓인 자리 순서, order = 켜지는 순서)
      pattern    줄마다 같은 문양(rows)
      steps      바느질 단계(total 중 done 에서 멈춤, mark = 붙은 표시)
      pins       붙은 종이들(items: {icon, text, mark})
@@ -34,7 +34,7 @@
     'v-libnotice': { overlay: true, kind: 'doc', paper: 'sign', rows: ['📚 🚫', '🔑 👤'] },
     'v-book':      { kind: 'ringguide' },                                                          // 바깥 링부터 · 분(긴 바늘) 먼저
     'v-ledger':    { overlay: true, bare: true, kind: 'doc', paper: 'ledger', cols: ['📅', '👤', '📕'], rows: rep(['봄 3일', '하나', '첫 번째 하루'], 5) },
-    'v-record':    { kind: 'strip', items: ['🌅', '☀️', '🌇', '🌙', '🌙'] },                       // 하루의 순서 + 다시 밤
+    'v-record':    { kind: 'strip', rtl: true, items: ['🌇', '🌙', '🌅', '🌙', '☀️'] },             // 오른쪽 끝(시작 표시)에서 왼쪽으로: 저녁 밤 아침 밤 낮
     'v-archivebox': { kind: 'pic', icon: '🗃️', tone: ['#b9ad99', '#6f5a48'] },
     'v-journal':   { overlay: true, kind: 'doc', paper: 'book', head: '📅 +1', rows: ['🧑 🕰️', '🧑 📖', '🧑 📓 👁️'] },  // 내일의 클로버
     'v-oldrec':    { overlay: true, kind: 'pins', paper: 'drawer', items: rep({ icon: '📅', text: '봄 3일' }, 10) },
@@ -46,7 +46,7 @@
 
     // ===== 글렌위버 =====
     'v-birdhouse': { kind: 'pic', icon: '🐦', tone: ['#cfd9ee', '#8c8f7a'] },
-    'v-shiftlog':  { overlay: true, bare: true, kind: 'doc', paper: 'ledger', cols: ['📅', '🌅', '☀️', '🌇', '🌙', '✓'],
+    'v-shiftlog':  { overlay: true, bare: true, kind: 'doc', paper: 'ledger', cols: ['📅', '🌅 🐦↑', '☀️ 🐦←', '🌇 🐦↓', '🌙 🐦↑', '✓'],
       rows: rep(['봄 3일', '05:12:00', '11:59:00', '17:44:00', '23:59:00', '✓'], 7) },             // 7일 내내 같은 날, 같은 초
     'v-shelf':     { kind: 'pic', icon: '🌀', tone: ['#e8d8b4', '#9b7b52'] },
     'v-oldthing':  { kind: 'pic', icon: '🪵', tone: ['#5a4630', '#2e2418'] },                       // 그림만
@@ -61,7 +61,8 @@
     'v-glassart': { kind: 'pic', icon: '🔮', tone: ['#e9e4f4', '#9f93bd'] },
     'v-atelier':  { kind: 'pic', icon: '🪟', tone: ['#c8b8e8', '#5a6a9a'] },
     'v-menu':     { overlay: true, kind: 'doc', paper: 'sign', cols: ['📅 −1', '📅'], rows: [['🍹', '🍹'], ['🥧', '🥧']] }, // 어제 = 오늘
-    'v-jelly':    { kind: 'lights', colors: ['#5b8fd9', '#e59ac0', '#e8c547', '#5fb37a'] },          // 파랑 → 분홍 → 노랑 → 초록
+    // 놓인 자리는 레버와 같은 노랑 · 파랑 · 초록 · 분홍, 켜지는 순서는 파랑 → 분홍 → 노랑 → 초록 (order = colors 의 번호)
+    'v-jelly':    { kind: 'lights', colors: ['#e8c547', '#5b8fd9', '#5fb37a', '#e59ac0'], order: [1, 3, 0, 2] },
     'v-pier':     { kind: 'pic', icon: '👣', tone: ['#cfe6f2', '#9ec6dc'] },
     'v-sign':     { kind: 'doc', paper: 'sign', rows: ['⚓ 루미나리아', '⛴️ 4:17'] }                   // 입항 4:17
   };

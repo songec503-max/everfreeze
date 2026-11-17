@@ -235,6 +235,7 @@
       });
     };
     area.append(grid); draw(); api.ready(true);
-    return () => cells.every((c, i) => c.p === i && c.r === 0);
+    const target = p.target || [0, 0, 0, 0]; // 조각마다 ▲ 가 가리켜야 할 쪽
+    return () => cells.every((c, i) => c.p === i && c.r === target[i]);
   };
 })();

@@ -70,7 +70,7 @@
     blip('gband ' + kind, { top: rnd(0, innerHeight) + 'px', height: hgt + 'px' }, kind === 'gap' ? rnd(60, 140) : rnd(80, 200));
   }
   // 4단계부터: 커튼과 그림 창을 뺀 나머지(머리글·로고·설명 칸·무대 뒤·바닥글)가 제자리에서 조금씩 어긋나 멈춰 있다. 5단계는 더 크게.
-  const DRIFT_SEL = ['#masthead .logo', '#tagline', '#caption', '#ptitle', '#pintro', '#caption .tip', '.bs-head', '.bs-gate', '.program', '#foot'];
+  const DRIFT_SEL = ['.stage-tags', '#masthead .logo', '#tagline', '#caption', '#ptitle', '#pintro', '#caption .tip', '.bs-head', '.bs-gate', '.program', '#foot'];
   function drift(stage) {
     const k = stage >= 5 ? 1.8 : stage >= 4 ? 1 : 0;
     let seed = 11; const r = () => (seed = (seed * 9301 + 49297) % 233280) / 233280 - .5; // 매번 같은 어긋남
@@ -178,4 +178,61 @@
     el.classList.add('gecho'); setTimeout(() => el.classList.remove('gecho'), rnd(160, 340));
   }
   addEventListener('resize', () => { if (G.ready) { drawCracks(G.stage); } });
+
+  // ===== 엔딩: 오류가 갑자기 심해져 화면 전체를 덮고, 창 밖에서 아리아가 가만히 바라본다.
+  //       오류가 화면을 완전히 장악하면 사이트가 강제로 처음 상태로 초기화된다. =====
+  //  시간(ms)은 T 에서, 아리아 그림은 EF.ENDING_ARIA_IMAGE(없으면 임시 실루엣)에서 바꾼다.
+  const T = { aria: 2200, swell: 4200, takeover: 9000, swallow: 10200, black: 11200, reset: 12600 };
+  G.finale = function () {
+    if (G.inFinale) return; G.inFinale = true;
+    ensureLayer();
+    timers.forEach(clearInterval); timers = [];
+    scrollTo({ top: 0, behavior: 'smooth' });
+    document.body.classList.add('finale');
+    const at = (ms, fn) => setTimeout(fn, ms);
+    const every = (ms, fn) => timers.push(setInterval(fn, ms));
+    // 화면 전체를 덮어 가는 노이즈 막 (불투명도가 점점 오른다)
+    const veil = document.createElement('div'); veil.className = 'fin-veil'; document.body.append(veil);
+    let lvl = 0; const setLvl = v => { lvl = v; veil.style.setProperty('--lv', v); };
+    // 1) 갑자기: 모든 오류가 한꺼번에 심해진다
+    every(60, () => scatter(Math.ceil(rnd(5, 12 + lvl * 20)), true));
+    every(110, () => band(pick(['inv', 'hue', 'gap', 'gap'])));
+    every(140, () => pixels(Math.ceil(rnd(4, 10))));
+    every(260, shove);
+    every(90, () => { const ns = textNodes(); if (ns.length) corrupt(pick(ns), .25 + lvl * .5, rnd(200, 600)); });
+    every(500, tabTitle);
+    let t0 = performance.now();
+    every(100, () => { // 막이 점점 짙어진다
+      const k = (performance.now() - t0) / T.takeover;
+      setLvl(Math.min(1, k < .45 ? k * .55 : .25 + (k - .45) * 1.35));
+    });
+    // 2) 창 밖에서 아리아가 나타나 플레이어를 가만히 바라본다 (아리아만은 깨지지 않는다)
+    const aria = document.createElement('div'); aria.className = 'fin-aria';
+    const img = EF.ENDING_ARIA_IMAGE;
+    if (img) aria.style.backgroundImage = `url(${img})`;
+    else aria.innerHTML = `<svg viewBox="0 0 200 520" preserveAspectRatio="xMidYMax meet"><defs><radialGradient id="fa-g" cx="50%" cy="30%" r="70%"><stop offset="0" stop-color="${(EF.NPCS.aria || {}).color || '#8a6fc9'}" stop-opacity=".55"/><stop offset="1" stop-color="#120e18" stop-opacity="0"/></radialGradient></defs>
+      <ellipse cx="100" cy="200" rx="120" ry="230" fill="url(#fa-g)"/>
+      <path d="M100 40c-34 0-54 26-54 60 0 30 10 46 18 58l-6 40c-40 14-58 46-64 96L-10 520h220l-16-226c-6-50-24-82-64-96l-6-40c8-12 18-28 18-58 0-34-20-60-54-60z" fill="#17121e"/>
+      <path d="M46 98c-4 40 2 92-12 140 22-12 30-40 30-70M154 98c4 40-2 92 12 140-22-12-30-40-30-70" fill="#17121e"/>
+      <g class="fa-eyes"><ellipse cx="82" cy="104" rx="6" ry="3.2" fill="#f4eefc"/><ellipse cx="118" cy="104" rx="6" ry="3.2" fill="#f4eefc"/></g></svg>`;
+    at(T.aria, () => {
+      const r = site.getBoundingClientRect(), m = innerWidth - r.right; // 창 밖 = 사이트 오른쪽 여백
+      const w = Math.max(170, Math.min(300, m - 20));
+      let left = r.right + (m - w) / 2;
+      if (m < w + 20) { // 여백이 좁은 화면: 사이트가 뒤로 물러나며(작아지며) 왼쪽으로 비켜서고, 그 자리에 아리아가 선다
+        const sc = Math.max(.55, (innerWidth - w - 60) / r.width);
+        site.style.transformOrigin = '0 0'; site.style.transition = 'scale 1.6s ease, translate 1.6s ease';
+        site.style.translate = (20 - r.left) + 'px 0'; site.style.scale = sc;
+        left = 20 + r.width * sc + (innerWidth - 20 - r.width * sc - w) / 2;
+      }
+      aria.style.width = w + 'px'; aria.style.left = left + 'px';
+      document.body.append(aria);
+      requestAnimationFrame(() => aria.classList.add('on'));
+    });
+    // 3) 오류가 화면을 장악한다 → 아리아도 삼켜진다 → 암전 → 강제 초기화
+    at(T.takeover, () => { veil.classList.add('full'); document.body.classList.add('finale-max'); });
+    at(T.swallow, () => aria.classList.add('gone'));
+    at(T.black, () => { timers.forEach(clearInterval); timers = []; layer.innerHTML = ''; veil.classList.add('black'); document.title = '▒▒▒▒▒▒▒▒▒'; });
+    at(T.reset, () => { location.href = location.pathname + location.search; }); // 주소의 #장면 을 지우고 처음부터
+  };
 })();

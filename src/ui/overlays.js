@@ -57,7 +57,10 @@
     draw();
   };
 
+  // 엔딩: 오류가 화면을 덮고 창 밖의 아리아가 바라보다가, 사이트가 강제로 초기화된다 (glitch.js G.finale).
+  //       예전 엔딩 카드(EF.TEXT.ending)는 연출을 쓸 수 없을 때만 쓴다.
   UI.showEnding = function (done) {
+    if (EF.Glitch && EF.Glitch.finale) { UI.busy = true; UI.dismiss = () => {}; setTimeout(() => EF.Glitch.finale(), 900); return; } // done 은 부르지 않는다(곧 초기화)
     const sc = scrim(); sc.classList.add('dim');
     const card = h('div', 'ending');
     card.append(h('h2', '', EF.TEXT.ending.title));

@@ -46,7 +46,11 @@
   R.strip = v => {
     const box = h('div', 'cv-strip');
     const sheet = h('div', 'st-sheet');
-    v.items.forEach((icon, i) => { if (i) sheet.append(h('span', 'st-arrow', '→')); sheet.append(h('span', 'st-icon', icon)); });
+    if (v.rtl) { // 오른쪽 끝(●)에서 시작해 왼쪽으로 읽는다: 화면에는 거꾸로 놓고 화살표는 ←
+      const items = v.items.slice().reverse();
+      items.forEach((icon, i) => { if (i) sheet.append(h('span', 'st-arrow', '←')); sheet.append(h('span', 'st-icon', icon)); });
+      sheet.append(h('span', 'st-start', '●'));
+    } else v.items.forEach((icon, i) => { if (i) sheet.append(h('span', 'st-arrow', '→')); sheet.append(h('span', 'st-icon', icon)); });
     box.append(sheet);
     return box;
   };
@@ -78,7 +82,8 @@
     const n = v.colors.length;
     v.colors.forEach((c, i) => {
       const b = h('div', 'bulb'); b.style.setProperty('--c', c);
-      b.style.animationDelay = (i * 0.7) + 's'; b.style.animationDuration = (n * 0.7 + 1.2) + 's';
+      const k = v.order ? v.order.indexOf(i) : i; // 몇 번째로 켜지는지
+      b.style.animationDelay = (k * 0.7) + 's'; b.style.animationDuration = (n * 0.7 + 1.2) + 's';
       box.append(b);
     });
     return box;
