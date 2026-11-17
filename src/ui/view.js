@@ -61,7 +61,8 @@
     });
     UI.render();
     UI.fit();
-    UI.initStageCurtain(); // 오페라 커튼: 시작 화면 · 휠로 막 내리기 · 무대 뒤 (backstage.js)
+    UI.initStageCurtain(); // 오페라 커튼: 시작 화면 · 스크롤로 막 내리기 · 무대 뒤 (backstage.js)
+    if (UI.initGuide) UI.initGuide(); // 월드맵 · 도움말 버튼과 안내 쪽지 (guide.js)
   };
 
   UI.fit = function () {

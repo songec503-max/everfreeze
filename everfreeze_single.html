@@ -625,6 +625,36 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
   background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='22' height='30' viewBox='0 0 22 30'><path d='M2 2 L2 24 L8 18 L12 28 L16 26 L12 16 L20 16 Z' fill='white' stroke='black' stroke-width='1.6' stroke-linejoin='round'/></svg>") no-repeat;
   filter:drop-shadow(3px 0 0 rgba(255,0,70,.55)) drop-shadow(-3px 0 0 rgba(0,210,255,.55))}
 
+/* ===== 친절한 안내 (src/ui/guide.js) ===== */
+/* 그림 창 왼쪽 위 종이 꼬리표 버튼: 월드맵 · 도움말 */
+.stage-tags{position:absolute;left:200px;top:84px;z-index:16;display:flex;gap:10px} /* 열린 커튼 자락 오른쪽 */
+.stag{font-family:var(--serif);font-size:22px;padding:8px 20px 8px 18px;cursor:pointer;color:var(--ink);
+  background-color:var(--paper);background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
+  border:0;border-radius:2px 14px 14px 2px;box-shadow:0 1px 0 var(--paper-edge),3px 4px 0 rgba(60,40,20,.28);transform:rotate(-1.5deg);transition:transform .15s}
+.stag::before{content:'';display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--frame-dk);margin-right:9px;vertical-align:middle;box-shadow:inset 0 1px 1px rgba(0,0,0,.3)}
+.stag:hover{transform:rotate(0) translateY(-2px)}
+.stag.help::before{background:#b8924d}
+/* 처음 한 번만 뜨는 짧은 도움말 */
+.gtip{position:absolute;left:50%;bottom:96px;z-index:30;pointer-events:none;max-width:860px;padding:14px 26px;font-family:var(--serif);font-size:22px;color:var(--ink);
+  background:#fffaf0;box-shadow:0 1px 0 var(--paper-edge),3px 4px 0 #ece0c8,0 12px 26px rgba(30,20,10,.35);border-left:6px solid var(--frame);
+  opacity:0;transform:translate(-50%,12px) rotate(-.6deg);transition:opacity .4s,transform .4s}
+.gtip.on{opacity:1;transform:translate(-50%,0) rotate(-.6deg)}
+/* 안내 쪽지 */
+.guide{position:relative;width:820px;padding:34px 44px 26px;color:var(--ink);
+  background-color:var(--paper);background-image:var(--speckle);background-size:23px 27px,31px 29px,37px 41px,19px 23px;
+  box-shadow:0 1px 0 var(--paper-edge),3px 4px 0 #ece0c8,6px 8px 0 #dfd1b4,0 16px 34px rgba(30,20,10,.38)}
+.guide::before{content:'';position:absolute;top:-12px;left:50%;width:120px;height:24px;margin-left:-60px;background:rgba(var(--tape,201,112,122),.55);transform:rotate(-2deg)}
+.guide h3{margin:0 0 14px;font-family:var(--serif);font-size:32px;color:var(--frame-dk)}
+.g-body{font-family:var(--serif);font-size:23px;line-height:1.75;white-space:pre-line;min-height:170px}
+.g-nav{display:flex;align-items:center;justify-content:space-between;margin-top:18px}
+.g-nav .btn{font-size:20px;padding:8px 22px}
+.g-dots{display:flex;gap:8px}
+.g-dots span{width:10px;height:10px;border-radius:50%;background:#e2d3b6}
+.g-dots span.on{background:var(--frame-dk)}
+.stag.reset::before{background:#5f7a8a}
+.guide.confirm{width:680px}
+.guide.confirm .g-body{min-height:0}
+
 </style>
 </head>
 <body>
@@ -638,7 +668,7 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
     <section id="caption">
       <h2 id="ptitle"></h2>
       <p id="pintro"></p>
-      <p class="tip">그림 속에서 눌러 볼 수 있는 곳을 찾아 클릭해 보세요. 그림 아래쪽 ▼ 를 누르면 뒤로 갑니다. 페이지를 아래로 내리면 막이 내리고, 무대 뒤로 갈 수 있습니다. <a href="#" id="hintLink">클릭할 수 있는 곳 표시하기</a></p>
+      <p class="tip">그림 속에서 마우스를 올렸을 때 테두리가 생기는 곳을 눌러 보세요. 그림 아래쪽 ▼ 는 한 단계 뒤로, 왼쪽 위 [월드맵]은 처음 지도로 돌아갑니다. 막히면 [도움말]을 눌러 보세요. 페이지를 아래로 내리면 막이 내리고 무대 뒤로 갈 수 있습니다. <a href="#" id="hintLink">클릭할 수 있는 곳 표시하기</a></p>
     </section>
   </main>
   <footer id="foot"><span id="counter"></span><span class="sep">|</span><span>Best viewed on PC · 1280px 이상 권장</span><span id="devSlot"></span></footer>
@@ -1651,7 +1681,8 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
     });
     UI.render();
     UI.fit();
-    UI.initStageCurtain(); // 오페라 커튼: 시작 화면 · 휠로 막 내리기 · 무대 뒤 (backstage.js)
+    UI.initStageCurtain(); // 오페라 커튼: 시작 화면 · 스크롤로 막 내리기 · 무대 뒤 (backstage.js)
+    if (UI.initGuide) UI.initGuide(); // 월드맵 · 도움말 버튼과 안내 쪽지 (guide.js)
   };
 
   UI.fit = function () {
@@ -2522,7 +2553,7 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
     const closeDrapes = async () => { op.classList.remove('open'); op.classList.add('closed'); await wait(T.close); };
 
     // 시작: 로고가 줄에 끌려 올라가고 → 커튼이 걷힌다
-    const start = () => { if (C.state === 'title' && !C.busy) run(async () => { hang.classList.add('up'); await wait(T.rise); await openDrapes(); }, 'play'); };
+    const start = () => { if (C.state === 'title' && !C.busy) run(async () => { hang.classList.add('up'); await wait(T.rise); await openDrapes(); }, 'play').then(() => UI.onCurtainOpen && UI.onCurtainOpen()); }; // 처음 막이 열리면 안내 쪽지
     sign.onclick = e => { e.stopPropagation(); start(); };
     op.onclick = start;
     addEventListener('keydown', e => { if (C.state === 'title' && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); start(); } });
@@ -2759,6 +2790,111 @@ body[data-glitch="5"] *{animation-play-state:paused!important}
     })();
   }
   addEventListener('resize', () => G.ready && drawCracks(G.stage));
+})();
+
+</script>
+<script>
+/* 친절한 안내
+   1) 처음 막이 열리면 안내 쪽지 4장 (누를 곳 · 이동 · 단서와 힌트 · 세계의 어긋남과 무대 뒤)
+   2) 그림 창 왼쪽 위: [월드맵] 버튼(마을 지도·세부 장소에서) · [도움말] 버튼(언제든 안내 쪽지 다시 보기) · [처음부터] 버튼(사이트 초기화)
+   3) 처음 한 번만 뜨는 짧은 도움말: 처음 흔들림 · 처음 클로즈업 · 처음 퍼즐 · 처음 단계가 오를 때
+   문장은 아래 PAGES · TIPS 에서 고친다. */
+(function () {
+  const EF = window.EF, UI = EF.UI, h = EF.h;
+
+  const PAGES = [
+    { title: 'EVERFREEZE에 오신 것을 환영해요',
+      body: '세 마을을 돌아다니며 그림 속 물건과 사람을 눌러 살펴보세요.\n마우스를 올렸을 때 테두리가 생기는 곳이 누를 수 있는 곳이에요.\n사람을 누르면 이야기를 나눌 수 있어요.' },
+    { title: '돌아다니는 방법',
+      body: '마을과 장소를 눌러 안으로 들어가요.\n그림 아래쪽 ▼ 를 누르면 한 단계 뒤로 돌아가요.\n왼쪽 위 [월드맵] 버튼을 누르면 언제든 처음 지도로 돌아가요.' },
+    { title: '단서와 퍼즐',
+      body: '물건을 누르면 가까이 들여다볼 수 있어요. 그 안에 숫자나 기호가 숨어 있기도 해요.\n한 마을의 퍼즐 단서는 다른 마을에 있어요. 여러 마을을 오가며 기억해 두세요.\n퍼즐을 3번 틀리면 힌트가 나와요. 그림이 흔들리는 곳은 아직 열리지 않은 곳이에요.' },
+    { title: '무언가 이상하다면',
+      body: '단서를 모을수록 세계가 조금씩 어긋나고, 그때마다 새로운 곳이 열려요.\n막힐 때는 아직 가 보지 않은 장소나 다시 말을 걸어 보지 않은 사람을 찾아보세요.\n페이지를 아래로 내리면 \'무대 뒤\' 이야기도 볼 수 있어요.' }
+  ];
+  const TIPS = {
+    shake:  '아직은 열 수 없어요. 다른 곳을 먼저 둘러보세요.',
+    view:   '아래쪽 ▼ 를 누르면 원래 장면으로 돌아가요.',
+    puzzle: '3번 틀리면 힌트가 나와요. 닫아도 괜찮아요. (Esc)',
+    stage:  '세계가 어긋나기 시작했어요. 새로운 곳이 열렸을지도 몰라요.'
+  };
+
+  const seen = {}; // 이번 방문에서 이미 보여 준 도움말
+
+  // ---- 처음 한 번만 뜨는 짧은 도움말 (누르기를 막지 않는다) ----
+  function tip(key) {
+    if (seen[key]) return; seen[key] = true;
+    const t = h('div', 'gtip', TIPS[key]);
+    UI.stage.append(t);
+    requestAnimationFrame(() => t.classList.add('on'));
+    setTimeout(() => { t.classList.remove('on'); setTimeout(() => t.remove(), 500); }, 4200);
+  }
+  EF.Guide = { tip };
+  const wrap = (name, key) => { const f = UI[name]; UI[name] = function () { tip(key); return f.apply(this, arguments); }; };
+  wrap('shake', 'shake'); wrap('showView', 'view'); wrap('showPuzzle', 'puzzle');
+  const banner = UI.banner; UI.banner = function () { banner.apply(this, arguments); setTimeout(() => tip('stage'), 1200); };
+
+  // ---- 안내 쪽지 ----
+  function openGuide() {
+    if (UI.busy || UI.dismiss) return;
+    UI.busy = true;
+    const sc = h('div', 'scrim dim guide-scrim'), card = h('div', 'guide');
+    const title = h('h3'), body = h('div', 'g-body'), dots = h('div', 'g-dots');
+    const prev = h('button', 'btn', '이전'), next = h('button', 'btn primary');
+    const nav = h('div', 'g-nav'); nav.append(prev, dots, next);
+    card.append(title, body, nav); sc.append(card); UI.stage.append(sc);
+    let i = 0;
+    const draw = () => {
+      title.textContent = PAGES[i].title; body.textContent = PAGES[i].body;
+      dots.innerHTML = PAGES.map((_, j) => `<span class="${j === i ? 'on' : ''}"></span>`).join('');
+      prev.style.visibility = i ? 'visible' : 'hidden';
+      next.textContent = i === PAGES.length - 1 ? '시작하기' : '다음';
+    };
+    const close = () => { sc.remove(); UI.dismiss = null; UI.busy = false; UI.render(); };
+    const go = d => { i += d; if (i >= PAGES.length) close(); else { i = Math.max(0, i); draw(); } };
+    next.onclick = () => go(1); prev.onclick = () => go(-1);
+    UI.dismiss = () => go(1); // Enter/Space: 다음 장, 마지막 장에서 닫힘. Esc 도 다음/닫기
+    draw();
+  }
+  EF.Guide.open = openGuide;
+
+  // ---- 사이트 초기화: 확인한 뒤 처음 상태(닫힌 막 · 1단계)로 다시 연다 ----
+  function askReset() {
+    if (UI.busy || UI.dismiss) return;
+    UI.busy = true;
+    const sc = h('div', 'scrim dim guide-scrim'), card = h('div', 'guide confirm');
+    const yes = h('button', 'btn primary', '예, 처음부터'), no = h('button', 'btn', '아니요');
+    const nav = h('div', 'g-nav'); nav.append(no, yes);
+    card.append(h('h3', '', '처음부터 다시 할까요?'), h('div', 'g-body', '모은 단서와 풀어 둔 퍼즐, 세계의 어긋남이 모두 사라지고\n막이 닫힌 첫 화면으로 돌아가요.'), nav);
+    sc.append(card); UI.stage.append(sc);
+    const close = () => { sc.remove(); UI.dismiss = null; UI.busy = false; };
+    no.onclick = close; UI.dismiss = close; // Esc/Enter: 취소 (실수로 지우지 않게)
+    yes.onclick = () => { location.href = location.pathname + location.search; }; // 주소의 #장면 을 지우고 새로 연다
+  }
+  EF.Guide.reset = askReset;
+
+  // ---- 그림 창 왼쪽 위 버튼 ----
+  UI.initGuide = function () {
+    const bar = h('div', 'stage-tags');
+    const map = h('button', 'stag map', '월드맵'), help = h('button', 'stag help', '도움말'), reset = h('button', 'stag reset', '처음부터');
+    reset.title = '사이트 초기화';
+    reset.onclick = e => { e.stopPropagation(); askReset(); };
+    map.title = '월드맵으로 돌아가기'; help.title = '안내 다시 보기';
+    map.onclick = e => { e.stopPropagation(); if (UI.busy) return; EF.state.scene = 'WORLD_MAP'; UI.render(); };
+    help.onclick = e => { e.stopPropagation(); openGuide(); };
+    bar.append(map, help, reset); UI.stage.append(bar);
+    UI.guideBar = { bar, map };
+    map.style.display = EF.SCENES[EF.state.scene].kind === 'world' ? 'none' : '';
+  };
+  // 장면이 바뀔 때: 월드맵에서는 [월드맵] 버튼을 숨긴다
+  const render = UI.render;
+  UI.render = function () {
+    const r = render.apply(this, arguments);
+    if (UI.guideBar) UI.guideBar.map.style.display = EF.SCENES[EF.state.scene].kind === 'world' ? 'none' : '';
+    return r;
+  };
+  // 처음 막이 열렸을 때 안내 쪽지
+  UI.onCurtainOpen = function () { if (!seen.welcome) { seen.welcome = true; openGuide(); } };
 })();
 
 </script>
