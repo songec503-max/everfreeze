@@ -3,7 +3,7 @@
 이 문서를 ChatGPT에 올리고, 아래 **「ChatGPT에게 주는 지시」** 를 먼저 읽게 한 뒤 **번호로 한 장씩** 요청하세요.
 예: `#01 그려줘` → 다 되면 `#02 그려줘` … 마음에 안 들면 `#01 다시, 더 종이 느낌으로` 처럼 말하면 됩니다.
 
-총 **71장** · 꼭 필요한 것 58장(배경 20 · 인물 8 · 클로즈업 30) + 사이트 꾸밈 13장
+총 **96장** · 꼭 필요한 것 58장(배경 20 · 인물 8 · 클로즈업 30) + 사이트 꾸밈 13장 + 퍼즐 움직이는 부품 25장
 
 ---
 
@@ -120,6 +120,31 @@ Rules:
 | #69 | 균열 | `assets/crack/stage4.png` | 4단계부터 사이트 전체(머리글·그림 창·설명·무대 뒤) 위에 덮이는 균열. |
 | #70 | 균열 | `assets/crack/stage5.png` | 5단계 균열 (더 크고 많이). 한 장만 만들면 4·5단계에 같이 씀. |
 | #71 | 엔딩 | `assets/ending/aria.png` | 엔딩: 창문(이어 붙인 유리) 너머로 2초 뒤 나타나 플레이어를 바라보다 사라지는 아리아. |
+| #72 | 퍼즐 부품 | `assets/puzzle/drawer-lock.png` | 서랍 자물쇠 — 바탕 |
+| #73 | 퍼즐 부품 | `assets/puzzle/drawer-wheel.png` | 서랍 자물쇠 · 지워진 쪽수 — 굴러가는 숫자 바퀴(세로형) |
+| #74 | 퍼즐 부품 | `assets/puzzle/shelf-base.png` | 회전 선반 — 바탕 |
+| #75 | 퍼즐 부품 | `assets/puzzle/shelf-ring1.png` | 회전 선반 — 바깥 링(돈다) |
+| #76 | 퍼즐 부품 | `assets/puzzle/shelf-ring2.png` | 회전 선반 — 두 번째 링 |
+| #77 | 퍼즐 부품 | `assets/puzzle/shelf-ring3.png` | 회전 선반 — 세 번째 링 |
+| #78 | 퍼즐 부품 | `assets/puzzle/shelf-ring4.png` | 회전 선반 — 가운데 원판 |
+| #79 | 퍼즐 부품 | `assets/puzzle/mailbox-clock.png` | 우편함 시계 — 바탕(바늘 없음) |
+| #80 | 퍼즐 부품 | `assets/puzzle/mailbox-hour.png` | 우편함 시계 — 시침(돈다) |
+| #81 | 퍼즐 부품 | `assets/puzzle/mailbox-minute.png` | 우편함 시계 — 분침(돈다) |
+| #82 | 퍼즐 부품 | `assets/puzzle/archive-frame.png` | 기록 조각 — 바탕 틀 |
+| #83 | 퍼즐 부품 | `assets/puzzle/archive-tile-sun.png` | 기록 조각 — 조각(위 줄) |
+| #84 | 퍼즐 부품 | `assets/puzzle/archive-tile-tower.png` | 기록 조각 — 조각(가운데 줄) |
+| #85 | 퍼즐 부품 | `assets/puzzle/archive-tile-wave.png` | 기록 조각 — 조각(아래 줄) |
+| #86 | 퍼즐 부품 | `assets/puzzle/glass-frame.png` | 유리 조각 — 바탕 틀 |
+| #87 | 퍼즐 부품 | `assets/puzzle/glass-dawn.png` | 유리 조각 — 조각(돈다) |
+| #88 | 퍼즐 부품 | `assets/puzzle/glass-noon.png` | 유리 조각 — 조각 |
+| #89 | 퍼즐 부품 | `assets/puzzle/glass-dusk.png` | 유리 조각 — 조각 |
+| #90 | 퍼즐 부품 | `assets/puzzle/glass-night.png` | 유리 조각 — 조각 |
+| #91 | 퍼즐 부품 | `assets/puzzle/letter-lamp.png` | 등대 신호 — 바탕(불 꺼짐) |
+| #92 | 퍼즐 부품 | `assets/puzzle/letter-light-morning.png` | 등대 신호 — 불빛(아침) |
+| #93 | 퍼즐 부품 | `assets/puzzle/letter-light-noon.png` | 등대 신호 — 불빛(낮) |
+| #94 | 퍼즐 부품 | `assets/puzzle/letter-light-evening.png` | 등대 신호 — 불빛(저녁) |
+| #95 | 퍼즐 부품 | `assets/puzzle/letter-light-night.png` | 등대 신호 — 불빛(밤) |
+| #96 | 퍼즐 부품 | `assets/puzzle/oldrec-page.png` | 지워진 쪽수 — 바탕 |
 
 ---
 
@@ -860,6 +885,262 @@ Aria standing still and facing the viewer, upper body, expressionless, staring s
 ```
 
 ---
+
+## 퍼즐 부품
+
+### #72 · `assets/puzzle/drawer-lock.png`
+
+- **설명**: 서랍 자물쇠 — 바탕
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. a small brass three-wheel combination lock plate mounted on a wooden drawer front, three empty tall dark rectangular windows side by side in the center where number wheels will show, small screws at the corners.
+```
+
+### #73 · `assets/puzzle/drawer-wheel.png`
+
+- **설명**: 서랍 자물쇠 · 지워진 쪽수 — 굴러가는 숫자 바퀴(세로형)
+- **크기**: 세로형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. one blank number drum of a combination lock seen straight on, tall rectangle, ivory paper face with soft cylindrical shading darker at the top and bottom, thin brass rims on the left and right, completely blank face.
+```
+
+### #74 · `assets/puzzle/shelf-base.png`
+
+- **설명**: 회전 선반 — 바탕
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. top-down view of a round wooden shelf base, a thick carved outer rim with leaf carvings, a small brass arrow pointer at the top center pointing down toward the middle, the inside left empty.
+```
+
+### #75 · `assets/puzzle/shelf-ring1.png`
+
+- **설명**: 회전 선반 — 바깥 링(돈다)
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. one flat wooden tree-ring band (an annulus) seen from above, outer edge touches the canvas edge, the hole in the middle is about 80% of the width and fully transparent, light honey wood with concentric grain, ten small evenly spaced carved notches around it with one notch exactly at the top.
+```
+
+### #76 · `assets/puzzle/shelf-ring2.png`
+
+- **설명**: 회전 선반 — 두 번째 링
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. one flat wooden tree-ring band (an annulus) seen from above, the outer edge is about 80% of the canvas width and the transparent hole about 60% and fully transparent, slightly darker wood with concentric grain, ten small evenly spaced carved notches around it with one notch exactly at the top.
+```
+
+### #77 · `assets/puzzle/shelf-ring3.png`
+
+- **설명**: 회전 선반 — 세 번째 링
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. one flat wooden tree-ring band (an annulus) seen from above, the outer edge is about 60% of the canvas width and the transparent hole about 40% and fully transparent, medium brown wood with concentric grain, ten small evenly spaced carved notches around it with one notch exactly at the top.
+```
+
+### #78 · `assets/puzzle/shelf-ring4.png`
+
+- **설명**: 회전 선반 — 가운데 원판
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. one flat round wooden disc seen from above, about 40% of the canvas width, dark heartwood with tight rings, ten small evenly spaced notches around the edge with one exactly at the top.
+```
+
+### #79 · `assets/puzzle/mailbox-clock.png`
+
+- **설명**: 우편함 시계 — 바탕(바늘 없음)
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no other text. a small round brass-rimmed clock face for a mailbox, cream dial with twelve hour marks and the numerals 1 to 12 in brown, a tiny sea-turtle emblem below the center, NO clock hands.
+```
+
+### #80 · `assets/puzzle/mailbox-hour.png`
+
+- **설명**: 우편함 시계 — 시침(돈다)
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. a single short ornate brass clock hour hand pointing straight up, its round pivot hole exactly at the center of the canvas, the hand reaching about 30% of the canvas height above the center.
+```
+
+### #81 · `assets/puzzle/mailbox-minute.png`
+
+- **설명**: 우편함 시계 — 분침(돈다)
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. a single long slim brass clock minute hand pointing straight up, its round pivot hole exactly at the center of the canvas, the hand reaching about 45% of the canvas height above the center.
+```
+
+### #82 · `assets/puzzle/archive-frame.png`
+
+- **설명**: 기록 조각 — 바탕 틀
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. a square dark wooden puzzle frame with a 3 by 3 grid of square slots, all nine slots completely transparent, thin wooden dividers.
+```
+
+### #83 · `assets/puzzle/archive-tile-sun.png`
+
+- **설명**: 기록 조각 — 조각(위 줄)
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. one square torn fragment of an old paper record filling the canvas, slightly ragged edges, painted with a warm sun over rooftops.
+```
+
+### #84 · `assets/puzzle/archive-tile-tower.png`
+
+- **설명**: 기록 조각 — 조각(가운데 줄)
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. one square torn fragment of an old paper record filling the canvas, slightly ragged edges, painted with the village clock tower.
+```
+
+### #85 · `assets/puzzle/archive-tile-wave.png`
+
+- **설명**: 기록 조각 — 조각(아래 줄)
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. one square torn fragment of an old paper record filling the canvas, slightly ragged edges, painted with rolling sea waves.
+```
+
+### #86 · `assets/puzzle/glass-frame.png`
+
+- **설명**: 유리 조각 — 바탕 틀
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. a square stained-glass window frame of dark lead came with a 2 by 2 grid, all four panes completely transparent.
+```
+
+### #87 · `assets/puzzle/glass-dawn.png`
+
+- **설명**: 유리 조각 — 조각(돈다)
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. one square stained-glass piece in soft lavender, a small sunrise motif in the middle, one small white triangle etched near the top edge pointing UP.
+```
+
+### #88 · `assets/puzzle/glass-noon.png`
+
+- **설명**: 유리 조각 — 조각
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. one square stained-glass piece in pale sunny yellow, a small round sun motif in the middle, one small white triangle etched near the top edge pointing UP.
+```
+
+### #89 · `assets/puzzle/glass-dusk.png`
+
+- **설명**: 유리 조각 — 조각
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. one square stained-glass piece in peach orange, a small sunset motif in the middle, one small white triangle etched near the top edge pointing UP.
+```
+
+### #90 · `assets/puzzle/glass-night.png`
+
+- **설명**: 유리 조각 — 조각
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. one square stained-glass piece in deep night blue, a small crescent moon and stars in the middle, one small white triangle etched near the top edge pointing UP.
+```
+
+### #91 · `assets/puzzle/letter-lamp.png`
+
+- **설명**: 등대 신호 — 바탕(불 꺼짐)
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. the great lamp of a lighthouse seen from the front inside the lamp room, a large faceted glass lens unlit and dim, brass frame, a window behind showing a calm paper sea.
+```
+
+### #92 · `assets/puzzle/letter-light-morning.png`
+
+- **설명**: 등대 신호 — 불빛(아침)
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. only a soft glowing light shape: a round glow with short rays in rosy pink and peach, transparent everywhere else, nothing else drawn.
+```
+
+### #93 · `assets/puzzle/letter-light-noon.png`
+
+- **설명**: 등대 신호 — 불빛(낮)
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. only a soft glowing light shape: a round glow with short rays in bright warm white and pale yellow, transparent everywhere else, nothing else drawn.
+```
+
+### #94 · `assets/puzzle/letter-light-evening.png`
+
+- **설명**: 등대 신호 — 불빛(저녁)
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. only a soft glowing light shape: a round glow with short rays in deep amber orange, transparent everywhere else, nothing else drawn.
+```
+
+### #95 · `assets/puzzle/letter-light-night.png`
+
+- **설명**: 등대 신호 — 불빛(밤)
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no text, no numbers. only a soft glowing light shape: a round glow with short rays in cool silver blue, transparent everywhere else, nothing else drawn.
+```
+
+### #96 · `assets/puzzle/oldrec-page.png`
+
+- **설명**: 지워진 쪽수 — 바탕
+- **크기**: 정사각형 · 투명 배경
+- **꼭 지킬 것**: 정면 평면 그림 · 원근 없음 · 기준 방향(바늘·표시·▲는 위)
+
+```
+flat 2D cut-paper craft style, watercolor and gouache on textured cream paper, warm brown hand-drawn outlines, soft pastel colors, a single game puzzle part, perfectly flat orthographic straight-on view with no perspective, centered on the canvas, transparent background, no drop shadow outside the object, no other text. an old yellowed book page seen straight on, at the top four printed symbols in one row exactly: a triangle, a star, a circle, a star (▲ ★ ● ★), below them four empty tall slots for number wheels.
+```
+
+---
+
+> 퍼즐 부품은 바탕 그림과 움직이는 부품을 따로 만든 것입니다. 사이트가 부품을 돌리고·굴리고·밀고·빛나게 합니다. 숫자는 사이트가 써 넣으므로 그림에 넣지 않습니다. 새집 탑 레버는 만들지 않습니다.
 
 ## (선택) 오작동 배경
 4단계부터 장면 배경이 바뀌는 판. 원하면 배경(#01~#20) 프롬프트 끝에 아래 문장을 붙여 같은 구도로 한 번 더 그립니다. 파일 이름은 `assets/bg/<원래 이름>_err.png` (예: `RM_PLAZA_err.png`).
