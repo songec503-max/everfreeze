@@ -161,7 +161,7 @@ malfunction state: same composition and buildings, dark blue-violet and indigo p
 | `v-shelf.png` | F-GW | `a round rotating shelf of four nested tree-ring rings, stopped, the same carved marks repeating around every ring` |
 | `v-oldthing.png` | F-GW | `a small worn wooden heirloom on a stool, smooth from years of hands, a tiny blank paper tag tied with string, quiet and precious` (그림만 보이는 장면) |
 | `v-glassart.png` | F-LM | `a large pearly glass artwork, inside the glass a tiny village scene is faintly visible` |
-| `v-atelier.png` | F-LM | `four pieces of colored glass joined into one stained-glass picture: dawn, noon, sunset and night arranged clockwise, glowing softly, no one around` |
+| `v-atelier.png` | F-LM | `a small window made of four pieces of colored glass joined into one stained-glass picture: dawn, noon, sunset and night arranged clockwise, muted faded colors, the glass panes semi-clear so something behind them could be seen, no one around` | ※ 엔딩의 **창문**으로도 쓰인다. 엔딩에서 회색으로 빛바래 보이고, 2초 뒤 유리 너머로 아리아가 비친다 → 유리 칸이 잘 보이게. 넣은 뒤 유리 칸 위치를 `EF.ENDING_WINDOW_PANE` 에 맞춘다 |
 | `v-pier.png` | F-LM | `the end of a wooden pier, a pair of small boot prints pressed into the wet planks at the exact same spot, sea and sailboats behind` |
 
 ### 7-2. 퍼즐 단서 그림 13장 — 글자·숫자를 그림에 직접 넣는다
@@ -185,7 +185,7 @@ malfunction state: same composition and buildings, dark blue-violet and indigo p
 | `v-record.png` | P-LETTER | F-RM | `a long torn paper strip restored and taped together, showing five small paintings joined by arrows pointing to the LEFT, from left to right: sun, moon, sunrise, moon, sunset, with a small red dot at the far right end marking where to start reading` | 왼쪽부터 ☀️ ← 🌙 ← 🌅 ← 🌙 ← 🌇 ● (● 오른쪽 끝에서 시작해 왼쪽으로 = 저녁 밤 아침 밤 낮) |
 | `v-board.png` | P-OLDREC (▲) | F-RM | `a wooden cork notice board, two identical paper notices with a broom drawing pinned side by side, each stamped with a red triangle mark` | 같은 공지 **2장**, 각각 빨간 **▲** |
 | `v-mailbox.png` | P-OLDREC (●) | F-LM | `an open brass mailbox, three identical envelopes inside, each sealed with a round red wax seal` | 편지 **3통**, 각각 **●** 봉인 |
-| `v-workbench.png` | P-OLDREC (★) | F-GW | `a sewing workbench with an unfinished cloak, a paper tag with a star mark pinned to it, a row of ten stitch marks numbered 1 to 7 completed and 8 to 10 empty, the needle stopped at stitch 7` | **★** 표 + 땀 번호 **1~7**(7에서 바늘 멈춤), 8~10 빈칸 |
+| `v-workbench.png` | P-OLDREC (★) | F-GW | `a strip of cloth on a sewing workbench, a small paper tag with a star mark sewn at the left end, a single straight row of stitches: exactly seven red thread stitches sewn, a silver needle with thread stuck in the seventh stitch, then three empty needle holes, no numbers` | **★** 표 + 실로 꿰맨 땀 **정확히 7개**(7번째에 바늘이 꽂힌 채 멈춤), 그 뒤 바늘구멍 3개. **번호 없음**(땀을 세어 7을 알게 함) |
 
 ### 7-3. 퍼즐과 무관한 그림 7장 — 글 없이 바탕만 (사이트가 위에 얹음)
 
@@ -211,9 +211,10 @@ malfunction state: same composition and buildings, dark blue-violet and indigo p
 2. 마을 지도 3장 + 월드맵 → 플레이 흐름 전체가 한 번에 그림으로 바뀜
 3. 로즈메리 장소 7장(+보관실 열린 판) → 1~2단계 플레이 구간
 4. 글렌위버 4장 · 루미나리아 4장
-5. 인물 크롭 7장
+5. 인물 크롭 8장
 6. 클로즈업 7-1 (9장) → 7-2 퍼즐 단서 (13장) → 7-3 (7장)
-7. (선택) 오작동 배경
+7. 사이트 꾸밈: 단계별 배경 5장 · 마우스 포인터 5장 · 균열 · 엔딩 아리아
+8. (선택) 오작동 배경
 
 ## 9. 체크리스트
 
@@ -224,7 +225,37 @@ malfunction state: same composition and buildings, dark blue-violet and indigo p
 - [ ] 클릭할 물건이 프레임에 가려지지 않고, 맨 아래 76px 띠 위에 있다
 - [ ] 인물 고유색·소품이 아트북과 같다 (벨라 2.5등신, 나머지 3등신 계열)
 
-## 엔딩 · 창 밖의 아리아 (선택)
+## 10. 사이트 꾸밈 그림 (게임 창 바깥)
+
+### 10-1. 단계별 사이트 배경 5장 — `assets/page/stage<N>.png`
+사이트 바깥 배경(좌우 여백 포함). 화면에 꽉 차게 늘어나고 스크롤해도 고정된다. 가로로 긴 그림(1920×1080 이상) 권장.
+없는 단계는 바로 아래 단계 그림을 쓴다(예: 1·3·5단계만 주면 2단계=1단계, 4단계=3단계).
+
+| 파일 | 단계 | 프롬프트 (공통 스타일 뒤에) |
+|---|---|---|
+| `stage1.png` | 1 · 일상 | `seamless warm cream paper texture background, soft speckles and faint fibers, calm, no objects` |
+| `stage2.png` | 2 · 미세한 어긋남 | 위와 같은 종이 + `a few barely visible faint gray scratches and tiny smudges` |
+| `stage3.png` | 3 · 뚜렷한 오류 | 위와 같은 종이 + `slightly yellowed and stained, thin hairline creases, a few small faded glitch-colored specks (pink and cyan)` |
+| `stage4.png` | 4 · 심한 오류 | `the same paper now darker and wrinkled, torn small gaps showing black behind, scattered pink and cyan pixel noise, horizontal misaligned bands` |
+| `stage5.png` | 5 · 완전한 오류 | `grayish faded paper, frozen, heavily cracked and torn with black showing through, broken pixel blocks frozen in place, desaturated` |
+
+### 10-2. 단계별 마우스 포인터 5장 — `assets/cursor/stage<N>.png`
+**32×32 픽셀, 투명 배경 PNG.** 화살표의 뾰족한 끝이 **왼쪽 위 모서리(1,1)** 에 오게. 지금은 임시 포인터가 들어가 있다.
+
+| 파일 | 단계 | 모습 |
+|---|---|---|
+| `stage1.png` | 1 | 크림색 종이 화살표 + 진한 테두리, 깨끗하게 |
+| `stage2.png` | 2 | 테두리 색이 살짝 어긋남(분홍·하늘색 번짐) |
+| `stage3.png` | 3 | 노이즈 점이 몇 개 생김 |
+| `stage4.png` | 4 | 픽셀이 깨지고 가로줄이 밀림 |
+| `stage5.png` | 5 | 회색으로 빛바래고 깨진 조각이 흩어짐 |
+
+### 10-3. 균열 그림 — `assets/crack/stage4.png`, `stage5.png`
+4단계부터 사이트 전체(머리글·그림 창·설명 칸·무대 뒤) 위에 덮이는 균열. **투명 배경 PNG**, 세로로 긴 사이트 비율(예: 1240×2400). 한 장만 주면 4·5단계에 같이 쓴다.
+`black ink cracks spreading across a transparent background like a broken paper sheet, thin branching lines, a few thicker fissures, empty elsewhere`
+넣으면 scenes.js 의 `EF.CRACK_IMAGES = { 4: 'assets/crack/stage4.png', 5: 'assets/crack/stage5.png' }` 로 등록.
+
+## 엔딩 · 창문 건너편의 아리아 (선택)
 | 파일 | 쓰는 곳 | 프롬프트 | 비고 |
 |---|---|---|---|
 | `assets/ending/aria.png` | 엔딩 (창문 건너편, 유리 칸 안) | `upper body of Aria standing still behind a window and facing the viewer, expressionless, staring straight ahead, flat 2D paper cut-out style, dark muted colors, transparent background` | 투명 배경. 넣으면 scenes.js 의 `EF.ENDING_ARIA_IMAGE = 'assets/ending/aria.png'` 로 등록. 없으면 임시 실루엣. 창문 그림(v-atelier)을 넣으면 유리 칸 위치를 `EF.ENDING_WINDOW_PANE` 에 맞춘다 |
