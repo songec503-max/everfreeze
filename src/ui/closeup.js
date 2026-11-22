@@ -89,9 +89,33 @@
     return box;
   };
 
+  // 망토 옷걸이: 가로 봉에 옷걸이가 줄지어 있고, 옷걸이마다 꼬리표가 크게 달려 있다
+  R.rack = v => {
+    const box = h('div', 'cv-rack');
+    const bar = h('div', 'rk-bar'), row = h('div', 'rk-row');
+    v.items.forEach(it => {
+      const hg = h('div', 'rk-hanger' + (it.color ? '' : ' empty'));
+      hg.append(h('div', 'rk-hook'));
+      if (it.color) { const c = h('div', 'rk-cloak'); c.style.setProperty('--c', it.color); hg.append(c); }
+      const tag = h('div', 'rk-tag'); tag.append(h('span', 'rk-ico', it.tag), h('span', 'rk-name', it.name));
+      hg.append(tag); row.append(hg);
+    });
+    box.append(bar, row);
+    return box;
+  };
+
+  // 망토 완성 도안: 벽에 핀으로 꽂힌 모눈 도안 종이. 망토 모양 안이 가로 세 띠로 나뉘고, 띠마다 같은 문양이 수놓여 있다.
   R.pattern = v => {
     const box = h('div', 'cv-pattern');
-    v.rows.forEach(icon => { const r = h('div', 'p-row'); for (let i = 0; i < 3; i++) r.append(h('span', '', icon)); box.append(r); });
+    const sheet = h('div', 'pt-sheet');
+    ['tl', 'tr', 'bl', 'br'].forEach(k => sheet.append(h('span', 'pt-pin ' + k)));
+    const cloak = h('div', 'pt-cloak');
+    const ol = newSvg(440, 470); ol.setAttribute('class', 'pt-outline'); ol.setAttribute('preserveAspectRatio', 'none');
+    svgEl(ol, 'polygon', { points: '158,3 282,3 437,85 412,467 28,467 3,85' });
+    cloak.append(ol, h('div', 'pt-collar'));
+    v.rows.forEach(icon => { const r = h('div', 'p-row'); for (let i = 0; i < 4; i++) r.append(h('span', '', icon)); cloak.append(r); });
+    sheet.append(cloak, h('div', 'pt-scissors', '✂'));
+    box.append(sheet);
     return box;
   };
 

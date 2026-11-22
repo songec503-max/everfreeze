@@ -8,6 +8,7 @@
      clock      시계(h, m)
      lights     차례로 켜지는 불빛(colors = 놓인 자리 순서, order = 켜지는 순서)
      pattern    줄마다 같은 문양(rows)
+     rack       옷걸이(items: {tag 꼬리표 그림, name 꼬리표 글, color 있으면 망토가 걸림 · 없으면 빈 옷걸이})
      steps      바느질 단계(total 중 done 에서 멈춤, mark = 붙은 표시)
      pins       붙은 종이들(items: {icon, text, mark})
      stack      겹친 물건(icon, count, mark)
@@ -51,6 +52,10 @@
     'v-shelf':     { kind: 'pic', icon: '🌀', tone: ['#e8d8b4', '#9b7b52'] },
     'v-oldthing':  { kind: 'pic', icon: '🪵', tone: ['#5a4630', '#2e2418'] },                       // 그림만
     'v-cloak':     { kind: 'pattern', rows: ['☀️', '🕰️', '🌊'] },                                   // 위 해 · 가운데 시계탑 · 아래 물결
+    // 망토 옷걸이: 같은 봄 망토가 여러 벌, 여름·가을·겨울 자리는 빈 옷걸이(꼬리표만)
+    'v-rack':      { kind: 'rack', items: [
+      { tag: '🌸', name: '봄', color: '#b9d98f' }, { tag: '🌸', name: '봄', color: '#b9d98f' }, { tag: '🌸', name: '봄', color: '#b9d98f' }, { tag: '🌸', name: '봄', color: '#b9d98f' },
+      { tag: '☀️', name: '여름' }, { tag: '🍂', name: '가을' }, { tag: '❄️', name: '겨울' } ] },
     'v-workbench': { kind: 'steps', total: 10, done: 7, mark: '★' },                                // ★ = 7
     'v-registry':  { overlay: true, bare: true, kind: 'doc', paper: 'ledger', cols: ['🌿', '🍂', '🐚'],
       rows: [['클로버', '오크스', '노아'], ['벨라', '시에나', '루루'], ['아리아', '마렌', '로완'], ['토비', '페넬', '']] }, // '하나' 없음

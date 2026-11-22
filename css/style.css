@@ -301,8 +301,7 @@ body[data-stage="5"] .tagline{letter-spacing:.3em}
 @keyframes bulbOn{0%{opacity:.12;box-shadow:none}1%,22%{opacity:1;box-shadow:0 0 70px 20px var(--c)}23%,100%{opacity:.12;box-shadow:none}}
 
 /* 망토 도안 */
-.cv-pattern{display:flex;flex-direction:column;justify-content:center;gap:20px;align-items:center;background:#7a3b3b;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 8px,transparent 8px 16px)}
-.p-row{display:flex;gap:50px;font-size:120px;padding:6px 40px;border-top:3px dashed rgba(255,230,200,.5);border-bottom:3px dashed rgba(255,230,200,.5)}
+.cv-pattern{display:flex;align-items:center;justify-content:center;background:#e8cfc4;background-image:repeating-linear-gradient(90deg,rgba(120,70,50,.05) 0 2px,transparent 2px 28px)}
 
 /* 바느질 단계 */
 .cv-steps{display:flex;align-items:center;justify-content:center;background:#e9d2c6}
@@ -721,3 +720,34 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
 .stag.off{filter:grayscale(1) saturate(0);opacity:.42;cursor:not-allowed;box-shadow:0 1px 0 var(--paper-edge);transform:rotate(-1.5deg)!important}
 .stag.off::before{background:#9a948a!important}
 .stag:disabled{pointer-events:none}
+
+/* 망토 옷걸이 클로즈업 (v-rack) */
+.cv-rack{position:relative;display:flex;align-items:flex-start;justify-content:center;background:#f2d9d3;background-image:repeating-linear-gradient(0deg,rgba(120,70,50,.04) 0 2px,transparent 2px 8px)}
+.rk-bar{position:absolute;left:70px;right:70px;top:150px;height:14px;border-radius:7px;background:linear-gradient(#a57b55,#6f4c31);box-shadow:0 4px 0 rgba(60,35,20,.25)}
+.rk-row{position:relative;display:flex;gap:26px;margin-top:132px}
+.rk-hanger{position:relative;width:128px;display:flex;flex-direction:column;align-items:center}
+.rk-hook{width:30px;height:34px;border:6px solid #8b8f96;border-bottom:0;border-radius:18px 18px 0 0;margin-bottom:-4px}
+.rk-cloak{width:124px;height:300px;background:var(--c);border-radius:46px 46px 14px 14px;position:relative;
+  clip-path:polygon(30% 0,70% 0,100% 22%,92% 100%,8% 100%,0 22%);box-shadow:inset -16px 0 0 rgba(0,0,0,.08)}
+.rk-cloak::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 40%,#f5b7c8 0 7px,transparent 8px),radial-gradient(circle at 65% 62%,#f5b7c8 0 7px,transparent 8px),radial-gradient(circle at 45% 82%,#fff1c4 0 6px,transparent 7px)}
+.rk-hanger.empty::before{content:'';width:110px;height:24px;border:6px solid #8b8f96;border-top:0;border-radius:0 0 60px 60px;order:1;margin-top:-2px} /* 빈 옷걸이 */
+.rk-hanger.empty .rk-tag{order:2}
+.rk-tag{margin-top:14px;padding:8px 14px;background:#fff8e8;border:2px solid #b89b74;border-radius:4px 4px 14px 14px;box-shadow:2px 3px 0 rgba(90,60,40,.25);
+  display:flex;flex-direction:column;align-items:center;gap:2px;transform:rotate(-3deg)}
+.rk-hanger:nth-child(even) .rk-tag{transform:rotate(3deg)}
+.rk-ico{font-size:44px;line-height:1}
+.rk-name{font-family:var(--serif);font-size:30px;color:#5a3b2a;font-weight:700}
+
+/* 망토 완성 도안 (v-cloak): 핀으로 꽂힌 모눈 종이 위 망토 그림, 가로 세 띠 */
+.pt-sheet{position:relative;width:640px;height:560px;padding:34px;background:#fbf4e4;transform:rotate(-1.2deg);
+  background-image:linear-gradient(rgba(120,150,170,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(120,150,170,.18) 1px,transparent 1px);background-size:24px 24px;
+  box-shadow:0 1px 0 #e6d7b8,4px 6px 0 rgba(90,60,40,.22),0 18px 30px rgba(60,30,20,.25);display:flex;align-items:center;justify-content:center}
+.pt-pin{position:absolute;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#f19aa8,#b3404f);box-shadow:1px 2px 2px rgba(0,0,0,.3)}
+.pt-pin.tl{left:14px;top:14px}.pt-pin.tr{right:14px;top:14px}.pt-pin.bl{left:14px;bottom:14px}.pt-pin.br{right:14px;bottom:14px}
+.pt-cloak{position:relative;width:440px;height:470px;display:flex;flex-direction:column;justify-content:flex-end;gap:10px;padding:70px 34px 26px}
+.pt-outline{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+.pt-outline polygon{fill:rgba(255,250,238,.75);stroke:#8a5a44;stroke-width:3;stroke-dasharray:9 7;stroke-linejoin:round}
+.pt-cloak{isolation:isolate}
+.pt-collar{position:absolute;left:50%;top:0;width:120px;height:40px;margin-left:-60px;border:3px dashed #8a5a44;border-top:0;border-radius:0 0 60px 60px}
+.p-row{display:flex;justify-content:center;gap:22px;font-size:58px;line-height:1;padding:12px 0;border-top:3px dashed rgba(138,90,68,.55);border-bottom:3px dashed rgba(138,90,68,.55);background:rgba(240,220,200,.35)}
+.pt-scissors{position:absolute;right:46px;bottom:40px;font-size:34px;color:#8a5a44;transform:rotate(-20deg)}

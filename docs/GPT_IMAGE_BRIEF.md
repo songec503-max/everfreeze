@@ -3,7 +3,7 @@
 이 문서를 ChatGPT에 올리고, 아래 **「ChatGPT에게 주는 지시」** 를 먼저 읽게 한 뒤 **번호로 한 장씩** 요청하세요.
 예: `#01 그려줘` → 다 되면 `#02 그려줘` … 마음에 안 들면 `#01 다시, 더 종이 느낌으로` 처럼 말하면 됩니다.
 
-총 **70장** · 꼭 필요한 것 57장(배경 20 · 인물 8 · 클로즈업 29) + 사이트 꾸밈 13장
+총 **71장** · 꼭 필요한 것 58장(배경 20 · 인물 8 · 클로즈업 30) + 사이트 꾸밈 13장
 
 ---
 
@@ -82,43 +82,44 @@ Rules:
 | #31 | 클로즈업 | `assets/view/v-display.png` | 벨라 잡화점 진열대 클로즈업. 오르골 하나만 먼지 없이 깨끗. |
 | #32 | 클로즈업 | `assets/view/v-birdhouse.png` | 새집 장치를 푼 뒤 보이는 안쪽. |
 | #33 | 클로즈업 | `assets/view/v-shelf.png` | 나이테 회전 선반을 푼 뒤의 모습. |
-| #34 | 클로즈업 | `assets/view/v-oldthing.png` | 오크스 만물상의 오래된 물건. |
-| #35 | 클로즈업 | `assets/view/v-glassart.png` | 아틀리에 유리 작품. 안에 마을이 희미하게 보임. |
-| #36 | 클로즈업 | `assets/view/v-atelier.png` | 마지막 퍼즐(유리 조각)을 푼 뒤의 이어 붙인 유리. ※엔딩에서 "창문"으로 쓰이고 유리 너머로 아리아가 비침. |
-| #37 | 클로즈업 | `assets/view/v-pier.png` | 항구 선착장 끝. 같은 자리에 찍힌 발자국. |
-| #38 | 퍼즐 단서 | `assets/view/v-sign.png` | [퍼즐 단서] 항구 표지판 → 서랍 자물쇠 정답 417. |
-| #39 | 퍼즐 단서 | `assets/view/v-clock.png` | [퍼즐 단서] 광장 시계 11:59 → 회전 선반 정답 5911 + 유리 조각 시계 방향. |
-| #40 | 퍼즐 단서 | `assets/view/v-book.png` | [퍼즐 단서] 「나이테 읽는 법」 → 회전 선반은 바깥 링부터, 분(긴 바늘) 먼저. |
-| #41 | 퍼즐 단서 | `assets/view/v-shopledger.png` | [퍼즐 단서] 벨라 장부 → 우편함 시계 정답 6:20. |
-| #42 | 퍼즐 단서 | `assets/view/v-registry.png` | [퍼즐 단서] 주민 명부 → 대출 장부 정답 "하나"(명부에 없는 이름). |
-| #43 | 퍼즐 단서 | `assets/view/v-ledger.png` | [퍼즐 결과] 대출 장부를 푼 뒤 모습. 모든 줄이 똑같음. |
-| #44 | 퍼즐 단서 | `assets/view/v-cloak.png` | [퍼즐 단서] 망토 완성 도안 → 기록 조각 슬라이드(위 해·가운데 시계탑·아래 물결). |
-| #45 | 퍼즐 단서 | `assets/view/v-jelly.png` | [퍼즐 단서] 해파리 조명 → 새집 레버 순서. 놓인 자리는 노랑·파랑·초록·분홍. |
-| #46 | 퍼즐 단서 | `assets/view/v-shiftlog.png` | [퍼즐 단서] 새집 탑 교대 기록 → 유리 조각 순서와 ▲ 방향(새가 날아가는 쪽). |
-| #47 | 퍼즐 단서 | `assets/view/v-record.png` | [퍼즐 단서] 복원된 기록 → 등대 신호 정답(오른쪽 ●에서 왼쪽으로: 저녁 밤 아침 밤 낮). |
-| #48 | 퍼즐 단서 | `assets/view/v-board.png` | [퍼즐 단서] 광장 게시판 → ▲ = 2. |
-| #49 | 퍼즐 단서 | `assets/view/v-mailbox.png` | [퍼즐 단서] 우편함 편지 → ● = 3. |
-| #50 | 퍼즐 단서 | `assets/view/v-workbench.png` | [퍼즐 단서] 공방 작업대 → ★ = 7 (땀 7개, 번호 없음). |
-| #51 | 바탕만 | `assets/view/v-desk.png` | 책상 위 노트 (바탕만. 내용은 사이트가 얹음). |
-| #52 | 바탕만 | `assets/view/v-drawer.png` | 서랍 속 (바탕만). |
-| #53 | 바탕만 | `assets/view/v-journal.png` | 관찰일지 (바탕만). |
-| #54 | 바탕만 | `assets/view/v-oldrec.png` | 오래된 기록 (바탕만). |
-| #55 | 바탕만 | `assets/view/v-libnotice.png` | 도서관 출입 제한 안내문 판 (바탕만). |
-| #56 | 바탕만 | `assets/view/v-menu.png` | 카페 메뉴판 (바탕만). |
-| #57 | 바탕만 | `assets/view/v-letter.png` | 부치지 못한 편지 (바탕만). |
-| #58 | 사이트 배경 | `assets/page/stage1.png` | 사이트 바깥 배경 (1단계 · 일상). 화면 전체에 늘어나 깔림. |
-| #59 | 사이트 배경 | `assets/page/stage2.png` | 사이트 바깥 배경 (2단계 · 미세한 어긋남). 화면 전체에 늘어나 깔림. |
-| #60 | 사이트 배경 | `assets/page/stage3.png` | 사이트 바깥 배경 (3단계 · 뚜렷한 오류). 화면 전체에 늘어나 깔림. |
-| #61 | 사이트 배경 | `assets/page/stage4.png` | 사이트 바깥 배경 (4단계 · 심한 오류). 화면 전체에 늘어나 깔림. |
-| #62 | 사이트 배경 | `assets/page/stage5.png` | 사이트 바깥 배경 (5단계 · 완전한 오류). 화면 전체에 늘어나 깔림. |
-| #63 | 마우스 포인터 | `assets/cursor/stage1.png` | 마우스 포인터 (1단계). 정사각형으로 크게 만들면 Claude 가 32×32 로 줄여 넣음. |
-| #64 | 마우스 포인터 | `assets/cursor/stage2.png` | 마우스 포인터 (2단계). 정사각형으로 크게 만들면 Claude 가 32×32 로 줄여 넣음. |
-| #65 | 마우스 포인터 | `assets/cursor/stage3.png` | 마우스 포인터 (3단계). 정사각형으로 크게 만들면 Claude 가 32×32 로 줄여 넣음. |
-| #66 | 마우스 포인터 | `assets/cursor/stage4.png` | 마우스 포인터 (4단계). 정사각형으로 크게 만들면 Claude 가 32×32 로 줄여 넣음. |
-| #67 | 마우스 포인터 | `assets/cursor/stage5.png` | 마우스 포인터 (5단계). 정사각형으로 크게 만들면 Claude 가 32×32 로 줄여 넣음. |
-| #68 | 균열 | `assets/crack/stage4.png` | 4단계부터 사이트 전체(머리글·그림 창·설명·무대 뒤) 위에 덮이는 균열. |
-| #69 | 균열 | `assets/crack/stage5.png` | 5단계 균열 (더 크고 많이). 한 장만 만들면 4·5단계에 같이 씀. |
-| #70 | 엔딩 | `assets/ending/aria.png` | 엔딩: 창문(이어 붙인 유리) 너머로 2초 뒤 나타나 플레이어를 바라보다 사라지는 아리아. |
+| #34 | 클로즈업 | `assets/view/v-rack.png` | 망토 공방 옷걸이 확대. 봄 망토 4벌과 빈 옷걸이 3개, 계절 꼬리표가 잘 보이게. |
+| #35 | 클로즈업 | `assets/view/v-oldthing.png` | 오크스 만물상의 오래된 물건. |
+| #36 | 클로즈업 | `assets/view/v-glassart.png` | 아틀리에 유리 작품. 안에 마을이 희미하게 보임. |
+| #37 | 클로즈업 | `assets/view/v-atelier.png` | 마지막 퍼즐(유리 조각)을 푼 뒤의 이어 붙인 유리. ※엔딩에서 "창문"으로 쓰이고 유리 너머로 아리아가 비침. |
+| #38 | 클로즈업 | `assets/view/v-pier.png` | 항구 선착장 끝. 같은 자리에 찍힌 발자국. |
+| #39 | 퍼즐 단서 | `assets/view/v-sign.png` | [퍼즐 단서] 항구 표지판 → 서랍 자물쇠 정답 417. |
+| #40 | 퍼즐 단서 | `assets/view/v-clock.png` | [퍼즐 단서] 광장 시계 11:59 → 회전 선반 정답 5911 + 유리 조각 시계 방향. |
+| #41 | 퍼즐 단서 | `assets/view/v-book.png` | [퍼즐 단서] 「나이테 읽는 법」 → 회전 선반은 바깥 링부터, 분(긴 바늘) 먼저. |
+| #42 | 퍼즐 단서 | `assets/view/v-shopledger.png` | [퍼즐 단서] 벨라 장부 → 우편함 시계 정답 6:20. |
+| #43 | 퍼즐 단서 | `assets/view/v-registry.png` | [퍼즐 단서] 주민 명부 → 대출 장부 정답 "하나"(명부에 없는 이름). |
+| #44 | 퍼즐 단서 | `assets/view/v-ledger.png` | [퍼즐 결과] 대출 장부를 푼 뒤 모습. 모든 줄이 똑같음. |
+| #45 | 퍼즐 단서 | `assets/view/v-cloak.png` | [퍼즐 단서] 망토 완성 도안 → 기록 조각 슬라이드(위 해·가운데 시계탑·아래 물결). |
+| #46 | 퍼즐 단서 | `assets/view/v-jelly.png` | [퍼즐 단서] 해파리 조명 → 새집 레버 순서. 놓인 자리는 노랑·파랑·초록·분홍. |
+| #47 | 퍼즐 단서 | `assets/view/v-shiftlog.png` | [퍼즐 단서] 새집 탑 교대 기록 → 유리 조각 순서와 ▲ 방향(새가 날아가는 쪽). |
+| #48 | 퍼즐 단서 | `assets/view/v-record.png` | [퍼즐 단서] 복원된 기록 → 등대 신호 정답(오른쪽 ●에서 왼쪽으로: 저녁 밤 아침 밤 낮). |
+| #49 | 퍼즐 단서 | `assets/view/v-board.png` | [퍼즐 단서] 광장 게시판 → ▲ = 2. |
+| #50 | 퍼즐 단서 | `assets/view/v-mailbox.png` | [퍼즐 단서] 우편함 편지 → ● = 3. |
+| #51 | 퍼즐 단서 | `assets/view/v-workbench.png` | [퍼즐 단서] 공방 작업대 → ★ = 7 (땀 7개, 번호 없음). |
+| #52 | 바탕만 | `assets/view/v-desk.png` | 책상 위 노트 (바탕만. 내용은 사이트가 얹음). |
+| #53 | 바탕만 | `assets/view/v-drawer.png` | 서랍 속 (바탕만). |
+| #54 | 바탕만 | `assets/view/v-journal.png` | 관찰일지 (바탕만). |
+| #55 | 바탕만 | `assets/view/v-oldrec.png` | 오래된 기록 (바탕만). |
+| #56 | 바탕만 | `assets/view/v-libnotice.png` | 도서관 출입 제한 안내문 판 (바탕만). |
+| #57 | 바탕만 | `assets/view/v-menu.png` | 카페 메뉴판 (바탕만). |
+| #58 | 바탕만 | `assets/view/v-letter.png` | 부치지 못한 편지 (바탕만). |
+| #59 | 사이트 배경 | `assets/page/stage1.png` | 사이트 바깥 배경 (1단계 · 일상). 화면 전체에 늘어나 깔림. |
+| #60 | 사이트 배경 | `assets/page/stage2.png` | 사이트 바깥 배경 (2단계 · 미세한 어긋남). 화면 전체에 늘어나 깔림. |
+| #61 | 사이트 배경 | `assets/page/stage3.png` | 사이트 바깥 배경 (3단계 · 뚜렷한 오류). 화면 전체에 늘어나 깔림. |
+| #62 | 사이트 배경 | `assets/page/stage4.png` | 사이트 바깥 배경 (4단계 · 심한 오류). 화면 전체에 늘어나 깔림. |
+| #63 | 사이트 배경 | `assets/page/stage5.png` | 사이트 바깥 배경 (5단계 · 완전한 오류). 화면 전체에 늘어나 깔림. |
+| #64 | 마우스 포인터 | `assets/cursor/stage1.png` | 마우스 포인터 (1단계). 정사각형으로 크게 만들면 Claude 가 32×32 로 줄여 넣음. |
+| #65 | 마우스 포인터 | `assets/cursor/stage2.png` | 마우스 포인터 (2단계). 정사각형으로 크게 만들면 Claude 가 32×32 로 줄여 넣음. |
+| #66 | 마우스 포인터 | `assets/cursor/stage3.png` | 마우스 포인터 (3단계). 정사각형으로 크게 만들면 Claude 가 32×32 로 줄여 넣음. |
+| #67 | 마우스 포인터 | `assets/cursor/stage4.png` | 마우스 포인터 (4단계). 정사각형으로 크게 만들면 Claude 가 32×32 로 줄여 넣음. |
+| #68 | 마우스 포인터 | `assets/cursor/stage5.png` | 마우스 포인터 (5단계). 정사각형으로 크게 만들면 Claude 가 32×32 로 줄여 넣음. |
+| #69 | 균열 | `assets/crack/stage4.png` | 4단계부터 사이트 전체(머리글·그림 창·설명·무대 뒤) 위에 덮이는 균열. |
+| #70 | 균열 | `assets/crack/stage5.png` | 5단계 균열 (더 크고 많이). 한 장만 만들면 4·5단계에 같이 씀. |
+| #71 | 엔딩 | `assets/ending/aria.png` | 엔딩: 창문(이어 붙인 유리) 너머로 2초 뒤 나타나 플레이어를 바라보다 사라지는 아리아. |
 
 ---
 
@@ -268,10 +269,10 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 
 - **설명**: 시에나의 계절 망토 공방, 시에나.
 - **크기**: 16:9 가로
-- **꼭 지킬 것**: 시에나 · 걸린 망토 · 작업대
+- **꼭 지킬 것**: 시에나 · 망토 옷걸이(가운데) · 망토 도안(벽, 오른쪽 위) · 작업대
 
 ```
-layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of layered cut-paper oak leaves and twisting branches forming curtains on both sides and an arch on top, small cream and pink paper blossoms, large paper tree trunks at the side wings, foreground row of layered paper leaf bushes along the bottom edge, green roofs, distant row of arches on the hills, indoor room set built inside the same stage, paper flats for walls, cut-paper furniture standing like stage props. Scene: Sienna's seasonal cloak workshop, cloaks in spring, summer, autumn and winter colors hanging on a rail in the center, thread spools, fabric bolts, on the right a sewing workbench with an unfinished cloak and a needle. cute chibi SD characters about 3 heads tall, round faces, big heads, short limbs, soft clothing silhouettes, watercolor on paper, same paper texture as the set. Characters in the scene: Sienna: chibi girl, long wavy olive-brown hair with small peach flowers, green eyes, olive green layered tunic dress with wide sleeves and sailor collar, mustard yellow neckerchief, mint sheer sash with a small glass vial and a thread spool, beige ankle boots with green ribbons, standing on the left. Wide 16:9 landscape composition; keep every important object away from the very top and bottom edges (the image may be cropped to 16:9), and keep the bottom strip of the image free of clickable objects (only foreground paper bushes there). Do NOT include: text, letters, words, numbers, digits, signature, watermark, logo, caption, label, photorealistic, 3D render, CGI, plastic, glossy, vinyl, PBR, mirror reflections, harsh cast shadows, dramatic rim light, volumetric light, neon colors, black vector outlines, cel shading, realistic adult proportions, wide-angle distortion, fisheye, extreme low or high angle, missing frame, frameless, modern buildings, cars.
+layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of layered cut-paper oak leaves and twisting branches forming curtains on both sides and an arch on top, small cream and pink paper blossoms, large paper tree trunks at the side wings, foreground row of layered paper leaf bushes along the bottom edge, green roofs, distant row of arches on the hills, indoor room set built inside the same stage, paper flats for walls, cut-paper furniture standing like stage props. Scene: Sienna's seasonal cloak workshop, on a rail in the center several identical finished spring cloaks in soft spring green with small blossom dots, at the end of the rail three empty hangers each with a small season tag, a finished cloak pattern sheet pinned high on the back wall at the upper right, thread spools, fabric bolts, on the right a sewing workbench with an unfinished spring cloak and a needle stuck in it. cute chibi SD characters about 3 heads tall, round faces, big heads, short limbs, soft clothing silhouettes, watercolor on paper, same paper texture as the set. Characters in the scene: Sienna: chibi girl, long wavy olive-brown hair with small peach flowers, green eyes, olive green layered tunic dress with wide sleeves and sailor collar, mustard yellow neckerchief, mint sheer sash with a small glass vial and a thread spool, beige ankle boots with green ribbons, standing on the left. Wide 16:9 landscape composition; keep every important object away from the very top and bottom edges (the image may be cropped to 16:9), and keep the bottom strip of the image free of clickable objects (only foreground paper bushes there). Do NOT include: text, letters, words, numbers, digits, signature, watermark, logo, caption, label, photorealistic, 3D render, CGI, plastic, glossy, vinyl, PBR, mirror reflections, harsh cast shadows, dramatic rim light, volumetric light, neon colors, black vector outlines, cel shading, realistic adult proportions, wide-angle distortion, fisheye, extreme low or high angle, missing frame, frameless, modern buildings, cars.
 ```
 
 ### #16 · `assets/bg/GW_HOUSE.png`
@@ -457,7 +458,17 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of layered cut-paper oak leaves and twisting branches forming curtains on both sides and an arch on top, small cream and pink paper blossoms, large paper tree trunks at the side wings, foreground row of layered paper leaf bushes along the bottom edge, green roofs, distant row of arches on the hills. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: a round rotating shelf of four nested tree-ring rings, stopped, the same carved marks repeating around every ring. Wide 16:9 landscape composition. Do NOT include: text, letters, words, numbers, digits, signature, watermark, logo, caption, label, photorealistic, 3D render, CGI, plastic, glossy, vinyl, PBR, mirror reflections, harsh cast shadows, dramatic rim light, volumetric light, neon colors, black vector outlines, cel shading, realistic adult proportions, wide-angle distortion, fisheye, extreme low or high angle, missing frame, frameless, modern buildings, cars.
 ```
 
-### #34 · `assets/view/v-oldthing.png`
+### #34 · `assets/view/v-rack.png`
+
+- **설명**: 망토 공방 옷걸이 확대. 봄 망토 4벌과 빈 옷걸이 3개, 계절 꼬리표가 잘 보이게.
+- **크기**: 16:9 가로
+- **꼭 지킬 것**: 꼬리표: 망토 4벌 **🌸 봄** / 빈 옷걸이 **☀️ 여름 · 🍂 가을 · ❄️ 겨울** (한글이 깨지면 그림 기호만 있어도 됨)
+
+```
+layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of layered cut-paper oak leaves and twisting branches forming curtains on both sides and an arch on top, small cream and pink paper blossoms, large paper tree trunks at the side wings, foreground row of layered paper leaf bushes along the bottom edge, green roofs, distant row of arches on the hills. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: a wooden clothes rail seen up close: on the left four identical spring cloaks in soft spring green with small blossom dots, each with a paper tag showing a cherry blossom and the word 봄; on the right three EMPTY hangers, each with a paper tag: a sun and the word 여름, a maple leaf and the word 가을, a snowflake and the word 겨울; tags are large and clearly readable. Wide 16:9 landscape composition. Do NOT include: text, letters, words, numbers, digits, signature, watermark, logo, caption, label, photorealistic, 3D render, CGI, plastic, glossy, vinyl, PBR, mirror reflections, harsh cast shadows, dramatic rim light, volumetric light, neon colors, black vector outlines, cel shading, realistic adult proportions, wide-angle distortion, fisheye, extreme low or high angle, missing frame, frameless, modern buildings, cars.
+```
+
+### #35 · `assets/view/v-oldthing.png`
 
 - **설명**: 오크스 만물상의 오래된 물건.
 - **크기**: 16:9 가로
@@ -466,7 +477,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of layered cut-paper oak leaves and twisting branches forming curtains on both sides and an arch on top, small cream and pink paper blossoms, large paper tree trunks at the side wings, foreground row of layered paper leaf bushes along the bottom edge, green roofs, distant row of arches on the hills. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: a small worn wooden heirloom on a stool, smooth from years of hands, a tiny blank paper tag tied with string, quiet and precious. Wide 16:9 landscape composition. Do NOT include: text, letters, words, numbers, digits, signature, watermark, logo, caption, label, photorealistic, 3D render, CGI, plastic, glossy, vinyl, PBR, mirror reflections, harsh cast shadows, dramatic rim light, volumetric light, neon colors, black vector outlines, cel shading, realistic adult proportions, wide-angle distortion, fisheye, extreme low or high angle, missing frame, frameless, modern buildings, cars.
 ```
 
-### #35 · `assets/view/v-glassart.png`
+### #36 · `assets/view/v-glassart.png`
 
 - **설명**: 아틀리에 유리 작품. 안에 마을이 희미하게 보임.
 - **크기**: 16:9 가로
@@ -475,7 +486,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of teal and powder blue paper drapes on both sides, top valance of cut-paper wave scrolls with scallop shells, seaweed garlands and small pearls, foreground cut-paper wave clouds and shells along the bottom edge, blue roofs. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: a large pearly glass artwork, inside the glass a tiny village scene is faintly visible. Wide 16:9 landscape composition. Do NOT include: text, letters, words, numbers, digits, signature, watermark, logo, caption, label, photorealistic, 3D render, CGI, plastic, glossy, vinyl, PBR, mirror reflections, harsh cast shadows, dramatic rim light, volumetric light, neon colors, black vector outlines, cel shading, realistic adult proportions, wide-angle distortion, fisheye, extreme low or high angle, missing frame, frameless, modern buildings, cars.
 ```
 
-### #36 · `assets/view/v-atelier.png`
+### #37 · `assets/view/v-atelier.png`
 
 - **설명**: 마지막 퍼즐(유리 조각)을 푼 뒤의 이어 붙인 유리. ※엔딩에서 "창문"으로 쓰이고 유리 너머로 아리아가 비침.
 - **크기**: 16:9 가로
@@ -485,7 +496,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of teal and powder blue paper drapes on both sides, top valance of cut-paper wave scrolls with scallop shells, seaweed garlands and small pearls, foreground cut-paper wave clouds and shells along the bottom edge, blue roofs. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: a small window made of four pieces of colored glass joined into one stained-glass picture: dawn, noon, sunset and night arranged clockwise, muted faded colors, the glass panes semi-clear so something behind them could be seen, no one around. Wide 16:9 landscape composition. Do NOT include: text, letters, words, numbers, digits, signature, watermark, logo, caption, label, photorealistic, 3D render, CGI, plastic, glossy, vinyl, PBR, mirror reflections, harsh cast shadows, dramatic rim light, volumetric light, neon colors, black vector outlines, cel shading, realistic adult proportions, wide-angle distortion, fisheye, extreme low or high angle, missing frame, frameless, modern buildings, cars.
 ```
 
-### #37 · `assets/view/v-pier.png`
+### #38 · `assets/view/v-pier.png`
 
 - **설명**: 항구 선착장 끝. 같은 자리에 찍힌 발자국.
 - **크기**: 16:9 가로
@@ -498,7 +509,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 
 ## 퍼즐 단서
 
-### #38 · `assets/view/v-sign.png`
+### #39 · `assets/view/v-sign.png`
 
 - **설명**: [퍼즐 단서] 항구 표지판 → 서랍 자물쇠 정답 417.
 - **크기**: 16:9 가로
@@ -508,7 +519,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of teal and powder blue paper drapes on both sides, top valance of cut-paper wave scrolls with scallop shells, seaweed garlands and small pearls, foreground cut-paper wave clouds and shells along the bottom edge, blue roofs. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: a wooden harbor signpost seen up close, sea and sailboats behind, the signboard reads a harbor name and an arrival time with a small ship icon. Exact writing on the signboard: first line "루미나리아 항구" (Korean, means Luminaria Harbor); second line a small ship icon followed by the time "4:17". Nothing else written. the writing is hand-lettered in brown ink on cream paper, clearly legible, exactly as specified, nothing else written. Wide 16:9 landscape composition. Do NOT include: watermark, signature, logo, misspelled text, extra numbers, wrong digits, garbled letters, photorealistic, 3D render, CGI, plastic, glossy, harsh cast shadows, neon colors, black vector outlines, cel shading, wide-angle distortion.
 ```
 
-### #39 · `assets/view/v-clock.png`
+### #40 · `assets/view/v-clock.png`
 
 - **설명**: [퍼즐 단서] 광장 시계 11:59 → 회전 선반 정답 5911 + 유리 조각 시계 방향.
 - **크기**: 16:9 가로
@@ -518,7 +529,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of dusty rose and crimson velvet-look paper curtains drawn to both sides, top valance of layered cut-paper scrolls with rose medallions, small gold flowers and leaves, foreground row of layered paper rose bushes and round shrubs along the bottom edge, rose-colored roofs. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: the clock tower's round clock face seen up close with Roman numerals, the long minute hand pointing at 59 minutes, the short hour hand just before XII, a faint curved arrow showing clockwise direction, rose vines around. Only the Roman numerals I to XII on the dial. Hands show exactly 11:59: the long minute hand points at the 59-minute mark (one tick before XII), the short hour hand sits just before XII. A faint curved arrow beside the dial shows clockwise direction. No other writing. the writing is hand-lettered in brown ink on cream paper, clearly legible, exactly as specified, nothing else written. Wide 16:9 landscape composition. Do NOT include: watermark, signature, logo, misspelled text, extra numbers, wrong digits, garbled letters, photorealistic, 3D render, CGI, plastic, glossy, harsh cast shadows, neon colors, black vector outlines, cel shading, wide-angle distortion.
 ```
 
-### #40 · `assets/view/v-book.png`
+### #41 · `assets/view/v-book.png`
 
 - **설명**: [퍼즐 단서] 「나이테 읽는 법」 → 회전 선반은 바깥 링부터, 분(긴 바늘) 먼저.
 - **크기**: 16:9 가로
@@ -528,7 +539,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of dusty rose and crimson velvet-look paper curtains drawn to both sides, top valance of layered cut-paper scrolls with rose medallions, small gold flowers and leaves, foreground row of layered paper rose bushes and round shrubs along the bottom edge, rose-colored roofs. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: an old open book on a desk titled "How to Read Tree Rings", left page: four concentric tree rings numbered 1 to 4 from the outermost ring inward with an arrow pointing inward, right page: a clock where the long hand is labeled 1 and the short hand is labeled 2. Exact writing: the book title "나이테 읽는 법" at the top. Left page: four concentric rings labeled 1, 2, 3, 4 from the OUTERMOST ring to the innermost, with an arrow pointing inward. Right page: a clock face whose long hand is labeled "1" and short hand is labeled "2". Nothing else written. the writing is hand-lettered in brown ink on cream paper, clearly legible, exactly as specified, nothing else written. Wide 16:9 landscape composition. Do NOT include: watermark, signature, logo, misspelled text, extra numbers, wrong digits, garbled letters, photorealistic, 3D render, CGI, plastic, glossy, harsh cast shadows, neon colors, black vector outlines, cel shading, wide-angle distortion.
 ```
 
-### #41 · `assets/view/v-shopledger.png`
+### #42 · `assets/view/v-shopledger.png`
 
 - **설명**: [퍼즐 단서] 벨라 장부 → 우편함 시계 정답 6:20.
 - **크기**: 16:9 가로
@@ -538,7 +549,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of dusty rose and crimson velvet-look paper curtains drawn to both sides, top valance of layered cut-paper scrolls with rose medallions, small gold flowers and leaves, foreground row of layered paper rose bushes and round shrubs along the bottom edge, rose-colored roofs. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: an open shop ledger on a wooden counter, rows of small item drawings with the same date on every row, the last line has a little horse-drawn mail coach drawing and a time. A ledger table with 4 rows; every row starts with the date "봄 3일". Rows: [봄 3일 | wheat bundle drawing | 2], [봄 3일 | oil lamp drawing | 1], [봄 3일 | yarn ball drawing | 1], [봄 3일 | wheat bundle drawing | 2]. Under the last row: a small horse-drawn mail coach drawing, an envelope drawing and the time "6:20". Nothing else written. the writing is hand-lettered in brown ink on cream paper, clearly legible, exactly as specified, nothing else written. Wide 16:9 landscape composition. Do NOT include: watermark, signature, logo, misspelled text, extra numbers, wrong digits, garbled letters, photorealistic, 3D render, CGI, plastic, glossy, harsh cast shadows, neon colors, black vector outlines, cel shading, wide-angle distortion.
 ```
 
-### #42 · `assets/view/v-registry.png`
+### #43 · `assets/view/v-registry.png`
 
 - **설명**: [퍼즐 단서] 주민 명부 → 대출 장부 정답 "하나"(명부에 없는 이름).
 - **크기**: 16:9 가로
@@ -548,7 +559,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of layered cut-paper oak leaves and twisting branches forming curtains on both sides and an arch on top, small cream and pink paper blossoms, large paper tree trunks at the side wings, foreground row of layered paper leaf bushes along the bottom edge, green roofs, distant row of arches on the hills. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: a framed residents register on a cottage wall with three columns headed by a rose, an oak leaf and a seashell, names written in each column. Three columns. Column 1 headed by a rose drawing: 클로버, 벨라, 아리아, 토비. Column 2 headed by an oak leaf drawing: 오크스, 시에나, 마렌, 페넬. Column 3 headed by a seashell drawing: 노아, 루루, 로완. Write exactly these Korean names, one per line, and nothing else (the name 하나 must NOT appear). the writing is hand-lettered in brown ink on cream paper, clearly legible, exactly as specified, nothing else written. Wide 16:9 landscape composition. Do NOT include: watermark, signature, logo, misspelled text, extra numbers, wrong digits, garbled letters, photorealistic, 3D render, CGI, plastic, glossy, harsh cast shadows, neon colors, black vector outlines, cel shading, wide-angle distortion.
 ```
 
-### #43 · `assets/view/v-ledger.png`
+### #44 · `assets/view/v-ledger.png`
 
 - **설명**: [퍼즐 결과] 대출 장부를 푼 뒤 모습. 모든 줄이 똑같음.
 - **크기**: 16:9 가로
@@ -558,17 +569,17 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of dusty rose and crimson velvet-look paper curtains drawn to both sides, top valance of layered cut-paper scrolls with rose medallions, small gold flowers and leaves, foreground row of layered paper rose bushes and round shrubs along the bottom edge, rose-colored roofs. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: an open library lending ledger, every row is identical: the same date, the same borrower name, the same book title. Three column headers drawn as icons (calendar, person, red book). Exactly 5 identical rows, each row reads: "봄 3일" | "하나" | "첫 번째 하루". Nothing else written. the writing is hand-lettered in brown ink on cream paper, clearly legible, exactly as specified, nothing else written. Wide 16:9 landscape composition. Do NOT include: watermark, signature, logo, misspelled text, extra numbers, wrong digits, garbled letters, photorealistic, 3D render, CGI, plastic, glossy, harsh cast shadows, neon colors, black vector outlines, cel shading, wide-angle distortion.
 ```
 
-### #44 · `assets/view/v-cloak.png`
+### #45 · `assets/view/v-cloak.png`
 
 - **설명**: [퍼즐 단서] 망토 완성 도안 → 기록 조각 슬라이드(위 해·가운데 시계탑·아래 물결).
 - **크기**: 16:9 가로
 - **꼭 지킬 것**: 위 **해** · 가운데 **시계탑** · 아래 **물결** (그림 문양)
 
 ```
-layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of layered cut-paper oak leaves and twisting branches forming curtains on both sides and an arch on top, small cream and pink paper blossoms, large paper tree trunks at the side wings, foreground row of layered paper leaf bushes along the bottom edge, green roofs, distant row of arches on the hills. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: a finished cloak pattern sheet pinned on the workshop wall, embroidered in three horizontal bands: top band suns, middle band clock towers, bottom band waves. No writing at all. Three horizontal embroidered bands: top band a row of suns, middle band a row of clock towers, bottom band a row of waves. the writing is hand-lettered in brown ink on cream paper, clearly legible, exactly as specified, nothing else written. Wide 16:9 landscape composition. Do NOT include: watermark, signature, logo, misspelled text, extra numbers, wrong digits, garbled letters, photorealistic, 3D render, CGI, plastic, glossy, harsh cast shadows, neon colors, black vector outlines, cel shading, wide-angle distortion.
+layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of layered cut-paper oak leaves and twisting branches forming curtains on both sides and an arch on top, small cream and pink paper blossoms, large paper tree trunks at the side wings, foreground row of layered paper leaf bushes along the bottom edge, green roofs, distant row of arches on the hills. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: a finished cloak pattern sheet on cream grid paper pinned to the workshop wall with four pins, a dashed cloak outline with a collar, inside the cloak three horizontal embroidered bands: top band a row of suns, middle band a row of clock towers, bottom band a row of waves, small scissors drawing in the corner. No writing at all. Three horizontal embroidered bands: top band a row of suns, middle band a row of clock towers, bottom band a row of waves. the writing is hand-lettered in brown ink on cream paper, clearly legible, exactly as specified, nothing else written. Wide 16:9 landscape composition. Do NOT include: watermark, signature, logo, misspelled text, extra numbers, wrong digits, garbled letters, photorealistic, 3D render, CGI, plastic, glossy, harsh cast shadows, neon colors, black vector outlines, cel shading, wide-angle distortion.
 ```
 
-### #45 · `assets/view/v-jelly.png`
+### #46 · `assets/view/v-jelly.png`
 
 - **설명**: [퍼즐 단서] 해파리 조명 → 새집 레버 순서. 놓인 자리는 노랑·파랑·초록·분홍.
 - **크기**: 16:9 가로
@@ -578,7 +589,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of teal and powder blue paper drapes on both sides, top valance of cut-paper wave scrolls with scallop shells, seaweed garlands and small pearls, foreground cut-paper wave clouds and shells along the bottom edge, blue roofs. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: four jellyfish-shaped lamps hanging in a row from the café ceiling, from left to right: yellow, blue, green, pink, all unlit and dim, ready to glow. No writing at all. Exactly four jellyfish lamps in one row, left to right: yellow, blue, green, pink. the writing is hand-lettered in brown ink on cream paper, clearly legible, exactly as specified, nothing else written. Wide 16:9 landscape composition. Do NOT include: watermark, signature, logo, misspelled text, extra numbers, wrong digits, garbled letters, photorealistic, 3D render, CGI, plastic, glossy, harsh cast shadows, neon colors, black vector outlines, cel shading, wide-angle distortion.
 ```
 
-### #46 · `assets/view/v-shiftlog.png`
+### #47 · `assets/view/v-shiftlog.png`
 
 - **설명**: [퍼즐 단서] 새집 탑 교대 기록 → 유리 조각 순서와 ▲ 방향(새가 날아가는 쪽).
 - **크기**: 16:9 가로
@@ -588,7 +599,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of layered cut-paper oak leaves and twisting branches forming curtains on both sides and an arch on top, small cream and pink paper blossoms, large paper tree trunks at the side wings, foreground row of layered paper leaf bushes along the bottom edge, green roofs, distant row of arches on the hills. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: a wooden clipboard holding a shift log table, header icons dawn, noon, sunset, night, each header with a tiny bluebird flying in a direction (dawn: up, noon: left, sunset: down, night: up), seven rows with exactly the same date and the same times, a check mark on every row. A table. Header row (icons, no words): calendar | sunrise + tiny bluebird flying UP (arrow ↑) | sun + tiny bluebird flying LEFT (arrow ←) | sunset + tiny bluebird flying DOWN (arrow ↓) | moon + tiny bluebird flying UP (arrow ↑) | check mark. Then exactly 7 identical rows, each: "봄 3일" | "05:12:00" | "11:59:00" | "17:44:00" | "23:59:00" | ✓. Nothing else written. the writing is hand-lettered in brown ink on cream paper, clearly legible, exactly as specified, nothing else written. Wide 16:9 landscape composition. Do NOT include: watermark, signature, logo, misspelled text, extra numbers, wrong digits, garbled letters, photorealistic, 3D render, CGI, plastic, glossy, harsh cast shadows, neon colors, black vector outlines, cel shading, wide-angle distortion.
 ```
 
-### #47 · `assets/view/v-record.png`
+### #48 · `assets/view/v-record.png`
 
 - **설명**: [퍼즐 단서] 복원된 기록 → 등대 신호 정답(오른쪽 ●에서 왼쪽으로: 저녁 밤 아침 밤 낮).
 - **크기**: 16:9 가로
@@ -598,7 +609,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of dusty rose and crimson velvet-look paper curtains drawn to both sides, top valance of layered cut-paper scrolls with rose medallions, small gold flowers and leaves, foreground row of layered paper rose bushes and round shrubs along the bottom edge, rose-colored roofs. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: a long torn paper strip restored and taped together, showing five small paintings joined by arrows pointing to the LEFT, from left to right: sun, moon, sunrise, moon, sunset, with a small red dot at the far right end marking where to start reading. No words. From left to right exactly: sun, arrow ←, moon, arrow ←, sunrise, arrow ←, moon, arrow ←, sunset, then a small red dot at the far right end. All arrows point LEFT. the writing is hand-lettered in brown ink on cream paper, clearly legible, exactly as specified, nothing else written. Wide 16:9 landscape composition. Do NOT include: watermark, signature, logo, misspelled text, extra numbers, wrong digits, garbled letters, photorealistic, 3D render, CGI, plastic, glossy, harsh cast shadows, neon colors, black vector outlines, cel shading, wide-angle distortion.
 ```
 
-### #48 · `assets/view/v-board.png`
+### #49 · `assets/view/v-board.png`
 
 - **설명**: [퍼즐 단서] 광장 게시판 → ▲ = 2.
 - **크기**: 16:9 가로
@@ -608,7 +619,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of dusty rose and crimson velvet-look paper curtains drawn to both sides, top valance of layered cut-paper scrolls with rose medallions, small gold flowers and leaves, foreground row of layered paper rose bushes and round shrubs along the bottom edge, rose-colored roofs. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: a wooden cork notice board, two identical paper notices with a broom drawing pinned side by side, each stamped with a red triangle mark. No words. Exactly two identical notices with a broom drawing, each stamped with one red triangle ▲. the writing is hand-lettered in brown ink on cream paper, clearly legible, exactly as specified, nothing else written. Wide 16:9 landscape composition. Do NOT include: watermark, signature, logo, misspelled text, extra numbers, wrong digits, garbled letters, photorealistic, 3D render, CGI, plastic, glossy, harsh cast shadows, neon colors, black vector outlines, cel shading, wide-angle distortion.
 ```
 
-### #49 · `assets/view/v-mailbox.png`
+### #50 · `assets/view/v-mailbox.png`
 
 - **설명**: [퍼즐 단서] 우편함 편지 → ● = 3.
 - **크기**: 16:9 가로
@@ -618,7 +629,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of teal and powder blue paper drapes on both sides, top valance of cut-paper wave scrolls with scallop shells, seaweed garlands and small pearls, foreground cut-paper wave clouds and shells along the bottom edge, blue roofs. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: an open brass mailbox, three identical envelopes inside, each sealed with a round red wax seal. No words. Exactly three identical envelopes, each with one round red wax seal ●. the writing is hand-lettered in brown ink on cream paper, clearly legible, exactly as specified, nothing else written. Wide 16:9 landscape composition. Do NOT include: watermark, signature, logo, misspelled text, extra numbers, wrong digits, garbled letters, photorealistic, 3D render, CGI, plastic, glossy, harsh cast shadows, neon colors, black vector outlines, cel shading, wide-angle distortion.
 ```
 
-### #50 · `assets/view/v-workbench.png`
+### #51 · `assets/view/v-workbench.png`
 
 - **설명**: [퍼즐 단서] 공방 작업대 → ★ = 7 (땀 7개, 번호 없음).
 - **크기**: 16:9 가로
@@ -632,7 +643,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 
 ## 바탕만
 
-### #51 · `assets/view/v-desk.png`
+### #52 · `assets/view/v-desk.png`
 
 - **설명**: 책상 위 노트 (바탕만. 내용은 사이트가 얹음).
 - **크기**: 16:9 가로
@@ -642,7 +653,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of dusty rose and crimson velvet-look paper curtains drawn to both sides, top valance of layered cut-paper scrolls with rose medallions, small gold flowers and leaves, foreground row of layered paper rose bushes and round shrubs along the bottom edge, rose-colored roofs. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: an old notebook open on a wooden desk, lined pages blank. Leave the paper surface in the center completely blank and empty, no writing at all (text will be added later by the website). Wide 16:9 landscape composition. Do NOT include: text, letters, words, numbers, digits, signature, watermark, logo, caption, label, photorealistic, 3D render, CGI, plastic, glossy, vinyl, PBR, mirror reflections, harsh cast shadows, dramatic rim light, volumetric light, neon colors, black vector outlines, cel shading, realistic adult proportions, wide-angle distortion, fisheye, extreme low or high angle, missing frame, frameless, modern buildings, cars.
 ```
 
-### #52 · `assets/view/v-drawer.png`
+### #53 · `assets/view/v-drawer.png`
 
 - **설명**: 서랍 속 (바탕만).
 - **크기**: 16:9 가로
@@ -652,7 +663,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of dusty rose and crimson velvet-look paper curtains drawn to both sides, top valance of layered cut-paper scrolls with rose medallions, small gold flowers and leaves, foreground row of layered paper rose bushes and round shrubs along the bottom edge, rose-colored roofs. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: an open wooden drawer seen from above, empty bottom. Leave the paper surface in the center completely blank and empty, no writing at all (text will be added later by the website). Wide 16:9 landscape composition. Do NOT include: text, letters, words, numbers, digits, signature, watermark, logo, caption, label, photorealistic, 3D render, CGI, plastic, glossy, vinyl, PBR, mirror reflections, harsh cast shadows, dramatic rim light, volumetric light, neon colors, black vector outlines, cel shading, realistic adult proportions, wide-angle distortion, fisheye, extreme low or high angle, missing frame, frameless, modern buildings, cars.
 ```
 
-### #53 · `assets/view/v-journal.png`
+### #54 · `assets/view/v-journal.png`
 
 - **설명**: 관찰일지 (바탕만).
 - **크기**: 16:9 가로
@@ -662,7 +673,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of dusty rose and crimson velvet-look paper curtains drawn to both sides, top valance of layered cut-paper scrolls with rose medallions, small gold flowers and leaves, foreground row of layered paper rose bushes and round shrubs along the bottom edge, rose-colored roofs. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: a leather observation journal open on a desk in a dim secret room, blank pages. Leave the paper surface in the center completely blank and empty, no writing at all (text will be added later by the website). Wide 16:9 landscape composition. Do NOT include: text, letters, words, numbers, digits, signature, watermark, logo, caption, label, photorealistic, 3D render, CGI, plastic, glossy, vinyl, PBR, mirror reflections, harsh cast shadows, dramatic rim light, volumetric light, neon colors, black vector outlines, cel shading, realistic adult proportions, wide-angle distortion, fisheye, extreme low or high angle, missing frame, frameless, modern buildings, cars.
 ```
 
-### #54 · `assets/view/v-oldrec.png`
+### #55 · `assets/view/v-oldrec.png`
 
 - **설명**: 오래된 기록 (바탕만).
 - **크기**: 16:9 가로
@@ -672,7 +683,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of dusty rose and crimson velvet-look paper curtains drawn to both sides, top valance of layered cut-paper scrolls with rose medallions, small gold flowers and leaves, foreground row of layered paper rose bushes and round shrubs along the bottom edge, rose-colored roofs. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: a very thick ancient book open on a lectern, blank yellowed pages, dust. Leave the paper surface in the center completely blank and empty, no writing at all (text will be added later by the website). Wide 16:9 landscape composition. Do NOT include: text, letters, words, numbers, digits, signature, watermark, logo, caption, label, photorealistic, 3D render, CGI, plastic, glossy, vinyl, PBR, mirror reflections, harsh cast shadows, dramatic rim light, volumetric light, neon colors, black vector outlines, cel shading, realistic adult proportions, wide-angle distortion, fisheye, extreme low or high angle, missing frame, frameless, modern buildings, cars.
 ```
 
-### #55 · `assets/view/v-libnotice.png`
+### #56 · `assets/view/v-libnotice.png`
 
 - **설명**: 도서관 출입 제한 안내문 판 (바탕만).
 - **크기**: 16:9 가로
@@ -682,7 +693,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of dusty rose and crimson velvet-look paper curtains drawn to both sides, top valance of layered cut-paper scrolls with rose medallions, small gold flowers and leaves, foreground row of layered paper rose bushes and round shrubs along the bottom edge, rose-colored roofs. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: a small framed notice plaque on a post in front of the library, blank. Leave the paper surface in the center completely blank and empty, no writing at all (text will be added later by the website). Wide 16:9 landscape composition. Do NOT include: text, letters, words, numbers, digits, signature, watermark, logo, caption, label, photorealistic, 3D render, CGI, plastic, glossy, vinyl, PBR, mirror reflections, harsh cast shadows, dramatic rim light, volumetric light, neon colors, black vector outlines, cel shading, realistic adult proportions, wide-angle distortion, fisheye, extreme low or high angle, missing frame, frameless, modern buildings, cars.
 ```
 
-### #56 · `assets/view/v-menu.png`
+### #57 · `assets/view/v-menu.png`
 
 - **설명**: 카페 메뉴판 (바탕만).
 - **크기**: 16:9 가로
@@ -692,7 +703,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 layered cut-paper theater diorama, paper puppet stage, handmade paper craft, visible cut paper edges, stacked paper layers with thin soft contact shadows between layers, watercolor and gouache texture printed on textured cream paper, subtle paper grain and speckles, warm soft diffused daylight at 1 pm, clear sunny weather, soft pastel palette of cream and ivory base with dusty rose, sage and moss green, powder blue, mint and lavender, warm brown hand-drawn outlines with lighter inner lines, storybook fairy-tale European village, cozy and symmetrical, front-facing stage composition at third-person eye level, theater proscenium framing, 16:9. stage frame of teal and powder blue paper drapes on both sides, top valance of cut-paper wave scrolls with scallop shells, seaweed garlands and small pearls, foreground cut-paper wave clouds and shells along the bottom edge, blue roofs. close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges. Object: a café menu board on an easel, empty paper surface, shell decorations. Leave the paper surface in the center completely blank and empty, no writing at all (text will be added later by the website). Wide 16:9 landscape composition. Do NOT include: text, letters, words, numbers, digits, signature, watermark, logo, caption, label, photorealistic, 3D render, CGI, plastic, glossy, vinyl, PBR, mirror reflections, harsh cast shadows, dramatic rim light, volumetric light, neon colors, black vector outlines, cel shading, realistic adult proportions, wide-angle distortion, fisheye, extreme low or high angle, missing frame, frameless, modern buildings, cars.
 ```
 
-### #57 · `assets/view/v-letter.png`
+### #58 · `assets/view/v-letter.png`
 
 - **설명**: 부치지 못한 편지 (바탕만).
 - **크기**: 16:9 가로
@@ -706,7 +717,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 
 ## 사이트 배경
 
-### #58 · `assets/page/stage1.png`
+### #59 · `assets/page/stage1.png`
 
 - **설명**: 사이트 바깥 배경 (1단계 · 일상). 화면 전체에 늘어나 깔림.
 - **크기**: 16:9 가로 (1920×1080 이상)
@@ -716,7 +727,7 @@ layered cut-paper theater diorama, paper puppet stage, handmade paper craft, vis
 seamless warm cream paper texture background, soft speckles and faint fibers, flat, no objects, no frame, no text, wide 16:9 landscape, evenly filled edge to edge, calm
 ```
 
-### #59 · `assets/page/stage2.png`
+### #60 · `assets/page/stage2.png`
 
 - **설명**: 사이트 바깥 배경 (2단계 · 미세한 어긋남). 화면 전체에 늘어나 깔림.
 - **크기**: 16:9 가로 (1920×1080 이상)
@@ -726,7 +737,7 @@ seamless warm cream paper texture background, soft speckles and faint fibers, fl
 seamless warm cream paper texture background, soft speckles and faint fibers, flat, no objects, no frame, no text, wide 16:9 landscape, evenly filled edge to edge, a few barely visible faint gray scratches and tiny smudges
 ```
 
-### #60 · `assets/page/stage3.png`
+### #61 · `assets/page/stage3.png`
 
 - **설명**: 사이트 바깥 배경 (3단계 · 뚜렷한 오류). 화면 전체에 늘어나 깔림.
 - **크기**: 16:9 가로 (1920×1080 이상)
@@ -736,7 +747,7 @@ seamless warm cream paper texture background, soft speckles and faint fibers, fl
 seamless warm cream paper texture background, soft speckles and faint fibers, flat, no objects, no frame, no text, wide 16:9 landscape, evenly filled edge to edge, slightly yellowed and stained, thin hairline creases, a few small faded glitch-colored specks in pink and cyan
 ```
 
-### #61 · `assets/page/stage4.png`
+### #62 · `assets/page/stage4.png`
 
 - **설명**: 사이트 바깥 배경 (4단계 · 심한 오류). 화면 전체에 늘어나 깔림.
 - **크기**: 16:9 가로 (1920×1080 이상)
@@ -746,7 +757,7 @@ seamless warm cream paper texture background, soft speckles and faint fibers, fl
 the same cream paper now darker and wrinkled, small torn gaps showing pure black behind, scattered pink and cyan pixel noise, horizontal misaligned glitch bands, flat, no objects, no text, wide 16:9 landscape, evenly filled edge to edge
 ```
 
-### #62 · `assets/page/stage5.png`
+### #63 · `assets/page/stage5.png`
 
 - **설명**: 사이트 바깥 배경 (5단계 · 완전한 오류). 화면 전체에 늘어나 깔림.
 - **크기**: 16:9 가로 (1920×1080 이상)
@@ -760,7 +771,7 @@ grayish faded desaturated paper, frozen still, heavily cracked and torn with pur
 
 ## 마우스 포인터
 
-### #63 · `assets/cursor/stage1.png`
+### #64 · `assets/cursor/stage1.png`
 
 - **설명**: 마우스 포인터 (1단계). 정사각형으로 크게 만들면 Claude 가 32×32 로 줄여 넣음.
 - **크기**: 정사각형 · 투명 배경
@@ -770,7 +781,7 @@ grayish faded desaturated paper, frozen still, heavily cracked and torn with pur
 a single computer mouse pointer arrow icon, the arrow tip pointing exactly to the upper-left corner of the canvas, hand-cut cream paper arrow with a dark warm-brown outline, simple and bold so it stays readable when shrunk to 32x32 pixels, centered large, transparent background, no shadow outside the arrow, no text, clean and neat
 ```
 
-### #64 · `assets/cursor/stage2.png`
+### #65 · `assets/cursor/stage2.png`
 
 - **설명**: 마우스 포인터 (2단계). 정사각형으로 크게 만들면 Claude 가 32×32 로 줄여 넣음.
 - **크기**: 정사각형 · 투명 배경
@@ -780,7 +791,7 @@ a single computer mouse pointer arrow icon, the arrow tip pointing exactly to th
 a single computer mouse pointer arrow icon, the arrow tip pointing exactly to the upper-left corner of the canvas, hand-cut cream paper arrow with a dark warm-brown outline, simple and bold so it stays readable when shrunk to 32x32 pixels, centered large, transparent background, no shadow outside the arrow, no text, the outline slightly misregistered with faint pink and cyan color fringes
 ```
 
-### #65 · `assets/cursor/stage3.png`
+### #66 · `assets/cursor/stage3.png`
 
 - **설명**: 마우스 포인터 (3단계). 정사각형으로 크게 만들면 Claude 가 32×32 로 줄여 넣음.
 - **크기**: 정사각형 · 투명 배경
@@ -790,7 +801,7 @@ a single computer mouse pointer arrow icon, the arrow tip pointing exactly to th
 a single computer mouse pointer arrow icon, the arrow tip pointing exactly to the upper-left corner of the canvas, hand-cut cream paper arrow with a dark warm-brown outline, simple and bold so it stays readable when shrunk to 32x32 pixels, centered large, transparent background, no shadow outside the arrow, no text, slight pink and cyan color fringes, a few small noise dots and specks on and around the arrow
 ```
 
-### #66 · `assets/cursor/stage4.png`
+### #67 · `assets/cursor/stage4.png`
 
 - **설명**: 마우스 포인터 (4단계). 정사각형으로 크게 만들면 Claude 가 32×32 로 줄여 넣음.
 - **크기**: 정사각형 · 투명 배경
@@ -800,7 +811,7 @@ a single computer mouse pointer arrow icon, the arrow tip pointing exactly to th
 a single computer mouse pointer arrow icon, the arrow tip pointing exactly to the upper-left corner of the canvas, hand-cut cream paper arrow with a dark warm-brown outline, simple and bold so it stays readable when shrunk to 32x32 pixels, centered large, transparent background, no shadow outside the arrow, no text, glitched: broken square pixels, two horizontal slices shifted sideways, pink and cyan color split, noise specks
 ```
 
-### #67 · `assets/cursor/stage5.png`
+### #68 · `assets/cursor/stage5.png`
 
 - **설명**: 마우스 포인터 (5단계). 정사각형으로 크게 만들면 Claude 가 32×32 로 줄여 넣음.
 - **크기**: 정사각형 · 투명 배경
@@ -814,7 +825,7 @@ a single computer mouse pointer arrow icon, the arrow tip pointing exactly to th
 
 ## 균열
 
-### #68 · `assets/crack/stage4.png`
+### #69 · `assets/crack/stage4.png`
 
 - **설명**: 4단계부터 사이트 전체(머리글·그림 창·설명·무대 뒤) 위에 덮이는 균열.
 - **크기**: 세로형 · 투명 배경
@@ -824,7 +835,7 @@ a single computer mouse pointer arrow icon, the arrow tip pointing exactly to th
 black ink cracks spreading across a fully transparent background like a broken sheet of paper, thin branching hairline cracks and a few thicker jagged fissures, spread across the whole tall canvas but mostly near the edges and corners, large empty transparent areas in between, flat 2D ink drawing, no paper, no background color, no text
 ```
 
-### #69 · `assets/crack/stage5.png`
+### #70 · `assets/crack/stage5.png`
 
 - **설명**: 5단계 균열 (더 크고 많이). 한 장만 만들면 4·5단계에 같이 씀.
 - **크기**: 세로형 · 투명 배경
@@ -838,7 +849,7 @@ black ink cracks spreading across a fully transparent background like a broken s
 
 ## 엔딩
 
-### #70 · `assets/ending/aria.png`
+### #71 · `assets/ending/aria.png`
 
 - **설명**: 엔딩: 창문(이어 붙인 유리) 너머로 2초 뒤 나타나 플레이어를 바라보다 사라지는 아리아.
 - **크기**: 세로형 · 투명 배경
@@ -859,4 +870,4 @@ malfunction state: same composition and buildings, dark blue-violet and indigo p
 
 ## 다 만든 뒤
 - 만든 그림을 파일 이름 그대로 Claude 에게 보내 주면, 사이트에 넣고 클릭 위치·글 얹는 자리·엔딩 창문 유리 칸 위치를 그림에 맞춰 조정합니다.
-- 퍼즐 단서 그림(#38~#50)은 숫자·기호가 정확한지 꼭 확인하세요. 한글이 깨지면 그 칸만 비워서 보내 주면 사이트가 글을 얹도록 바꿉니다.
+- 퍼즐 단서 그림(#39~#51)은 숫자·기호가 정확한지 꼭 확인하세요. 한글이 깨지면 그 칸만 비워서 보내 주면 사이트가 글을 얹도록 바꿉니다.
