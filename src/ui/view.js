@@ -124,6 +124,10 @@
       im.style.cssText = `left:${bx.x}px;top:${bx.y}px;width:${bx.w}px;height:${bx.h}px`; decoEl.append(im);
     });
     sceneEl.style.background = img + sc.bg;
+    // 배경 확대(art.js bgZoom): 원래 그림의 (x, y) 점이 그림 창의 to 자리에 오도록 z 배로 키운다
+    const bz = (EF.ART[sc.id] || {}).bgZoom;
+    if (bz && img) { sceneEl.style.backgroundSize = `${1280 * bz.z}px ${720 * bz.z}px, auto`;
+      sceneEl.style.backgroundPosition = `${bz.to[0] - bz.x * bz.z}px ${bz.to[1] - bz.y * bz.z}px, 0 0`; }
     sceneEl.classList.toggle('err-img', err); // 오작동 그림이 있으면 CSS 색 효과는 끈다
     sceneEl.classList.toggle('has-img', !!img); // 그림이 있으면 '배경 이미지 자리' 글씨를 숨긴다
     // 그림이 있는 장면: 클릭할 곳은 평소엔 안 보이고 마우스를 올리면 테두리만 나타난다.
@@ -155,6 +159,7 @@
         else if (spec.at && EF.artHas('el/' + name)) { box = EF.artBox('el/' + name, spec.at); elImg = EF.artSrc('el/' + name); }
       }
       b.style.cssText = `left:${box.x}px;top:${box.y}px;width:${box.w}px;height:${box.h}px`;
+      if (ae && ae.z) b.style.zIndex = ae.z; // 다른 요소보다 앞에
       b.dataset.id = hp.id;
       if (elImg) {
         const im = h('img', 'el-img'); im.src = elImg; im.alt = hp.label; im.draggable = false; b.append(im); b.classList.add('has-el');
