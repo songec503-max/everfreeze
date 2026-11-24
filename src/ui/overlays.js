@@ -22,7 +22,12 @@
     const n = EF.NPCS[it.npc];
     // 인물 크롭: 배경 속 인물을 누르면 따로 그린 인물 그림이 그림 창 전체에 뜨고, 대화창이 그 위에 얹힌다
     const cu = h('div', 'closeup npc-cu');
-    if (EF.NPC_IMAGES.includes(it.npc)) cu.style.background = `url(assets/npc/${it.npc}.png) center/cover no-repeat`;
+    const nimg = EF.npcImg(it.npc);
+    if (nimg) { // 장면 배경을 흐리게 깔고, 인물 그림을 왼쪽에 크게
+      cu.classList.add('has-img');
+      cu.append(EF.blurBg());
+      const im = h('img', 'npc-art'); im.src = nimg; im.alt = n.name; cu.append(im);
+    }
     else {
       cu.style.background = `radial-gradient(ellipse at 50% 38%, ${n.color} 0%, #2b2638 85%)`;
       cu.append(h('div', 'npc-ph', n.name), h('div', 'cv-tag', `임시 그림 · assets/npc/${it.npc}.png`));

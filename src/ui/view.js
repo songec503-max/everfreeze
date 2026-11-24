@@ -13,7 +13,7 @@
   };
   EF.h = h;
   const UI = (EF.UI = { busy: false, hints: false, dismiss: null, visited: {} });
-  let stage, wrap, sceneEl, wm, hsEl, ptitle, pintro, tagline, counter, backEl, memoBtn, nbCount, firstRender = true;
+  let stage, wrap, sceneEl, decoEl, curtainEl, wm, hsEl, ptitle, pintro, tagline, counter, backEl, memoBtn, nbCount, firstRender = true;
 
   UI.init = function () {
     stage = UI.stage = $('stage'); wrap = $('stagewrap');
@@ -25,7 +25,8 @@
     UI.bannerEl = h('div', 'banner');
     backEl = h('div', 'edge-back'); backEl.onclick = () => UI.goBack();
     backEl.append(h('div', 'edge-arrow')); // 뒤로 갈 수 있다는 표시(항상 희미하게 보이고, 마우스를 대면 진해짐)
-    stage.append(sceneEl, h('div', 'fx'), hsEl, backEl, UI.toastEl, UI.bannerEl);
+    decoEl = h('div', 'deco'); curtainEl = h('div', 'curtain-img'); // 장식(누를 수 없음) · 마을 커튼 그림
+    stage.append(sceneEl, decoEl, h('div', 'fx'), hsEl, curtainEl, backEl, UI.toastEl, UI.bannerEl);
     // 메모 버튼은 설정(showMemo)을 켰을 때만 만든다
     if (EF.CONFIG.showMemo) {
       memoBtn = h('button', 'memo-btn', '📓 메모 ('); nbCount = h('b', '', '0'); memoBtn.append(nbCount, ')');
@@ -63,6 +64,7 @@
     UI.fit();
     UI.initStageCurtain(); // 오페라 커튼: 시작 화면 · 스크롤로 막 내리기 · 무대 뒤 (backstage.js)
     if (UI.initGuide) UI.initGuide(); // 월드맵 · 도움말 버튼과 안내 쪽지 (guide.js)
+    if (EF.applyBrand) EF.applyBrand(); // 로고 · 앰블럼 그림 (art.js)
   };
 
   UI.fit = function () {
@@ -97,14 +99,28 @@
     firstRender = false;
     document.title = `${sc.name} · EVERFREEZE`;
     stage.dataset.stage = stg; document.body.dataset.stage = stg; document.documentElement.dataset.cur = Math.min(5, stg); // 단계별 마우스 포인터
-    { const pb = EF.PAGE_BG_IMAGES.filter(n => n <= stg).sort((a, b) => b - a)[0]; // 단계별 사이트 배경 그림
+    { const old = EF.PAGE_BG_IMAGES.filter(n => n <= stg).sort((a, b) => b - a)[0]; // 단계별 사이트 배경 그림
+      const pb = EF.pageBg(stg) || (old ? `assets/page/stage${old}.png` : null);
       document.body.classList.toggle('page-bg', !!pb);
-      document.body.style.backgroundImage = pb ? `url(assets/page/stage${pb}.png)` : ''; }
+      document.body.style.backgroundImage = pb ? `url(${pb})` : ''; }
     if (EF.Glitch) EF.Glitch.set(stg); // 사이트 전체 오류 연출 (glitch.js)
     const bgId = sc.bgAlt && EF.check(sc.bgAlt.if) ? sc.bgAlt.id : sc.id; // 상태에 따라 바뀌는 그림(예: 비밀 통로 열림)
     const err = stg >= 4 && EF.BG_ERR_IMAGES.includes(bgId);
     const img = err ? `url(assets/bg/${bgId}_err.png) center/cover no-repeat, `
+      : EF.artHas('bg/' + bgId) ? `url(${EF.artSrc('bg/' + bgId)}) center/cover no-repeat, `
       : EF.BG_IMAGES.includes(bgId) ? `url(assets/bg/${bgId}.png) center/cover no-repeat, ` : '';
+    // 마을 커튼 그림 (있으면 CSS 커튼 대신 이 그림이 무대 틀이 된다)
+    const ck = 'curtain/' + EF.curtainFor(sc), hasCurtain = EF.artHas(ck);
+    curtainEl.style.backgroundImage = hasCurtain ? `url(${EF.artSrc(ck)})` : '';
+    document.body.classList.toggle('has-curtain', hasCurtain);
+    // 장식 (누를 수 없는 그림)
+    const art = EF.ART[sc.id] || {};
+    decoEl.innerHTML = '';
+    (art.deco || []).forEach(d => {
+      const key = 'el/' + d.img; if (!EF.artHas(key) || (d.showIf && !EF.check(d.showIf))) return;
+      const bx = EF.artBox(key, d.at), im = h('img', 'deco-img'); im.src = EF.artSrc(key); im.alt = '';
+      im.style.cssText = `left:${bx.x}px;top:${bx.y}px;width:${bx.w}px;height:${bx.h}px`; decoEl.append(im);
+    });
     sceneEl.style.background = img + sc.bg;
     sceneEl.classList.toggle('err-img', err); // 오작동 그림이 있으면 CSS 색 효과는 끈다
     sceneEl.classList.toggle('has-img', !!img); // 그림이 있으면 '배경 이미지 자리' 글씨를 숨긴다
@@ -128,8 +144,18 @@
     sc.hotspots.forEach(hp => {
       if (!EF.check(hp.showIf)) return;
       const b = h('button', `hs hs-${hp.kind}` + (hp.temp ? ' temp' : ''));
-      b.style.cssText = `left:${hp.x}px;top:${hp.y}px;width:${hp.w}px;height:${hp.h}px`;
+      let box = { x: hp.x, y: hp.y, w: hp.w, h: hp.h }, elImg = null;
+      const ae = (art.el || {})[hp.id];
+      if (ae) { // 그림 배치표(art.js)에 있으면 그 자리 · 그 그림으로
+        const spec = Array.isArray(ae) ? { at: ae, img: `${sc.id}-${hp.id}` } : ae;
+        const name = spec.alt && EF.check(spec.alt.if) ? spec.alt.img : (spec.img || `${sc.id}-${hp.id}`);
+        if (spec.box) box = { x: spec.box[0], y: spec.box[1], w: spec.box[2], h: spec.box[3] };
+        else if (spec.at && EF.artHas('el/' + name)) { box = EF.artBox('el/' + name, spec.at); elImg = EF.artSrc('el/' + name); }
+      }
+      b.style.cssText = `left:${box.x}px;top:${box.y}px;width:${box.w}px;height:${box.h}px`;
       b.dataset.id = hp.id;
+      if (elImg) { const im = h('img', 'el-img'); im.src = elImg; im.alt = hp.label; im.draggable = false; b.append(im); b.classList.add('has-el'); }
+      else if (ae && ae.box) b.classList.add('area'); // 배경 속 통로처럼 그림 없이 누르는 곳
       if (hp.npc && EF.NPCS[hp.npc]) { // 임시 그림일 때 인물은 색 동그라미 + 이름 첫 글자 (그림이 들어오면 숨겨진다)
         const n = EF.NPCS[hp.npc], ic = h('span', 'ico npc-ico', n.name[0]); ic.style.background = n.color; b.append(ic, h('span', 'lbl', hp.label));
       } else b.append(h('span', 'ico', hp.icon), h('span', 'lbl', hp.label));

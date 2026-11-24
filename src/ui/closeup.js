@@ -16,8 +16,8 @@
 
   R.pic = (v, id) => {
     const box = h('div', 'cv-pic');
-    if (id && EF.VIEW_IMAGES.includes(id)) {
-      box.style.backgroundImage = `url(assets/view/${id}.png)`;
+    if (id && EF.viewImg(id)) {
+      box.style.backgroundImage = `url(${EF.viewImg(id)})`;
       box.classList.add('has-img');
     } else {
       const [a, b] = v.tone || ['#e9e4dc', '#9c9284'];
@@ -80,8 +80,12 @@
   R.lights = v => {
     const box = h('div', 'cv-lights');
     const n = v.colors.length;
+    const LAMP = { '#e8c547': 'yellow', '#5b8fd9': 'blue', '#5fb37a': 'green', '#e59ac0': 'pink' }; // 해파리 조명 그림(있으면)
+    const useImg = v.colors.every(c => EF.artHas('el/jelly-' + LAMP[c]));
+    if (useImg) box.classList.add('lamps');
     v.colors.forEach((c, i) => {
-      const b = h('div', 'bulb'); b.style.setProperty('--c', c);
+      const b = useImg ? h('img', 'bulb lamp') : h('div', 'bulb'); b.style.setProperty('--c', c);
+      if (useImg) { b.src = EF.artSrc('el/jelly-' + LAMP[c]); b.alt = ''; }
       const k = v.order ? v.order.indexOf(i) : i; // 몇 번째로 켜지는지
       b.style.animationDelay = (k * 0.7) + 's'; b.style.animationDuration = (n * 0.7 + 1.2) + 's';
       box.append(b);
@@ -197,19 +201,20 @@
 
     const cu = h('div', 'closeup' + (EF.isEnded() ? ' quiet' : ''));
     cu.dataset.view = id || '';
-    const hasImg = id && EF.VIEW_IMAGES.includes(id);
+    const hasImg = !!(id && EF.viewImg(id));
     // 그림이 있을 때:
     //  - 기본(퍼즐 단서 그림): 글자·숫자·기호까지 그림에 그려져 있으므로 그림만 보여 준다.
     //  - overlay:true(퍼즐과 무관한 그림): 글 없는 바탕 그림 위 box 영역에 글을 얹는다. bare:true 면 종이 바탕도 뺀다.
     const content = hasImg && !v.overlay ? R.pic({}, id) : (R[v.kind] || R.pic)(v, id);
     if (hasImg && v.overlay && v.kind !== 'pic') {
-      cu.style.background = `url(assets/view/${id}.png) center/cover no-repeat`;
+      const pb = h('div', 'cu-picbg'); pb.style.backgroundImage = `url(${EF.viewImg(id)})`; cu.append(pb); // 글을 얹을 바탕 그림
       content.classList.add('on-img');
       if (v.bare) content.classList.add('bare');
       const b = v.box || [240, 110, 800, 500];
       Object.assign(content.style, { position: 'absolute', left: b[0] + 'px', top: b[1] + 'px', width: b[2] + 'px', height: b[3] + 'px' });
     }
     cu.append(content);
+    if (hasImg) { cu.classList.add('has-img'); cu.append(EF.blurBg()); } // 흐린 장면 배경(뒤에 깔림)
     // 돌아가기: 장면과 같은 하단 띠 + ▼
     const back = h('div', 'edge-back'); back.append(h('div', 'edge-arrow'));
     cu.append(back);
