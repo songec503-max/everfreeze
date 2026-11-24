@@ -751,3 +751,92 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
 .pt-collar{position:absolute;left:50%;top:0;width:120px;height:40px;margin-left:-60px;border:3px dashed #8a5a44;border-top:0;border-radius:0 0 60px 60px}
 .p-row{display:flex;justify-content:center;gap:22px;font-size:58px;line-height:1;padding:12px 0;border-top:3px dashed rgba(138,90,68,.55);border-bottom:3px dashed rgba(138,90,68,.55);background:rgba(240,220,200,.35)}
 .pt-scissors{position:absolute;right:46px;bottom:40px;font-size:34px;color:#8a5a44;transform:rotate(-20deg)}
+
+/* ===== 그림 배치 (src/data/art.js) ===== */
+.deco{position:absolute;inset:0;pointer-events:none;z-index:1}
+.deco-img{position:absolute;object-fit:contain}
+.curtain-img{position:absolute;inset:0;pointer-events:none;z-index:6;background:center/100% 100% no-repeat}
+/* 커튼 그림이 있으면 열린 상태의 CSS 커튼 자락·윗단은 숨긴다 (닫히고 열리는 움직임에는 그대로 쓴다) */
+body.has-curtain .opera.open .drape,body.has-curtain .opera.open .opera-valance{opacity:0;transition:opacity .4s}
+#stage .hs.has-el{border:0;border-radius:0;background:transparent;padding:0}
+#stage .hs.has-el .ico,#stage .hs.has-el .npc-ico{display:none}
+#stage .hs .el-img{width:100%;height:100%;object-fit:contain;pointer-events:none;transition:filter .15s,transform .15s;transform-origin:50% 100%}
+#stage .hs.has-el:hover{background:transparent;box-shadow:none;border:0}
+#stage .hs.has-el:hover .el-img{filter:drop-shadow(0 0 3px #fffdf3) drop-shadow(0 0 3px #fffdf3) drop-shadow(0 0 10px rgba(255,236,170,.95));transform:scale(1.025)}
+#stage.hints .hs.has-el .el-img{filter:drop-shadow(0 0 4px #fffdf3) drop-shadow(0 0 12px rgba(255,236,170,.95))}
+/* 그림이 아직 없는 클릭 요소는 그림 장면에서도 아이콘을 희미하게 보여 준다 */
+#stage.has-img .hs:not(.has-el):not(.area) .ico,#stage.has-img .hs:not(.has-el):not(.area) .npc-ico{opacity:.8}
+/* 그림 클로즈업 · 인물 대화: 뒤에 지금 장면을 흐리게 */
+.closeup.has-img .cu-blur{position:absolute;inset:-20px;background:#1b1824 center/cover no-repeat;filter:blur(10px) brightness(.55) saturate(.8);z-index:-1}
+.closeup.has-img{isolation:isolate;background-color:transparent}
+.closeup.has-img .cv-pic.has-img{background-size:contain;background-repeat:no-repeat;flex:1}
+.npc-cu.has-img{justify-content:flex-start}
+.npc-cu .npc-art{position:absolute;left:4%;bottom:-4%;height:108%;max-width:62%;object-fit:contain;object-position:left bottom;filter:drop-shadow(0 10px 24px rgba(0,0,0,.4))}
+/* 해파리 조명 그림: 차례로 환하게 빛난다 */
+.cv-lights.lamps{gap:70px;align-items:flex-start;padding-top:40px}
+.bulb.lamp{width:auto;height:470px;border-radius:0;background:none;opacity:1;animation-name:lampOn;filter:brightness(.55) saturate(.55)}
+@keyframes lampOn{0%{filter:brightness(.55) saturate(.55)}1%,22%{filter:brightness(1.18) saturate(1.2) drop-shadow(0 0 26px var(--c)) drop-shadow(0 0 60px var(--c))}23%,100%{filter:brightness(.55) saturate(.55)}}
+/* 엔딩 창문 그림 · 아리아가 비친 창문 (서서히 나타났다가 끊기며 사라짐) */
+.fin-win{display:block!important}
+.fin-win>*:first-child{filter:none}
+.fin-win-aria{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease}
+.fin-win-aria.on{opacity:1}
+.fin-win-aria.gone{opacity:0;transition:opacity .35s steps(4);clip-path:polygon(0 0,100% 0,100% 38%,0 44%,0 61%,100% 55%,100% 100%,0 100%)}
+body.has-curtain #stagewrap::after{display:none} /* 커튼 그림이 있으면 그림 창 위 물결 띠는 뺀다 */
+.cu-picbg{position:absolute;inset:0;background:center/contain no-repeat;pointer-events:none}
+/* ===== 퍼즐 그림 부품 ===== */
+.pa-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.pa-plate{position:relative;margin:0 auto;display:flex;align-items:center;justify-content:center}
+.pa-plate.lock{width:560px;height:373px}
+.pa-plate.page{width:380px;height:380px;align-items:flex-end;padding-bottom:58px}
+.pa-drums{position:relative;display:flex;gap:18px}
+.pa-plate.lock .pa-drums{gap:10px;margin-top:-6px}
+.pa-drumcol{display:flex;flex-direction:column;align-items:center;gap:4px}
+.pa-drum{position:relative;width:58px;height:86px;overflow:hidden;background:center/100% 100% no-repeat;border-radius:6px}
+.pa-plate.page .pa-drum{width:52px;height:150px}
+.pa-strip{position:absolute;left:0;right:0;top:0;height:1200%;display:flex;flex-direction:column;transition:transform .25s cubic-bezier(.3,1.4,.5,1)}
+.pa-strip span{flex:1;display:flex;align-items:center;justify-content:center;font:800 40px var(--serif);color:#4a3420;text-shadow:0 1px 0 rgba(255,255,255,.6)}
+.pa-drum::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(60,40,20,.45),transparent 30%,transparent 70%,rgba(60,40,20,.45));pointer-events:none}
+.pa-arrow{border:0;background:rgba(255,250,238,.85);border-radius:6px;width:40px;height:24px;font-size:13px;color:#6b4a2a;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.pa-rings{display:flex;align-items:center;justify-content:center;gap:26px}
+.pa-ringstack{position:relative;width:360px;height:360px;flex:none}
+.pa-ring{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;transition:transform .3s cubic-bezier(.3,1.3,.5,1)}
+.pa-ringstack{cursor:pointer}
+.pa-ringctl{display:flex;flex-direction:column;gap:10px}
+.pa-ringrow{display:flex;align-items:center;gap:8px}
+.pa-ringrow .wbtn{width:40px;height:32px}
+.pa-ringlbl{width:64px;font-size:15px;color:var(--ink2)}
+.pa-ringnum{width:28px;text-align:center;font:800 26px var(--serif)}
+.pa-clock{position:relative;width:300px;height:300px;flex:none}
+.pa-hand{position:absolute;left:0;top:0;width:100%;height:100%;transform-origin:50% 50%;transition:transform .3s cubic-bezier(.3,1.3,.5,1);pointer-events:none}
+.pa-hand.hour{top:-7.5%;transform-origin:50% 57.5%} /* 시침 그림의 회전축 고리가 가운데보다 조금 아래 */
+.pa-levdev{position:relative;width:600px;height:300px;margin:0 auto}
+.pa-levrow{position:absolute;left:0;right:0;top:4%;height:70%;display:flex;justify-content:center;gap:42px}
+.pa-lever{border:0;background:none;padding:0;height:100%;transition:transform .25s;transform-origin:50% 92%}
+.pa-lever img{height:100%;pointer-events:none}
+.pa-lever:hover:not(:disabled){filter:drop-shadow(0 0 6px rgba(255,236,170,.95))}
+.pa-lever.down{transform:translateY(22%);filter:brightness(.8)}
+.slidegrid.pa-art{background:center/100% 100% no-repeat;padding:22px;gap:8px}
+.stile.pic{background:center/cover no-repeat;font-size:0;box-shadow:0 2px 4px rgba(0,0,0,.3)}
+.glassgrid.pa-art{background:center/100% 100% no-repeat;padding:20px}
+.gpiece.pic{border-color:transparent}
+.gpiece.pic .gtri,.gpiece.pic .gname{opacity:0}
+.pa-lamp{position:relative;width:260px;height:260px;margin:0 auto 6px}
+.pa-glow{position:absolute;left:50%;top:44%;width:72%;transform:translate(-50%,-50%) scale(.4);opacity:0;pointer-events:none;mix-blend-mode:screen}
+.pa-glow.on{animation:paGlow 1.4s ease-out forwards}
+@keyframes paGlow{0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}100%{opacity:.35;transform:translate(-50%,-50%) scale(.9)}}
+.pa-sigico{width:42px;height:42px}
+/* 로고 · 앰블럼 그림 */
+.sign.logo .logo-img{display:block;width:560px;max-width:none;margin:0 auto}
+body.has-logo .sign.logo{padding:26px 40px 22px}
+#masthead .logo-img.mast{display:block;height:130px;margin:0 auto}
+body.has-logo #masthead .logo{letter-spacing:0}
+#masthead .emblem{position:absolute;top:50%;width:92px;transform:translateY(-50%) rotate(-6deg);filter:drop-shadow(2px 3px 0 rgba(90,60,40,.18))}
+#masthead .emblem.mast-l{left:44px}
+#masthead .emblem.mast-r{right:44px;transform:translateY(-50%) rotate(6deg)}
+#caption .emblem.cap{position:absolute;right:-18px;top:-26px;width:64px;transform:rotate(10deg);filter:drop-shadow(2px 3px 0 rgba(90,60,40,.18))}
+#foot .emblem.foot{width:30px;vertical-align:middle;margin-right:8px}
+.bs-head .emblem.bs{width:54px;display:block;margin:0 auto 6px}
+body.has-logo .sign.logo{background:none;box-shadow:none;padding:0}
+body.has-logo .sign.logo::before,body.has-logo .sign.logo::after{top:6%}
+body.has-logo .sign.logo .logo-img{width:620px;filter:drop-shadow(0 8px 14px rgba(40,10,20,.35))}

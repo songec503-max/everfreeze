@@ -761,6 +761,95 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
 .p-row{display:flex;justify-content:center;gap:22px;font-size:58px;line-height:1;padding:12px 0;border-top:3px dashed rgba(138,90,68,.55);border-bottom:3px dashed rgba(138,90,68,.55);background:rgba(240,220,200,.35)}
 .pt-scissors{position:absolute;right:46px;bottom:40px;font-size:34px;color:#8a5a44;transform:rotate(-20deg)}
 
+/* ===== 그림 배치 (src/data/art.js) ===== */
+.deco{position:absolute;inset:0;pointer-events:none;z-index:1}
+.deco-img{position:absolute;object-fit:contain}
+.curtain-img{position:absolute;inset:0;pointer-events:none;z-index:6;background:center/100% 100% no-repeat}
+/* 커튼 그림이 있으면 열린 상태의 CSS 커튼 자락·윗단은 숨긴다 (닫히고 열리는 움직임에는 그대로 쓴다) */
+body.has-curtain .opera.open .drape,body.has-curtain .opera.open .opera-valance{opacity:0;transition:opacity .4s}
+#stage .hs.has-el{border:0;border-radius:0;background:transparent;padding:0}
+#stage .hs.has-el .ico,#stage .hs.has-el .npc-ico{display:none}
+#stage .hs .el-img{width:100%;height:100%;object-fit:contain;pointer-events:none;transition:filter .15s,transform .15s;transform-origin:50% 100%}
+#stage .hs.has-el:hover{background:transparent;box-shadow:none;border:0}
+#stage .hs.has-el:hover .el-img{filter:drop-shadow(0 0 3px #fffdf3) drop-shadow(0 0 3px #fffdf3) drop-shadow(0 0 10px rgba(255,236,170,.95));transform:scale(1.025)}
+#stage.hints .hs.has-el .el-img{filter:drop-shadow(0 0 4px #fffdf3) drop-shadow(0 0 12px rgba(255,236,170,.95))}
+/* 그림이 아직 없는 클릭 요소는 그림 장면에서도 아이콘을 희미하게 보여 준다 */
+#stage.has-img .hs:not(.has-el):not(.area) .ico,#stage.has-img .hs:not(.has-el):not(.area) .npc-ico{opacity:.8}
+/* 그림 클로즈업 · 인물 대화: 뒤에 지금 장면을 흐리게 */
+.closeup.has-img .cu-blur{position:absolute;inset:-20px;background:#1b1824 center/cover no-repeat;filter:blur(10px) brightness(.55) saturate(.8);z-index:-1}
+.closeup.has-img{isolation:isolate;background-color:transparent}
+.closeup.has-img .cv-pic.has-img{background-size:contain;background-repeat:no-repeat;flex:1}
+.npc-cu.has-img{justify-content:flex-start}
+.npc-cu .npc-art{position:absolute;left:4%;bottom:-4%;height:108%;max-width:62%;object-fit:contain;object-position:left bottom;filter:drop-shadow(0 10px 24px rgba(0,0,0,.4))}
+/* 해파리 조명 그림: 차례로 환하게 빛난다 */
+.cv-lights.lamps{gap:70px;align-items:flex-start;padding-top:40px}
+.bulb.lamp{width:auto;height:470px;border-radius:0;background:none;opacity:1;animation-name:lampOn;filter:brightness(.55) saturate(.55)}
+@keyframes lampOn{0%{filter:brightness(.55) saturate(.55)}1%,22%{filter:brightness(1.18) saturate(1.2) drop-shadow(0 0 26px var(--c)) drop-shadow(0 0 60px var(--c))}23%,100%{filter:brightness(.55) saturate(.55)}}
+/* 엔딩 창문 그림 · 아리아가 비친 창문 (서서히 나타났다가 끊기며 사라짐) */
+.fin-win{display:block!important}
+.fin-win>*:first-child{filter:none}
+.fin-win-aria{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease}
+.fin-win-aria.on{opacity:1}
+.fin-win-aria.gone{opacity:0;transition:opacity .35s steps(4);clip-path:polygon(0 0,100% 0,100% 38%,0 44%,0 61%,100% 55%,100% 100%,0 100%)}
+body.has-curtain #stagewrap::after{display:none} /* 커튼 그림이 있으면 그림 창 위 물결 띠는 뺀다 */
+.cu-picbg{position:absolute;inset:0;background:center/contain no-repeat;pointer-events:none}
+/* ===== 퍼즐 그림 부품 ===== */
+.pa-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.pa-plate{position:relative;margin:0 auto;display:flex;align-items:center;justify-content:center}
+.pa-plate.lock{width:560px;height:373px}
+.pa-plate.page{width:380px;height:380px;align-items:flex-end;padding-bottom:58px}
+.pa-drums{position:relative;display:flex;gap:18px}
+.pa-plate.lock .pa-drums{gap:10px;margin-top:-6px}
+.pa-drumcol{display:flex;flex-direction:column;align-items:center;gap:4px}
+.pa-drum{position:relative;width:58px;height:86px;overflow:hidden;background:center/100% 100% no-repeat;border-radius:6px}
+.pa-plate.page .pa-drum{width:52px;height:150px}
+.pa-strip{position:absolute;left:0;right:0;top:0;height:1200%;display:flex;flex-direction:column;transition:transform .25s cubic-bezier(.3,1.4,.5,1)}
+.pa-strip span{flex:1;display:flex;align-items:center;justify-content:center;font:800 40px var(--serif);color:#4a3420;text-shadow:0 1px 0 rgba(255,255,255,.6)}
+.pa-drum::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(60,40,20,.45),transparent 30%,transparent 70%,rgba(60,40,20,.45));pointer-events:none}
+.pa-arrow{border:0;background:rgba(255,250,238,.85);border-radius:6px;width:40px;height:24px;font-size:13px;color:#6b4a2a;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.pa-rings{display:flex;align-items:center;justify-content:center;gap:26px}
+.pa-ringstack{position:relative;width:360px;height:360px;flex:none}
+.pa-ring{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;transition:transform .3s cubic-bezier(.3,1.3,.5,1)}
+.pa-ringstack{cursor:pointer}
+.pa-ringctl{display:flex;flex-direction:column;gap:10px}
+.pa-ringrow{display:flex;align-items:center;gap:8px}
+.pa-ringrow .wbtn{width:40px;height:32px}
+.pa-ringlbl{width:64px;font-size:15px;color:var(--ink2)}
+.pa-ringnum{width:28px;text-align:center;font:800 26px var(--serif)}
+.pa-clock{position:relative;width:300px;height:300px;flex:none}
+.pa-hand{position:absolute;left:0;top:0;width:100%;height:100%;transform-origin:50% 50%;transition:transform .3s cubic-bezier(.3,1.3,.5,1);pointer-events:none}
+.pa-hand.hour{top:-7.5%;transform-origin:50% 57.5%} /* 시침 그림의 회전축 고리가 가운데보다 조금 아래 */
+.pa-levdev{position:relative;width:600px;height:300px;margin:0 auto}
+.pa-levrow{position:absolute;left:0;right:0;top:4%;height:70%;display:flex;justify-content:center;gap:42px}
+.pa-lever{border:0;background:none;padding:0;height:100%;transition:transform .25s;transform-origin:50% 92%}
+.pa-lever img{height:100%;pointer-events:none}
+.pa-lever:hover:not(:disabled){filter:drop-shadow(0 0 6px rgba(255,236,170,.95))}
+.pa-lever.down{transform:translateY(22%);filter:brightness(.8)}
+.slidegrid.pa-art{background:center/100% 100% no-repeat;padding:22px;gap:8px}
+.stile.pic{background:center/cover no-repeat;font-size:0;box-shadow:0 2px 4px rgba(0,0,0,.3)}
+.glassgrid.pa-art{background:center/100% 100% no-repeat;padding:20px}
+.gpiece.pic{border-color:transparent}
+.gpiece.pic .gtri,.gpiece.pic .gname{opacity:0}
+.pa-lamp{position:relative;width:260px;height:260px;margin:0 auto 6px}
+.pa-glow{position:absolute;left:50%;top:44%;width:72%;transform:translate(-50%,-50%) scale(.4);opacity:0;pointer-events:none;mix-blend-mode:screen}
+.pa-glow.on{animation:paGlow 1.4s ease-out forwards}
+@keyframes paGlow{0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}100%{opacity:.35;transform:translate(-50%,-50%) scale(.9)}}
+.pa-sigico{width:42px;height:42px}
+/* 로고 · 앰블럼 그림 */
+.sign.logo .logo-img{display:block;width:560px;max-width:none;margin:0 auto}
+body.has-logo .sign.logo{padding:26px 40px 22px}
+#masthead .logo-img.mast{display:block;height:130px;margin:0 auto}
+body.has-logo #masthead .logo{letter-spacing:0}
+#masthead .emblem{position:absolute;top:50%;width:92px;transform:translateY(-50%) rotate(-6deg);filter:drop-shadow(2px 3px 0 rgba(90,60,40,.18))}
+#masthead .emblem.mast-l{left:44px}
+#masthead .emblem.mast-r{right:44px;transform:translateY(-50%) rotate(6deg)}
+#caption .emblem.cap{position:absolute;right:-18px;top:-26px;width:64px;transform:rotate(10deg);filter:drop-shadow(2px 3px 0 rgba(90,60,40,.18))}
+#foot .emblem.foot{width:30px;vertical-align:middle;margin-right:8px}
+.bs-head .emblem.bs{width:54px;display:block;margin:0 auto 6px}
+body.has-logo .sign.logo{background:none;box-shadow:none;padding:0}
+body.has-logo .sign.logo::before,body.has-logo .sign.logo::after{top:6%}
+body.has-logo .sign.logo .logo-img{width:620px;filter:drop-shadow(0 8px 14px rgba(40,10,20,.35))}
+
 </style>
 </head>
 <body>
@@ -1219,22 +1308,22 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
 
   EF.VIEWS = {
     // ===== 로즈메리 · 클로버의 집 =====
-    'v-desk':   { overlay: true, kind: 'doc', paper: 'note', rows: ['🕰️ ✔', '🛒 ✔', '📚 ✖', '', ''] },             // 내 손글씨 같은데 쓴 기억이 없는 하루
-    'v-drawer': { overlay: true, kind: 'pins', paper: 'drawer', items: rep({ text: '🕰️ → 🛒 → 🏠' }, 8) },        // 같은 하루가 여러 장
+    'v-desk':   { overlay: true, bare: true, box: [160, 100, 960, 370], kind: 'doc', paper: 'note', rows: ['🕰️ ✔', '🛒 ✔', '📚 ✖', '', ''] },             // 내 손글씨 같은데 쓴 기억이 없는 하루
+    'v-drawer': { overlay: true, bare: true, box: [160, 135, 960, 410], kind: 'pins', paper: 'drawer', items: rep({ text: '🕰️ → 🛒 → 🏠' }, 8) },        // 같은 하루가 여러 장
     'v-mirror': { kind: 'pic', icon: '🪞', tone: ['#f4e4d4', '#b9a38c'] },
 
     // ===== 로즈메리 · 광장 =====
-    'v-clock':  { overlay: true, bare: true, kind: 'clock', h: 11, m: 59 },                                                   // 11:59 · 시계 방향
+    'v-clock':  { kind: 'clock', h: 11, m: 59 },                                                   // 11:59 · 시계 방향
     'v-board':  { kind: 'pins', paper: 'cork', items: rep({ icon: '🧹', mark: '▲' }, 2) },          // ▲ = 2
 
     // ===== 로즈메리 · 도서관 =====
     'v-libnotice': { overlay: true, kind: 'doc', paper: 'sign', rows: ['📚 🚫', '🔑 👤'] },
     'v-book':      { kind: 'ringguide' },                                                          // 바깥 링부터 · 분(긴 바늘) 먼저
-    'v-ledger':    { overlay: true, bare: true, kind: 'doc', paper: 'ledger', cols: ['📅', '👤', '📕'], rows: rep(['봄 3일', '하나', '첫 번째 하루'], 5) },
+    'v-ledger':    { kind: 'doc', paper: 'ledger', cols: ['📅', '👤', '📕'], rows: rep(['봄 3일', '하나', '첫 번째 하루'], 5) },
     'v-record':    { kind: 'strip', rtl: true, items: ['🌇', '🌙', '🌅', '🌙', '☀️'] },             // 오른쪽 끝(시작 표시)에서 왼쪽으로: 저녁 밤 아침 밤 낮
     'v-archivebox': { kind: 'pic', icon: '🗃️', tone: ['#b9ad99', '#6f5a48'] },
-    'v-journal':   { overlay: true, kind: 'doc', paper: 'book', head: '📅 +1', rows: ['🧑 🕰️', '🧑 📖', '🧑 📓 👁️'] },  // 내일의 클로버
-    'v-oldrec':    { overlay: true, kind: 'pins', paper: 'drawer', items: rep({ icon: '📅', text: '봄 3일' }, 10) },
+    'v-journal':   { overlay: true, bare: true, box: [170, 195, 940, 390], kind: 'doc', paper: 'book', head: '📅 +1', rows: ['🧑 🕰️', '🧑 📖', '🧑 📓 👁️'] },  // 내일의 클로버
+    'v-oldrec':    { overlay: true, bare: true, box: [200, 175, 960, 370], kind: 'pins', paper: 'drawer', items: rep({ icon: '📅', text: '봄 3일' }, 10) },
 
     // ===== 로즈메리 · 벨라의 잡화점 =====
     'v-display':    { kind: 'pic', icon: '🧺', tone: ['#f1ddc0', '#b98f6a'] },
@@ -1243,7 +1332,7 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
 
     // ===== 글렌위버 =====
     'v-birdhouse': { kind: 'pic', icon: '🐦', tone: ['#cfd9ee', '#8c8f7a'] },
-    'v-shiftlog':  { overlay: true, bare: true, kind: 'doc', paper: 'ledger', cols: ['📅', '🌅 🐦↑', '☀️ 🐦←', '🌇 🐦↓', '🌙 🐦↑', '✓'],
+    'v-shiftlog':  { kind: 'doc', paper: 'ledger', cols: ['📅', '🌅 🐦↑', '☀️ 🐦←', '🌇 🐦↓', '🌙 🐦↑', '✓'],
       rows: rep(['봄 3일', '05:12:00', '11:59:00', '17:44:00', '23:59:00', '✓'], 7) },             // 7일 내내 같은 날, 같은 초
     'v-shelf':     { kind: 'pic', icon: '🌀', tone: ['#e8d8b4', '#9b7b52'] },
     'v-oldthing':  { kind: 'pic', icon: '🪵', tone: ['#5a4630', '#2e2418'] },                       // 그림만
@@ -1253,15 +1342,15 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
       { tag: '🌸', name: '봄', color: '#b9d98f' }, { tag: '🌸', name: '봄', color: '#b9d98f' }, { tag: '🌸', name: '봄', color: '#b9d98f' }, { tag: '🌸', name: '봄', color: '#b9d98f' },
       { tag: '☀️', name: '여름' }, { tag: '🍂', name: '가을' }, { tag: '❄️', name: '겨울' } ] },
     'v-workbench': { kind: 'steps', total: 10, done: 7, mark: '★' },                                // ★ = 7
-    'v-registry':  { overlay: true, bare: true, kind: 'doc', paper: 'ledger', cols: ['🌿', '🍂', '🐚'],
+    'v-registry':  { kind: 'doc', paper: 'ledger', cols: ['🌿', '🍂', '🐚'],
       rows: [['클로버', '오크스', '노아'], ['벨라', '시에나', '루루'], ['아리아', '마렌', '로완'], ['토비', '페넬', '']] }, // '하나' 없음
 
     // ===== 루미나리아 =====
     'v-mailbox':  { kind: 'stack', icon: '✉️', count: 3, mark: '●' },                               // ● = 3
-    'v-letter':   { overlay: true, kind: 'doc', paper: 'note', head: '클로버에게,', rows: ['', '', '', ''], blur: true, foot: '▒▒▒▒' },
+    'v-letter':   { overlay: true, bare: true, box: [700, 90, 520, 520], kind: 'doc', paper: 'note', head: '클로버에게,', rows: ['', '', '', ''], blur: true, foot: '▒▒▒▒' },
     'v-glassart': { kind: 'pic', icon: '🔮', tone: ['#e9e4f4', '#9f93bd'] },
     'v-atelier':  { kind: 'pic', icon: '🪟', tone: ['#c8b8e8', '#5a6a9a'] },
-    'v-menu':     { overlay: true, kind: 'doc', paper: 'sign', cols: ['📅 −1', '📅'], rows: [['🍹', '🍹'], ['🥧', '🥧']] }, // 어제 = 오늘
+    'v-menu':     { overlay: true, bare: true, box: [170, 175, 920, 290], kind: 'doc', paper: 'sign', cols: ['📅 −1', '📅'], rows: [['🍹', '🍹'], ['🥧', '🥧']] }, // 어제 = 오늘
     // 놓인 자리는 레버와 같은 노랑 · 파랑 · 초록 · 분홍, 켜지는 순서는 파랑 → 분홍 → 노랑 → 초록 (order = colors 의 번호)
     'v-jelly':    { kind: 'lights', colors: ['#e8c547', '#5b8fd9', '#5fb37a', '#e59ac0'], order: [1, 3, 0, 2] },
     'v-pier':     { kind: 'pic', icon: '👣', tone: ['#cfe6f2', '#9ec6dc'] },
@@ -1574,6 +1663,123 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
 })();
 
 </script>
+<script>
+/* 자동 생성 (tools/gen_art_sizes.py) — 손으로 고치지 않는다. 있는 그림 목록과 크기. */
+(function () {
+  window.EF.ART_FILES = {"bg/GW_HOUSE":[1672,941],"bg/GW_OAKS":[1672,941],"bg/GW_TOWER":[1670,942],"bg/LM_ATELIER":[1672,941],"bg/LM_CAFE":[1672,941],"bg/LM_HARBOR":[1672,941],"bg/LM_LIGHTHOUSE":[1672,941],"bg/MAP_GLENWEAVER":[1672,941],"bg/MAP_LUMINARIA":[1672,941],"bg/MAP_ROSEMARY":[1672,941],"bg/RM_BELLA_SHOP":[1672,941],"bg/RM_HOME":[1672,941],"bg/RM_LIBRARY_ARCHIVE":[1672,941],"bg/RM_LIBRARY_READING":[1672,941],"bg/RM_LIBRARY_SECRET":[1672,941],"bg/RM_PLAZA":[1672,941],"bg/WORLD_MAP":[1672,941],"crack/crack-01":[869,938],"crack/crack-02":[1000,133],"crack/crack-03":[1000,256],"crack/crack-04":[1000,448],"crack/crack-05":[1000,369],"crack/crack-06":[1000,607],"crack/crack-07":[745,851],"crack/crack-08":[136,1000],"crack/crack-09":[1000,130],"crack/crack-10":[708,691],"cursor/stage1":[32,32],"cursor/stage2":[32,32],"cursor/stage3":[32,32],"cursor/stage4":[32,32],"cursor/stage5":[32,32],"curtain/curtain-glenweaver":[1672,941],"curtain/curtain-luminaria":[1672,941],"curtain/curtain-rosemary":[1672,941],"curtain/curtain-world":[1672,941],"el/GW_HOUSE-gw-resident":[381,1000],"el/GW_HOUSE-registry":[1000,932],"el/GW_OAKS-oaks":[541,1000],"el/GW_OAKS-old-thing":[744,1000],"el/GW_OAKS-shelf-spin":[998,1000],"el/GW_SIENNA-cloak":[835,943],"el/GW_SIENNA-rack":[1000,628],"el/GW_SIENNA-sienna":[514,1000],"el/GW_SIENNA-summer":[849,948],"el/GW_SIENNA-workbench-gw":[1000,756],"el/GW_TOWER-birdhouse":[1000,604],"el/GW_TOWER-shift-log":[560,1000],"el/LM_ATELIER-glass":[869,980],"el/LM_ATELIER-workbench-lm":[1000,625],"el/LM_CAFE-jelly":[1000,429],"el/LM_CAFE-lulu":[545,1000],"el/LM_CAFE-menu":[537,1000],"el/LM_HARBOR-boat":[877,954],"el/LM_HARBOR-pier":[1000,352],"el/LM_HARBOR-sign":[556,1000],"el/LM_HARBOR-turtle":[1000,493],"el/LM_LIGHTHOUSE-letter":[1000,788],"el/LM_LIGHTHOUSE-mailbox":[431,1000],"el/LM_LIGHTHOUSE-noa":[538,1000],"el/MAP_GLENWEAVER-m-house":[1000,850],"el/MAP_GLENWEAVER-m-oaks":[1000,745],"el/MAP_GLENWEAVER-m-sienna":[1000,921],"el/MAP_GLENWEAVER-m-tower":[788,1000],"el/MAP_LUMINARIA-m-atelier":[928,1000],"el/MAP_LUMINARIA-m-cafe":[1000,914],"el/MAP_LUMINARIA-m-harbor":[1000,333],"el/MAP_LUMINARIA-m-light":[1000,953],"el/MAP_ROSEMARY-m-home":[1000,983],"el/MAP_ROSEMARY-m-lib":[1000,976],"el/MAP_ROSEMARY-m-plaza":[820,1000],"el/MAP_ROSEMARY-m-shop":[1000,880],"el/RM_BELLA_SHOP-bella":[468,1000],"el/RM_BELLA_SHOP-display":[1000,736],"el/RM_BELLA_SHOP-ledger-shop":[1000,514],"el/RM_HOME-desk":[1000,957],"el/RM_HOME-drawer":[1000,546],"el/RM_HOME-mirror":[606,1000],"el/RM_LIBRARY_ARCHIVE-archive-box":[687,1000],"el/RM_LIBRARY_ARCHIVE-bookcase":[341,1000],"el/RM_LIBRARY_ARCHIVE-fragments":[1000,563],"el/RM_LIBRARY_EXT-aria":[492,1000],"el/RM_LIBRARY_EXT-lib-notice":[1000,559],"el/RM_LIBRARY_READING-ledger":[1000,776],"el/RM_LIBRARY_READING-shelf":[551,1000],"el/RM_LIBRARY_READING-to-archive-locked":[779,1000],"el/RM_LIBRARY_READING-to-archive-open":[785,1000],"el/RM_LIBRARY_SECRET-journal":[917,796],"el/RM_LIBRARY_SECRET-old-record":[778,1000],"el/RM_PLAZA-plaza-npc":[470,1000],"el/WORLD_MAP-go-gw":[1000,663],"el/WORLD_MAP-go-lm":[1000,501],"el/WORLD_MAP-go-rm":[1000,495],"el/jelly-blue":[353,670],"el/jelly-green":[359,682],"el/jelly-pink":[355,673],"el/jelly-yellow":[354,686],"ending/ending-window-aria":[1672,941],"ending/ending-window":[1672,941],"npc/aria":[564,758],"npc/bella":[633,912],"npc/lulu":[615,786],"npc/noa":[578,772],"npc/oaks":[660,822],"npc/resident1":[627,932],"npc/resident2":[585,931],"npc/sienna":[585,721],"page/page-stage1":[1672,941],"page/page-stage2":[1672,941],"page/page-stage3":[1672,941],"page/page-stage4":[1672,941],"page/page-stage5":[1672,941],"puzzle/archive-frame":[883,900],"puzzle/archive-tile-sun":[900,899],"puzzle/archive-tile-tower":[835,900],"puzzle/archive-tile-wave":[702,900],"puzzle/drawer-lock":[900,458],"puzzle/drawer-wheel":[532,900],"puzzle/glass-dawn":[900,890],"puzzle/glass-dusk":[900,891],"puzzle/glass-frame":[898,900],"puzzle/glass-night":[900,898],"puzzle/glass-noon":[900,880],"puzzle/letter-lamp":[805,900],"puzzle/letter-light-evening":[900,892],"puzzle/letter-light-morning":[874,900],"puzzle/letter-light-night":[900,889],"puzzle/letter-light-noon":[878,900],"puzzle/lever-base":[900,543],"puzzle/lever-blue":[331,900],"puzzle/lever-green":[334,900],"puzzle/lever-pink":[335,900],"puzzle/lever-yellow":[333,900],"puzzle/mailbox-clock":[900,842],"puzzle/mailbox-hour":[600,600],"puzzle/mailbox-minute":[600,600],"puzzle/oldrec-page":[874,900],"puzzle/shelf-base":[845,900],"puzzle/shelf-ring1":[885,900],"puzzle/shelf-ring2":[896,900],"puzzle/shelf-ring3":[884,900],"puzzle/shelf-ring4":[868,900],"view/v-archivebox":[1672,941],"view/v-atelier":[1672,941],"view/v-birdhouse":[1672,941],"view/v-board":[1672,941],"view/v-book":[1672,941],"view/v-cloak":[1672,941],"view/v-clock":[1672,941],"view/v-desk":[1672,941],"view/v-display":[1672,941],"view/v-drawer":[1672,941],"view/v-glassart":[1672,941],"view/v-journal":[1672,941],"view/v-ledger":[1672,941],"view/v-letter":[1672,941],"view/v-mailbox":[1672,941],"view/v-menu":[1672,941],"view/v-mirror":[1672,941],"view/v-oldrec":[1672,941],"view/v-oldthing":[1672,941],"view/v-pier":[1672,941],"view/v-rack":[1515,1038],"view/v-record":[1672,941],"view/v-registry":[1672,941],"view/v-shelf":[1672,941],"view/v-shopledger":[1672,941],"view/v-sign":[1672,941],"view/v-workbench":[1672,941]};
+})();
+
+</script>
+<script>
+/* 그림 배치 (배경 위에 클릭 요소 · 장식, 그 위에 마을 커튼)
+   좌표는 그림 창 1280×720 기준. 요소는 [가운데 x, 바닥 y, 높이] 로 놓고, 너비는 그림 비율로 정해진다.
+   - el:   클릭 요소 (scenes.js 의 핫스팟 id 와 같은 이름). 그림 파일 assets/el/<장면>-<id>.webp
+           alt: { if: [조건], img: '다른 그림' } 이면 조건이 맞을 때 그 그림으로 바뀐다 (예: 잠긴 문 → 열린 문)
+           box: [x, y, w, h] 를 주면 누르는 영역만 따로 정한다 (그림 없이 배경 속 통로 등)
+   - deco: 누를 수 없는 장식. showIf 조건이 있으면 그때만 보인다.
+   그림 파일이 없으면 그 요소는 지금처럼 임시 아이콘으로 보인다. */
+(function () {
+  const EF = window.EF;
+  const CURTAIN = { '로즈메리': 'curtain-rosemary', '글렌위버': 'curtain-glenweaver', '루미나리아': 'curtain-luminaria' };
+  EF.curtainFor = sc => (sc.kind === 'world' ? 'curtain-world' : CURTAIN[sc.village]);
+
+  EF.ART = {
+    WORLD_MAP: { el: {
+      'go-gw': [480, 335, 235], 'go-lm': [905, 365, 200], 'go-rm': [690, 600, 205] } },
+
+    // ===== 로즈메리 =====
+    MAP_ROSEMARY: { el: {
+      'm-home': [255, 575, 255], 'm-plaza': [505, 540, 285], 'm-lib': [785, 560, 270], 'm-shop': [1040, 590, 250] } },
+    RM_HOME: { el: {
+      desk: [300, 610, 265], drawer: [670, 612, 190], mirror: [1000, 618, 335] } },
+    RM_PLAZA: { el: {
+      'plaza-npc': [1010, 612, 300] } },
+    RM_LIBRARY_EXT: { el: {
+      'lib-notice': [270, 600, 165], aria: [1000, 615, 330] } },
+    RM_LIBRARY_READING: { el: {
+      ledger: [300, 622, 235], shelf: [640, 600, 380],
+      'to-archive': { at: [1000, 604, 345], img: 'RM_LIBRARY_READING-to-archive-locked',
+        alt: { if: [{ stageMin: 3 }, { solved: 'P-LEDGER' }], img: 'RM_LIBRARY_READING-to-archive-open' } } } },
+    RM_LIBRARY_ARCHIVE: {
+      el: { fragments: [330, 622, 170], 'archive-box': [680, 595, 360], 'to-secret': { box: [1058, 258, 104, 304] } },
+      // 퍼즐을 풀기 전에는 책장이 비밀 통로를 막고 있다
+      deco: [{ img: 'RM_LIBRARY_ARCHIVE-bookcase', at: [1105, 570, 330], showIf: [{ not: { solved: 'P-ARCHIVE' } }] }] },
+    RM_LIBRARY_SECRET: { el: {
+      journal: [380, 612, 225], 'old-record': [820, 612, 325] } },
+    RM_BELLA_SHOP: { el: {
+      bella: [235, 620, 320], display: [610, 632, 225], 'ledger-shop': [1000, 628, 172] } },
+
+    // ===== 글렌위버 =====
+    MAP_GLENWEAVER: { el: {
+      'm-tower': [255, 565, 330], 'm-oaks': [520, 585, 235], 'm-sienna': [790, 565, 255], 'm-house': [1040, 600, 220] } },
+    GW_TOWER: { el: {
+      birdhouse: [770, 500, 250], 'shift-log': [420, 622, 262] } },
+    GW_OAKS: { el: {
+      oaks: [260, 620, 320], 'shelf-spin': [640, 565, 330], 'old-thing': [1000, 622, 225] } },
+    GW_SIENNA: {
+      el: { sienna: [230, 620, 320], rack: [560, 565, 232], cloak: [870, 262, 175], 'workbench-gw': [960, 632, 232] },
+      deco: [{ img: 'GW_SIENNA-summer', at: [1040, 252, 150] }] },
+    GW_HOUSE: { el: {
+      'gw-resident': [560, 620, 330], registry: [960, 405, 235] } },
+
+    // ===== 루미나리아 =====
+    MAP_LUMINARIA: { el: {
+      'm-light': [255, 565, 300], 'm-atelier': [520, 565, 285], 'm-cafe': [780, 585, 262], 'm-harbor': [1010, 470, 105] } },
+    LM_LIGHTHOUSE: { el: {
+      noa: [250, 620, 330], mailbox: [560, 622, 300], letter: [1010, 462, 92] } },
+    LM_ATELIER: { el: {
+      glass: [330, 485, 285], 'workbench-lm': [860, 628, 232] } },
+    LM_CAFE: { el: {
+      lulu: [420, 622, 320], menu: [650, 622, 280], jelly: [880, 285, 190] } },
+    LM_HARBOR: {
+      el: { pier: [420, 602, 150], sign: [985, 628, 262] },
+      deco: [{ img: 'LM_HARBOR-boat', at: [760, 440, 160] }, { img: 'LM_HARBOR-turtle', at: [330, 478, 74] }] }
+  };
+
+  // 클로즈업 · 인물 그림 (assets/view, assets/npc 에 파일이 있으면 자동으로 쓴다. 예전 .png 목록도 그대로 받는다)
+  EF.viewImg = id => (EF.artHas('view/' + id) ? EF.artSrc('view/' + id) : (EF.VIEW_IMAGES || []).includes(id) ? `assets/view/${id}.png` : null);
+  EF.npcImg = id => (EF.artHas('npc/' + id) ? EF.artSrc('npc/' + id) : (EF.NPC_IMAGES || []).includes(id) ? `assets/npc/${id}.png` : null);
+  EF.sceneBgSrc = () => { const sc = EF.SCENES[EF.state.scene]; return sc && EF.artHas('bg/' + sc.id) ? EF.artSrc('bg/' + sc.id) : null; };
+  // 클로즈업 · 대화 뒤에 깔리는 흐린 장면 배경
+  EF.blurBg = () => { const d = document.createElement('div'); d.className = 'cu-blur'; const s = EF.sceneBgSrc(); if (s) d.style.backgroundImage = `url(${s})`; return d; };
+  // 단계별 사이트 배경: assets/page/page-stage<N>.webp
+  EF.pageBg = stg => { for (let n = stg; n >= 1; n--) if (EF.artHas('page/page-stage' + n)) return EF.artSrc('page/page-stage' + n); return null; };
+
+  // 있는 그림인지 · 비율
+  EF.artHas = key => !!(EF.ART_FILES && EF.ART_FILES[key]);
+  EF.artSrc = key => `assets/${key}.webp`;
+  // [가운데 x, 바닥 y, 높이] → {x, y, w, h}
+  EF.artBox = (key, at) => {
+    const s = EF.ART_FILES[key], h = at[2], w = Math.round(h * s[0] / s[1]);
+    return { x: Math.round(at[0] - w / 2), y: at[1] - h, w, h };
+  };
+})();
+
+/* 로고 · 앰블럼 (assets/brand/logo.webp · emblem.webp 가 있으면 자동으로 쓴다)
+   - 로고: 첫 화면 커튼 앞에 매달린 표지판 · 사이트 머리글
+   - 앰블럼: 머리글 양옆 · 설명 칸 귀퉁이 · 바닥글 장식 */
+(function () {
+  const EF = window.EF;
+  EF.applyBrand = function () {
+    const logo = EF.artHas('brand/logo') && EF.artSrc('brand/logo'), emb = EF.artHas('brand/emblem') && EF.artSrc('brand/emblem');
+    const mk = (src, cls, alt) => { const i = document.createElement('img'); i.src = src; i.className = cls; i.alt = alt || ''; i.draggable = false; return i; };
+    if (logo) {
+      document.querySelectorAll('.sign.logo .logo-txt').forEach(t => t.replaceWith(mk(logo, 'logo-img', 'EVERFREEZE')));
+      const ml = document.querySelector('#masthead .logo');
+      if (ml && !ml.querySelector('img')) { ml.textContent = ''; ml.append(mk(logo, 'logo-img mast', 'EVERFREEZE')); }
+      document.body.classList.add('has-logo');
+    }
+    if (emb) {
+      const mh = document.getElementById('masthead');
+      if (mh && !mh.querySelector('.emblem')) { mh.append(mk(emb, 'emblem mast-l'), mk(emb, 'emblem mast-r')); }
+      const cap = document.getElementById('caption'); if (cap && !cap.querySelector('.emblem')) cap.append(mk(emb, 'emblem cap'));
+      const ft = document.getElementById('foot'); if (ft && !ft.querySelector('.emblem')) ft.prepend(mk(emb, 'emblem foot'));
+      const bs = document.querySelector('.bs-head'); if (bs && !bs.querySelector('.emblem')) bs.prepend(mk(emb, 'emblem bs'));
+    }
+  };
+})();
+
+</script>
 <!-- 엔진 -->
 <script>
 /* 게임 상태. 메모리에만 보관(새로고침하면 초기화). 오류 단계는 저장하지 않고 계산한다. */
@@ -1764,7 +1970,7 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
   };
   EF.h = h;
   const UI = (EF.UI = { busy: false, hints: false, dismiss: null, visited: {} });
-  let stage, wrap, sceneEl, wm, hsEl, ptitle, pintro, tagline, counter, backEl, memoBtn, nbCount, firstRender = true;
+  let stage, wrap, sceneEl, decoEl, curtainEl, wm, hsEl, ptitle, pintro, tagline, counter, backEl, memoBtn, nbCount, firstRender = true;
 
   UI.init = function () {
     stage = UI.stage = $('stage'); wrap = $('stagewrap');
@@ -1776,7 +1982,8 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
     UI.bannerEl = h('div', 'banner');
     backEl = h('div', 'edge-back'); backEl.onclick = () => UI.goBack();
     backEl.append(h('div', 'edge-arrow')); // 뒤로 갈 수 있다는 표시(항상 희미하게 보이고, 마우스를 대면 진해짐)
-    stage.append(sceneEl, h('div', 'fx'), hsEl, backEl, UI.toastEl, UI.bannerEl);
+    decoEl = h('div', 'deco'); curtainEl = h('div', 'curtain-img'); // 장식(누를 수 없음) · 마을 커튼 그림
+    stage.append(sceneEl, decoEl, h('div', 'fx'), hsEl, curtainEl, backEl, UI.toastEl, UI.bannerEl);
     // 메모 버튼은 설정(showMemo)을 켰을 때만 만든다
     if (EF.CONFIG.showMemo) {
       memoBtn = h('button', 'memo-btn', '📓 메모 ('); nbCount = h('b', '', '0'); memoBtn.append(nbCount, ')');
@@ -1814,6 +2021,7 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
     UI.fit();
     UI.initStageCurtain(); // 오페라 커튼: 시작 화면 · 스크롤로 막 내리기 · 무대 뒤 (backstage.js)
     if (UI.initGuide) UI.initGuide(); // 월드맵 · 도움말 버튼과 안내 쪽지 (guide.js)
+    if (EF.applyBrand) EF.applyBrand(); // 로고 · 앰블럼 그림 (art.js)
   };
 
   UI.fit = function () {
@@ -1848,14 +2056,28 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
     firstRender = false;
     document.title = `${sc.name} · EVERFREEZE`;
     stage.dataset.stage = stg; document.body.dataset.stage = stg; document.documentElement.dataset.cur = Math.min(5, stg); // 단계별 마우스 포인터
-    { const pb = EF.PAGE_BG_IMAGES.filter(n => n <= stg).sort((a, b) => b - a)[0]; // 단계별 사이트 배경 그림
+    { const old = EF.PAGE_BG_IMAGES.filter(n => n <= stg).sort((a, b) => b - a)[0]; // 단계별 사이트 배경 그림
+      const pb = EF.pageBg(stg) || (old ? `assets/page/stage${old}.png` : null);
       document.body.classList.toggle('page-bg', !!pb);
-      document.body.style.backgroundImage = pb ? `url(assets/page/stage${pb}.png)` : ''; }
+      document.body.style.backgroundImage = pb ? `url(${pb})` : ''; }
     if (EF.Glitch) EF.Glitch.set(stg); // 사이트 전체 오류 연출 (glitch.js)
     const bgId = sc.bgAlt && EF.check(sc.bgAlt.if) ? sc.bgAlt.id : sc.id; // 상태에 따라 바뀌는 그림(예: 비밀 통로 열림)
     const err = stg >= 4 && EF.BG_ERR_IMAGES.includes(bgId);
     const img = err ? `url(assets/bg/${bgId}_err.png) center/cover no-repeat, `
+      : EF.artHas('bg/' + bgId) ? `url(${EF.artSrc('bg/' + bgId)}) center/cover no-repeat, `
       : EF.BG_IMAGES.includes(bgId) ? `url(assets/bg/${bgId}.png) center/cover no-repeat, ` : '';
+    // 마을 커튼 그림 (있으면 CSS 커튼 대신 이 그림이 무대 틀이 된다)
+    const ck = 'curtain/' + EF.curtainFor(sc), hasCurtain = EF.artHas(ck);
+    curtainEl.style.backgroundImage = hasCurtain ? `url(${EF.artSrc(ck)})` : '';
+    document.body.classList.toggle('has-curtain', hasCurtain);
+    // 장식 (누를 수 없는 그림)
+    const art = EF.ART[sc.id] || {};
+    decoEl.innerHTML = '';
+    (art.deco || []).forEach(d => {
+      const key = 'el/' + d.img; if (!EF.artHas(key) || (d.showIf && !EF.check(d.showIf))) return;
+      const bx = EF.artBox(key, d.at), im = h('img', 'deco-img'); im.src = EF.artSrc(key); im.alt = '';
+      im.style.cssText = `left:${bx.x}px;top:${bx.y}px;width:${bx.w}px;height:${bx.h}px`; decoEl.append(im);
+    });
     sceneEl.style.background = img + sc.bg;
     sceneEl.classList.toggle('err-img', err); // 오작동 그림이 있으면 CSS 색 효과는 끈다
     sceneEl.classList.toggle('has-img', !!img); // 그림이 있으면 '배경 이미지 자리' 글씨를 숨긴다
@@ -1879,8 +2101,18 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
     sc.hotspots.forEach(hp => {
       if (!EF.check(hp.showIf)) return;
       const b = h('button', `hs hs-${hp.kind}` + (hp.temp ? ' temp' : ''));
-      b.style.cssText = `left:${hp.x}px;top:${hp.y}px;width:${hp.w}px;height:${hp.h}px`;
+      let box = { x: hp.x, y: hp.y, w: hp.w, h: hp.h }, elImg = null;
+      const ae = (art.el || {})[hp.id];
+      if (ae) { // 그림 배치표(art.js)에 있으면 그 자리 · 그 그림으로
+        const spec = Array.isArray(ae) ? { at: ae, img: `${sc.id}-${hp.id}` } : ae;
+        const name = spec.alt && EF.check(spec.alt.if) ? spec.alt.img : (spec.img || `${sc.id}-${hp.id}`);
+        if (spec.box) box = { x: spec.box[0], y: spec.box[1], w: spec.box[2], h: spec.box[3] };
+        else if (spec.at && EF.artHas('el/' + name)) { box = EF.artBox('el/' + name, spec.at); elImg = EF.artSrc('el/' + name); }
+      }
+      b.style.cssText = `left:${box.x}px;top:${box.y}px;width:${box.w}px;height:${box.h}px`;
       b.dataset.id = hp.id;
+      if (elImg) { const im = h('img', 'el-img'); im.src = elImg; im.alt = hp.label; im.draggable = false; b.append(im); b.classList.add('has-el'); }
+      else if (ae && ae.box) b.classList.add('area'); // 배경 속 통로처럼 그림 없이 누르는 곳
       if (hp.npc && EF.NPCS[hp.npc]) { // 임시 그림일 때 인물은 색 동그라미 + 이름 첫 글자 (그림이 들어오면 숨겨진다)
         const n = EF.NPCS[hp.npc], ic = h('span', 'ico npc-ico', n.name[0]); ic.style.background = n.color; b.append(ic, h('span', 'lbl', hp.label));
       } else b.append(h('span', 'ico', hp.icon), h('span', 'lbl', hp.label));
@@ -2154,6 +2386,175 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
   };
 })();
 
+/* ===== 퍼즐 그림 부품 (assets/puzzle/*.webp) =====
+   그림이 있으면 같은 규칙 그대로, 보이는 모습만 그림으로 바꾼다. 부품이 없으면 위의 기본 모양을 쓴다. */
+(function () {
+  const EF = window.EF, PZ = EF.PZ, h = EF.h;
+  const has = k => EF.artHas('puzzle/' + k), src = k => EF.artSrc('puzzle/' + k);
+  const img = (k, cls) => { const i = h('img', cls || ''); i.src = src(k); i.alt = ''; i.draggable = false; return i; };
+
+  // --- 서랍 자물쇠 · 지워진 쪽수: 자물쇠 판(또는 책 쪽) 위에 숫자 바퀴가 굴러간다 ---
+  const baseDial = PZ.dial, baseCipher = PZ.cipher;
+  function drumRow(p, api) {
+    const vals = Array(p.digits).fill(0), row = h('div', 'pa-drums');
+    for (let i = 0; i < p.digits; i++) {
+      const d = h('div', 'pa-drum'); d.style.backgroundImage = `url(${src('drawer-wheel')})`;
+      const strip = h('div', 'pa-strip');
+      for (let n = -1; n <= 10; n++) strip.append(h('span', '', String((n + 10) % 10)));
+      d.append(strip);
+      const set = dd => { vals[i] = (vals[i] + dd + 10) % 10; strip.style.transform = `translateY(${-(vals[i] + 1) * 100 / 12}%)`; api.clear(); };
+      const up = h('button', 'pa-arrow up', '▲'), dn = h('button', 'pa-arrow dn', '▼');
+      up.onclick = () => set(1); dn.onclick = () => set(-1);
+      d.onwheel = e => { e.preventDefault(); set(e.deltaY < 0 ? 1 : -1); };
+      const col = h('div', 'pa-drumcol'); col.append(up, d, dn); row.append(col); set(0);
+    }
+    return { row, vals };
+  }
+  PZ.dial = function (p, area, api) {
+    if (!(has('drawer-lock') && has('drawer-wheel'))) return baseDial(p, area, api);
+    const plate = h('div', 'pa-plate lock'); plate.append(img('drawer-lock', 'pa-bg'));
+    const { row, vals } = drumRow(p, api); plate.append(row);
+    area.append(plate); api.ready(true);
+    return () => vals.join('') === p.answer;
+  };
+  PZ.cipher = function (p, area, api) {
+    if (!(has('oldrec-page') && has('drawer-wheel'))) return baseCipher(p, area, api);
+    const plate = h('div', 'pa-plate page'); plate.append(img('oldrec-page', 'pa-bg'));
+    const { row, vals } = drumRow(p, api); plate.append(row);
+    const legend = h('div', 'cipher-legend'); p.legend.forEach(s => legend.append(h('span', '', `${s} = ?`)));
+    area.append(plate, legend); api.ready(true);
+    return () => vals.join('') === p.answer;
+  };
+
+  // --- 회전 선반: 받침 위에 나이테 링 4개가 각각 돈다 (홈 10개 = 숫자 0~9) ---
+  const baseRings = PZ.rings;
+  PZ.rings = function (p, area, api) {
+    const keys = ['shelf-ring1', 'shelf-ring2', 'shelf-ring3', 'shelf-ring4'];
+    if (!(has('shelf-base') && keys.every(has))) return baseRings(p, area, api);
+    const vals = Array(p.digits).fill(0), wrap = h('div', 'pa-rings');
+    const stack = h('div', 'pa-ringstack'); stack.append(img('shelf-base', 'pa-bg'));
+    const sizes = [0.86, 0.66, 0.47, 0.3], ctl = h('div', 'pa-ringctl'), sets = [];
+    // 누른 곳이 가운데에서 얼마나 떨어졌는지로 어느 링인지 정한다 (링이 겹쳐 있어서)
+    const ringAt = e => { const b = stack.getBoundingClientRect(), dx = e.clientX - b.left - b.width / 2, dy = e.clientY - b.top - b.height / 2;
+      const d = Math.hypot(dx, dy) / b.width * 2; for (let i = sizes.length - 1; i >= 0; i--) if (d <= sizes[i] * .98) return i; return -1; };
+    stack.onclick = e => { const i = ringAt(e); if (i >= 0) sets[i](1); };
+    stack.oncontextmenu = e => { const i = ringAt(e); if (i >= 0) { e.preventDefault(); sets[i](-1); } };
+    stack.onwheel = e => { const i = ringAt(e); if (i >= 0) { e.preventDefault(); sets[i](e.deltaY < 0 ? 1 : -1); } };
+    keys.forEach((k, i) => {
+      const r = img(k, 'pa-ring'); r.style.width = r.style.height = sizes[i] * 100 + '%'; stack.append(r);
+      const num = h('b', 'pa-ringnum', '0');
+      const set = d => { vals[i] = (vals[i] + d + 10) % 10; r.style.transform = `translate(-50%,-50%) rotate(${vals[i] * 36}deg)`; num.textContent = vals[i]; api.clear(); };
+      sets[i] = set;
+      const line = h('div', 'pa-ringrow');
+      const dn = h('button', 'wbtn', '◀'), up = h('button', 'wbtn', '▶'); dn.onclick = () => set(-1); up.onclick = () => set(1);
+      line.append(h('span', 'pa-ringlbl', p.labels && p.labels[i] ? p.labels[i] : `${i + 1}번째`), dn, num, up); ctl.append(line);
+      set(0);
+    });
+    wrap.append(stack, ctl); area.append(wrap); api.ready(true);
+    return () => vals.join('') === p.answer;
+  };
+
+  // --- 우편함 시계: 시계판 위에 시침 · 분침 그림이 돈다 ---
+  const baseClock = PZ.clock;
+  PZ.clock = function (p, area, api) {
+    if (!(has('mailbox-clock') && has('mailbox-hour') && has('mailbox-minute'))) return baseClock(p, area, api);
+    let hr = 12, mn = 0;
+    const face = h('div', 'pa-clock'); face.append(img('mailbox-clock', 'pa-bg'));
+    const H = img('mailbox-hour', 'pa-hand hour'), M = img('mailbox-minute', 'pa-hand minute'); face.append(H, M);
+    const label = h('div', 'clock-label');
+    const draw = () => {
+      H.style.transform = `rotate(${(hr % 12) * 30 + mn / 2}deg)`;
+      M.style.transform = `rotate(${mn * 6}deg)`;
+      label.textContent = `${hr}시 ${String(mn).padStart(2, '0')}분`;
+    };
+    const btn = (t, f) => { const b = h('button', 'btn small', t); b.onclick = () => { f(); draw(); api.clear(); }; return b; };
+    const ctl = h('div', 'clock-ctl');
+    ctl.append(h('span', 'cl-t', '시'), btn('◀', () => (hr = hr === 1 ? 12 : hr - 1)), btn('▶', () => (hr = hr === 12 ? 1 : hr + 1)),
+      h('span', 'cl-t', '분'), btn('◀', () => (mn = (mn + 55) % 60)), btn('▶', () => (mn = (mn + 5) % 60)));
+    const box = h('div', 'clockbox'), side = h('div', 'clock-side'); side.append(label, ctl); box.append(face, side);
+    area.append(box); draw(); api.ready(true);
+    return () => hr === p.answer.h && mn === p.answer.m;
+  };
+
+  // --- 새집 레버: 장치 바탕 위에 색 레버 그림 ---
+  const baseLever = PZ.lever;
+  PZ.lever = function (p, area, api) {
+    if (!(has('lever-base') && p.levers.every(l => has('lever-' + l.key)))) return baseLever(p, area, api);
+    let seq = [];
+    const byKey = Object.fromEntries(p.levers.map(l => [l.key, l]));
+    const dev = h('div', 'pa-levdev'); dev.append(img('lever-base', 'pa-bg'));
+    const row = h('div', 'pa-levrow'); dev.append(row);
+    const trail = h('div', 'lever-trail');
+    const draw = () => {
+      row.innerHTML = ''; trail.innerHTML = '';
+      p.display.forEach(k => {
+        const b = h('button', 'pa-lever' + (seq.includes(k) ? ' down' : '')); b.title = byKey[k].name;
+        b.append(img('lever-' + k)); b.disabled = seq.includes(k);
+        b.onclick = () => { seq.push(k); api.clear(); draw(); };
+        row.append(b);
+      });
+      p.levers.forEach((_, i) => {
+        const k = seq[i], d = h('span', 'dot', k ? byKey[k].name : String(i + 1));
+        if (k) { d.classList.add('on'); d.style.background = byKey[k].color; }
+        trail.append(d);
+      });
+      api.ready(seq.length === p.levers.length);
+    };
+    const reset = h('button', 'btn small', '레버 되돌리기'); reset.onclick = () => { seq = []; api.clear(); draw(); };
+    const foot = h('div', 'row center'); foot.append(trail, reset);
+    area.append(dev, foot); draw();
+    return () => seq.every((k, i) => k === p.answer[i]);
+  };
+
+  // --- 기록 조각 슬라이드 · 유리 조각: 칸 · 조각을 그림으로 ---
+  const TILE = { sun: 'archive-tile-sun', tower: 'archive-tile-tower', wave: 'archive-tile-wave' };
+  const GLASS = { dawn: 'glass-dawn', noon: 'glass-noon', dusk: 'glass-dusk', night: 'glass-night' };
+  const baseSlide = PZ.slide, baseGlass = PZ.glass;
+  PZ.slide = function (p, area, api) {
+    const ok = baseSlide(p, area, api);
+    if (!p.rows.every(r => has(TILE[r.key])) || !has('archive-frame')) return ok;
+    const grid = area.querySelector('.slidegrid'); if (!grid) return ok;
+    grid.classList.add('pz-art'); grid.style.backgroundImage = `url(${src('archive-frame')})`;
+    const paint = () => grid.querySelectorAll('.stile:not(.empty)').forEach(t => {
+      const r = p.rows.find(x => x.icon === t.textContent || x.name === t.title);
+      if (r) { t.style.backgroundImage = `url(${src(TILE[r.key])})`; t.classList.add('pic'); }
+    });
+    paint(); new MutationObserver(paint).observe(grid, { childList: true });
+    return ok;
+  };
+  PZ.glass = function (p, area, api) {
+    const ok = baseGlass(p, area, api);
+    if (!p.pieces.every(x => has(GLASS[x.key])) || !has('glass-frame')) return ok;
+    const grid = area.querySelector('.glassgrid'); if (!grid) return ok;
+    grid.classList.add('pz-art'); grid.style.backgroundImage = `url(${src('glass-frame')})`;
+    const paint = () => grid.querySelectorAll('.gpiece').forEach(g => {
+      const pc = p.pieces.find(x => x.name === (g.querySelector('.gname') || {}).textContent);
+      if (pc) { g.style.background = `url(${src(GLASS[pc.key])}) center/cover`; g.classList.add('pic'); }
+    });
+    paint(); new MutationObserver(paint).observe(grid, { childList: true });
+    return ok;
+  };
+
+  // --- 등대 신호: 꺼진 램프 위에 누른 신호의 빛이 켜진다 ---
+  const LIGHT = { morning: 'letter-light-morning', noon: 'letter-light-noon', evening: 'letter-light-evening', night: 'letter-light-night' };
+  const baseSignal = PZ.signal;
+  PZ.signal = function (p, area, api) {
+    const ok = baseSignal(p, area, api);
+    if (!has('letter-lamp') || !p.signals.every(s => has(LIGHT[s.key]))) return ok;
+    const lamp = h('div', 'pa-lamp'); lamp.append(img('letter-lamp', 'pa-bg'));
+    const glow = h('img', 'pa-glow'); glow.alt = ''; lamp.append(glow);
+    area.prepend(lamp);
+    area.querySelectorAll('.sig').forEach((b, i) => {
+      const s = p.signals[i]; if (!s) return;
+      b.addEventListener('click', () => {
+        glow.src = src(LIGHT[s.key]); glow.classList.remove('on'); void glow.offsetWidth; glow.classList.add('on');
+      });
+      const ic = b.querySelector('.ico'); if (ic) { ic.textContent = ''; ic.append(img(LIGHT[s.key], 'pa-sigico')); }
+    });
+    return ok;
+  };
+})();
+
 </script>
 <script>
 /* 오버레이: 조사 텍스트(INSPECT) · 대화(DIALOGUE) · 퍼즐(PUZZLE) · 엔딩, 그리고 큐 처리. */
@@ -2180,7 +2581,12 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
     const n = EF.NPCS[it.npc];
     // 인물 크롭: 배경 속 인물을 누르면 따로 그린 인물 그림이 그림 창 전체에 뜨고, 대화창이 그 위에 얹힌다
     const cu = h('div', 'closeup npc-cu');
-    if (EF.NPC_IMAGES.includes(it.npc)) cu.style.background = `url(assets/npc/${it.npc}.png) center/cover no-repeat`;
+    const nimg = EF.npcImg(it.npc);
+    if (nimg) { // 장면 배경을 흐리게 깔고, 인물 그림을 왼쪽에 크게
+      cu.classList.add('has-img');
+      cu.append(EF.blurBg());
+      const im = h('img', 'npc-art'); im.src = nimg; im.alt = n.name; cu.append(im);
+    }
     else {
       cu.style.background = `radial-gradient(ellipse at 50% 38%, ${n.color} 0%, #2b2638 85%)`;
       cu.append(h('div', 'npc-ph', n.name), h('div', 'cv-tag', `임시 그림 · assets/npc/${it.npc}.png`));
@@ -2334,8 +2740,8 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
 
   R.pic = (v, id) => {
     const box = h('div', 'cv-pic');
-    if (id && EF.VIEW_IMAGES.includes(id)) {
-      box.style.backgroundImage = `url(assets/view/${id}.png)`;
+    if (id && EF.viewImg(id)) {
+      box.style.backgroundImage = `url(${EF.viewImg(id)})`;
       box.classList.add('has-img');
     } else {
       const [a, b] = v.tone || ['#e9e4dc', '#9c9284'];
@@ -2398,8 +2804,12 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
   R.lights = v => {
     const box = h('div', 'cv-lights');
     const n = v.colors.length;
+    const LAMP = { '#e8c547': 'yellow', '#5b8fd9': 'blue', '#5fb37a': 'green', '#e59ac0': 'pink' }; // 해파리 조명 그림(있으면)
+    const useImg = v.colors.every(c => EF.artHas('el/jelly-' + LAMP[c]));
+    if (useImg) box.classList.add('lamps');
     v.colors.forEach((c, i) => {
-      const b = h('div', 'bulb'); b.style.setProperty('--c', c);
+      const b = useImg ? h('img', 'bulb lamp') : h('div', 'bulb'); b.style.setProperty('--c', c);
+      if (useImg) { b.src = EF.artSrc('el/jelly-' + LAMP[c]); b.alt = ''; }
       const k = v.order ? v.order.indexOf(i) : i; // 몇 번째로 켜지는지
       b.style.animationDelay = (k * 0.7) + 's'; b.style.animationDuration = (n * 0.7 + 1.2) + 's';
       box.append(b);
@@ -2515,19 +2925,20 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
 
     const cu = h('div', 'closeup' + (EF.isEnded() ? ' quiet' : ''));
     cu.dataset.view = id || '';
-    const hasImg = id && EF.VIEW_IMAGES.includes(id);
+    const hasImg = !!(id && EF.viewImg(id));
     // 그림이 있을 때:
     //  - 기본(퍼즐 단서 그림): 글자·숫자·기호까지 그림에 그려져 있으므로 그림만 보여 준다.
     //  - overlay:true(퍼즐과 무관한 그림): 글 없는 바탕 그림 위 box 영역에 글을 얹는다. bare:true 면 종이 바탕도 뺀다.
     const content = hasImg && !v.overlay ? R.pic({}, id) : (R[v.kind] || R.pic)(v, id);
     if (hasImg && v.overlay && v.kind !== 'pic') {
-      cu.style.background = `url(assets/view/${id}.png) center/cover no-repeat`;
+      const pb = h('div', 'cu-picbg'); pb.style.backgroundImage = `url(${EF.viewImg(id)})`; cu.append(pb); // 글을 얹을 바탕 그림
       content.classList.add('on-img');
       if (v.bare) content.classList.add('bare');
       const b = v.box || [240, 110, 800, 500];
       Object.assign(content.style, { position: 'absolute', left: b[0] + 'px', top: b[1] + 'px', width: b[2] + 'px', height: b[3] + 'px' });
     }
     cu.append(content);
+    if (hasImg) { cu.classList.add('has-img'); cu.append(EF.blurBg()); } // 흐린 장면 배경(뒤에 깔림)
     // 돌아가기: 장면과 같은 하단 띠 + ▼
     const back = h('div', 'edge-back'); back.append(h('div', 'edge-arrow'));
     cu.append(back);
@@ -2896,6 +3307,23 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
     if (stage < 4) return;
     // 균열 그림을 넣었으면(EF.CRACK_IMAGES) 그 그림을 사이트 전체에 덮는다. 없는 단계는 바로 아래 단계 그림.
     const ci = EF.CRACK_IMAGES || {}, key = Object.keys(ci).map(Number).filter(k => k <= stage).sort((a, b) => b - a)[0];
+    // 찢김 조각 그림(assets/crack/crack-*.webp)이 있으면 사이트 곳곳에 흩어 붙인다 (매번 같은 자리)
+    const decals = Object.keys(EF.ART_FILES || {}).filter(k => k.startsWith('crack/crack-')).sort();
+    if (!key && decals.length) {
+      let sd = 17; const rr = () => (sd = (sd * 9301 + 49297) % 233280) / 233280;
+      const n = stage >= 5 ? 14 : 7, big = stage >= 5 ? 1.5 : 1;
+      for (let i = 0; i < n; i++) {
+        const k = decals[i % decals.length], sz = EF.ART_FILES[k];
+        const w = (140 + rr() * 160) * big, hh = w * sz[1] / sz[0];
+        const x = rr() * (W - w), y = 120 + rr() * Math.max(10, H - 240 - hh), rot = (rr() - .5) * 70;
+        const im = document.createElementNS(cracks.namespaceURI, 'image');
+        im.setAttribute('href', EF.artSrc(k)); im.setAttribute('x', x.toFixed(0)); im.setAttribute('y', y.toFixed(0));
+        im.setAttribute('width', w.toFixed(0)); im.setAttribute('height', hh.toFixed(0));
+        im.setAttribute('transform', `rotate(${rot.toFixed(1)} ${(x + w / 2).toFixed(0)} ${(y + hh / 2).toFixed(0)})`);
+        cracks.append(im);
+      }
+      return;
+    }
     if (key) {
       const im = document.createElementNS(cracks.namespaceURI, 'image');
       im.setAttribute('href', ci[key]); im.setAttribute('x', 0); im.setAttribute('y', 0); im.setAttribute('width', W); im.setAttribute('height', H);
@@ -3015,6 +3443,18 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
       c.querySelectorAll('.cv-tag, .hs, .gtip').forEach(e => e.remove());
       c.querySelectorAll('.closeup').forEach(e => e.classList.add('quiet'));
       box.append(c); }
+    // 엔딩 창문 그림이 있으면: 그림 창 가운데를 그 창문으로 바꾸고, 아리아는 '아리아가 비친 창문' 그림이 서서히 겹쳐 나타난다
+    const winArt = EF.artHas('ending/ending-window') ? box.querySelector('.closeup') : null;
+    let ariaLayer = null;
+    if (winArt) {
+      winArt.innerHTML = ''; winArt.classList.add('fin-win');
+      winArt.style.background = `url(${EF.artSrc('ending/ending-window')}) center/cover no-repeat`;
+      if (EF.artHas('ending/ending-window-aria')) {
+        ariaLayer = document.createElement('div'); ariaLayer.className = 'fin-win-aria';
+        ariaLayer.style.background = `url(${EF.artSrc('ending/ending-window-aria')}) center/cover no-repeat`;
+        winArt.append(ariaLayer);
+      }
+    }
     // 창문 건너편의 아리아 (유리 뒤)
     const aria = document.createElement('div'); aria.className = 'fin-aria';
     const img = EF.ENDING_ARIA_IMAGE;
@@ -3043,8 +3483,8 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
       }
       Object.assign(pane.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: hh + 'px' });
     };
-    placePane();
-    addEventListener('resize', () => { place(); placePane(); });
+    if (winArt) pane.remove(); else placePane();
+    addEventListener('resize', () => { place(); if (!winArt) placePane(); });
     // 1) 갑자기: 모든 오류가 한꺼번에 심해진다
     every(60, () => scatter(Math.ceil(rnd(5, 12 + lvl * 20)), true));
     every(110, () => band(pick(['inv', 'hue', 'gap', 'gap'])));
@@ -3055,8 +3495,8 @@ body.finale .fin-window,body.finale .fin-window *,body.finale .fin-veil,body.fin
     const t0 = performance.now();
     every(100, () => setLvl(Math.min(.85, (performance.now() - t0) / T.takeover * .85))); // 막이 점점 짙어진다
     // 2) 창문이 뜨고 2초 뒤: 창문 건너편에 아리아가 나타나 가만히 바라본다 → 사라진다
-    at(T.aria, () => aria.classList.add('on'));
-    at(T.ariaGone, () => aria.classList.add('gone'));
+    at(T.aria, () => (ariaLayer || aria).classList.add('on'));
+    at(T.ariaGone, () => (ariaLayer || aria).classList.add('gone'));
     // 3) 오류가 화면을 장악한다 → 창문도 삼켜진다 → 암전 → 강제 초기화
     at(T.takeover, () => { setLvl(1); veil.classList.add('full'); document.body.classList.add('finale-max'); box.classList.add('cracking'); });
     at(T.swallow, () => box.classList.add('gone'));

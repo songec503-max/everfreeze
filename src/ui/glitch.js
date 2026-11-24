@@ -95,6 +95,23 @@
     if (stage < 4) return;
     // 균열 그림을 넣었으면(EF.CRACK_IMAGES) 그 그림을 사이트 전체에 덮는다. 없는 단계는 바로 아래 단계 그림.
     const ci = EF.CRACK_IMAGES || {}, key = Object.keys(ci).map(Number).filter(k => k <= stage).sort((a, b) => b - a)[0];
+    // 찢김 조각 그림(assets/crack/crack-*.webp)이 있으면 사이트 곳곳에 흩어 붙인다 (매번 같은 자리)
+    const decals = Object.keys(EF.ART_FILES || {}).filter(k => k.startsWith('crack/crack-')).sort();
+    if (!key && decals.length) {
+      let sd = 17; const rr = () => (sd = (sd * 9301 + 49297) % 233280) / 233280;
+      const n = stage >= 5 ? 14 : 7, big = stage >= 5 ? 1.5 : 1;
+      for (let i = 0; i < n; i++) {
+        const k = decals[i % decals.length], sz = EF.ART_FILES[k];
+        const w = (140 + rr() * 160) * big, hh = w * sz[1] / sz[0];
+        const x = rr() * (W - w), y = 120 + rr() * Math.max(10, H - 240 - hh), rot = (rr() - .5) * 70;
+        const im = document.createElementNS(cracks.namespaceURI, 'image');
+        im.setAttribute('href', EF.artSrc(k)); im.setAttribute('x', x.toFixed(0)); im.setAttribute('y', y.toFixed(0));
+        im.setAttribute('width', w.toFixed(0)); im.setAttribute('height', hh.toFixed(0));
+        im.setAttribute('transform', `rotate(${rot.toFixed(1)} ${(x + w / 2).toFixed(0)} ${(y + hh / 2).toFixed(0)})`);
+        cracks.append(im);
+      }
+      return;
+    }
     if (key) {
       const im = document.createElementNS(cracks.namespaceURI, 'image');
       im.setAttribute('href', ci[key]); im.setAttribute('x', 0); im.setAttribute('y', 0); im.setAttribute('width', W); im.setAttribute('height', H);
@@ -214,6 +231,18 @@
       c.querySelectorAll('.cv-tag, .hs, .gtip').forEach(e => e.remove());
       c.querySelectorAll('.closeup').forEach(e => e.classList.add('quiet'));
       box.append(c); }
+    // 엔딩 창문 그림이 있으면: 그림 창 가운데를 그 창문으로 바꾸고, 아리아는 '아리아가 비친 창문' 그림이 서서히 겹쳐 나타난다
+    const winArt = EF.artHas('ending/ending-window') ? box.querySelector('.closeup') : null;
+    let ariaLayer = null;
+    if (winArt) {
+      winArt.innerHTML = ''; winArt.classList.add('fin-win');
+      winArt.style.background = `url(${EF.artSrc('ending/ending-window')}) center/cover no-repeat`;
+      if (EF.artHas('ending/ending-window-aria')) {
+        ariaLayer = document.createElement('div'); ariaLayer.className = 'fin-win-aria';
+        ariaLayer.style.background = `url(${EF.artSrc('ending/ending-window-aria')}) center/cover no-repeat`;
+        winArt.append(ariaLayer);
+      }
+    }
     // 창문 건너편의 아리아 (유리 뒤)
     const aria = document.createElement('div'); aria.className = 'fin-aria';
     const img = EF.ENDING_ARIA_IMAGE;
@@ -242,8 +271,8 @@
       }
       Object.assign(pane.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: hh + 'px' });
     };
-    placePane();
-    addEventListener('resize', () => { place(); placePane(); });
+    if (winArt) pane.remove(); else placePane();
+    addEventListener('resize', () => { place(); if (!winArt) placePane(); });
     // 1) 갑자기: 모든 오류가 한꺼번에 심해진다
     every(60, () => scatter(Math.ceil(rnd(5, 12 + lvl * 20)), true));
     every(110, () => band(pick(['inv', 'hue', 'gap', 'gap'])));
@@ -254,8 +283,8 @@
     const t0 = performance.now();
     every(100, () => setLvl(Math.min(.85, (performance.now() - t0) / T.takeover * .85))); // 막이 점점 짙어진다
     // 2) 창문이 뜨고 2초 뒤: 창문 건너편에 아리아가 나타나 가만히 바라본다 → 사라진다
-    at(T.aria, () => aria.classList.add('on'));
-    at(T.ariaGone, () => aria.classList.add('gone'));
+    at(T.aria, () => (ariaLayer || aria).classList.add('on'));
+    at(T.ariaGone, () => (ariaLayer || aria).classList.add('gone'));
     // 3) 오류가 화면을 장악한다 → 창문도 삼켜진다 → 암전 → 강제 초기화
     at(T.takeover, () => { setLvl(1); veil.classList.add('full'); document.body.classList.add('finale-max'); box.classList.add('cracking'); });
     at(T.swallow, () => box.classList.add('gone'));
