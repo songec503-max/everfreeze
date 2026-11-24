@@ -855,3 +855,6 @@ body:not(.has-curtain) .fx.fx-top{inset:0}
 /* 우편함 시계: 시계판을 키우고 바늘은 시계판 안에 들어가게 줄인다 (회전축은 그대로 가운데) */
 .pa-clock{width:380px;height:380px}
 .pa-hand{scale:.62}
+/* 시작 커튼: 그림 창을 완전히 덮도록 크게, 닫혀 있을 때는 뒤 배경이 비치지 않게 */
+.opera .op-frame{left:-7%;top:-5%;width:114%;height:108%;inset:auto;object-fit:fill}
+.opera.has-frames.shut{background:#c98c8f}

@@ -34,7 +34,7 @@
     const frames = FR.every(k => EF.artHas(k)) ? FR.map(k => EF.artSrc(k)) : null;
     let frameImg = null;
     if (frames) {
-      op.classList.add('has-frames');
+      op.classList.add('has-frames', 'shut');
       frameImg = h('img', 'op-frame'); frameImg.src = frames[0]; frameImg.alt = ''; op.insertBefore(frameImg, hang);
       frames.forEach(u => { const pre = new Image(); pre.src = u; }); // 미리 불러 둔다
     }
@@ -51,13 +51,13 @@
     const step = T.open / 5;
     const openDrapes = async () => {
       op.classList.remove('closed'); op.classList.add('opening');
-      if (frames) { frameImg.style.opacity = 1; for (let i = 1; i < frames.length; i++) { await wait(step); frameImg.src = frames[i]; } await wait(step); frameImg.style.opacity = 0; await wait(step); }
+      if (frames) { frameImg.style.opacity = 1; for (let i = 1; i < frames.length; i++) { await wait(step); frameImg.src = frames[i]; op.classList.remove('shut'); } await wait(step); frameImg.style.opacity = 0; await wait(step); }
       else await wait(T.open);
       op.classList.remove('opening'); op.classList.add('open');
     };
     const closeDrapes = async () => {
       op.classList.remove('open'); op.classList.add('closed');
-      if (frames) { frameImg.src = frames[frames.length - 1]; frameImg.style.opacity = 1; for (let i = frames.length - 2; i >= 0; i--) { await wait(T.close / 4); frameImg.src = frames[i]; } }
+      if (frames) { frameImg.src = frames[frames.length - 1]; frameImg.style.opacity = 1; for (let i = frames.length - 2; i >= 0; i--) { await wait(T.close / 4); frameImg.src = frames[i]; } op.classList.add('shut'); }
       else await wait(T.close);
     };
 
