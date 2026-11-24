@@ -780,7 +780,7 @@ body.has-curtain .opera.open .drape,body.has-curtain .opera.open .opera-valance{
 .closeup.has-img{isolation:isolate;background-color:transparent}
 .closeup.has-img .cv-pic.has-img{background-size:contain;background-repeat:no-repeat;flex:1}
 .npc-cu.has-img{justify-content:flex-start}
-.npc-cu .npc-art{position:absolute;left:4%;bottom:-4%;height:108%;max-width:62%;object-fit:contain;object-position:left bottom;filter:drop-shadow(0 10px 24px rgba(0,0,0,.4))}
+.npc-cu .npc-art{position:absolute;left:5%;top:4%;height:74%;max-width:46%;object-fit:contain;object-position:center top;filter:drop-shadow(0 10px 24px rgba(0,0,0,.4))} /* 대화창 위로 인물이 잘리지 않게 다 보인다 */
 /* 해파리 조명 그림: 차례로 환하게 빛난다 */
 .cv-lights.lamps{gap:70px;align-items:flex-start;padding-top:40px}
 .bulb.lamp{width:auto;height:470px;border-radius:0;background:none;opacity:1;animation-name:lampOn;filter:brightness(.55) saturate(.55)}
@@ -821,10 +821,10 @@ body.has-curtain #stagewrap::after{display:none} /* 커튼 그림이 있으면 �
 .pa-hand.hour{top:-7.5%;transform-origin:50% 57.5%} /* 시침 그림의 회전축 고리가 가운데보다 조금 아래 */
 .pa-levdev{position:relative;width:600px;height:300px;margin:0 auto}
 .pa-levrow{position:absolute;left:0;right:0;top:4%;height:70%;display:flex;justify-content:center;gap:42px}
-.pa-lever{border:0;background:none;padding:0;height:100%;transition:transform .25s;transform-origin:50% 92%}
+.pa-lever{border:0;background:none;padding:0;height:100%;transition:transform .25s;transform-origin:50% 50%}
 .pa-lever img{height:100%;pointer-events:none}
 .pa-lever:hover:not(:disabled){filter:drop-shadow(0 0 6px rgba(255,236,170,.95))}
-.pa-lever.down{transform:translateY(22%);filter:brightness(.8)}
+.pa-lever.down{transform:scaleY(-1)} /* 당긴 레버: 그림을 위아래로 뒤집어 내려간 모습 */
 .slidegrid.pa-art{background:center/100% 100% no-repeat;padding:22px;gap:8px}
 .stile.pic{background:center/cover no-repeat;font-size:0;box-shadow:0 2px 4px rgba(0,0,0,.3)}
 .glassgrid.pa-art{background:center/100% 100% no-repeat;padding:20px}
@@ -849,6 +849,9 @@ body.has-logo #masthead .logo{letter-spacing:0}
 body.has-logo .sign.logo{background:none;box-shadow:none;padding:0}
 body.has-logo .sign.logo::before,body.has-logo .sign.logo::after{display:none}
 body.has-logo .sign.logo .logo-img{width:620px;filter:drop-shadow(0 8px 14px rgba(40,10,20,.35))}
+/* 시작 커튼 그림 (opening/open-0~3) */
+.opera .op-frame{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;transition:opacity .3s}
+.opera.has-frames .drape,.opera.has-frames .opera-valance{display:none}
 
 </style>
 </head>
@@ -1666,7 +1669,7 @@ body.has-logo .sign.logo .logo-img{width:620px;filter:drop-shadow(0 8px 14px rgb
 <script>
 /* 자동 생성 (tools/gen_art_sizes.py) — 손으로 고치지 않는다. 있는 그림 목록과 크기. */
 (function () {
-  window.EF.ART_FILES = {"bg/GW_HOUSE":[1672,941],"bg/GW_OAKS":[1672,941],"bg/GW_TOWER":[1670,942],"bg/LM_ATELIER":[1672,941],"bg/LM_CAFE":[1672,941],"bg/LM_HARBOR":[1672,941],"bg/LM_LIGHTHOUSE":[1672,941],"bg/MAP_GLENWEAVER":[1672,941],"bg/MAP_LUMINARIA":[1672,941],"bg/MAP_ROSEMARY":[1672,941],"bg/RM_BELLA_SHOP":[1672,941],"bg/RM_HOME":[1672,941],"bg/RM_LIBRARY_ARCHIVE":[1672,941],"bg/RM_LIBRARY_READING":[1672,941],"bg/RM_LIBRARY_SECRET":[1672,941],"bg/RM_PLAZA":[1672,941],"bg/WORLD_MAP":[1672,941],"brand/emblem":[575,600],"brand/logo":[1400,506],"crack/crack-01":[869,938],"crack/crack-02":[1000,133],"crack/crack-03":[1000,256],"crack/crack-04":[1000,448],"crack/crack-05":[1000,369],"crack/crack-06":[1000,607],"crack/crack-07":[745,851],"crack/crack-08":[136,1000],"crack/crack-09":[1000,130],"crack/crack-10":[708,691],"cursor/stage1":[32,32],"cursor/stage2":[32,32],"cursor/stage3":[32,32],"cursor/stage4":[32,32],"cursor/stage5":[32,32],"curtain/curtain-glenweaver":[1672,941],"curtain/curtain-luminaria":[1672,941],"curtain/curtain-rosemary":[1672,941],"curtain/curtain-world":[1672,941],"el/GW_HOUSE-gw-resident":[381,1000],"el/GW_HOUSE-registry":[1000,932],"el/GW_OAKS-oaks":[541,1000],"el/GW_OAKS-old-thing":[744,1000],"el/GW_OAKS-shelf-spin":[998,1000],"el/GW_SIENNA-cloak":[835,943],"el/GW_SIENNA-rack":[1000,628],"el/GW_SIENNA-sienna":[514,1000],"el/GW_SIENNA-summer":[849,948],"el/GW_SIENNA-workbench-gw":[1000,756],"el/GW_TOWER-birdhouse":[1000,604],"el/GW_TOWER-shift-log":[560,1000],"el/LM_ATELIER-glass":[869,980],"el/LM_ATELIER-workbench-lm":[1000,625],"el/LM_CAFE-jelly":[1000,429],"el/LM_CAFE-lulu":[545,1000],"el/LM_CAFE-menu":[537,1000],"el/LM_HARBOR-boat":[877,954],"el/LM_HARBOR-pier":[1000,352],"el/LM_HARBOR-sign":[556,1000],"el/LM_HARBOR-turtle":[1000,493],"el/LM_LIGHTHOUSE-letter":[1000,788],"el/LM_LIGHTHOUSE-mailbox":[431,1000],"el/LM_LIGHTHOUSE-noa":[538,1000],"el/MAP_GLENWEAVER-m-house":[1000,850],"el/MAP_GLENWEAVER-m-oaks":[1000,745],"el/MAP_GLENWEAVER-m-sienna":[1000,921],"el/MAP_GLENWEAVER-m-tower":[788,1000],"el/MAP_LUMINARIA-m-atelier":[928,1000],"el/MAP_LUMINARIA-m-cafe":[1000,914],"el/MAP_LUMINARIA-m-harbor":[1000,333],"el/MAP_LUMINARIA-m-light":[1000,953],"el/MAP_ROSEMARY-m-home":[1000,983],"el/MAP_ROSEMARY-m-lib":[1000,976],"el/MAP_ROSEMARY-m-plaza":[820,1000],"el/MAP_ROSEMARY-m-shop":[1000,880],"el/RM_BELLA_SHOP-bella":[468,1000],"el/RM_BELLA_SHOP-display":[1000,736],"el/RM_BELLA_SHOP-ledger-shop":[1000,514],"el/RM_HOME-desk":[1000,957],"el/RM_HOME-drawer":[1000,546],"el/RM_HOME-mirror":[606,1000],"el/RM_LIBRARY_ARCHIVE-archive-box":[687,1000],"el/RM_LIBRARY_ARCHIVE-bookcase":[341,1000],"el/RM_LIBRARY_ARCHIVE-fragments":[1000,563],"el/RM_LIBRARY_EXT-aria":[492,1000],"el/RM_LIBRARY_EXT-lib-notice":[1000,559],"el/RM_LIBRARY_READING-ledger":[1000,776],"el/RM_LIBRARY_READING-shelf":[551,1000],"el/RM_LIBRARY_READING-to-archive-locked":[779,1000],"el/RM_LIBRARY_READING-to-archive-open":[785,1000],"el/RM_LIBRARY_SECRET-journal":[917,796],"el/RM_LIBRARY_SECRET-old-record":[778,1000],"el/RM_PLAZA-plaza-npc":[470,1000],"el/WORLD_MAP-go-gw":[1000,663],"el/WORLD_MAP-go-lm":[1000,501],"el/WORLD_MAP-go-rm":[1000,495],"el/jelly-blue":[353,670],"el/jelly-green":[359,682],"el/jelly-pink":[355,673],"el/jelly-yellow":[354,686],"ending/ending-window-aria":[1672,941],"ending/ending-window":[1672,941],"npc/aria":[564,758],"npc/bella":[633,912],"npc/lulu":[615,786],"npc/noa":[578,772],"npc/oaks":[660,822],"npc/resident1":[627,932],"npc/resident2":[585,931],"npc/sienna":[585,721],"page/page-stage1":[1672,941],"page/page-stage2":[1672,941],"page/page-stage3":[1672,941],"page/page-stage4":[1672,941],"page/page-stage5":[1672,941],"puzzle/archive-frame":[883,900],"puzzle/archive-tile-sun":[900,899],"puzzle/archive-tile-tower":[835,900],"puzzle/archive-tile-wave":[702,900],"puzzle/drawer-lock":[900,458],"puzzle/drawer-wheel":[532,900],"puzzle/glass-dawn":[900,890],"puzzle/glass-dusk":[900,891],"puzzle/glass-frame":[898,900],"puzzle/glass-night":[900,898],"puzzle/glass-noon":[900,880],"puzzle/letter-lamp":[805,900],"puzzle/letter-light-evening":[900,892],"puzzle/letter-light-morning":[874,900],"puzzle/letter-light-night":[900,889],"puzzle/letter-light-noon":[878,900],"puzzle/lever-base":[900,543],"puzzle/lever-blue":[331,900],"puzzle/lever-green":[334,900],"puzzle/lever-pink":[335,900],"puzzle/lever-yellow":[333,900],"puzzle/mailbox-clock":[900,842],"puzzle/mailbox-hour":[600,600],"puzzle/mailbox-minute":[600,600],"puzzle/oldrec-page":[874,900],"puzzle/shelf-base":[845,900],"puzzle/shelf-ring1":[885,900],"puzzle/shelf-ring2":[896,900],"puzzle/shelf-ring3":[884,900],"puzzle/shelf-ring4":[868,900],"view/v-archivebox":[1672,941],"view/v-atelier":[1672,941],"view/v-birdhouse":[1672,941],"view/v-board":[1672,941],"view/v-book":[1672,941],"view/v-cloak":[1672,941],"view/v-clock":[1672,941],"view/v-desk":[1672,941],"view/v-display":[1672,941],"view/v-drawer":[1672,941],"view/v-glassart":[1672,941],"view/v-journal":[1672,941],"view/v-ledger":[1672,941],"view/v-letter":[1672,941],"view/v-mailbox":[1672,941],"view/v-menu":[1672,941],"view/v-mirror":[1672,941],"view/v-oldrec":[1672,941],"view/v-oldthing":[1672,941],"view/v-pier":[1672,941],"view/v-rack":[1515,1038],"view/v-record":[1672,941],"view/v-registry":[1672,941],"view/v-shelf":[1672,941],"view/v-shopledger":[1672,941],"view/v-sign":[1672,941],"view/v-workbench":[1672,941]};
+  window.EF.ART_FILES = {"bg/GW_HOUSE":[1672,941],"bg/GW_OAKS":[1672,941],"bg/GW_SIENNA":[1672,941],"bg/GW_TOWER":[1670,942],"bg/LM_ATELIER":[1672,941],"bg/LM_CAFE":[1672,941],"bg/LM_HARBOR":[1672,941],"bg/LM_LIGHTHOUSE":[1672,941],"bg/MAP_GLENWEAVER":[1672,941],"bg/MAP_LUMINARIA":[1672,941],"bg/MAP_ROSEMARY":[1672,941],"bg/RM_BELLA_SHOP":[1672,941],"bg/RM_HOME":[1672,941],"bg/RM_LIBRARY_ARCHIVE":[1672,941],"bg/RM_LIBRARY_EXT":[1672,941],"bg/RM_LIBRARY_READING":[1672,941],"bg/RM_LIBRARY_SECRET":[1672,941],"bg/RM_PLAZA":[1672,941],"bg/WORLD_MAP":[1672,941],"brand/emblem":[575,600],"brand/logo":[1400,506],"crack/crack-01":[869,938],"crack/crack-02":[1000,133],"crack/crack-03":[1000,256],"crack/crack-04":[1000,448],"crack/crack-05":[1000,369],"crack/crack-06":[1000,607],"crack/crack-07":[745,851],"crack/crack-08":[136,1000],"crack/crack-09":[1000,130],"crack/crack-10":[708,691],"cursor/stage1":[32,32],"cursor/stage2":[32,32],"cursor/stage3":[32,32],"cursor/stage4":[32,32],"cursor/stage5":[32,32],"curtain/curtain-glenweaver":[1672,941],"curtain/curtain-luminaria":[1672,941],"curtain/curtain-rosemary":[1672,941],"curtain/curtain-world":[1672,941],"el/GW_HOUSE-gw-resident":[381,1000],"el/GW_HOUSE-registry":[1000,932],"el/GW_OAKS-oaks":[541,1000],"el/GW_OAKS-old-thing":[744,1000],"el/GW_OAKS-shelf-spin":[998,1000],"el/GW_SIENNA-cloak":[835,943],"el/GW_SIENNA-rack":[1000,628],"el/GW_SIENNA-sienna":[514,1000],"el/GW_SIENNA-summer":[849,948],"el/GW_SIENNA-workbench-gw":[1000,756],"el/GW_TOWER-birdhouse":[1000,604],"el/GW_TOWER-shift-log":[560,1000],"el/LM_ATELIER-glass":[869,980],"el/LM_ATELIER-workbench-lm":[1000,625],"el/LM_CAFE-jelly":[1000,429],"el/LM_CAFE-lulu":[545,1000],"el/LM_CAFE-menu":[537,1000],"el/LM_HARBOR-boat":[877,954],"el/LM_HARBOR-pier":[1000,352],"el/LM_HARBOR-sign":[556,1000],"el/LM_HARBOR-turtle":[1000,493],"el/LM_LIGHTHOUSE-letter":[1000,788],"el/LM_LIGHTHOUSE-mailbox":[431,1000],"el/LM_LIGHTHOUSE-noa":[538,1000],"el/MAP_GLENWEAVER-m-house":[1000,850],"el/MAP_GLENWEAVER-m-oaks":[1000,745],"el/MAP_GLENWEAVER-m-sienna":[1000,921],"el/MAP_GLENWEAVER-m-tower":[788,1000],"el/MAP_LUMINARIA-m-atelier":[928,1000],"el/MAP_LUMINARIA-m-cafe":[1000,914],"el/MAP_LUMINARIA-m-harbor":[1000,333],"el/MAP_LUMINARIA-m-light":[1000,953],"el/MAP_ROSEMARY-m-home":[1000,983],"el/MAP_ROSEMARY-m-lib":[1000,976],"el/MAP_ROSEMARY-m-plaza":[820,1000],"el/MAP_ROSEMARY-m-shop":[1000,880],"el/RM_BELLA_SHOP-bella":[468,1000],"el/RM_BELLA_SHOP-display":[1000,736],"el/RM_BELLA_SHOP-ledger-shop":[1000,514],"el/RM_HOME-desk":[1000,957],"el/RM_HOME-drawer":[1000,546],"el/RM_HOME-mirror":[606,1000],"el/RM_LIBRARY_ARCHIVE-archive-box":[687,1000],"el/RM_LIBRARY_ARCHIVE-bookcase":[341,1000],"el/RM_LIBRARY_ARCHIVE-fragments":[1000,563],"el/RM_LIBRARY_EXT-aria":[492,1000],"el/RM_LIBRARY_EXT-lib-door":[782,1000],"el/RM_LIBRARY_EXT-lib-notice":[1000,559],"el/RM_LIBRARY_READING-ledger":[1000,776],"el/RM_LIBRARY_READING-shelf":[551,1000],"el/RM_LIBRARY_READING-to-archive-locked":[779,1000],"el/RM_LIBRARY_READING-to-archive-open":[785,1000],"el/RM_LIBRARY_SECRET-journal":[917,796],"el/RM_LIBRARY_SECRET-old-record":[778,1000],"el/RM_PLAZA-board":[1000,953],"el/RM_PLAZA-clock":[1000,990],"el/RM_PLAZA-plaza-npc":[470,1000],"el/WORLD_MAP-go-gw":[1000,663],"el/WORLD_MAP-go-lm":[1000,501],"el/WORLD_MAP-go-rm":[1000,495],"el/jelly-blue":[353,670],"el/jelly-green":[359,682],"el/jelly-pink":[355,673],"el/jelly-yellow":[354,686],"ending/ending-window-aria":[1672,941],"ending/ending-window":[1672,941],"npc/aria":[564,758],"npc/bella":[633,912],"npc/lulu":[615,786],"npc/noa":[578,772],"npc/oaks":[660,822],"npc/resident1":[627,932],"npc/resident2":[585,931],"npc/sienna":[585,721],"opening/open-0":[1672,941],"opening/open-1":[1672,941],"opening/open-2":[1672,941],"opening/open-3":[1672,941],"page/page-stage1":[1672,941],"page/page-stage2":[1672,941],"page/page-stage3":[1672,941],"page/page-stage4":[1672,941],"page/page-stage5":[1672,941],"puzzle/archive-frame":[883,900],"puzzle/archive-tile-sun":[900,899],"puzzle/archive-tile-tower":[835,900],"puzzle/archive-tile-wave":[702,900],"puzzle/drawer-lock":[900,458],"puzzle/drawer-wheel":[532,900],"puzzle/glass-dawn":[900,890],"puzzle/glass-dusk":[900,891],"puzzle/glass-frame":[898,900],"puzzle/glass-night":[900,898],"puzzle/glass-noon":[900,880],"puzzle/letter-lamp":[805,900],"puzzle/letter-light-evening":[900,892],"puzzle/letter-light-morning":[874,900],"puzzle/letter-light-night":[900,889],"puzzle/letter-light-noon":[878,900],"puzzle/lever-base":[900,543],"puzzle/lever-blue":[331,900],"puzzle/lever-green":[334,900],"puzzle/lever-pink":[335,900],"puzzle/lever-yellow":[333,900],"puzzle/mailbox-clock":[900,842],"puzzle/mailbox-hour":[600,600],"puzzle/mailbox-minute":[600,600],"puzzle/oldrec-page":[874,900],"puzzle/shelf-base":[845,900],"puzzle/shelf-ring1":[885,900],"puzzle/shelf-ring2":[896,900],"puzzle/shelf-ring3":[884,900],"puzzle/shelf-ring4":[868,900],"view/v-archivebox":[1672,941],"view/v-atelier":[1672,941],"view/v-birdhouse":[1672,941],"view/v-board":[1672,941],"view/v-book":[1672,941],"view/v-cloak":[1672,941],"view/v-clock":[1672,941],"view/v-desk":[1672,941],"view/v-display":[1672,941],"view/v-drawer":[1672,941],"view/v-glassart":[1672,941],"view/v-journal":[1672,941],"view/v-ledger":[1672,941],"view/v-letter":[1672,941],"view/v-libnotice":[1536,1024],"view/v-mailbox":[1672,941],"view/v-menu":[1672,941],"view/v-mirror":[1672,941],"view/v-oldrec":[1672,941],"view/v-oldthing":[1672,941],"view/v-pier":[1672,941],"view/v-rack":[1515,1038],"view/v-record":[1672,941],"view/v-registry":[1672,941],"view/v-shelf":[1672,941],"view/v-shopledger":[1672,941],"view/v-sign":[1672,941],"view/v-workbench":[1672,941]};
 })();
 
 </script>
@@ -1684,55 +1687,55 @@ body.has-logo .sign.logo .logo-img{width:620px;filter:drop-shadow(0 8px 14px rgb
   EF.curtainFor = sc => (sc.kind === 'world' ? 'curtain-world' : CURTAIN[sc.village]);
 
   EF.ART = {
+    // 마을 위치: 로즈메리 왼쪽 · 글렌위버 가운데 위 · 루미나리아 오른쪽
     WORLD_MAP: { el: {
-      'go-gw': [480, 335, 235], 'go-lm': [905, 365, 200], 'go-rm': [690, 600, 205] } },
+      'go-rm': [330, 520, 165], 'go-gw': [628, 352, 200], 'go-lm': [930, 492, 160] } },
 
     // ===== 로즈메리 =====
     MAP_ROSEMARY: { el: {
-      'm-home': [255, 575, 255], 'm-plaza': [505, 540, 285], 'm-lib': [785, 560, 270], 'm-shop': [1040, 590, 250] } },
+      'm-home': [270, 575, 245], 'm-plaza': [510, 540, 285], 'm-lib': [785, 560, 270], 'm-shop': [1010, 590, 240] } },
     RM_HOME: { el: {
-      desk: [300, 610, 265], drawer: [670, 612, 190], mirror: [1000, 618, 335] } },
-    RM_PLAZA: { el: {
-      'plaza-npc': [1010, 612, 300] } },
-    RM_LIBRARY_EXT: { el: {
-      'lib-notice': [270, 600, 165], aria: [1000, 615, 330] } },
+      desk: [320, 610, 265], drawer: [670, 612, 190], mirror: [990, 618, 335] } },
+    RM_PLAZA: { el: {   // 시계탑 가운데 · 게시판 왼쪽 · 주민1 오른쪽
+      clock: [640, 545, 300], board: [330, 615, 225], 'plaza-npc': [960, 640, 345] } },
+    RM_LIBRARY_EXT: { el: {   // 문은 도서관 입구 자리에 꼭 맞게
+      'lib-notice': [300, 615, 165], 'lib-door': [640, 503, 128], aria: [960, 640, 370] } },
     RM_LIBRARY_READING: { el: {
-      ledger: [300, 622, 235], shelf: [640, 600, 380],
-      'to-archive': { at: [1000, 604, 345], img: 'RM_LIBRARY_READING-to-archive-locked',
+      ledger: [320, 622, 235], shelf: [640, 615, 445],
+      'to-archive': { at: [1005, 610, 410], img: 'RM_LIBRARY_READING-to-archive-locked',
         alt: { if: [{ stageMin: 3 }, { solved: 'P-LEDGER' }], img: 'RM_LIBRARY_READING-to-archive-open' } } } },
     RM_LIBRARY_ARCHIVE: {
-      el: { fragments: [330, 622, 170], 'archive-box': [680, 595, 360], 'to-secret': { box: [1058, 258, 104, 304] } },
-      // 퍼즐을 풀기 전에는 책장이 비밀 통로를 막고 있다
+      el: { fragments: [340, 622, 170], 'archive-box': [670, 595, 360], 'to-secret': { box: [1058, 258, 104, 304] } },
       deco: [{ img: 'RM_LIBRARY_ARCHIVE-bookcase', at: [1105, 570, 330], showIf: [{ not: { solved: 'P-ARCHIVE' } }] }] },
     RM_LIBRARY_SECRET: { el: {
-      journal: [380, 612, 225], 'old-record': [820, 612, 325] } },
+      journal: [400, 612, 225], 'old-record': [820, 612, 325] } },
     RM_BELLA_SHOP: { el: {
-      bella: [235, 620, 320], display: [610, 632, 225], 'ledger-shop': [1000, 628, 172] } },
+      bella: [270, 640, 360], display: [620, 632, 225], 'ledger-shop': [990, 628, 172] } },
 
-    // ===== 글렌위버 =====
+    // ===== 글렌위버 ===== (집들은 땅 위에 서도록 조금 위로)
     MAP_GLENWEAVER: { el: {
-      'm-tower': [255, 565, 330], 'm-oaks': [520, 585, 235], 'm-sienna': [790, 565, 255], 'm-house': [1040, 600, 220] } },
-    GW_TOWER: { el: {
-      birdhouse: [770, 500, 250], 'shift-log': [420, 622, 262] } },
-    GW_OAKS: { el: {
-      oaks: [260, 620, 320], 'shelf-spin': [640, 565, 330], 'old-thing': [1000, 622, 225] } },
+      'm-tower': [280, 515, 320], 'm-oaks': [525, 535, 230], 'm-sienna': [785, 518, 250], 'm-house': [1010, 548, 215] } },
+    GW_TOWER: { el: {   // 레버 장치는 화면 가운데
+      birdhouse: [640, 470, 245], 'shift-log': [300, 625, 262] } },
+    GW_OAKS: { el: {    // 회전 선반은 화면 가운데
+      oaks: [290, 640, 360], 'shelf-spin': [640, 525, 330], 'old-thing': [990, 622, 225] } },
     GW_SIENNA: {
-      el: { sienna: [230, 620, 320], rack: [560, 565, 232], cloak: [870, 262, 175], 'workbench-gw': [960, 632, 232] },
-      deco: [{ img: 'GW_SIENNA-summer', at: [1040, 252, 150] }] },
-    GW_HOUSE: { el: {
-      'gw-resident': [560, 620, 330], registry: [960, 405, 235] } },
+      el: { sienna: [270, 640, 360], rack: [580, 575, 240], cloak: [860, 262, 165], 'workbench-gw': [960, 640, 235] },
+      deco: [{ img: 'GW_SIENNA-summer', at: [1030, 250, 140] }] },
+    GW_HOUSE: { el: {   // 명부는 나무 기둥을 비켜 오른쪽으로
+      'gw-resident': [560, 640, 370], registry: [1000, 405, 230] } },
 
-    // ===== 루미나리아 =====
+    // ===== 루미나리아 ===== (카페 왼쪽 · 등대 가운데)
     MAP_LUMINARIA: { el: {
-      'm-light': [255, 565, 300], 'm-atelier': [520, 565, 285], 'm-cafe': [780, 585, 262], 'm-harbor': [1010, 470, 105] } },
-    LM_LIGHTHOUSE: { el: {
-      noa: [250, 620, 330], mailbox: [560, 622, 300], letter: [1010, 462, 92] } },
-    LM_ATELIER: { el: {
-      glass: [330, 485, 285], 'workbench-lm': [860, 628, 232] } },
-    LM_CAFE: { el: {
-      lulu: [420, 622, 320], menu: [650, 622, 280], jelly: [880, 285, 190] } },
+      'm-cafe': [300, 585, 255], 'm-atelier': [540, 565, 280], 'm-light': [790, 565, 300], 'm-harbor': [985, 470, 100] } },
+    LM_LIGHTHOUSE: { el: {   // 우편함 왼쪽 · 노아 가운데 · 편지는 계산대 위에 비스듬히
+      mailbox: [300, 625, 300], noa: [580, 640, 370], letter: { at: [985, 474, 78], rot: -14 } } },
+    LM_ATELIER: { el: {      // 유리 작품은 왼쪽 창틀 위에 · 작업대는 바닥 가운데
+      glass: [320, 548, 250], 'workbench-lm': [790, 648, 255] } },
+    LM_CAFE: { el: {         // 메뉴판은 루루 왼쪽
+      menu: [330, 636, 270], lulu: [530, 640, 360], jelly: [880, 285, 190] } },
     LM_HARBOR: {
-      el: { pier: [420, 602, 150], sign: [985, 628, 262] },
+      el: { pier: [430, 602, 150], sign: [960, 628, 262] },
       deco: [{ img: 'LM_HARBOR-boat', at: [760, 440, 160] }, { img: 'LM_HARBOR-turtle', at: [330, 478, 74] }] }
   };
 
@@ -2111,7 +2114,10 @@ body.has-logo .sign.logo .logo-img{width:620px;filter:drop-shadow(0 8px 14px rgb
       }
       b.style.cssText = `left:${box.x}px;top:${box.y}px;width:${box.w}px;height:${box.h}px`;
       b.dataset.id = hp.id;
-      if (elImg) { const im = h('img', 'el-img'); im.src = elImg; im.alt = hp.label; im.draggable = false; b.append(im); b.classList.add('has-el'); }
+      if (elImg) {
+        const im = h('img', 'el-img'); im.src = elImg; im.alt = hp.label; im.draggable = false; b.append(im); b.classList.add('has-el');
+        if (ae && ae.rot) b.style.transform = `rotate(${ae.rot}deg)`; // 비스듬히 놓인 물건
+      }
       else if (ae && ae.box) b.classList.add('area'); // 배경 속 통로처럼 그림 없이 누르는 곳
       if (hp.npc && EF.NPCS[hp.npc]) { // 임시 그림일 때 인물은 색 동그라미 + 이름 첫 글자 (그림이 들어오면 숨겨진다)
         const n = EF.NPCS[hp.npc], ic = h('span', 'ico npc-ico', n.name[0]); ic.style.background = n.color; b.append(ic, h('span', 'lbl', hp.label));
@@ -3132,6 +3138,15 @@ body.has-logo .sign.logo .logo-img{width:620px;filter:drop-shadow(0 8px 14px rgb
     sign.innerHTML = '<span class="logo-txt">EVERFREEZE</span>';
     hang.append(ropes, sign);
     op.append(L, R, hang, val);
+    // 커튼 그림(assets/opening/open-0~3: 닫힘 → 반쯤 → 묶임 → 다 걷힘)이 있으면 그림 장면으로 열고 닫는다
+    const FR = [0, 1, 2, 3].map(i => 'opening/open-' + i);
+    const frames = FR.every(k => EF.artHas(k)) ? FR.map(k => EF.artSrc(k)) : null;
+    let frameImg = null;
+    if (frames) {
+      op.classList.add('has-frames');
+      frameImg = h('img', 'op-frame'); frameImg.src = frames[0]; frameImg.alt = ''; op.insertBefore(frameImg, hang);
+      frames.forEach(u => { const pre = new Image(); pre.src = u; }); // 미리 불러 둔다
+    }
     stage.append(op);
 
     // 상태: 'title'(닫힘+로고) → 'play'(열림) ⇄ 'down'(스크롤로 닫힘)
@@ -3141,8 +3156,18 @@ body.has-logo .sign.logo .logo-img{width:620px;filter:drop-shadow(0 8px 14px rgb
       await fn(); C.state = next; C.busy = false; UI.busy = next !== 'play';
       onScroll(); // 애니메이션 중에 스크롤이 바뀌었으면 이어서 맞춘다
     }
-    const openDrapes = async () => { op.classList.remove('closed'); op.classList.add('opening'); await wait(T.open); op.classList.remove('opening'); op.classList.add('open'); };
-    const closeDrapes = async () => { op.classList.remove('open'); op.classList.add('closed'); await wait(T.close); };
+    const step = T.open / 5;
+    const openDrapes = async () => {
+      op.classList.remove('closed'); op.classList.add('opening');
+      if (frames) { frameImg.style.opacity = 1; for (let i = 1; i < frames.length; i++) { await wait(step); frameImg.src = frames[i]; } await wait(step); frameImg.style.opacity = 0; await wait(step); }
+      else await wait(T.open);
+      op.classList.remove('opening'); op.classList.add('open');
+    };
+    const closeDrapes = async () => {
+      op.classList.remove('open'); op.classList.add('closed');
+      if (frames) { frameImg.src = frames[frames.length - 1]; frameImg.style.opacity = 1; for (let i = frames.length - 2; i >= 0; i--) { await wait(T.close / 4); frameImg.src = frames[i]; } }
+      else await wait(T.close);
+    };
 
     // 시작: 로고가 줄에 끌려 올라가고 → 커튼이 걷힌다
     const start = () => { if (C.state === 'title' && !C.busy) run(async () => { hang.classList.add('up'); await wait(T.rise); await openDrapes(); }, 'play').then(() => UI.onCurtainOpen && UI.onCurtainOpen()); }; // 처음 막이 열리면 안내 쪽지

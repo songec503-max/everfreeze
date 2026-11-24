@@ -11,55 +11,55 @@
   EF.curtainFor = sc => (sc.kind === 'world' ? 'curtain-world' : CURTAIN[sc.village]);
 
   EF.ART = {
+    // 마을 위치: 로즈메리 왼쪽 · 글렌위버 가운데 위 · 루미나리아 오른쪽
     WORLD_MAP: { el: {
-      'go-gw': [480, 335, 235], 'go-lm': [905, 365, 200], 'go-rm': [690, 600, 205] } },
+      'go-rm': [330, 520, 165], 'go-gw': [628, 352, 200], 'go-lm': [930, 492, 160] } },
 
     // ===== 로즈메리 =====
     MAP_ROSEMARY: { el: {
-      'm-home': [255, 575, 255], 'm-plaza': [505, 540, 285], 'm-lib': [785, 560, 270], 'm-shop': [1040, 590, 250] } },
+      'm-home': [270, 575, 245], 'm-plaza': [510, 540, 285], 'm-lib': [785, 560, 270], 'm-shop': [1010, 590, 240] } },
     RM_HOME: { el: {
-      desk: [300, 610, 265], drawer: [670, 612, 190], mirror: [1000, 618, 335] } },
-    RM_PLAZA: { el: {
-      'plaza-npc': [1010, 612, 300] } },
-    RM_LIBRARY_EXT: { el: {
-      'lib-notice': [270, 600, 165], aria: [1000, 615, 330] } },
+      desk: [320, 610, 265], drawer: [670, 612, 190], mirror: [990, 618, 335] } },
+    RM_PLAZA: { el: {   // 시계탑 가운데 · 게시판 왼쪽 · 주민1 오른쪽
+      clock: [640, 545, 300], board: [330, 615, 225], 'plaza-npc': [960, 640, 345] } },
+    RM_LIBRARY_EXT: { el: {   // 문은 도서관 입구 자리에 꼭 맞게
+      'lib-notice': [300, 615, 165], 'lib-door': [640, 503, 128], aria: [960, 640, 370] } },
     RM_LIBRARY_READING: { el: {
-      ledger: [300, 622, 235], shelf: [640, 600, 380],
-      'to-archive': { at: [1000, 604, 345], img: 'RM_LIBRARY_READING-to-archive-locked',
+      ledger: [320, 622, 235], shelf: [640, 615, 445],
+      'to-archive': { at: [1005, 610, 410], img: 'RM_LIBRARY_READING-to-archive-locked',
         alt: { if: [{ stageMin: 3 }, { solved: 'P-LEDGER' }], img: 'RM_LIBRARY_READING-to-archive-open' } } } },
     RM_LIBRARY_ARCHIVE: {
-      el: { fragments: [330, 622, 170], 'archive-box': [680, 595, 360], 'to-secret': { box: [1058, 258, 104, 304] } },
-      // 퍼즐을 풀기 전에는 책장이 비밀 통로를 막고 있다
+      el: { fragments: [340, 622, 170], 'archive-box': [670, 595, 360], 'to-secret': { box: [1058, 258, 104, 304] } },
       deco: [{ img: 'RM_LIBRARY_ARCHIVE-bookcase', at: [1105, 570, 330], showIf: [{ not: { solved: 'P-ARCHIVE' } }] }] },
     RM_LIBRARY_SECRET: { el: {
-      journal: [380, 612, 225], 'old-record': [820, 612, 325] } },
+      journal: [400, 612, 225], 'old-record': [820, 612, 325] } },
     RM_BELLA_SHOP: { el: {
-      bella: [235, 620, 320], display: [610, 632, 225], 'ledger-shop': [1000, 628, 172] } },
+      bella: [270, 640, 360], display: [620, 632, 225], 'ledger-shop': [990, 628, 172] } },
 
-    // ===== 글렌위버 =====
+    // ===== 글렌위버 ===== (집들은 땅 위에 서도록 조금 위로)
     MAP_GLENWEAVER: { el: {
-      'm-tower': [255, 565, 330], 'm-oaks': [520, 585, 235], 'm-sienna': [790, 565, 255], 'm-house': [1040, 600, 220] } },
-    GW_TOWER: { el: {
-      birdhouse: [770, 500, 250], 'shift-log': [420, 622, 262] } },
-    GW_OAKS: { el: {
-      oaks: [260, 620, 320], 'shelf-spin': [640, 565, 330], 'old-thing': [1000, 622, 225] } },
+      'm-tower': [280, 515, 320], 'm-oaks': [525, 535, 230], 'm-sienna': [785, 518, 250], 'm-house': [1010, 548, 215] } },
+    GW_TOWER: { el: {   // 레버 장치는 화면 가운데
+      birdhouse: [640, 470, 245], 'shift-log': [300, 625, 262] } },
+    GW_OAKS: { el: {    // 회전 선반은 화면 가운데
+      oaks: [290, 640, 360], 'shelf-spin': [640, 525, 330], 'old-thing': [990, 622, 225] } },
     GW_SIENNA: {
-      el: { sienna: [230, 620, 320], rack: [560, 565, 232], cloak: [870, 262, 175], 'workbench-gw': [960, 632, 232] },
-      deco: [{ img: 'GW_SIENNA-summer', at: [1040, 252, 150] }] },
-    GW_HOUSE: { el: {
-      'gw-resident': [560, 620, 330], registry: [960, 405, 235] } },
+      el: { sienna: [270, 640, 360], rack: [580, 575, 240], cloak: [860, 262, 165], 'workbench-gw': [960, 640, 235] },
+      deco: [{ img: 'GW_SIENNA-summer', at: [1030, 250, 140] }] },
+    GW_HOUSE: { el: {   // 명부는 나무 기둥을 비켜 오른쪽으로
+      'gw-resident': [560, 640, 370], registry: [1000, 405, 230] } },
 
-    // ===== 루미나리아 =====
+    // ===== 루미나리아 ===== (카페 왼쪽 · 등대 가운데)
     MAP_LUMINARIA: { el: {
-      'm-light': [255, 565, 300], 'm-atelier': [520, 565, 285], 'm-cafe': [780, 585, 262], 'm-harbor': [1010, 470, 105] } },
-    LM_LIGHTHOUSE: { el: {
-      noa: [250, 620, 330], mailbox: [560, 622, 300], letter: [1010, 462, 92] } },
-    LM_ATELIER: { el: {
-      glass: [330, 485, 285], 'workbench-lm': [860, 628, 232] } },
-    LM_CAFE: { el: {
-      lulu: [420, 622, 320], menu: [650, 622, 280], jelly: [880, 285, 190] } },
+      'm-cafe': [300, 585, 255], 'm-atelier': [540, 565, 280], 'm-light': [790, 565, 300], 'm-harbor': [985, 470, 100] } },
+    LM_LIGHTHOUSE: { el: {   // 우편함 왼쪽 · 노아 가운데 · 편지는 계산대 위에 비스듬히
+      mailbox: [300, 625, 300], noa: [580, 640, 370], letter: { at: [985, 474, 78], rot: -14 } } },
+    LM_ATELIER: { el: {      // 유리 작품은 왼쪽 창틀 위에 · 작업대는 바닥 가운데
+      glass: [320, 548, 250], 'workbench-lm': [790, 648, 255] } },
+    LM_CAFE: { el: {         // 메뉴판은 루루 왼쪽
+      menu: [330, 636, 270], lulu: [530, 640, 360], jelly: [880, 285, 190] } },
     LM_HARBOR: {
-      el: { pier: [420, 602, 150], sign: [985, 628, 262] },
+      el: { pier: [430, 602, 150], sign: [960, 628, 262] },
       deco: [{ img: 'LM_HARBOR-boat', at: [760, 440, 160] }, { img: 'LM_HARBOR-turtle', at: [330, 478, 74] }] }
   };
 

@@ -154,7 +154,10 @@
       }
       b.style.cssText = `left:${box.x}px;top:${box.y}px;width:${box.w}px;height:${box.h}px`;
       b.dataset.id = hp.id;
-      if (elImg) { const im = h('img', 'el-img'); im.src = elImg; im.alt = hp.label; im.draggable = false; b.append(im); b.classList.add('has-el'); }
+      if (elImg) {
+        const im = h('img', 'el-img'); im.src = elImg; im.alt = hp.label; im.draggable = false; b.append(im); b.classList.add('has-el');
+        if (ae && ae.rot) b.style.transform = `rotate(${ae.rot}deg)`; // 비스듬히 놓인 물건
+      }
       else if (ae && ae.box) b.classList.add('area'); // 배경 속 통로처럼 그림 없이 누르는 곳
       if (hp.npc && EF.NPCS[hp.npc]) { // 임시 그림일 때 인물은 색 동그라미 + 이름 첫 글자 (그림이 들어오면 숨겨진다)
         const n = EF.NPCS[hp.npc], ic = h('span', 'ico npc-ico', n.name[0]); ic.style.background = n.color; b.append(ic, h('span', 'lbl', hp.label));

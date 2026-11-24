@@ -771,7 +771,7 @@ body.has-curtain .opera.open .drape,body.has-curtain .opera.open .opera-valance{
 .closeup.has-img{isolation:isolate;background-color:transparent}
 .closeup.has-img .cv-pic.has-img{background-size:contain;background-repeat:no-repeat;flex:1}
 .npc-cu.has-img{justify-content:flex-start}
-.npc-cu .npc-art{position:absolute;left:4%;bottom:-4%;height:108%;max-width:62%;object-fit:contain;object-position:left bottom;filter:drop-shadow(0 10px 24px rgba(0,0,0,.4))}
+.npc-cu .npc-art{position:absolute;left:5%;top:4%;height:74%;max-width:46%;object-fit:contain;object-position:center top;filter:drop-shadow(0 10px 24px rgba(0,0,0,.4))} /* 대화창 위로 인물이 잘리지 않게 다 보인다 */
 /* 해파리 조명 그림: 차례로 환하게 빛난다 */
 .cv-lights.lamps{gap:70px;align-items:flex-start;padding-top:40px}
 .bulb.lamp{width:auto;height:470px;border-radius:0;background:none;opacity:1;animation-name:lampOn;filter:brightness(.55) saturate(.55)}
@@ -812,10 +812,10 @@ body.has-curtain #stagewrap::after{display:none} /* 커튼 그림이 있으면 �
 .pa-hand.hour{top:-7.5%;transform-origin:50% 57.5%} /* 시침 그림의 회전축 고리가 가운데보다 조금 아래 */
 .pa-levdev{position:relative;width:600px;height:300px;margin:0 auto}
 .pa-levrow{position:absolute;left:0;right:0;top:4%;height:70%;display:flex;justify-content:center;gap:42px}
-.pa-lever{border:0;background:none;padding:0;height:100%;transition:transform .25s;transform-origin:50% 92%}
+.pa-lever{border:0;background:none;padding:0;height:100%;transition:transform .25s;transform-origin:50% 50%}
 .pa-lever img{height:100%;pointer-events:none}
 .pa-lever:hover:not(:disabled){filter:drop-shadow(0 0 6px rgba(255,236,170,.95))}
-.pa-lever.down{transform:translateY(22%);filter:brightness(.8)}
+.pa-lever.down{transform:scaleY(-1)} /* 당긴 레버: 그림을 위아래로 뒤집어 내려간 모습 */
 .slidegrid.pa-art{background:center/100% 100% no-repeat;padding:22px;gap:8px}
 .stile.pic{background:center/cover no-repeat;font-size:0;box-shadow:0 2px 4px rgba(0,0,0,.3)}
 .glassgrid.pa-art{background:center/100% 100% no-repeat;padding:20px}
@@ -840,3 +840,6 @@ body.has-logo #masthead .logo{letter-spacing:0}
 body.has-logo .sign.logo{background:none;box-shadow:none;padding:0}
 body.has-logo .sign.logo::before,body.has-logo .sign.logo::after{display:none}
 body.has-logo .sign.logo .logo-img{width:620px;filter:drop-shadow(0 8px 14px rgba(40,10,20,.35))}
+/* 시작 커튼 그림 (opening/open-0~3) */
+.opera .op-frame{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;transition:opacity .3s}
+.opera.has-frames .drape,.opera.has-frames .opera-valance{display:none}
