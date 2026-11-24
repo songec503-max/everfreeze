@@ -34,29 +34,30 @@
     const frames = FR.every(k => EF.artHas(k)) ? FR.map(k => EF.artSrc(k)) : null;
     let frameImg = null;
     if (frames) {
-      op.classList.add('has-frames');
+      op.classList.add('has-frames', 'shut');
       frameImg = h('img', 'op-frame'); frameImg.src = frames[0]; frameImg.alt = ''; op.insertBefore(frameImg, hang);
       frames.forEach(u => { const pre = new Image(); pre.src = u; }); // 미리 불러 둔다
     }
-    stage.append(op);
+    stage.append(op); document.body.classList.add('stage-closed');
 
     // 상태: 'title'(닫힘+로고) → 'play'(열림) ⇄ 'down'(스크롤로 닫힘)
     const C = UI.curtain = { state: 'title', busy: false, el: op };
     async function run(fn, next) {
-      if (C.busy) return; C.busy = true; UI.busy = true;
+      if (C.busy) return; C.busy = true; UI.busy = true; document.body.classList.add('stage-closed');
       await fn(); C.state = next; C.busy = false; UI.busy = next !== 'play';
+      document.body.classList.toggle('stage-closed', next !== 'play');
       onScroll(); // 애니메이션 중에 스크롤이 바뀌었으면 이어서 맞춘다
     }
     const step = T.open / 5;
     const openDrapes = async () => {
       op.classList.remove('closed'); op.classList.add('opening');
-      if (frames) { frameImg.style.opacity = 1; for (let i = 1; i < frames.length; i++) { await wait(step); frameImg.src = frames[i]; } await wait(step); frameImg.style.opacity = 0; await wait(step); }
+      if (frames) { frameImg.style.opacity = 1; for (let i = 1; i < frames.length; i++) { await wait(step); frameImg.src = frames[i]; op.classList.remove('shut'); } await wait(step); frameImg.style.opacity = 0; await wait(step); }
       else await wait(T.open);
       op.classList.remove('opening'); op.classList.add('open');
     };
     const closeDrapes = async () => {
       op.classList.remove('open'); op.classList.add('closed');
-      if (frames) { frameImg.src = frames[frames.length - 1]; frameImg.style.opacity = 1; for (let i = frames.length - 2; i >= 0; i--) { await wait(T.close / 4); frameImg.src = frames[i]; } }
+      if (frames) { frameImg.src = frames[frames.length - 1]; frameImg.style.opacity = 1; for (let i = frames.length - 2; i >= 0; i--) { await wait(T.close / 4); frameImg.src = frames[i]; } op.classList.add('shut'); }
       else await wait(T.close);
     };
 
@@ -116,9 +117,18 @@
       [...tabs.children].forEach((t, j) => t.classList.toggle('on', j === i));
     }
     leaves[0].classList.add('on'); tabs.children[0].classList.add('on');
-    gate.onclick = () => {
+    // 무대 뒤로 들어갈 때도 커튼이 걷히며 책자가 드러난다 (시작 커튼 그림 open-0~3 을 그대로 쓴다)
+    gate.onclick = async () => {
+      if (sec.classList.contains('open')) return;
       sec.classList.add('open');
-      setTimeout(() => book.scrollIntoView({ behavior: 'smooth', block: 'center' }), 350);
+      const fr = [0, 1, 2, 3].map(i => 'opening/open-' + i);
+      if (fr.every(k => EF.artHas(k))) {
+        const cv = h('div', 'bs-curtain'), im = h('img'); im.src = EF.artSrc(fr[0]); im.alt = ''; cv.append(im); book.append(cv);
+        book.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        await wait(700);
+        for (let i = 1; i < fr.length; i++) { im.src = EF.artSrc(fr[i]); cv.style.background = 'none'; await wait(T.open / 5); }
+        cv.classList.add('gone'); await wait(400); cv.remove();
+      } else setTimeout(() => book.scrollIntoView({ behavior: 'smooth', block: 'center' }), 350);
     };
     shut.onclick = () => sec.classList.remove('open');
   };
