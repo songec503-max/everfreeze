@@ -18,13 +18,13 @@ button{font-family:inherit;cursor:pointer}
 
 /* 오류 단계 연출 (단계 누적 · 전역) */
 #stage[data-stage="2"] .scene{filter:saturate(.92)}
-#stage[data-stage="2"] .fx{background:radial-gradient(ellipse at center,transparent 60%,rgba(60,40,90,.14) 100%)}
+body[data-stage="2"] .fx{background:radial-gradient(ellipse at center,transparent 60%,rgba(60,40,90,.14) 100%)}
 #stage[data-stage="3"] .scene{filter:saturate(.78) hue-rotate(-8deg)}
-#stage[data-stage="3"] .fx{background:repeating-linear-gradient(0deg,rgba(0,0,0,.035) 0 2px,transparent 2px 5px),radial-gradient(ellipse at center,transparent 50%,rgba(60,30,90,.22) 100%)}
+body[data-stage="3"] .fx{background:repeating-linear-gradient(0deg,rgba(0,0,0,.035) 0 2px,transparent 2px 5px),radial-gradient(ellipse at center,transparent 50%,rgba(60,30,90,.22) 100%)}
 #stage[data-stage="4"] .scene{filter:saturate(.6) hue-rotate(-18deg) contrast(1.05);animation:jitter 5s steps(1) infinite}
-#stage[data-stage="4"] .fx{background:repeating-linear-gradient(0deg,rgba(0,0,0,.06) 0 2px,transparent 2px 4px),linear-gradient(90deg,rgba(255,0,80,.05),transparent 30%,transparent 70%,rgba(0,200,255,.06)),radial-gradient(ellipse at center,transparent 40%,rgba(40,10,70,.34) 100%)}
+body[data-stage="4"] .fx{background:repeating-linear-gradient(0deg,rgba(0,0,0,.06) 0 2px,transparent 2px 4px),linear-gradient(90deg,rgba(255,0,80,.05),transparent 30%,transparent 70%,rgba(0,200,255,.06)),radial-gradient(ellipse at center,transparent 40%,rgba(40,10,70,.34) 100%)}
 #stage[data-stage="5"] .scene{filter:grayscale(.78) brightness(.94)}
-#stage[data-stage="5"] .fx{background:radial-gradient(ellipse at center,transparent 55%,rgba(20,20,30,.3) 100%)}
+body[data-stage="5"] .fx{background:radial-gradient(ellipse at center,transparent 55%,rgba(20,20,30,.3) 100%)}
 @keyframes jitter{0%,92%,100%{transform:none}93%{transform:translateX(5px)}95%{transform:translateX(-6px) skewX(.6deg)}97%{transform:translateX(3px)}}
 #stage[data-stage="5"] *{animation-play-state:paused}
 
@@ -568,15 +568,15 @@ body[data-village="gw"]{--tape:126,156,100} body[data-village="lm"]{--tape:106,1
   inset:0;background:linear-gradient(transparent 0 46%,rgba(255,255,255,.35) 47%,rgba(200,40,60,.35) 48%,transparent 49.5%) 0 0/100% 100% no-repeat;
   animation:none}
 @keyframes glitchBar{0%,62%{transform:translateY(-60%);opacity:0}63%{opacity:1}72%{transform:translateY(60%);opacity:1}73%,100%{opacity:0;transform:translateY(60%)}}
-#stage[data-stage="2"] .fx::after{opacity:.14}   /* 2단계: 미세하게 */
-#stage[data-stage="3"] .fx::after{opacity:.75}   /* 3단계부터: 확실히 보이게 */
-#stage[data-stage="3"] .fx::before{animation:glitchBar 4.5s linear infinite}
-#stage[data-stage="4"] .fx::after{opacity:1}
-#stage[data-stage="4"] .fx::before{animation:glitchBar 2.8s linear infinite;
+body[data-stage="2"] .fx::after{opacity:.14}   /* 2단계: 미세하게 */
+body[data-stage="3"] .fx::after{opacity:.75}   /* 3단계부터: 확실히 보이게 */
+body[data-stage="3"] .fx::before{animation:glitchBar 4.5s linear infinite}
+body[data-stage="4"] .fx::after{opacity:1}
+body[data-stage="4"] .fx::before{animation:glitchBar 2.8s linear infinite;
   background:linear-gradient(transparent 0 30%,rgba(200,40,60,.4) 31%,transparent 32.5%,transparent 52%,rgba(255,255,255,.45) 53%,rgba(90,40,160,.35) 54.5%,transparent 56%) 0 0/100% 100% no-repeat}
 #stage[data-stage="4"] .scene{animation:jitter 5s steps(1) infinite,tear 3.3s steps(1) infinite}
 @keyframes tear{0%,88%,100%{clip-path:none}89%{clip-path:polygon(0 0,100% 0,100% 41%,96% 41%,96% 46%,100% 46%,100% 100%,0 100%)}91%{clip-path:polygon(0 0,100% 0,100% 63%,0 63%,0 66%,100% 66%,100% 100%,0 100%)}}
-#stage[data-stage="5"] .fx::after{opacity:.55}   /* 5단계: 움직임이 멈추므로 잡음도 멈춘 채 남는다 */
+body[data-stage="5"] .fx::after{opacity:.55}   /* 5단계: 움직임이 멈추므로 잡음도 멈춘 채 남는다 */
 @media (prefers-reduced-motion: reduce){.fx::after,.fx::before{animation:none}}
 
 /* ===== 사이트 전체 오류 연출 (src/ui/glitch.js) — 게임 창 바깥, 사이트 자체가 망가진다 ===== */
@@ -843,3 +843,15 @@ body.has-logo .sign.logo .logo-img{width:620px;filter:drop-shadow(0 8px 14px rgb
 /* 시작 커튼 그림 (opening/open-0~3) */
 .opera .op-frame{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;transition:opacity .3s}
 .opera.has-frames .drape,.opera.has-frames .opera-valance{display:none}
+
+/* ===== 커튼이 그림 창을 바깥까지 감싼다 · 잡음은 맨 위 ===== */
+body.has-curtain #stagewrap{overflow:visible}
+.curtain-img.curtain-out{position:absolute;left:-2.6%;right:-2.6%;top:-3.4%;bottom:-1.8%;z-index:3;pointer-events:none;transition:opacity .5s;background:center/100% 100% no-repeat}
+.curtain-img.curtain-out{left:-2.6%;right:-2.6%;top:-3.4%;bottom:-1.8%}
+body.stage-closed .curtain-out{opacity:0} /* 시작 커튼 · 스크롤로 내린 막이 덮여 있을 때는 숨김 */
+.fx.fx-top{position:absolute;left:-2.6%;right:-2.6%;top:-3.4%;bottom:-1.8%;z-index:4;overflow:hidden;border-radius:6px}
+body:not(.has-curtain) .fx.fx-top{inset:0}
+#stage{z-index:2}
+/* 우편함 시계: 시계판을 키우고 바늘은 시계판 안에 들어가게 줄인다 (회전축은 그대로 가운데) */
+.pa-clock{width:380px;height:380px}
+.pa-hand{scale:.62}

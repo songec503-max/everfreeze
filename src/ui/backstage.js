@@ -38,13 +38,14 @@
       frameImg = h('img', 'op-frame'); frameImg.src = frames[0]; frameImg.alt = ''; op.insertBefore(frameImg, hang);
       frames.forEach(u => { const pre = new Image(); pre.src = u; }); // 미리 불러 둔다
     }
-    stage.append(op);
+    stage.append(op); document.body.classList.add('stage-closed');
 
     // 상태: 'title'(닫힘+로고) → 'play'(열림) ⇄ 'down'(스크롤로 닫힘)
     const C = UI.curtain = { state: 'title', busy: false, el: op };
     async function run(fn, next) {
-      if (C.busy) return; C.busy = true; UI.busy = true;
+      if (C.busy) return; C.busy = true; UI.busy = true; document.body.classList.add('stage-closed');
       await fn(); C.state = next; C.busy = false; UI.busy = next !== 'play';
+      document.body.classList.toggle('stage-closed', next !== 'play');
       onScroll(); // 애니메이션 중에 스크롤이 바뀌었으면 이어서 맞춘다
     }
     const step = T.open / 5;

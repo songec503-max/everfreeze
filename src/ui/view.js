@@ -26,7 +26,9 @@
     backEl = h('div', 'edge-back'); backEl.onclick = () => UI.goBack();
     backEl.append(h('div', 'edge-arrow')); // 뒤로 갈 수 있다는 표시(항상 희미하게 보이고, 마우스를 대면 진해짐)
     decoEl = h('div', 'deco'); curtainEl = h('div', 'curtain-img'); // 장식(누를 수 없음) · 마을 커튼 그림
-    stage.append(sceneEl, decoEl, h('div', 'fx'), hsEl, curtainEl, backEl, UI.toastEl, UI.bannerEl);
+    stage.append(sceneEl, decoEl, hsEl, backEl, UI.toastEl, UI.bannerEl);
+    // 마을 커튼은 그림 창 바깥까지 감싸고, 잡음(노이즈)은 그 위 맨 꼭대기에 깐다
+    curtainEl.classList.add('curtain-out'); wrap.append(curtainEl, h('div', 'fx fx-top'));
     // 메모 버튼은 설정(showMemo)을 켰을 때만 만든다
     if (EF.CONFIG.showMemo) {
       memoBtn = h('button', 'memo-btn', '📓 메모 ('); nbCount = h('b', '', '0'); memoBtn.append(nbCount, ')');
