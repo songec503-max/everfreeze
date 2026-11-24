@@ -117,9 +117,18 @@
       [...tabs.children].forEach((t, j) => t.classList.toggle('on', j === i));
     }
     leaves[0].classList.add('on'); tabs.children[0].classList.add('on');
-    gate.onclick = () => {
+    // 무대 뒤로 들어갈 때도 커튼이 걷히며 책자가 드러난다 (시작 커튼 그림 open-0~3 을 그대로 쓴다)
+    gate.onclick = async () => {
+      if (sec.classList.contains('open')) return;
       sec.classList.add('open');
-      setTimeout(() => book.scrollIntoView({ behavior: 'smooth', block: 'center' }), 350);
+      const fr = [0, 1, 2, 3].map(i => 'opening/open-' + i);
+      if (fr.every(k => EF.artHas(k))) {
+        const cv = h('div', 'bs-curtain'), im = h('img'); im.src = EF.artSrc(fr[0]); im.alt = ''; cv.append(im); book.append(cv);
+        book.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        await wait(700);
+        for (let i = 1; i < fr.length; i++) { im.src = EF.artSrc(fr[i]); cv.style.background = 'none'; await wait(T.open / 5); }
+        cv.classList.add('gone'); await wait(400); cv.remove();
+      } else setTimeout(() => book.scrollIntoView({ behavior: 'smooth', block: 'center' }), 350);
     };
     shut.onclick = () => sec.classList.remove('open');
   };

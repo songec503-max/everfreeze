@@ -21,6 +21,28 @@
     stage.innerHTML = '';
     sceneEl = h('div', 'scene'); wm = h('div', 'wm'); sceneEl.append(wm);
     hsEl = h('div', 'hotspots');
+    // 그림 클릭 요소는 '그려진 곳'만 누른다: 투명한 곳을 누르면 뒤에 있는 요소가 눌린다 (EF.ART_MASKS)
+    const opaqueAt = (b, x, y) => {
+      const r = b.getBoundingClientRect(); if (x < r.left || x > r.right || y < r.top || y > r.bottom) return false;
+      const m = (EF.ART_MASKS || {})[b.dataset.art]; if (!m) return true;
+      const cx = Math.min(31, Math.floor((x - r.left) / r.width * 32)), cy = Math.min(31, Math.floor((y - r.top) / r.height * 32));
+      const i = cy * 32 + cx; return (parseInt(m[i >> 2], 16) >> (3 - (i & 3))) & 1;
+    };
+    const pickEl = e => {
+      const bs = [...hsEl.querySelectorAll('.hs.has-el')].map((b, i) => [b, +(b.style.zIndex || 0), i]).sort((a, c) => c[1] - a[1] || c[2] - a[2]);
+      const hit = bs.find(([b]) => opaqueAt(b, e.clientX, e.clientY)); return hit ? hit[0] : null;
+    };
+    let hov = null;
+    hsEl.addEventListener('pointermove', e => {
+      const b = e.target.closest('.hs:not(.has-el)') ? null : pickEl(e);
+      if (b !== hov) { if (hov) hov.classList.remove('hov'); hov = b; if (b) b.classList.add('hov'); }
+      hsEl.style.cursor = b ? 'pointer' : '';
+    });
+    hsEl.addEventListener('pointerleave', () => { if (hov) hov.classList.remove('hov'); hov = null; });
+    hsEl.addEventListener('click', e => {
+      if (!e.isTrusted || e.target.closest('.hs:not(.has-el)')) return;
+      const b = pickEl(e); if (b) b.click();
+    });
     UI.toastEl = h('div', 'toasts');
     UI.bannerEl = h('div', 'banner');
     backEl = h('div', 'edge-back'); backEl.onclick = () => UI.goBack();
@@ -150,19 +172,20 @@
     sc.hotspots.forEach(hp => {
       if (!EF.check(hp.showIf)) return;
       const b = h('button', `hs hs-${hp.kind}` + (hp.temp ? ' temp' : ''));
-      let box = { x: hp.x, y: hp.y, w: hp.w, h: hp.h }, elImg = null;
+      let box = { x: hp.x, y: hp.y, w: hp.w, h: hp.h }, elImg = null, spec_name = null;
       const ae = (art.el || {})[hp.id];
       if (ae) { // 그림 배치표(art.js)에 있으면 그 자리 · 그 그림으로
         const spec = Array.isArray(ae) ? { at: ae, img: `${sc.id}-${hp.id}` } : ae;
         const name = spec.alt && EF.check(spec.alt.if) ? spec.alt.img : (spec.img || `${sc.id}-${hp.id}`);
         if (spec.box) box = { x: spec.box[0], y: spec.box[1], w: spec.box[2], h: spec.box[3] };
-        else if (spec.at && EF.artHas('el/' + name)) { box = EF.artBox('el/' + name, spec.at); elImg = EF.artSrc('el/' + name); }
+        else if (spec.at && EF.artHas('el/' + name)) { box = EF.artBox('el/' + name, spec.at); elImg = EF.artSrc('el/' + name); spec_name = name; }
       }
       b.style.cssText = `left:${box.x}px;top:${box.y}px;width:${box.w}px;height:${box.h}px`;
       if (ae && ae.z) b.style.zIndex = ae.z; // 다른 요소보다 앞에
       b.dataset.id = hp.id;
       if (elImg) {
         const im = h('img', 'el-img'); im.src = elImg; im.alt = hp.label; im.draggable = false; b.append(im); b.classList.add('has-el');
+        b.dataset.art = 'el/' + (spec_name || '');
         if (ae && ae.rot) b.style.transform = `rotate(${ae.rot}deg)`; // 비스듬히 놓인 물건
       }
       else if (ae && ae.box) b.classList.add('area'); // 배경 속 통로처럼 그림 없이 누르는 곳
