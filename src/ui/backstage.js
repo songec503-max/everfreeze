@@ -29,6 +29,15 @@
     sign.innerHTML = '<span class="logo-txt">EVERFREEZE</span>';
     hang.append(ropes, sign);
     op.append(L, R, hang, val);
+    // 커튼 그림(assets/opening/open-0~3: 닫힘 → 반쯤 → 묶임 → 다 걷힘)이 있으면 그림 장면으로 열고 닫는다
+    const FR = [0, 1, 2, 3].map(i => 'opening/open-' + i);
+    const frames = FR.every(k => EF.artHas(k)) ? FR.map(k => EF.artSrc(k)) : null;
+    let frameImg = null;
+    if (frames) {
+      op.classList.add('has-frames');
+      frameImg = h('img', 'op-frame'); frameImg.src = frames[0]; frameImg.alt = ''; op.insertBefore(frameImg, hang);
+      frames.forEach(u => { const pre = new Image(); pre.src = u; }); // 미리 불러 둔다
+    }
     stage.append(op);
 
     // 상태: 'title'(닫힘+로고) → 'play'(열림) ⇄ 'down'(스크롤로 닫힘)
@@ -38,8 +47,18 @@
       await fn(); C.state = next; C.busy = false; UI.busy = next !== 'play';
       onScroll(); // 애니메이션 중에 스크롤이 바뀌었으면 이어서 맞춘다
     }
-    const openDrapes = async () => { op.classList.remove('closed'); op.classList.add('opening'); await wait(T.open); op.classList.remove('opening'); op.classList.add('open'); };
-    const closeDrapes = async () => { op.classList.remove('open'); op.classList.add('closed'); await wait(T.close); };
+    const step = T.open / 5;
+    const openDrapes = async () => {
+      op.classList.remove('closed'); op.classList.add('opening');
+      if (frames) { frameImg.style.opacity = 1; for (let i = 1; i < frames.length; i++) { await wait(step); frameImg.src = frames[i]; } await wait(step); frameImg.style.opacity = 0; await wait(step); }
+      else await wait(T.open);
+      op.classList.remove('opening'); op.classList.add('open');
+    };
+    const closeDrapes = async () => {
+      op.classList.remove('open'); op.classList.add('closed');
+      if (frames) { frameImg.src = frames[frames.length - 1]; frameImg.style.opacity = 1; for (let i = frames.length - 2; i >= 0; i--) { await wait(T.close / 4); frameImg.src = frames[i]; } }
+      else await wait(T.close);
+    };
 
     // 시작: 로고가 줄에 끌려 올라가고 → 커튼이 걷힌다
     const start = () => { if (C.state === 'title' && !C.busy) run(async () => { hang.classList.add('up'); await wait(T.rise); await openDrapes(); }, 'play').then(() => UI.onCurtainOpen && UI.onCurtainOpen()); }; // 처음 막이 열리면 안내 쪽지
