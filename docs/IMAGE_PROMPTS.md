@@ -1,6 +1,6 @@
 # EVERFREEZE 이미지 제작 프롬프트
 
-기준: LINEWORKS 최종 아트북(선택 스타일 A) + 사이트 구조(장면 19 · 클로즈업 29 · 인물 크롭 8).
+기준: LINEWORKS 최종 아트북(선택 스타일 A) + 사이트 구조(장면 19 · 클로즈업 30 · 인물 크롭 8).
 **가장 중요한 두 가지**: ① 무대처럼 보이는 연출(마을별 커튼 프레임 + 무대 바닥 + 앞쪽 종이 덤불) ② 잘라 겹친 종이 질감(종이 가장자리·얇은 접촉 그림자).
 
 ---
@@ -107,7 +107,7 @@ watermark, signature, logo, misspelled text, extra numbers, wrong digits, garble
 |---|---|---|---|
 | `GW_TOWER.png` | F-GW | `at the foot of the giant birdhouse tower tree, many small wooden birdhouses with green roofs, bluebirds and a squirrel, on the left a wooden gear mechanism on the trunk with four colored levers (blue, pink, yellow, green), on the right a small wooden board on a stand holding a paper shift log` | 새집 장치(레버 4개) · 교대 기록 |
 | `GW_OAKS.png` | F-GW + 실내 | `inside Oaks' general goods shop built in a hollow tree, tree-ring patterns on the walls, in the center a big round rotating shelf made of four nested tree-ring rings, on the right a small worn wooden object on a stool with a little paper tag` + 오크스 `standing on the left behind a counter` | 오크스 · 회전 선반 · 오래된 물건 |
-| `GW_SIENNA.png` | F-GW + 실내 | `Sienna's seasonal cloak workshop, cloaks in spring, summer, autumn and winter colors hanging on a rail in the center, thread spools, fabric bolts, on the right a sewing workbench with an unfinished cloak and a needle` + 시에나 `standing on the left` | 시에나 · 걸린 망토 · 작업대 |
+| `GW_SIENNA.png` | F-GW + 실내 | `Sienna's seasonal cloak workshop, on a rail in the center several identical finished spring cloaks in soft spring green with small blossom dots, at the end of the rail three empty hangers each with a small season tag, a finished cloak pattern sheet pinned high on the back wall at the upper right, thread spools, fabric bolts, on the right a sewing workbench with an unfinished spring cloak and a needle stuck in it` + 시에나 `standing on the left` | 시에나 · 망토 옷걸이(가운데) · 망토 도안(벽, 오른쪽 위) · 작업대 |
 | `GW_HOUSE.png` | F-GW + 실내 | `inside a modest forest cottage, wooden beams, knitted rugs, on the right wall a framed paper residents register, a teapot on the table` + 주민(글렌위버) `standing in the center` | 주민 · 주민 명부(오른쪽 벽) |
 
 ### 루미나리아
@@ -146,11 +146,11 @@ malfunction state: same composition and buildings, dark blue-violet and indigo p
 
 ---
 
-## 7. 클로즈업 29장 — `assets/view/<뷰ID>.png`
+## 7. 클로즈업 30장 — `assets/view/<뷰ID>.png`
 
 클로즈업 공통 블록: `close-up stage insert: the single object fills the center of the frame like a prop on a small paper stage, simple dark paper backdrop, the village curtain frame cropped at the edges`
 
-### 7-1. 그림 그대로 쓰는 것 9장 (pic)
+### 7-1. 그림 그대로 쓰는 것 10장 (pic)
 
 | 파일 | 프레임 | 장면 블록 |
 |---|---|---|
@@ -159,9 +159,10 @@ malfunction state: same composition and buildings, dark blue-violet and indigo p
 | `v-display.png` | F-RM | `a display table in a general store, one small cherished music box sits perfectly spotless while everything around it has a little dust` |
 | `v-birdhouse.png` | F-GW | `a wooden birdhouse gear mechanism opened, the gears stopped, inside a looping track that returns to the same place` |
 | `v-shelf.png` | F-GW | `a round rotating shelf of four nested tree-ring rings, stopped, the same carved marks repeating around every ring` |
+| `v-rack.png` | F-GW | `a wooden clothes rail seen up close: on the left four identical spring cloaks in soft spring green with small blossom dots, each with a paper tag showing a cherry blossom and the word 봄; on the right three EMPTY hangers, each with a paper tag: a sun and the word 여름, a maple leaf and the word 가을, a snowflake and the word 겨울; tags are large and clearly readable` | 꼬리표: 망토 4벌 **🌸 봄** / 빈 옷걸이 **☀️ 여름 · 🍂 가을 · ❄️ 겨울** (한글이 깨지면 그림 기호만 있어도 됨) |
 | `v-oldthing.png` | F-GW | `a small worn wooden heirloom on a stool, smooth from years of hands, a tiny blank paper tag tied with string, quiet and precious` (그림만 보이는 장면) |
 | `v-glassart.png` | F-LM | `a large pearly glass artwork, inside the glass a tiny village scene is faintly visible` |
-| `v-atelier.png` | F-LM | `four pieces of colored glass joined into one stained-glass picture: dawn, noon, sunset and night arranged clockwise, glowing softly, no one around` |
+| `v-atelier.png` | F-LM | `a small window made of four pieces of colored glass joined into one stained-glass picture: dawn, noon, sunset and night arranged clockwise, muted faded colors, the glass panes semi-clear so something behind them could be seen, no one around` | ※ 엔딩의 **창문**으로도 쓰인다. 엔딩에서 회색으로 빛바래 보이고, 2초 뒤 유리 너머로 아리아가 비친다 → 유리 칸이 잘 보이게. 넣은 뒤 유리 칸 위치를 `EF.ENDING_WINDOW_PANE` 에 맞춘다 |
 | `v-pier.png` | F-LM | `the end of a wooden pier, a pair of small boot prints pressed into the wet planks at the exact same spot, sea and sailboats behind` |
 
 ### 7-2. 퍼즐 단서 그림 13장 — 글자·숫자를 그림에 직접 넣는다
@@ -179,13 +180,13 @@ malfunction state: same composition and buildings, dark blue-violet and indigo p
 | `v-shopledger.png` | P-MAILBOX | F-RM | `an open shop ledger on a wooden counter, rows of small item drawings with the same date on every row, the last line has a little horse-drawn mail coach drawing and a time` | 날짜 칸 전부 **봄 3일**, 마지막 줄 🐴✉️ **6:20** |
 | `v-registry.png` | P-LEDGER | F-GW | `a framed residents register on a cottage wall with three columns headed by a rose, an oak leaf and a seashell, names written in each column` | 🌹 **클로버 · 벨라 · 아리아 · 토비** / 🍂 **오크스 · 시에나 · 마렌 · 페넬** / 🐚 **노아 · 루루 · 로완** (**'하나' 없음**) |
 | `v-ledger.png` | P-LEDGER 풀린 뒤 | F-RM | `an open library lending ledger, every row is identical: the same date, the same borrower name, the same book title` | 5줄 모두 **봄 3일 · 하나 · 첫 번째 하루** |
-| `v-cloak.png` | P-ARCHIVE | F-GW | `a finished cloak pattern sheet pinned on the workshop wall, embroidered in three horizontal bands: top band suns, middle band clock towers, bottom band waves` | 위 **해** · 가운데 **시계탑** · 아래 **물결** (그림 문양) |
+| `v-cloak.png` | P-ARCHIVE | F-GW | `a finished cloak pattern sheet on cream grid paper pinned to the workshop wall with four pins, a dashed cloak outline with a collar, inside the cloak three horizontal embroidered bands: top band a row of suns, middle band a row of clock towers, bottom band a row of waves, small scissors drawing in the corner` | 위 **해** · 가운데 **시계탑** · 아래 **물결** (그림 문양) |
 | `v-jelly.png` | P-BIRDHOUSE | F-LM | `four jellyfish-shaped lamps hanging in a row from the café ceiling, from left to right: yellow, blue, green, pink, all unlit and dim, ready to glow` | 놓인 자리(왼→오) **노랑 · 파랑 · 초록 · 분홍** (새집 레버와 같은 배치). 켜지는 순서 **파랑 → 분홍 → 노랑 → 초록** 은 사이트가 그림 위에 빛으로 보여 준다 |
 | `v-shiftlog.png` | P-ATELIER | F-GW | `a wooden clipboard holding a shift log table, header icons dawn, noon, sunset, night, each header with a tiny bluebird flying in a direction (dawn: up, noon: left, sunset: down, night: up), seven rows with exactly the same date and the same times, a check mark on every row` | 머리 🌅🐦↑ ☀️🐦← 🌇🐦↓ 🌙🐦↑ ✓ (새 방향 = 유리 조각 ▲ 방향), 7줄 모두 **봄 3일 · 05:12:00 · 11:59:00 · 17:44:00 · 23:59:00 · ✓** |
 | `v-record.png` | P-LETTER | F-RM | `a long torn paper strip restored and taped together, showing five small paintings joined by arrows pointing to the LEFT, from left to right: sun, moon, sunrise, moon, sunset, with a small red dot at the far right end marking where to start reading` | 왼쪽부터 ☀️ ← 🌙 ← 🌅 ← 🌙 ← 🌇 ● (● 오른쪽 끝에서 시작해 왼쪽으로 = 저녁 밤 아침 밤 낮) |
 | `v-board.png` | P-OLDREC (▲) | F-RM | `a wooden cork notice board, two identical paper notices with a broom drawing pinned side by side, each stamped with a red triangle mark` | 같은 공지 **2장**, 각각 빨간 **▲** |
 | `v-mailbox.png` | P-OLDREC (●) | F-LM | `an open brass mailbox, three identical envelopes inside, each sealed with a round red wax seal` | 편지 **3통**, 각각 **●** 봉인 |
-| `v-workbench.png` | P-OLDREC (★) | F-GW | `a sewing workbench with an unfinished cloak, a paper tag with a star mark pinned to it, a row of ten stitch marks numbered 1 to 7 completed and 8 to 10 empty, the needle stopped at stitch 7` | **★** 표 + 땀 번호 **1~7**(7에서 바늘 멈춤), 8~10 빈칸 |
+| `v-workbench.png` | P-OLDREC (★) | F-GW | `a strip of cloth on a sewing workbench, a small paper tag with a star mark sewn at the left end, a single straight row of stitches: exactly seven red thread stitches sewn, a silver needle with thread stuck in the seventh stitch, then three empty needle holes, no numbers` | **★** 표 + 실로 꿰맨 땀 **정확히 7개**(7번째에 바늘이 꽂힌 채 멈춤), 그 뒤 바늘구멍 3개. **번호 없음**(땀을 세어 7을 알게 함) |
 
 ### 7-3. 퍼즐과 무관한 그림 7장 — 글 없이 바탕만 (사이트가 위에 얹음)
 
@@ -211,9 +212,10 @@ malfunction state: same composition and buildings, dark blue-violet and indigo p
 2. 마을 지도 3장 + 월드맵 → 플레이 흐름 전체가 한 번에 그림으로 바뀜
 3. 로즈메리 장소 7장(+보관실 열린 판) → 1~2단계 플레이 구간
 4. 글렌위버 4장 · 루미나리아 4장
-5. 인물 크롭 7장
-6. 클로즈업 7-1 (9장) → 7-2 퍼즐 단서 (13장) → 7-3 (7장)
-7. (선택) 오작동 배경
+5. 인물 크롭 8장
+6. 클로즈업 7-1 (10장) → 7-2 퍼즐 단서 (13장) → 7-3 (7장)
+7. 사이트 꾸밈: 단계별 배경 5장 · 마우스 포인터 5장 · 균열 · 엔딩 아리아
+8. (선택) 오작동 배경
 
 ## 9. 체크리스트
 
@@ -224,7 +226,37 @@ malfunction state: same composition and buildings, dark blue-violet and indigo p
 - [ ] 클릭할 물건이 프레임에 가려지지 않고, 맨 아래 76px 띠 위에 있다
 - [ ] 인물 고유색·소품이 아트북과 같다 (벨라 2.5등신, 나머지 3등신 계열)
 
-## 엔딩 · 창 밖의 아리아 (선택)
+## 10. 사이트 꾸밈 그림 (게임 창 바깥)
+
+### 10-1. 단계별 사이트 배경 5장 — `assets/page/stage<N>.png`
+사이트 바깥 배경(좌우 여백 포함). 화면에 꽉 차게 늘어나고 스크롤해도 고정된다. 가로로 긴 그림(1920×1080 이상) 권장.
+없는 단계는 바로 아래 단계 그림을 쓴다(예: 1·3·5단계만 주면 2단계=1단계, 4단계=3단계).
+
+| 파일 | 단계 | 프롬프트 (공통 스타일 뒤에) |
+|---|---|---|
+| `stage1.png` | 1 · 일상 | `seamless warm cream paper texture background, soft speckles and faint fibers, calm, no objects` |
+| `stage2.png` | 2 · 미세한 어긋남 | 위와 같은 종이 + `a few barely visible faint gray scratches and tiny smudges` |
+| `stage3.png` | 3 · 뚜렷한 오류 | 위와 같은 종이 + `slightly yellowed and stained, thin hairline creases, a few small faded glitch-colored specks (pink and cyan)` |
+| `stage4.png` | 4 · 심한 오류 | `the same paper now darker and wrinkled, torn small gaps showing black behind, scattered pink and cyan pixel noise, horizontal misaligned bands` |
+| `stage5.png` | 5 · 완전한 오류 | `grayish faded paper, frozen, heavily cracked and torn with black showing through, broken pixel blocks frozen in place, desaturated` |
+
+### 10-2. 단계별 마우스 포인터 5장 — `assets/cursor/stage<N>.png`
+**32×32 픽셀, 투명 배경 PNG.** 화살표의 뾰족한 끝이 **왼쪽 위 모서리(1,1)** 에 오게. 지금은 임시 포인터가 들어가 있다.
+
+| 파일 | 단계 | 모습 |
+|---|---|---|
+| `stage1.png` | 1 | 크림색 종이 화살표 + 진한 테두리, 깨끗하게 |
+| `stage2.png` | 2 | 테두리 색이 살짝 어긋남(분홍·하늘색 번짐) |
+| `stage3.png` | 3 | 노이즈 점이 몇 개 생김 |
+| `stage4.png` | 4 | 픽셀이 깨지고 가로줄이 밀림 |
+| `stage5.png` | 5 | 회색으로 빛바래고 깨진 조각이 흩어짐 |
+
+### 10-3. 균열 그림 — `assets/crack/stage4.png`, `stage5.png`
+4단계부터 사이트 전체(머리글·그림 창·설명 칸·무대 뒤) 위에 덮이는 균열. **투명 배경 PNG**, 세로로 긴 사이트 비율(예: 1240×2400). 한 장만 주면 4·5단계에 같이 쓴다.
+`black ink cracks spreading across a transparent background like a broken paper sheet, thin branching lines, a few thicker fissures, empty elsewhere`
+넣으면 scenes.js 의 `EF.CRACK_IMAGES = { 4: 'assets/crack/stage4.png', 5: 'assets/crack/stage5.png' }` 로 등록.
+
+## 엔딩 · 창문 건너편의 아리아 (선택)
 | 파일 | 쓰는 곳 | 프롬프트 | 비고 |
 |---|---|---|---|
 | `assets/ending/aria.png` | 엔딩 (창문 건너편, 유리 칸 안) | `upper body of Aria standing still behind a window and facing the viewer, expressionless, staring straight ahead, flat 2D paper cut-out style, dark muted colors, transparent background` | 투명 배경. 넣으면 scenes.js 의 `EF.ENDING_ARIA_IMAGE = 'assets/ending/aria.png'` 로 등록. 없으면 임시 실루엣. 창문 그림(v-atelier)을 넣으면 유리 칸 위치를 `EF.ENDING_WINDOW_PANE` 에 맞춘다 |
