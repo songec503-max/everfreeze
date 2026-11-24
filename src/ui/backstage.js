@@ -32,11 +32,24 @@
     // 커튼 그림(assets/opening/open-0~3: 닫힘 → 반쯤 → 묶임 → 다 걷힘)이 있으면 그림 장면으로 열고 닫는다
     const FR = [0, 1, 2, 3].map(i => 'opening/open-' + i);
     const frames = FR.every(k => EF.artHas(k)) ? FR.map(k => EF.artSrc(k)) : null;
-    let frameImg = null;
+    // 큰 커튼: 시작 화면 · 월드맵에서 그림 창 바깥까지 덮는다 (그림 창 위에 따로 놓음)
+    let frameImg = null, big = null, bigLogo = null;
     if (frames) {
       op.classList.add('has-frames', 'shut');
-      frameImg = h('img', 'op-frame'); frameImg.src = frames[0]; frameImg.alt = ''; op.insertBefore(frameImg, hang);
+      big = h('div', 'big-curtain'); frameImg = h('img', 'bc-frame'); frameImg.src = frames[0]; frameImg.alt = '';
+      big.append(frameImg);
+      if (EF.artHas('brand/logo')) { bigLogo = h('img', 'bc-logo'); bigLogo.src = EF.artSrc('brand/logo'); bigLogo.alt = 'EVERFREEZE'; big.append(bigLogo); }
+      const sw = document.getElementById('stagewrap'); sw.parentNode.insertBefore(big, sw.nextSibling); UI.fit();
       frames.forEach(u => { const pre = new Image(); pre.src = u; }); // 미리 불러 둔다
+      // 월드맵이면 묶인 커튼(open-2)이 큰 틀로 남고, 마을에서는 사라진다
+      UI.bigCurtainRest = () => {
+        if (!big || C.state !== 'play' || C.busy) return;
+        const world = EF.SCENES[EF.state.scene].kind === 'world';
+        frameImg.src = frames[2]; big.classList.toggle('hide', !world); document.body.classList.toggle('big-world', world);
+      };
+      // 그림 창 안에 대화 · 퍼즐 · 안내 창이 열리면 큰 커튼을 그림 창 뒤로 (창이 가려지지 않게)
+      new MutationObserver(() => document.body.classList.toggle('ovl', !!stage.querySelector('.scrim, .closeup')))
+        .observe(stage, { childList: true });
     }
     stage.append(op); document.body.classList.add('stage-closed');
 
@@ -51,20 +64,25 @@
     const step = T.open / 5;
     const openDrapes = async () => {
       op.classList.remove('closed'); op.classList.add('opening');
-      if (frames) { frameImg.style.opacity = 1; for (let i = 1; i < frames.length; i++) { await wait(step); frameImg.src = frames[i]; op.classList.remove('shut'); } await wait(step); frameImg.style.opacity = 0; await wait(step); }
+      if (frames) {
+        big.classList.remove('hide'); if (bigLogo) bigLogo.classList.add('gone');
+        const world = EF.SCENES[EF.state.scene].kind === 'world', last = world ? 2 : 3;
+        for (let i = 1; i <= last; i++) { await wait(step); frameImg.src = frames[i]; op.classList.remove('shut'); }
+        await wait(step); if (!world) big.classList.add('hide'); document.body.classList.toggle('big-world', world);
+      }
       else await wait(T.open);
       op.classList.remove('opening'); op.classList.add('open');
     };
     const closeDrapes = async () => {
       op.classList.remove('open'); op.classList.add('closed');
-      if (frames) { frameImg.src = frames[frames.length - 1]; frameImg.style.opacity = 1; for (let i = frames.length - 2; i >= 0; i--) { await wait(T.close / 4); frameImg.src = frames[i]; } op.classList.add('shut'); }
+      if (frames) { frameImg.src = frames[3]; big.classList.remove('hide'); for (let i = 2; i >= 0; i--) { await wait(T.close / 4); frameImg.src = frames[i]; } op.classList.add('shut'); }
       else await wait(T.close);
     };
 
     // 시작: 로고가 줄에 끌려 올라가고 → 커튼이 걷힌다
     const start = () => { if (C.state === 'title' && !C.busy) run(async () => { hang.classList.add('up'); await wait(T.rise); await openDrapes(); }, 'play').then(() => UI.onCurtainOpen && UI.onCurtainOpen()); }; // 처음 막이 열리면 안내 쪽지
     sign.onclick = e => { e.stopPropagation(); start(); };
-    op.onclick = start;
+    op.onclick = start; if (big) big.onclick = start;
     addEventListener('keydown', e => { if (C.state === 'title' && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); start(); } });
 
     // ---- 스크롤: 내리면 막이 내리고, 맨 위로 오면 막이 오른다 ----

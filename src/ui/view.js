@@ -48,9 +48,8 @@
     backEl = h('div', 'edge-back'); backEl.onclick = () => UI.goBack();
     backEl.append(h('div', 'edge-arrow')); // 뒤로 갈 수 있다는 표시(항상 희미하게 보이고, 마우스를 대면 진해짐)
     decoEl = h('div', 'deco'); curtainEl = h('div', 'curtain-img'); // 장식(누를 수 없음) · 마을 커튼 그림
-    stage.append(sceneEl, decoEl, hsEl, backEl, UI.toastEl, UI.bannerEl);
-    // 마을 커튼은 그림 창 바깥까지 감싸고, 잡음(노이즈)은 그 위 맨 꼭대기에 깐다
-    curtainEl.classList.add('curtain-out'); wrap.append(curtainEl, h('div', 'fx fx-top'));
+    // 마을 커튼 · 잡음은 그림 창 안: 클릭 요소 위, 대화 · 퍼즐 · 안내 창 아래
+    stage.append(sceneEl, decoEl, hsEl, curtainEl, h('div', 'fx fx-top'), backEl, UI.toastEl, UI.bannerEl);
     // 메모 버튼은 설정(showMemo)을 켰을 때만 만든다
     if (EF.CONFIG.showMemo) {
       memoBtn = h('button', 'memo-btn', '📓 메모 ('); nbCount = h('b', '', '0'); memoBtn.append(nbCount, ')');
@@ -96,6 +95,10 @@
     const s = wrap.clientWidth / 1280;
     wrap.style.height = Math.round(720 * s) + 'px';
     stage.style.transform = `scale(${s})`;
+    // 큰 커튼: 그림 창보다 양옆 7%, 위로 버튼 줄까지 덮는다
+    const big = document.querySelector('.big-curtain');
+    if (big) { const W = wrap.offsetWidth, H = wrap.offsetHeight;
+      Object.assign(big.style, { left: (wrap.offsetLeft - W * .07) + 'px', top: (wrap.offsetTop - H * .1) + 'px', width: W * 1.14 + 'px', height: H * 1.1 + 'px' }); }
   };
 
   // 뒤로: 한 단계 위 장면(장소 → 마을 지도 → 월드맵)으로
@@ -135,7 +138,9 @@
       : EF.BG_IMAGES.includes(bgId) ? `url(assets/bg/${bgId}.png) center/cover no-repeat, ` : '';
     // 마을 커튼 그림 (있으면 CSS 커튼 대신 이 그림이 무대 틀이 된다)
     const ck = 'curtain/' + EF.curtainFor(sc), hasCurtain = EF.artHas(ck);
-    curtainEl.style.backgroundImage = hasCurtain ? `url(${EF.artSrc(ck)})` : '';
+    const bigWorld = sc.kind === 'world' && EF.artHas('opening/open-2'); // 월드맵은 큰 시작 커튼이 틀이 된다
+    curtainEl.style.backgroundImage = hasCurtain && !bigWorld ? `url(${EF.artSrc(ck)})` : '';
+    if (UI.bigCurtainRest) UI.bigCurtainRest();
     document.body.classList.toggle('has-curtain', hasCurtain);
     // 장식 (누를 수 없는 그림)
     const art = EF.ART[sc.id] || {};
