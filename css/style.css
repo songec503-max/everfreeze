@@ -838,5 +838,5 @@ body.has-logo #masthead .logo{letter-spacing:0}
 #foot .emblem.foot{width:30px;vertical-align:middle;margin-right:8px}
 .bs-head .emblem.bs{width:54px;display:block;margin:0 auto 6px}
 body.has-logo .sign.logo{background:none;box-shadow:none;padding:0}
-body.has-logo .sign.logo::before,body.has-logo .sign.logo::after{top:6%}
+body.has-logo .sign.logo::before,body.has-logo .sign.logo::after{display:none}
 body.has-logo .sign.logo .logo-img{width:620px;filter:drop-shadow(0 8px 14px rgba(40,10,20,.35))}
